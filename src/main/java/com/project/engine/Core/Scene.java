@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Scene {
-    private static final Scene nullScene = new Scene();
 
     private final String name;
 
@@ -44,7 +43,7 @@ public class Scene {
     // region Static Methods
 
     public static Scene NullScene() {
-        return nullScene;
+        return new Scene();
     }
 
     // endregion

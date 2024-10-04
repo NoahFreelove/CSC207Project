@@ -27,7 +27,7 @@ public class GameObject {
     // You probably have larger issues...
     private final long uID = requestUid();
 
-    private ArrayList<IScriptable> behaviors = new ArrayList<>();
+    private final ArrayList<IScriptable> behaviors = new ArrayList<>();
 
     /**
      * Get the GameObject Name.
@@ -69,16 +69,30 @@ public class GameObject {
         this.tag = tag;
     }
 
+    /**
+     * Get all behaviors attached to this GameObject.
+     * @return an iterator of all behaviors
+     */
     public Iterator<IScriptable> getBehaviors() {
         return behaviors.iterator();
     }
 
+    /**
+     * Add a behavior to this GameObject.
+     * @param script the behavior to add
+     * @return true if the behavior was added, false if it was already present
+     */
     public boolean addBehavior(IScriptable script){
         if (behaviors.contains(script))
             return false;
         return behaviors.add(script);
     }
 
+    /**
+     * Remove a behavior from this GameObject.
+     * @param script the behavior to remove
+     * @return true if the behavior was removed, false if it was not present
+     */
     public boolean removeBehavior(IScriptable script){
         if(behaviors.contains(script))
             return behaviors.remove(script);
