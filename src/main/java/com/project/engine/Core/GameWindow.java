@@ -1,81 +1,109 @@
 package com.project.engine.Core;
 
-import com.project.engine.Input.EInputType;
-
 import javax.swing.*;
+
 import java.awt.event.*;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class GameWindow {
+import com.project.engine.Input.InputMods;
+import com.project.engine.Input.EInputType;
+
+/**
+ * Represents a window for the game to be displayed in.
+ */
+public final class GameWindow {
+
+    public static final int BASE_FPS = 60;
+
     // region Atomic Fun Stuff
     private final AtomicBoolean shouldClose = new AtomicBoolean(false);
     private Thread windowThread = null;
     // endregion
 
     // region Swing Stuff
-    private JFrame window = null;
-    private JPanel root = null;
+    private JFrame window;
+    private JPanel root;
     // endregion
 
     // region Instance Variables
     private final String name;
     private Scene activeScene;
-    private int mouseX = 0;
-    private int mouseY = 0;
+    private int mouseX;
+    private int mouseY;
     // endregion
 
     // region Game Loop Variables
     private long lastUpdate = System.currentTimeMillis();
-    private float desiredFPS = 60;
+    private float desiredFPS = BASE_FPS;
     private float desiredDelta = 1.0f / desiredFPS;
     private float delta = 0;
     // endregion
-    
-    public static GameWindow createGameWindow(int width, int height, String title){
-        return new GameWindow(width, height, title);
-    }
-    
+
+    /**
+     * Create a new game window on a new thread.
+     * @param width window width
+     * @param height window height
+     * @param title window title (will also be the same name if you want to uniquely identify the window)
+     */
     private GameWindow(int width, int height, String title) {
         this.name = title;
         setActiveScene(Scene.NullScene());
-        Thread t = new Thread(() -> {
-            window = new JFrame(title);
-            window.setSize(width, height);
-            window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            window.setVisible(true);
-
-            root = new JPanel();
-
-            // set input listeners
-            addKeyboardListeners();
-
-            // add mouse listeners
-            addMouseListeners();
-
-            // add mouse motion listener
-            addMouseMotionListeners();
-
-            gameLoop();
-        });
+        Thread t = new Thread(() -> configGameWindow(width, height, title));
         this.windowThread = t;
         t.start();
+    }
+
+    /**
+     * Create a new game window. This is a factory method.
+     * @param width window width
+     * @param height window height
+     * @param title window title (will also be the same name if you want to uniquely identify the window)
+     * @return the new game window
+     */
+    public static GameWindow createGameWindow(int width, int height, String title) {
+        return new GameWindow(width, height, title);
+    }
+
+    private void configGameWindow(int width, int height, String title) {
+        window = new JFrame(title);
+
+        root = new JPanel();
+        root.setLayout(null);
+        root.setBounds(0,0,width,height);
+
+        window.add(root);
+
+        window.setSize(width, height);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setVisible(true);
+        // set input listeners
+        addKeyboardListeners();
+
+        // add mouse listeners
+        addMouseListeners();
+
+        // add mouse motion listener
+        addMouseMotionListeners();
+
+        gameLoop();
     }
 
     private void addKeyboardListeners() {
         window.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                Engine.getInstance().input(activeScene, String.valueOf(e.getKeyChar()), EInputType.TYPED);
+                Engine.getInstance().input(activeScene, String.valueOf(e.getKeyChar()), EInputType.TYPED, getMods(e));
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
-                Engine.getInstance().input(activeScene, String.valueOf(e.getKeyChar()), EInputType.PRESS);
+                Engine.getInstance().input(activeScene, String.valueOf(e.getKeyChar()), EInputType.PRESS, getMods(e));
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                Engine.getInstance().input(activeScene, String.valueOf(e.getKeyChar()), EInputType.RELEASE);
+                Engine.getInstance().input(activeScene, String.valueOf(e.getKeyChar()), EInputType.RELEASE, getMods(e));
             }
         });
     }
@@ -100,30 +128,58 @@ public class GameWindow {
         window.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Engine.getInstance().input(activeScene, mouseNumToString(e.getButton()), EInputType.TYPED);
+                Engine.getInstance().input(activeScene,
+                        mouseNumToString(e.getButton()), EInputType.TYPED, getMouseMods(e));
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                Engine.getInstance().input(activeScene, mouseNumToString(e.getButton()), EInputType.PRESS);
+                Engine.getInstance().input(activeScene,
+                        mouseNumToString(e.getButton()), EInputType.PRESS, getMouseMods(e));
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                Engine.getInstance().input(activeScene, mouseNumToString(e.getButton()), EInputType.RELEASE);
+                Engine.getInstance().input(activeScene,
+                        mouseNumToString(e.getButton()), EInputType.RELEASE, getMouseMods(e));
             }
 
             @Override
-            public void mouseEntered(MouseEvent e) {}
+            public void mouseEntered(MouseEvent e) {
+
+            }
 
             @Override
-            public void mouseExited(MouseEvent e) {}
+            public void mouseExited(MouseEvent e) {
+
+            }
         });
     }
 
+    private int getMods(KeyEvent event) {
+        return getModsGeneric(event.isShiftDown(), event.isControlDown(), event.isAltDown());
+    }
 
-    public void gameLoop(){
-        while (!shouldClose.get()){
+    private int getMouseMods(MouseEvent mouseEvent) {
+        return getModsGeneric(mouseEvent.isShiftDown(), mouseEvent.isControlDown(), mouseEvent.isAltDown());
+    }
+
+    private int getModsGeneric(boolean shiftDown, boolean controlDown, boolean altDown) {
+        int mods = 0;
+        if (shiftDown) {
+            mods |= InputMods.SHIFT;
+        }
+        if (controlDown) {
+            mods |= InputMods.CTRL;
+        }
+        if (altDown) {
+            mods |= InputMods.ALT;
+        }
+        return mods;
+    }
+
+    public void gameLoop() {
+        while (!shouldClose.get()) {
             if (activeScene == null) {
                 continue;
             }
@@ -132,20 +188,26 @@ public class GameWindow {
             delta += (now - lastUpdate) / 1000.0f;
             lastUpdate = now;
 
-            // Only draw at desired frame rate, but update can be changed to a faster time (for physics and other calculations)
+            // Only draw at desired frame rate, but update can be changed to a faster time
+            // (for physics and other calculations)
             while (delta >= desiredDelta) {
-                Engine.getInstance().render(activeScene);
+                renderWindow();
                 Engine.getInstance().update(activeScene, delta);
                 delta -= desiredDelta;
             }
 
         }
-        if (window != null){
+        if (window != null) {
             window.dispose();
         }
     }
-    
-    public void close(){
+
+    private void renderWindow() {
+        Engine.getInstance().render(root, activeScene);
+        window.repaint();
+    }
+
+    public void close() {
         shouldClose.set(true);
     }
 
@@ -167,11 +229,10 @@ public class GameWindow {
 
     public void setActiveScene(Scene activeScene) {
         if (activeScene == null) {
-            System.err.println("Cannot set the active scene to null");
-            return;
+            throw new RuntimeException(new IllegalArgumentException("Scene cannot be null"));
         }
 
-        if(this.activeScene != null) {
+        if (this.activeScene != null) {
             Engine.getInstance().stop(this.activeScene);
         }
 
@@ -192,18 +253,21 @@ public class GameWindow {
         this.desiredDelta = 1.0f / desiredFPS;
     }
 
-    private static String mouseNumToString(int button){
-        switch (button){
+    private static String mouseNumToString(int button) {
+        String result = "?MB";
+        switch (button) {
             case MouseEvent.BUTTON1:
-                return "LMB";
+                result = "LMB";
+                break;
             case MouseEvent.BUTTON2:
-                return "MMB";
+                result = "MMB";
+                break;
             case MouseEvent.BUTTON3:
-                return "RMB";
+                result = "RMB";
+                break;
             default:
-                return "?MB";
+                break;
         }
+        return result;
     }
-
-
 }

@@ -3,6 +3,7 @@ package com.project.engine.Core;
 import com.project.engine.Input.EInputType;
 import org.jetbrains.annotations.Nullable;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Engine {
@@ -50,8 +51,12 @@ public class Engine {
         this.gameWindows.add(GameWindow.createGameWindow(800, 600, "Game Window"));
     }
 
-    public void render(Scene scene){
-        scene.render();
+    public void render(JPanel root, Scene scene){
+        root.removeAll();
+//        JLabel l = new JLabel("hello world");
+//        l.setBounds(0,0,200,100);
+//        root.add(l);
+        scene.render(root);
     }
 
     public void update(Scene scene, double delta){
@@ -76,7 +81,7 @@ public class Engine {
      * @param keyName the name of the key that was pressed
      * @param inputType the type of input that was received
      */
-    public void input(Scene scene, String keyName, EInputType inputType){
-        scene.onInput(keyName.toUpperCase(), inputType);
+    public void input(Scene scene, String keyName, EInputType inputType, int inputMods){
+        scene.onInput(keyName.toUpperCase(), inputType, inputMods);
     }
 }

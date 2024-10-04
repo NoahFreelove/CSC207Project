@@ -12,8 +12,13 @@ import com.project.engine.Scripting.IScriptable;
  */
 public class GameObject {
 
+    // region Static Variables
     // Global counter for ensuring unique values
     private static final AtomicLong GLOBAL_COUNTER = new AtomicLong(0);
+
+    // endregion
+
+    // region Instance Variables
 
     // Names are not necessarily unique but are helpful to keep track of objects.
     private String name = "GameObject";
@@ -28,10 +33,64 @@ public class GameObject {
     // You probably have larger issues...
     private final long uID = requestUid();
 
+    /**
+     * The position of the GameObject (x,y).
+     */
+    private final Tuple<Double, Double> position;
+
+    /**
+     * The behaviors attached to this GameObject. Each one will be run every update (not necessarily only at render).
+     */
     private final ArrayList<IScriptable> behaviors = new ArrayList<>();
 
+    /**
+     * The renderables attached to this GameObject. Each one will be rendered every frame.
+     * Realistically, you should only have one renderable per GameObject. But, you can have more if you want.
+     */
     private final ArrayList<IRenderable> renderables = new ArrayList<>();
 
+    // endregion
+
+    // region Variety of Constructors
+    public GameObject() {
+        this.position = new Tuple<>(0.0, 0.0);
+    }
+
+    public GameObject(String name){
+        this.name = name;
+        this.position = new Tuple<>(0.0, 0.0);
+    }
+
+    public GameObject(String name, double x, double y){
+        this.name = name;
+        this.position = new Tuple<>(x, y);
+    }
+
+    public GameObject(String name, Tuple<Double, Double> position){
+        this.name = name;
+        this.position = position;
+    }
+
+    public GameObject(String name, double x, double y, String tag){
+        this.name = name;
+        this.position = new Tuple<>(x, y);
+        this.tag = tag;
+    }
+
+    public GameObject(String name, Tuple<Double, Double> position, String tag){
+        this.name = name;
+        this.position = position;
+        this.tag = tag;
+    }
+
+    public GameObject(String name, String tag){
+        this.name = name;
+        this.position = new Tuple<>(0.0, 0.0);
+        this.tag = tag;
+    }
+    // endregion
+
+    // region Getters & Setters
     /**
      * Get the GameObject Name.
      * @return gameObject's Name
@@ -56,6 +115,30 @@ public class GameObject {
         return uID;
     }
 
+    public double getXPosition() {
+        return position.getFirst();
+    }
+
+    public double getYPosition() {
+        return position.getSecond();
+    }
+
+    /**
+     * Returns a MUTABLE tuple of the object's position.
+     * @return the position of the object
+     */
+    public Tuple<Double, Double> getPositionMutable() {
+        return position;
+    }
+
+    /**
+     * Returns an IMMUTABLE tuple of the object's position.
+     * @return the position of the object
+     */
+    public Tuple<Double, Double> getPosition() {
+        return new Tuple<>(position.getFirst(), position.getSecond());
+    }
+
     /**
      * Set object's name.
      * @param name the name to set
@@ -72,6 +155,19 @@ public class GameObject {
         this.tag = tag;
     }
 
+    public void setPosition(double x, double y) {
+        position.setFirst(x);
+        position.setSecond(y);
+    }
+
+    public void setXPosition(double xPosition) {
+        this.position.setFirst(xPosition);
+    }
+
+    public void setYPosition(double yPosition) {
+        this.position.setSecond(yPosition);
+    }
+
     /**
      * Get all behaviors attached to this GameObject.
      * @return an iterator of all behaviors
@@ -80,6 +176,12 @@ public class GameObject {
         return behaviors.iterator();
     }
 
+    public Iterator<IRenderable> getRenderables() {
+        return renderables.iterator();
+    }
+    // endregion
+
+    // region Adders & Removers
     /**
      * Add a behavior to this GameObject.
      * @param script the behavior to add
@@ -97,11 +199,50 @@ public class GameObject {
      * @return true if the behavior was removed, false if it was not present
      */
     public boolean removeBehavior(IScriptable script){
-        if(behaviors.contains(script))
+        if(behaviors.contains(script)) {
             return behaviors.remove(script);
+        }
         return false;
     }
 
+    public boolean addRenderable(IRenderable renderable){
+        if (renderables.contains(renderable))
+            return false;
+        return renderables.add(renderable);
+    }
+
+    public boolean removeRenderable(IRenderable renderable){
+        if (renderables.contains(renderable)) {
+            return renderables.remove(renderable);
+        }
+        return false;
+    }
+    // endregion
+
+    // region Boolean Methods
+    public boolean hasScript(IScriptable listenerScript) {
+        return behaviors.contains(listenerScript);
+    }
+
+    public boolean hasRenderable(IRenderable renderable) {
+        return renderables.contains(renderable);
+    }
+
+    // endregion
+
+    // region Built-ins
+    @Override
+    public String toString() {
+        return "GameObject{" +
+                "name='" + name + '\'' +
+                ", tag='" + tag + '\'' +
+                ", uID=" + uID +
+                '}';
+    }
+    // endregion
+
+
+    // region Static Methods
     /**
      * Get a new UID.
      * @return a new, unique UID
@@ -109,8 +250,5 @@ public class GameObject {
     private static long requestUid() {
         return GLOBAL_COUNTER.getAndIncrement();
     }
-
-    public Iterator<IRenderable> getRenderables() {
-        return renderables.iterator();
-    }
+    // endregion
 }
