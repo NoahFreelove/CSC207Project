@@ -1,5 +1,6 @@
 package com.project.engine.Core;
 
+import com.project.engine.Input.EInputType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -50,10 +51,32 @@ public class Engine {
     }
 
     public void render(Scene scene){
-
+        scene.render();
     }
 
     public void update(Scene scene, double delta){
-        System.out.println("Updating Scene: " + scene.getName() + " Delta: " + delta);
+        scene.update(delta);
+    }
+
+    public void start(Scene scene){
+        scene.start();
+    }
+
+    /**
+     * Called right before next scene is loaded.
+     * @param scene the scene that is being stopped
+     */
+    public void stop(Scene scene){
+        scene.stop();
+    }
+
+    /**
+     * Input method for the engine.
+     * @param scene the scene that the input is coming from
+     * @param keyName the name of the key that was pressed
+     * @param inputType the type of input that was received
+     */
+    public void input(Scene scene, String keyName, EInputType inputType){
+        scene.onInput(keyName.toUpperCase(), inputType);
     }
 }

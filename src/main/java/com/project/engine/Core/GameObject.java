@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Scripting.IScriptable;
 
 /**
@@ -28,6 +29,8 @@ public class GameObject {
     private final long uID = requestUid();
 
     private final ArrayList<IScriptable> behaviors = new ArrayList<>();
+
+    private final ArrayList<IRenderable> renderables = new ArrayList<>();
 
     /**
      * Get the GameObject Name.
@@ -105,5 +108,9 @@ public class GameObject {
      */
     private static long requestUid() {
         return GLOBAL_COUNTER.getAndIncrement();
+    }
+
+    public Iterator<IRenderable> getRenderables() {
+        return renderables.iterator();
     }
 }

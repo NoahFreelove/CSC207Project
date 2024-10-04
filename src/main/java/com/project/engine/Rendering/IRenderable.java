@@ -1,5 +1,7 @@
 package com.project.engine.Rendering;
 
+import com.project.engine.Scripting.IScriptable;
+
 import javax.swing.*;
 
 public interface IRenderable {

@@ -1,6 +1,9 @@
 package com.project.engine.Core;
 
+import com.project.engine.Input.EInputType;
+
 import javax.swing.*;
+import java.awt.event.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GameWindow {
@@ -17,6 +20,8 @@ public class GameWindow {
     // region Instance Variables
     private final String name;
     private Scene activeScene;
+    private int mouseX = 0;
+    private int mouseY = 0;
     // endregion
 
     // region Game Loop Variables
@@ -32,8 +37,7 @@ public class GameWindow {
     
     private GameWindow(int width, int height, String title) {
         this.name = title;
-        this.activeScene = Scene.NullScene();
-
+        setActiveScene(Scene.NullScene());
         Thread t = new Thread(() -> {
             window = new JFrame(title);
             window.setSize(width, height);
@@ -41,12 +45,81 @@ public class GameWindow {
             window.setVisible(true);
 
             root = new JPanel();
+
+            // set input listeners
+            addKeyboardListeners();
+
+            // add mouse listeners
+            addMouseListeners();
+
+            // add mouse motion listener
+            addMouseMotionListeners();
+
             gameLoop();
         });
         this.windowThread = t;
         t.start();
     }
 
+    private void addKeyboardListeners() {
+        window.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                Engine.getInstance().input(activeScene, String.valueOf(e.getKeyChar()), EInputType.TYPED);
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                Engine.getInstance().input(activeScene, String.valueOf(e.getKeyChar()), EInputType.PRESS);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                Engine.getInstance().input(activeScene, String.valueOf(e.getKeyChar()), EInputType.RELEASE);
+            }
+        });
+    }
+
+    private void addMouseMotionListeners() {
+        window.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                mouseX = e.getX();
+                mouseY = e.getY();
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                mouseX = e.getX();
+                mouseY = e.getY();
+            }
+        });
+    }
+
+    private void addMouseListeners() {
+        window.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Engine.getInstance().input(activeScene, mouseNumToString(e.getButton()), EInputType.TYPED);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                Engine.getInstance().input(activeScene, mouseNumToString(e.getButton()), EInputType.PRESS);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                Engine.getInstance().input(activeScene, mouseNumToString(e.getButton()), EInputType.RELEASE);
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {}
+
+            @Override
+            public void mouseExited(MouseEvent e) {}
+        });
+    }
 
 
     public void gameLoop(){
@@ -76,7 +149,6 @@ public class GameWindow {
         shouldClose.set(true);
     }
 
-
     public String getName() {
         return name;
     }
@@ -85,12 +157,26 @@ public class GameWindow {
         return activeScene;
     }
 
+    public int getMouseX() {
+        return mouseX;
+    }
+
+    public int getMouseY() {
+        return mouseY;
+    }
+
     public void setActiveScene(Scene activeScene) {
         if (activeScene == null) {
             System.err.println("Cannot set the active scene to null");
             return;
         }
+
+        if(this.activeScene != null) {
+            Engine.getInstance().stop(this.activeScene);
+        }
+
         this.activeScene = activeScene;
+        Engine.getInstance().start(activeScene);
     }
 
     public float getDelta() {
@@ -105,4 +191,19 @@ public class GameWindow {
         this.desiredFPS = desiredFPS;
         this.desiredDelta = 1.0f / desiredFPS;
     }
+
+    private static String mouseNumToString(int button){
+        switch (button){
+            case MouseEvent.BUTTON1:
+                return "LMB";
+            case MouseEvent.BUTTON2:
+                return "MMB";
+            case MouseEvent.BUTTON3:
+                return "RMB";
+            default:
+                return "?MB";
+        }
+    }
+
+
 }
