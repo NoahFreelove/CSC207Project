@@ -1,6 +1,7 @@
 package com.project.engine.Rendering;
 
 import com.project.engine.Core.GameObject;
+import com.project.engine.Core.Scene;
 
 import javax.swing.*;
 
@@ -11,5 +12,5 @@ public interface IRenderable {
      * We don't want to be using 200mb memory!
      * @return A formatted JComponent fit for rendering
      */
-    JComponent renderComponent(GameObject attached);
+    JComponent renderComponent(GameObject attached, Scene scene);
 }

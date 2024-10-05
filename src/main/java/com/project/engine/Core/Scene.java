@@ -1,6 +1,7 @@
 package com.project.engine.Core;
 
 import com.project.engine.Input.EInputType;
+import com.project.engine.Rendering.Camera;
 import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Scripting.IScriptable;
 
@@ -22,6 +23,8 @@ public class Scene {
      * This way, we can have a list of renderables that is only the objects that actually render.
      */
     private final ArrayList<Tuple<GameObject, IRenderable>> renderables = new ArrayList<>();
+
+    private Camera camera = new Camera();
 
 
     public Scene() {
@@ -201,6 +204,14 @@ public class Scene {
         return sceneObjects.remove(object);
     }
 
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
+    }
+
     // region Scripting Methods
     public void start(){
         for (GameObject object : sceneObjects){
@@ -234,10 +245,11 @@ public class Scene {
 
     public void render(JPanel root){
         for (Tuple<GameObject, IRenderable> renderable : renderables){
-            JComponent comp = renderable.getSecond().renderComponent(renderable.getFirst());
+            JComponent comp = renderable.getSecond().renderComponent(renderable.getFirst(), this);
             root.add(comp);
         }
     }
+    // endregion
 
 
     // region Static Methods

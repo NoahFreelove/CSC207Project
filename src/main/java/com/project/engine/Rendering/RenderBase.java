@@ -1,6 +1,7 @@
 package com.project.engine.Rendering;
 
 import com.project.engine.Core.GameObject;
+import com.project.engine.Core.Scene;
 import com.project.engine.Core.Tuple;
 import com.project.engine.Scripting.IScriptable;
 
@@ -33,6 +34,11 @@ public abstract class RenderBase implements IRenderable, IScriptable {
         this.xPos = position.getFirst().intValue();
         this.yPos = position.getSecond().intValue();
     }
+
+    protected void setPosition(double x, double y){
+        this.xPos = (int)x;
+        this.yPos = (int)y;
+    }
     
     protected void setWidth(int width){
         this.xSize = width;
@@ -53,8 +59,10 @@ public abstract class RenderBase implements IRenderable, IScriptable {
     }
 
     @Override
-    public JComponent renderComponent(GameObject attached) {
-        this.component.setBounds(xPos,yPos,xSize,ySize);
+    public JComponent renderComponent(GameObject attached, Scene scene) {
+        double cameraX = scene.getCamera().getCameraX();
+        double cameraY = scene.getCamera().getCameraY();
+        this.component.setBounds(xPos - (int)cameraX, yPos - (int)cameraY, xSize, ySize);
         return component;
     }
 }

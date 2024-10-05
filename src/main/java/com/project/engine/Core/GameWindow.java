@@ -4,10 +4,12 @@ import javax.swing.*;
 
 import java.awt.event.*;
 
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.project.engine.Input.InputMods;
 import com.project.engine.Input.EInputType;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a window for the game to be displayed in.
@@ -29,8 +31,7 @@ public final class GameWindow {
     // region Instance Variables
     private final String name;
     private Scene activeScene;
-    private int mouseX;
-    private int mouseY;
+
     // endregion
 
     // region Game Loop Variables
@@ -38,6 +39,12 @@ public final class GameWindow {
     private float desiredFPS = BASE_FPS;
     private float desiredDelta = 1.0f / desiredFPS;
     private float delta = 0;
+    // endregion
+
+    // region Input
+    private int mouseX;
+    private int mouseY;
+    private HashMap<String, Boolean> keys = new HashMap<>();
     // endregion
 
     /**
@@ -72,6 +79,11 @@ public final class GameWindow {
         root.setLayout(null);
         root.setBounds(0,0,width,height);
 
+        JPanel firstFrame = new JPanel();
+        firstFrame.setLayout(null);
+        firstFrame.setBounds(0,0,width,height);
+        root.add(firstFrame);
+
         window.add(root);
 
         window.setSize(width, height);
@@ -93,19 +105,39 @@ public final class GameWindow {
         window.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                Engine.getInstance().input(activeScene, String.valueOf(e.getKeyChar()), EInputType.TYPED, getMods(e));
+                Engine.getInstance().input(activeScene, extractKeyName(e), EInputType.TYPED, getMods(e));
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
-                Engine.getInstance().input(activeScene, String.valueOf(e.getKeyChar()), EInputType.PRESS, getMods(e));
+                String key = extractKeyName(e);
+                Engine.getInstance().input(activeScene, key, EInputType.PRESS, getMods(e));
+                keys.put(key, true);
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                Engine.getInstance().input(activeScene, String.valueOf(e.getKeyChar()), EInputType.RELEASE, getMods(e));
+                String key = extractKeyName(e);
+                Engine.getInstance().input(activeScene, key, EInputType.RELEASE, getMods(e));
+                keys.put(key, false);
             }
         });
+    }
+
+    private static @NotNull String extractKeyName(KeyEvent e) {
+        // if its an arrow key, we want to use the key code instead of the character and convert it to a string
+        String key = String.valueOf(e.getKeyChar());
+        // switch with arrow keys
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
+            key = "UP";
+        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            key = "DOWN";
+        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            key = "LEFT";
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            key = "RIGHT";
+        }
+        return key.toUpperCase();
     }
 
     private void addMouseMotionListeners() {
@@ -136,12 +168,14 @@ public final class GameWindow {
             public void mousePressed(MouseEvent e) {
                 Engine.getInstance().input(activeScene,
                         mouseNumToString(e.getButton()), EInputType.PRESS, getMouseMods(e));
+                keys.put(mouseNumToString(e.getButton()), true);
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
                 Engine.getInstance().input(activeScene,
                         mouseNumToString(e.getButton()), EInputType.RELEASE, getMouseMods(e));
+                keys.put(mouseNumToString(e.getButton()), false);
             }
 
             @Override
@@ -269,5 +303,10 @@ public final class GameWindow {
                 break;
         }
         return result;
+    }
+
+    public boolean isKeyPressed(String key) {
+
+        return keys.getOrDefault(key.toUpperCase(), false);
     }
 }

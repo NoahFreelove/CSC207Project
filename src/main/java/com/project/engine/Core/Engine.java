@@ -51,12 +51,35 @@ public class Engine {
         this.gameWindows.add(GameWindow.createGameWindow(800, 600, "Game Window"));
     }
 
+    /**
+     * Render scene to a child panel of the root panel.
+     * @param root MUST have exactly one child that is a JPanel. This will be swapped out for the new render.
+     * @param scene the scene to render
+     */
     public void render(JPanel root, Scene scene){
-        root.removeAll();
-//        JLabel l = new JLabel("hello world");
-//        l.setBounds(0,0,200,100);
-//        root.add(l);
-        scene.render(root);
+        // oldRenderPass(root, scene);
+        newRenderPass(root,scene);
+    }
+
+
+    private static void oldRenderPass(JPanel root, Scene scene) {
+        JPanel frame = (JPanel) root.getComponent(0);
+        frame.removeAll();
+        scene.render(frame);
+    }
+
+    private static void newRenderPass(JPanel root, Scene scene) {
+        JPanel renderPanel = new JPanel();
+        renderPanel.setLayout(null);
+        renderPanel.setBounds(0,0, root.getBounds().width, root.getBounds().height);
+        // get the one child of the root
+        JPanel tmp = (JPanel) root.getComponent(0);
+
+        scene.render(renderPanel);
+        // replace the root with the new root
+        root.add(renderPanel);
+        // seamless transition
+        root.remove(tmp);
     }
 
     public void update(Scene scene, double delta){

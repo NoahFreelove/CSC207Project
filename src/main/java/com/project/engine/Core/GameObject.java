@@ -139,6 +139,11 @@ public class GameObject {
         return new Tuple<>(position.getFirst(), position.getSecond());
     }
 
+    public void translate(double x, double y){
+        position.setFirst(position.getFirst() + x);
+        position.setSecond(position.getSecond() + y);
+    }
+
     /**
      * Set object's name.
      * @param name the name to set
