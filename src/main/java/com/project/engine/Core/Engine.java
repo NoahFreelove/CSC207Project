@@ -1,6 +1,7 @@
 package com.project.engine.Core;
 
 import com.project.engine.Input.EInputType;
+import com.project.engine.Core.Window.GameWindow;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -94,8 +95,14 @@ public class Engine {
      * Called right before next scene is loaded.
      * @param scene the scene that is being stopped
      */
-    public void stop(Scene scene){
+    public void stopScene(Scene scene){
         scene.stop();
+    }
+
+    public void exitEngine() {
+        for (GameWindow gameWindow : gameWindows) {
+            gameWindow.closeWindow();
+        }
     }
 
     /**
