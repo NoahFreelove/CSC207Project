@@ -19,21 +19,22 @@ public class Camera implements IScriptable {
             return new Tuple<>(offsetX, offsetY);
         }
 
-        return new Tuple<>(attached.getXPosition() + offsetX, attached.getYPosition() + offsetY);
+        return new Tuple<>(attached.getTransform().getPositionX()+ offsetX,
+                attached.getTransform().getPositionX() + offsetY);
     }
 
     public double getCameraX() {
         if (attached == null) {
             return offsetX;
         }
-        return attached.getXPosition() + offsetX;
+        return attached.getTransform().getPositionX() + offsetX;
     }
 
     public double getCameraY() {
         if (attached == null) {
             return offsetY;
         }
-        return attached.getYPosition() + offsetY;
+        return attached.getTransform().getPositionY() + offsetY;
     }
 
     public double getOffsetY() {

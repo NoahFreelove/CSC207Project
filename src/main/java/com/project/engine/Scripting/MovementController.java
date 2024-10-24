@@ -43,19 +43,35 @@ public class MovementController implements IScriptable {
 
         if (enableYMovement) {
             if (win.isKeyPressed("W") || win.isKeyPressed("UP")) {
+                parent.getTransform().setScaleX(2);
+                parent.getTransform().setScaleY(3);
+                parent.getTransform().faceRight();
+                parent.getTransform().setRotation(270);
                 move(parent, 0, -actualSpeed);
             }
 
             if (win.isKeyPressed("S") || win.isKeyPressed("DOWN")) {
+                parent.getTransform().setScaleX(4);
+                parent.getTransform().setScaleY(2);
+                parent.getTransform().faceRight();
+                parent.getTransform().setRotation(90);
                 move(parent, 0, actualSpeed);
             }
         }
 
         if (win.isKeyPressed("A") || win.isKeyPressed("LEFT")) {
+            parent.getTransform().setScaleX(2);
+            parent.getTransform().setScaleY(1);
+            parent.getTransform().faceLeft();
+            parent.getTransform().setRotation(0);
             move(parent, -actualSpeed, 0);
         }
 
         if (win.isKeyPressed("D") || win.isKeyPressed("RIGHT")) {
+            parent.getTransform().setScaleX(2);
+            parent.getTransform().setScaleY(1);
+            parent.getTransform().faceRight();
+            parent.getTransform().setRotation(0);
             move(parent, actualSpeed, 0);
         }
 
@@ -69,7 +85,7 @@ public class MovementController implements IScriptable {
             return;
         }
 
-        ref.translate(xDelta, yDelta);
+        ref.getTransform().translate(xDelta, yDelta);
     }
 
     private void jump() {

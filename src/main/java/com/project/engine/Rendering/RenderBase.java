@@ -39,7 +39,15 @@ public abstract class RenderBase implements IRenderable, IScriptable {
         this.xPos = (int)x;
         this.yPos = (int)y;
     }
-    
+
+    protected int getWidth(){
+        return xSize;
+    }
+
+    protected int getHeight(){
+        return ySize;
+    }
+
     protected void setWidth(int width){
         this.xSize = width;
     }
@@ -62,7 +70,7 @@ public abstract class RenderBase implements IRenderable, IScriptable {
     public JComponent renderComponent(GameObject attached, Scene scene) {
         double cameraX = scene.getCamera().getCameraX();
         double cameraY = scene.getCamera().getCameraY();
-        this.component.setBounds(xPos - (int)cameraX, yPos - (int)cameraY, xSize, ySize);
+        this.component.setBounds(xPos - (int)cameraX, yPos - (int)cameraY, Math.abs(xSize), Math.abs(ySize));
         return component;
     }
 }

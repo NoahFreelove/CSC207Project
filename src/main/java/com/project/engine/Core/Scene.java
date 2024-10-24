@@ -244,6 +244,10 @@ public class Scene {
     }
 
     public void render(JPanel root){
+        for (GameObject object : sceneObjects) {
+            object.getTransform().update();
+        }
+
         for (Tuple<GameObject, IRenderable> renderable : renderables){
             JComponent comp = renderable.getSecond().renderComponent(renderable.getFirst(), this);
             root.add(comp);

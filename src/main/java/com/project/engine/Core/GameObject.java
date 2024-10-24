@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Scripting.IScriptable;
+import com.project.physics.Transform.Transform;
 
 /**
  * Base class for all Game Objects that have behavior.
@@ -32,11 +33,7 @@ public class GameObject {
     // This means it could overflow, but that's 2^64 objects (18,400,000,000,000,000,000).
     // You probably have larger issues...
     private final long uID = requestUid();
-
-    /**
-     * The position of the GameObject (x,y).
-     */
-    private final Tuple<Double, Double> position;
+    private Transform transform;
 
     /**
      * The behaviors attached to this GameObject. Each one will be run every update (not necessarily only at render).
@@ -53,39 +50,39 @@ public class GameObject {
 
     // region Variety of Constructors
     public GameObject() {
-        this.position = new Tuple<>(0.0, 0.0);
+        this.transform = new Transform(this, new Tuple<>(0.0, 0.0));
     }
 
     public GameObject(String name){
         this.name = name;
-        this.position = new Tuple<>(0.0, 0.0);
+        this.transform = new Transform(this, new Tuple<>(0.0, 0.0));
     }
 
     public GameObject(String name, double x, double y){
         this.name = name;
-        this.position = new Tuple<>(x, y);
+        this.transform = new Transform(this, new Tuple<>(x, y));
     }
 
     public GameObject(String name, Tuple<Double, Double> position){
         this.name = name;
-        this.position = position;
+        this.transform = new Transform(this, position);
     }
 
     public GameObject(String name, double x, double y, String tag){
         this.name = name;
-        this.position = new Tuple<>(x, y);
+        this.transform = new Transform(this, new Tuple<>(x, y));
         this.tag = tag;
     }
 
     public GameObject(String name, Tuple<Double, Double> position, String tag){
         this.name = name;
-        this.position = position;
+        this.transform = new Transform(this, position);
         this.tag = tag;
     }
 
     public GameObject(String name, String tag){
         this.name = name;
-        this.position = new Tuple<>(0.0, 0.0);
+        this.addBehavior(new Transform(this, new Tuple<>(0.0, 0.0)));
         this.tag = tag;
     }
     // endregion
@@ -115,35 +112,7 @@ public class GameObject {
         return uID;
     }
 
-    public double getXPosition() {
-        return position.getFirst();
-    }
-
-    public double getYPosition() {
-        return position.getSecond();
-    }
-
-    /**
-     * Returns a MUTABLE tuple of the object's position.
-     * @return the position of the object
-     */
-    public Tuple<Double, Double> getPositionMutable() {
-        return position;
-    }
-
-    /**
-     * Returns an IMMUTABLE tuple of the object's position.
-     * @return the position of the object
-     */
-    public Tuple<Double, Double> getPosition() {
-        return new Tuple<>(position.getFirst(), position.getSecond());
-    }
-
-    public void translate(double x, double y){
-        position.setFirst(position.getFirst() + x);
-        position.setSecond(position.getSecond() + y);
-    }
-
+    public Transform getTransform() { return transform; }
     /**
      * Set object's name.
      * @param name the name to set
@@ -158,19 +127,6 @@ public class GameObject {
      */
     public void setTag(String tag) {
         this.tag = tag;
-    }
-
-    public void setPosition(double x, double y) {
-        position.setFirst(x);
-        position.setSecond(y);
-    }
-
-    public void setXPosition(double xPosition) {
-        this.position.setFirst(xPosition);
-    }
-
-    public void setYPosition(double yPosition) {
-        this.position.setSecond(yPosition);
     }
 
     /**
