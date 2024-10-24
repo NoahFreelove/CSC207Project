@@ -30,12 +30,12 @@ public abstract class RenderBase implements IRenderable, IScriptable {
         this.yPos = y;
     }
     
-    protected void setPosition(Tuple<Double, Double> position){
+    protected void setPosition(Tuple<Double, Double> position) {
         this.xPos = position.getFirst().intValue();
         this.yPos = position.getSecond().intValue();
     }
 
-    protected void setPosition(double x, double y){
+    protected void setPosition(double x, double y) {
         this.xPos = (int)x;
         this.yPos = (int)y;
     }
@@ -48,17 +48,17 @@ public abstract class RenderBase implements IRenderable, IScriptable {
         return ySize;
     }
 
-    protected void setWidth(int width){
-        this.xSize = width;
+    protected void setWidth(int width) {
+        setSize(width, ySize);
     }
     
-    protected void setHeight(int height){
-        this.ySize = height;
+    protected void setHeight(int height) {
+        setSize(xSize, height);
     }
     
-    protected void setSize(Tuple<Double, Double> size){
-       this.xSize = size.getFirst().intValue();
-       this.ySize = size.getSecond().intValue();
+    protected void setSize(int xSize, int ySize) {
+        this.xSize = xSize;
+        this.ySize = ySize;
     }
 
     public void setBaseComponent(JComponent component){

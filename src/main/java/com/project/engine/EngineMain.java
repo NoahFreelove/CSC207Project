@@ -2,6 +2,7 @@ package com.project.engine;
 
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
+import com.project.engine.Core.Tuple;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.MovementController;
@@ -21,6 +22,8 @@ public class EngineMain {
 
         GameObject o = getTestObjet();
         w.getActiveScene().addSceneObject(o, true);
+        w.getActiveScene().addSceneObject(getDummyObject(200,200));
+        w.getActiveScene().addSceneObject(getDummyObject(300,300));
 
         Scanner s = new Scanner(System.in);
         while (true){
@@ -39,9 +42,18 @@ public class EngineMain {
      */
     private static @NotNull GameObject getTestObjet() {
         GameObject o = new GameObject();
+        o.getTransform().setRotation(90);
         SpriteRenderer sr = new SpriteRenderer("assets/penguin.jpeg");
 
         o.addBehavior(new MovementController());
+        o.addRenderable(sr);
+        return o;
+    }
+
+    private static GameObject getDummyObject(int x, int y) {
+        GameObject o = new GameObject();
+        SpriteRenderer sr = new SpriteRenderer("assets/penguin.jpeg");
+        o.getTransform().setPosition(new Tuple<>((double)x,(double)y));
         o.addRenderable(sr);
         return o;
     }

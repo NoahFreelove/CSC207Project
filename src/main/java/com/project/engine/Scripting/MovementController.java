@@ -20,14 +20,13 @@ public class MovementController implements IScriptable {
 
     @Override
     public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
-        System.out.println(keyName);
+        //System.out.println(keyName);
         if (inputType == EInputType.RELEASE && "1".equals(keyName)) {
             moveSpeed++;
         }
         else if (inputType == EInputType.RELEASE && "2".equals(keyName)) {
             moveSpeed--;
-        }
-        else if (inputType == EInputType.RELEASE && "ESC".equals(keyName)) {
+        } else if (inputType == EInputType.RELEASE && "ESC".equals(keyName)) {
             Engine.getInstance().exitEngine();
         }
     }
