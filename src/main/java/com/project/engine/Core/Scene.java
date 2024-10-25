@@ -8,21 +8,22 @@ import com.project.engine.Scripting.IScriptable;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Scene {
 
     private final String name;
 
-    private final ArrayList<GameObject> sceneObjects = new ArrayList<>();
+    private final CopyOnWriteArrayList<GameObject> sceneObjects = new CopyOnWriteArrayList<>();
 
-    private final ArrayList<Tuple<GameObject, IScriptable>> inputListeners = new ArrayList<>();
+    private final CopyOnWriteArrayList<Tuple<GameObject, IScriptable>> inputListeners = new CopyOnWriteArrayList<>();
 
     /**
      * Why not just loop through every game object and get the renderables?
      * Because in our specific game - we plan to have many invisible triggers and other objects that don't render.
      * This way, we can have a list of renderables that is only the objects that actually render.
      */
-    private final ArrayList<Tuple<GameObject, IRenderable>> renderables = new ArrayList<>();
+    private final CopyOnWriteArrayList<Tuple<GameObject, IRenderable>> renderables = new CopyOnWriteArrayList<>();
 
     private Camera camera = new Camera();
 

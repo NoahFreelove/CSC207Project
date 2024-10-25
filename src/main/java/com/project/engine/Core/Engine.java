@@ -49,7 +49,7 @@ public class Engine {
     }
 
     private void init(){
-        this.gameWindows.add(GameWindow.createGameWindow(800, 600, "Game Window"));
+        this.gameWindows.add(GameWindow.createGameWindow(800, 800, "Game Window"));
     }
 
     /**
