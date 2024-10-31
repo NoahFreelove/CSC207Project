@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Scripting.IScriptable;
-import com.project.physics.Transform.Transform;
+import com.project.physics.PhysicsBody.Transform;
 
 /**
  * Base class for all Game Objects that have behavior.

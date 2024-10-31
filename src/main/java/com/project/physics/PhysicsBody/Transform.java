@@ -1,4 +1,4 @@
-package com.project.physics.Transform;
+package com.project.physics.PhysicsBody;
 
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Tuple;
@@ -37,7 +37,6 @@ public class Transform implements IScriptable {
     public void faceLeft() {
         if (staged_scale.getFirst() > 0) {
             staged_scale.setFirst(staged_scale.getFirst() * -1);
-            System.out.println(staged_scale.getFirst());
         }
     }
 
@@ -68,20 +67,20 @@ public class Transform implements IScriptable {
         }
     }
 
-    public void translate(Double x, Double y){
+    void translate(Double x, Double y){
         setPositionX(this.position.getFirst() + x);
         setPositionY(this.position.getSecond() + y);
     }
 
-    public void setPositionX(double x){
+    void setPositionX(double x){
         staged_position.setFirst(x);
     }
 
-    public void setPositionY(double y){
+    void setPositionY(double y){
         staged_position.setSecond(y);
     }
 
-    public void setPosition(Tuple<Double, Double> position){
+    void setPosition(Tuple<Double, Double> position){
         this.staged_position = position;
     }
 
@@ -112,8 +111,8 @@ public class Transform implements IScriptable {
         return position.getSecond();
     }
 
-    public Tuple<Double, Double> getPosition(boolean mutable) {
-        return mutable ? staged_position : new Tuple<>(position.getFirst(), position.getSecond());
+    public Tuple<Double, Double> getPosition() {
+        return new Tuple<>(position.getFirst(), position.getSecond());
     }
 
     public Double getScaleX() {
