@@ -8,6 +8,8 @@ import com.project.engine.Scripting.MovementController;
 import com.project.engine.Scripting.WindowStatsDebug;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
+
 public class EngineMain {
 
     public static void main(String[] args) {
@@ -19,13 +21,21 @@ public class EngineMain {
             return;
         }
         while (!w.isReady()) {}
-        w.setWindowSize(2000, 2000);
+        w.setWindowSize(1200, 1200);
+
+        JLabel label = new JLabel("_-_-_-Hello, World!-_-_-_");
+        label.setForeground(java.awt.Color.WHITE);
+        label.setFont(label.getFont().deriveFont(64.0f));
+        label.setBounds(0, 200, 800, 100); // Set bounds for absolute positioning
+        // align center
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        w.addUIElement(label);
 
         GameObject o = getTestObject();
         w.getActiveScene().addSceneObject(o, true);
 
-        // do a lil stress test
-        measureAndRemoveObjects(w);
+        // Remove this comment to run the stress test
+        // measureAndRemoveObjects(w);
     }
 
     /**
@@ -35,7 +45,7 @@ public class EngineMain {
     private static @NotNull GameObject getTestObject() {
         GameObject o = new GameObject();
         SpriteRenderer sr = new SpriteRenderer("assets/penguin.jpeg", 128,128);
-        o.getTransform().setPosition(250,300);
+        o.getTransform().setPosition(336,300);
 
         o.addBehavior(new MovementController());
         o.addBehavior(new WindowStatsDebug());
@@ -52,10 +62,10 @@ public class EngineMain {
     }
 
     private static void measureAndRemoveObjects(GameWindow w) {
-        final int MEASUREMENT_DURATION_MS = 250;
-        final int OBJECTS_TO_REMOVE = 50;
+        final int MEASUREMENT_DURATION_MS = 1000;
+        final int OBJECTS_TO_REMOVE = 250;
 
-        final int STRESS_TEST_MAX = 1000;
+        final int STRESS_TEST_MAX = 2000;
 
         final long timeBeforeSetup = System.currentTimeMillis();
         System.out.print("Setting up stress test... ");

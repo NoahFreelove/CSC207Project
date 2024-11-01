@@ -2,40 +2,57 @@ package com.project.engine.Core.Window;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.Scene;
-import com.project.engine.Input.EInputType;
-import com.project.engine.Input.InputMods;
+import com.project.engine.Rendering.GamePanel;
+
+import static com.project.engine.Core.Window.Input.*;
 
 public final class GameWindow {
-    public static final int BASE_FPS = 120;
 
-    private final AtomicBoolean shouldClose = new AtomicBoolean(false);
+    // region UI and Scaling
+    private JLayeredPane layeredPane;
+    private JPanel uiRoot;
+    private GamePanel gamePanel;
+    private final Map<Component, Rectangle> originalBoundsMap = new HashMap<>();
+    private final Map<Component, Float> originalFontSizeMap = new HashMap<>();
+    float scaleFactorX = 1.0f;
+    float scaleFactorY = 1.0f;
+    // endregion
+
+    // region Window
+    private int initialWidth;
+    private int initialHeight;
+    private String name;
     private Thread windowThread = null;
     private JFrame window;
-    private final String name;
+    private final AtomicBoolean shouldClose = new AtomicBoolean(false);
+    private AtomicBoolean ready = new AtomicBoolean(false);
     private volatile Scene activeScene;
-    private long lastUpdate = System.currentTimeMillis();
+    // endregion
+
+    // region FPS and Delta Attributes
+    public static final int BASE_FPS = 200; // Default FPS for all new windows
     private float desiredFPS = BASE_FPS;
+    private long lastUpdate = System.currentTimeMillis();
     private float desiredDelta = 1.0f / desiredFPS;
     private float delta = 0;
     private long lastFrame = System.currentTimeMillis();
     private float actualFPS = 0;
-    private BufferedImage offScreenBuffer;
+
+    // endregion
+
+    // region Input
     private int mouseX;
     private int mouseY;
     private HashMap<String, Boolean> keys = new HashMap<>();
-    private float scaleFactorX = 1.0f;
-    private float scaleFactorY = 1.0f;
-    private int initialWidth;
-    private int initialHeight;
+    // endregion
 
-    private AtomicBoolean ready = new AtomicBoolean(false);
 
     private GameWindow(int width, int height, String title) {
         this.initialHeight = height;
@@ -55,13 +72,32 @@ public final class GameWindow {
         window = new JFrame(title);
         window.setSize(width, height);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setIgnoreRepaint(true); // Disable default repaint so we can control it
-        window.setVisible(true); // Make the window visible
-        window.setResizable(false); // Disable resizing
-        window.createBufferStrategy(2); // Enable double buffering for smoother rendering
-        addKeyboardListeners();
-        addMouseListeners();
-        addMouseMotionListeners();
+
+        // When you press tab thank this line for not crashing the game!
+        window.setFocusTraversalPolicy(new NoFocusTraversalPolicy());
+        window.setVisible(true);
+        window.setResizable(false);
+
+        layeredPane = new JLayeredPane();
+        layeredPane.setSize(width, height);
+        window.setContentPane(layeredPane);
+
+        // Create and add the GamePanel
+        gamePanel = new GamePanel(this);
+        gamePanel.setBounds(0, 0, width, height);
+        layeredPane.add(gamePanel, JLayeredPane.DEFAULT_LAYER); // Game layer
+
+        // UI Root Panel
+        uiRoot = new JPanel();
+        uiRoot.setOpaque(false);
+        uiRoot.setLayout(null); // Set layout to null, so we can just absolute position everything
+        uiRoot.setBounds(0, 0, width, height);
+        layeredPane.add(uiRoot, JLayeredPane.PALETTE_LAYER); // UI layer
+
+        addKeyboardListeners(window, () -> activeScene, keys);
+        addMouseListeners(gamePanel, () -> activeScene, keys);
+        addMouseMotionListeners(gamePanel, this::setMousePosition, this::setMousePosition);
+
         this.ready.set(true);
         gameLoop();
     }
@@ -70,196 +106,7 @@ public final class GameWindow {
         return ready.get();
     }
 
-    private void addKeyboardListeners() {
-        window.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                Engine.getInstance().input(activeScene, extractKeyName(e), EInputType.TYPED, getMods(e));
-            }
 
-            @Override
-            public void keyPressed(KeyEvent e) {
-                String key = extractKeyName(e);
-                Engine.getInstance().input(activeScene, key, EInputType.PRESS, getMods(e));
-                keys.put(key, true);
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                String key = extractKeyName(e);
-                Engine.getInstance().input(activeScene, key, EInputType.RELEASE, getMods(e));
-                keys.put(key, false);
-            }
-        });
-    }
-
-    private static String extractKeyName(KeyEvent e) {
-        String key = String.valueOf(e.getKeyChar());
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP:
-                key = "UP";
-                break;
-            case KeyEvent.VK_DOWN:
-                key = "DOWN";
-                break;
-            case KeyEvent.VK_LEFT:
-                key = "LEFT";
-                break;
-            case KeyEvent.VK_RIGHT:
-                key = "RIGHT";
-                break;
-            case KeyEvent.VK_ESCAPE:
-                key = "ESC";
-                break;
-            case KeyEvent.VK_BACK_SPACE:
-                key = "BACKSPACE";
-                break;
-            case KeyEvent.VK_ENTER:
-                key = "ENTER";
-                break;
-            case KeyEvent.VK_SPACE:
-                key = "SPACE";
-                break;
-            case KeyEvent.VK_SHIFT:
-                key = "SHIFT";
-                break;
-            case KeyEvent.VK_CONTROL:
-                key = "CTRL";
-                break;
-            case KeyEvent.VK_ALT:
-                key = "ALT";
-                break;
-            case KeyEvent.VK_TAB:
-                key = "TAB";
-                break;
-            case KeyEvent.VK_CAPS_LOCK:
-                key = "CAPS";
-                break;
-            case KeyEvent.VK_INSERT:
-                key = "INSERT";
-                break;
-            case KeyEvent.VK_DELETE:
-                key = "DELETE";
-                break;
-            case KeyEvent.VK_HOME:
-                key = "HOME";
-                break;
-            case KeyEvent.VK_END:
-                key = "END";
-                break;
-            case KeyEvent.VK_PAGE_UP:
-                key = "PAGEUP";
-                break;
-            case KeyEvent.VK_PAGE_DOWN:
-                key = "PAGEDOWN";
-                break;
-            case KeyEvent.VK_F1:
-                key = "F1";
-                break;
-            case KeyEvent.VK_F2:
-                key = "F2";
-                break;
-            case KeyEvent.VK_F3:
-                key = "F3";
-                break;
-            case KeyEvent.VK_F4:
-                key = "F4";
-                break;
-            case KeyEvent.VK_F5:
-                key = "F5";
-                break;
-            case KeyEvent.VK_F6:
-                key = "F6";
-                break;
-            case KeyEvent.VK_F7:
-                key = "F7";
-                break;
-            case KeyEvent.VK_F8:
-                key = "F8";
-                break;
-            case KeyEvent.VK_F9:
-                key = "F9";
-                break;
-            case KeyEvent.VK_F10:
-                key = "F10";
-                break;
-            case KeyEvent.VK_F11:
-                key = "F11";
-                break;
-            case KeyEvent.VK_F12:
-                key = "F12";
-                break;
-            default:
-                break;
-        }
-        return key.toUpperCase();
-    }
-
-    private void addMouseMotionListeners() {
-        window.addMouseMotionListener(new MouseMotionListener() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                mouseX = e.getX();
-                mouseY = e.getY();
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                mouseX = e.getX();
-                mouseY = e.getY();
-            }
-        });
-    }
-
-
-    private void addMouseListeners() {
-        window.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Engine.getInstance().input(activeScene, mouseNumToString(e.getButton()), EInputType.TYPED, getMouseMods(e));
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                Engine.getInstance().input(activeScene, mouseNumToString(e.getButton()), EInputType.PRESS, getMouseMods(e));
-                keys.put(mouseNumToString(e.getButton()), true);
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                Engine.getInstance().input(activeScene, mouseNumToString(e.getButton()), EInputType.RELEASE, getMouseMods(e));
-                keys.put(mouseNumToString(e.getButton()), false);
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {}
-
-            @Override
-            public void mouseExited(MouseEvent e) {}
-        });
-    }
-
-    private int getMods(KeyEvent event) {
-        return getModsGeneric(event.isShiftDown(), event.isControlDown(), event.isAltDown());
-    }
-
-    private int getMouseMods(MouseEvent mouseEvent) {
-        return getModsGeneric(mouseEvent.isShiftDown(), mouseEvent.isControlDown(), mouseEvent.isAltDown());
-    }
-
-    private int getModsGeneric(boolean shiftDown, boolean controlDown, boolean altDown) {
-        int mods = 0;
-        if (shiftDown) {
-            mods |= InputMods.SHIFT;
-        }
-        if (controlDown) {
-            mods |= InputMods.CTRL;
-        }
-        if (altDown) {
-            mods |= InputMods.ALT;
-        }
-        return mods;
-    }
 
     public void gameLoop() {
         while (!shouldClose.get()) {
@@ -272,7 +119,7 @@ public final class GameWindow {
             lastUpdate = now;
 
             if (delta >= desiredDelta) {
-                renderWindow();
+                gamePanel.repaint(); // Schedule a repaint of the game panel
                 Engine.getInstance().update(activeScene, delta);
                 delta = 0;
                 actualFPS = 1000.0f / (System.currentTimeMillis() - lastFrame);
@@ -284,48 +131,82 @@ public final class GameWindow {
         }
     }
 
-    private void renderWindow() {
-        int renderWidth = (int) (window.getWidth() / scaleFactorX);
-        int renderHeight = (int) (window.getHeight() / scaleFactorY);
+    public void addUIElement(JComponent component) {
+        SwingUtilities.invokeLater(() -> {
+            // Store original bounds for components
+            Rectangle originalBounds = component.getBounds();
+            originalBoundsMap.put(component, new Rectangle(originalBounds));
 
-        if (offScreenBuffer == null || offScreenBuffer.getWidth() != renderWidth || offScreenBuffer.getHeight() != renderHeight) {
-            offScreenBuffer = new BufferedImage(renderWidth, renderHeight, BufferedImage.TYPE_INT_ARGB);
+            // Store original font sizes
+            Font font = component.getFont();
+            if (font != null) {
+                originalFontSizeMap.put(component, font.getSize2D());
+            }
+
+            // Scale the component positions, sizes, and fonts based on new scaling factors
+            scaleComponentAndFont(component);
+
+            // Force a repaint of the UI root, so we don't have to wait for whenever swing feels like it
+            uiRoot.add(component);
+            uiRoot.revalidate();
+            uiRoot.repaint();
+        });
+    }
+
+    private void scaleComponentAndFont(Component component) {
+        // Scale position and size
+        Rectangle originalBounds = originalBoundsMap.get(component);
+        if (originalBounds != null) {
+            int newX = (int) (originalBounds.x * scaleFactorX);
+            int newY = (int) (originalBounds.y * scaleFactorY);
+            int newWidth = (int) (originalBounds.width * scaleFactorX);
+            int newHeight = (int) (originalBounds.height * scaleFactorY);
+            component.setBounds(newX, newY, newWidth, newHeight);
         }
 
-        Graphics2D g2d = offScreenBuffer.createGraphics();
-        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-
-        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-
-        // Clear the entire buffer before rendering
-        g2d.clearRect(0, 0, offScreenBuffer.getWidth(), offScreenBuffer.getHeight());
-
-        // Render the scene at a lower resolution
-        Engine.getInstance().render(activeScene, g2d);
-        g2d.dispose();
-
-        // Scale the rendered image to fit the window size
-        Graphics g = window.getGraphics();
-        g.drawImage(offScreenBuffer, 0, 0, window.getWidth(), window.getHeight(), null);
-        g.dispose();
+        // Scale font size
+        Float originalFontSize = originalFontSizeMap.get(component);
+        if (originalFontSize != null) {
+            float newFontSize = originalFontSize * Math.min(scaleFactorX, scaleFactorY);
+            component.setFont(component.getFont().deriveFont(newFontSize));
+        }
     }
 
     public void setWindowSize(int width, int height) {
-        // set on swing thread
         SwingUtilities.invokeLater(() -> {
             window.setSize(width, height);
             scaleFactorX = (float) width / initialWidth;
             scaleFactorY = (float) height / initialHeight;
+
+            // Adjust game panel and UI root bounds
+            gamePanel.setBounds(0, 0, width, height);
+            uiRoot.setBounds(0, 0, width, height);
+
+            // Scale each UI component and its font (if applicable) based on the new scaling factors
+            // Otherwise we'd have large font small components which is not ideal for maintaining
+            // Consistency across different resolutions
+            for (Component component : uiRoot.getComponents()) {
+                scaleComponentAndFont(component);
+            }
+
+            // Refresh the UI by invoking an update
+            uiRoot.revalidate();
+            uiRoot.repaint();
         });
     }
+
 
     public void closeWindow() {
         unloadActiveScene();
         shouldClose.set(true);
+    }
+
+    public void setName(String newName) {
+        if (!isReady())
+            return;
+
+        this.name = newName;
+        window.setTitle(newName);
     }
 
     public String getName() {
@@ -337,12 +218,19 @@ public final class GameWindow {
     }
 
     public int getMouseX() {
-        return (int) (mouseX / scaleFactorX); // Adjust mouseX by scaleFactor
+        return (int) (mouseX / scaleFactorX);
     }
 
     public int getMouseY() {
-        return (int) (mouseY / scaleFactorY); // Adjust mouseY by scaleFactor
+        return (int) (mouseY / scaleFactorY);
     }
+
+
+    private void setMousePosition(int x, int y) {
+        mouseX = x;
+        mouseY = y;
+    }
+
 
     private void unloadActiveScene() {
         if (this.activeScene != null) {
@@ -373,24 +261,6 @@ public final class GameWindow {
         this.desiredDelta = 1.0f / desiredFPS;
     }
 
-    private static String mouseNumToString(int button) {
-        String result = "?MB";
-        switch (button) {
-            case MouseEvent.BUTTON1:
-                result = "LMB";
-                break;
-            case MouseEvent.BUTTON2:
-                result = "MMB";
-                break;
-            case MouseEvent.BUTTON3:
-                result = "RMB";
-                break;
-            default:
-                break;
-        }
-        return result;
-    }
-
     public boolean isKeyPressed(String key) {
         return keys.getOrDefault(key.toUpperCase(), false);
     }
@@ -412,5 +282,25 @@ public final class GameWindow {
             }
         });
         System.out.println("---END WIN STATS---");
+    }
+
+    public void removeUIElement(JComponent component) {
+        SwingUtilities.invokeLater(() -> {
+            uiRoot.remove(component);
+            uiRoot.revalidate();
+            uiRoot.repaint();
+        });
+    }
+
+    public JComponent getUIElement(int index) {
+        return (JComponent) uiRoot.getComponent(index);
+    }
+
+    public float getScaleFactorX() {
+        return scaleFactorX;
+    }
+
+    public float getScaleFactorY() {
+        return scaleFactorY;
     }
 }
