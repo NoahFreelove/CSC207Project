@@ -42,6 +42,6 @@ public class RigidBody2D implements IScriptable {
 
     public void update(GameObject parent, double deltaTime) {
         
-        parent.getTransform().translate(forceX * deltaTime, forceY * deltaTime);
+        parent.getTransform().translate(currForceX * deltaTime, currForceY * deltaTime);
     }
 }

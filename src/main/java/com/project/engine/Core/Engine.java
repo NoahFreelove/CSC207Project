@@ -5,6 +5,7 @@ import com.project.engine.Core.Window.GameWindow;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Engine {
@@ -54,33 +55,12 @@ public class Engine {
 
     /**
      * Render scene to a child panel of the root panel.
-     * @param root MUST have exactly one child that is a JPanel. This will be swapped out for the new render.
      * @param scene the scene to render
+     * @param g2d the graphics object to render with
      */
-    public void render(JPanel root, Scene scene){
-        // oldRenderPass(root, scene);
-        newRenderPass(root,scene);
-    }
 
-
-    private static void oldRenderPass(JPanel root, Scene scene) {
-        JPanel frame = (JPanel) root.getComponent(0);
-        frame.removeAll();
-        scene.render(frame);
-    }
-
-    private static void newRenderPass(JPanel root, Scene scene) {
-        JPanel renderPanel = new JPanel();
-        renderPanel.setLayout(null);
-        renderPanel.setBounds(0,0, root.getBounds().width, root.getBounds().height);
-        // get the one child of the root
-        JPanel tmp = (JPanel) root.getComponent(0);
-
-        scene.render(renderPanel);
-        // replace the root with the new root
-        root.add(renderPanel);
-        // seamless transition
-        root.remove(tmp);
+    public void render(Scene scene, Graphics2D g2d) {
+        scene.render(g2d);
     }
 
     public void update(Scene scene, double delta){

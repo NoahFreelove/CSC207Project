@@ -6,6 +6,7 @@ import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Scripting.IScriptable;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -38,7 +39,7 @@ public class Scene {
      * parent object is in the scene each time.
      * @param listenerScript The listener to add
      */
-    private void addInputListenerCheckless(GameObject ref, IScriptable listenerScript){
+    private synchronized void addInputListenerCheckless(GameObject ref, IScriptable listenerScript){
         Tuple<GameObject, IScriptable> listener = new Tuple<>(ref, listenerScript);
 
         if (inputListeners.contains(listener))
@@ -46,7 +47,7 @@ public class Scene {
         inputListeners.add(listener);
     }
 
-    public void addInputListener(GameObject ref, IScriptable listenerScript){
+    public synchronized void addInputListener(GameObject ref, IScriptable listenerScript){
         if(!sceneObjects.contains(ref)) {
             System.err.println("Object <" + ref.toString() + "> not in scene - cannot add listener");
             return;
@@ -62,14 +63,14 @@ public class Scene {
     }
 
 
-    private void addRenderableCheckless(GameObject ref, IRenderable renderable){
+    private synchronized void addRenderableCheckless(GameObject ref, IRenderable renderable){
         Tuple<GameObject, IRenderable> renderableTuple = new Tuple<>(ref, renderable);
         if (renderables.contains(renderableTuple))
             return;
         renderables.add(renderableTuple);
     }
 
-    public void addRenderable(GameObject ref, IRenderable renderable){
+    public synchronized void addRenderable(GameObject ref, IRenderable renderable){
         if (!sceneObjects.contains(ref)){
             System.err.println("Object <" + ref.toString() + "> not in scene - cannot add renderable");
             return;
@@ -77,7 +78,7 @@ public class Scene {
         addRenderableCheckless(ref, renderable);
     }
 
-    public void addAllInputListeners(GameObject object){
+    public synchronized void addAllInputListeners(GameObject object){
         if (!sceneObjects.contains(object)){
             System.err.println("Object <" + object.toString() + "> not in scene - cannot add listeners");
             return;
@@ -90,7 +91,7 @@ public class Scene {
         }
     }
 
-    public void addAllRenderables(GameObject object){
+    public synchronized void addAllRenderables(GameObject object){
         if (!sceneObjects.contains(object)){
             System.err.println("Object <" + object.toString() + "> not in scene - cannot add renderables");
             return;
@@ -102,7 +103,7 @@ public class Scene {
         }
     }
 
-    public void removeAllInputListeners(GameObject object){
+    public synchronized void removeAllInputListeners(GameObject object){
         Iterator<IScriptable> scripts = object.getBehaviors();
         while (scripts.hasNext()){
             IScriptable script = scripts.next();
@@ -110,7 +111,7 @@ public class Scene {
         }
     }
 
-    public void removeAllRenderables(GameObject object){
+    public synchronized void removeAllRenderables(GameObject object){
         Iterator<IRenderable> renderables = object.getRenderables();
         while (renderables.hasNext()){
             IRenderable renderable = renderables.next();
@@ -118,7 +119,7 @@ public class Scene {
         }
     }
 
-    public void removeInputListener(IScriptable listenerScript){
+    public synchronized void removeInputListener(IScriptable listenerScript){
         // find the listener
         Tuple<GameObject, IScriptable> listener = null;
         for (Tuple<GameObject, IScriptable> tuple : inputListeners){
@@ -130,7 +131,7 @@ public class Scene {
         inputListeners.remove(listener);
     }
 
-    public void removeRenderable(IRenderable renderable) {
+    public synchronized void removeRenderable(IRenderable renderable) {
         Tuple<GameObject, IRenderable> renderableTuple = null;
         for (Tuple<GameObject, IRenderable> tuple : renderables) {
             if (tuple.getSecond().equals(renderable)) {
@@ -162,7 +163,7 @@ public class Scene {
      * @param object the object to add
      * @return true if the object was added, false if it was already present (or if it failed to add in some way)
      */
-    public boolean addSceneObject(GameObject object) {
+    public synchronized boolean addSceneObject(GameObject object) {
         if (sceneObjects.contains(object))
             return false;
 
@@ -180,7 +181,7 @@ public class Scene {
      * @param addAllAsListeners whether to add all scripts as input listeners
      * @return true if the object was added, false if it was already present.
      */
-    public boolean addSceneObject(GameObject object, boolean addAllAsListeners) {
+    public synchronized boolean addSceneObject(GameObject object, boolean addAllAsListeners) {
         boolean result = addSceneObject(object);
         if(!addAllAsListeners) {
             return result;
@@ -190,19 +191,31 @@ public class Scene {
         return result;
     }
 
-    public boolean removeSceneObject(GameObject object) {
+    public synchronized boolean removeSceneObject(GameObject object) {
         removeAllInputListeners(object);
         removeAllRenderables(object);
 
         return sceneObjects.remove(object);
     }
 
-    public boolean removeSceneObject(GameObject object, boolean dontDestroyListeners){
+    public synchronized boolean removeSceneObject(int index) {
+        GameObject object = sceneObjects.get(index);
+        removeAllInputListeners(object);
+        removeAllRenderables(object);
+
+        return sceneObjects.remove(object);
+    }
+
+    public synchronized boolean removeSceneObject(GameObject object, boolean dontDestroyListeners){
         if (!dontDestroyListeners) {
             removeAllInputListeners(object);
         }
         removeAllRenderables(object);
         return sceneObjects.remove(object);
+    }
+
+    public int getSceneObjectCount() {
+        return sceneObjects.size();
     }
 
     public Camera getCamera() {
@@ -244,14 +257,9 @@ public class Scene {
         }
     }
 
-    public void render(JPanel root){
-        for (GameObject object : sceneObjects) {
-            object.getTransform().update();
-        }
-
-        for (Tuple<GameObject, IRenderable> renderable : renderables){
-            JComponent comp = renderable.getSecond().renderComponent(renderable.getFirst(), this);
-            root.add(comp);
+    public void render(Graphics2D g2d) {
+        for (Tuple<GameObject, IRenderable> renderable : renderables) {
+            renderable.getSecond().renderComponent(renderable.getFirst(), this, g2d);
         }
     }
     // endregion

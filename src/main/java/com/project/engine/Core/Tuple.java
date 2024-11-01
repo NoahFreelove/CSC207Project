@@ -1,6 +1,6 @@
 package com.project.engine.Core;
 
-public class Tuple <T, E> {
+public class Tuple <T, E> implements Cloneable {
     private T first;
     private E second;
 
@@ -43,4 +43,5 @@ public class Tuple <T, E> {
     public String toString() {
         return "(" + first.toString() + ", " + second.toString() + ")";
     }
+
 }

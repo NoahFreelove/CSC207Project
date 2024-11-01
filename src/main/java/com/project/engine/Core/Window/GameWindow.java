@@ -1,61 +1,45 @@
 package com.project.engine.Core.Window;
 
 import javax.swing.*;
-
+import java.awt.*;
 import java.awt.event.*;
-
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.Scene;
-import com.project.engine.Input.InputMods;
 import com.project.engine.Input.EInputType;
-import org.jetbrains.annotations.NotNull;
+import com.project.engine.Input.InputMods;
 
-/**
- * Represents a window for the game to be displayed in.
- */
 public final class GameWindow {
+    public static final int BASE_FPS = 120;
 
-    public static final int BASE_FPS = 60;
-
-    // region Atomic Fun Stuff
     private final AtomicBoolean shouldClose = new AtomicBoolean(false);
     private Thread windowThread = null;
-    // endregion
-
-    // region Swing Stuff
     private JFrame window;
-    private JPanel root;
-    // endregion
-
-    // region Instance Variables
     private final String name;
-    private Scene activeScene;
-
-    // endregion
-
-    // region Game Loop Variables
+    private volatile Scene activeScene;
     private long lastUpdate = System.currentTimeMillis();
     private float desiredFPS = BASE_FPS;
     private float desiredDelta = 1.0f / desiredFPS;
     private float delta = 0;
-    // endregion
-
-    // region Input
+    private long lastFrame = System.currentTimeMillis();
+    private float actualFPS = 0;
+    private BufferedImage offScreenBuffer;
     private int mouseX;
     private int mouseY;
     private HashMap<String, Boolean> keys = new HashMap<>();
-    // endregion
+    private float scaleFactorX = 1.0f;
+    private float scaleFactorY = 1.0f;
+    private int initialWidth;
+    private int initialHeight;
 
-    /**
-     * Create a new game window on a new thread.
-     * @param width window width
-     * @param height window height
-     * @param title window title (will also be the same name if you want to uniquely identify the window)
-     */
+    private AtomicBoolean ready = new AtomicBoolean(false);
+
     private GameWindow(int width, int height, String title) {
+        this.initialHeight = height;
+        this.initialWidth = width;
         this.name = title;
         setActiveScene(Scene.NullScene());
         Thread t = new Thread(() -> configGameWindow(width, height, title));
@@ -63,45 +47,27 @@ public final class GameWindow {
         t.start();
     }
 
-    /**
-     * Create a new game window. This is a factory method.
-     * @param width window width
-     * @param height window height
-     * @param title window title (will also be the same name if you want to uniquely identify the window)
-     * @return the new game window
-     */
     public static GameWindow createGameWindow(int width, int height, String title) {
         return new GameWindow(width, height, title);
     }
 
     private void configGameWindow(int width, int height, String title) {
         window = new JFrame(title);
-
-        root = new JPanel();
-        root.setLayout(null);
-        root.setBounds(0,0,width,height);
-
-        JPanel firstFrame = new JPanel();
-        firstFrame.setLayout(null);
-        firstFrame.setBounds(0,0,width,height);
-        root.add(firstFrame);
-
-        window.add(root);
-
         window.setSize(width, height);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setFocusTraversalPolicy(new NoFocusTraversalPolicy());
-        window.setVisible(true);
-        // set input listeners
+        window.setIgnoreRepaint(true); // Disable default repaint so we can control it
+        window.setVisible(true); // Make the window visible
+        window.setResizable(false); // Disable resizing
+        window.createBufferStrategy(2); // Enable double buffering for smoother rendering
         addKeyboardListeners();
-
-        // add mouse listeners
         addMouseListeners();
-
-        // add mouse motion listener
         addMouseMotionListeners();
-
+        this.ready.set(true);
         gameLoop();
+    }
+
+    public boolean isReady() {
+        return ready.get();
     }
 
     private void addKeyboardListeners() {
@@ -127,10 +93,8 @@ public final class GameWindow {
         });
     }
 
-    private static @NotNull String extractKeyName(KeyEvent e) {
-        // if its an arrow key, we want to use the key code instead of the character and convert it to a string
+    private static String extractKeyName(KeyEvent e) {
         String key = String.valueOf(e.getKeyChar());
-        // switch with arrow keys
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 key = "UP";
@@ -144,7 +108,6 @@ public final class GameWindow {
             case KeyEvent.VK_RIGHT:
                 key = "RIGHT";
                 break;
-                // we need cases for function keys and escape and backspace, etc.
             case KeyEvent.VK_ESCAPE:
                 key = "ESC";
                 break;
@@ -248,37 +211,31 @@ public final class GameWindow {
         });
     }
 
+
     private void addMouseListeners() {
         window.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Engine.getInstance().input(activeScene,
-                        mouseNumToString(e.getButton()), EInputType.TYPED, getMouseMods(e));
+                Engine.getInstance().input(activeScene, mouseNumToString(e.getButton()), EInputType.TYPED, getMouseMods(e));
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                Engine.getInstance().input(activeScene,
-                        mouseNumToString(e.getButton()), EInputType.PRESS, getMouseMods(e));
+                Engine.getInstance().input(activeScene, mouseNumToString(e.getButton()), EInputType.PRESS, getMouseMods(e));
                 keys.put(mouseNumToString(e.getButton()), true);
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                Engine.getInstance().input(activeScene,
-                        mouseNumToString(e.getButton()), EInputType.RELEASE, getMouseMods(e));
+                Engine.getInstance().input(activeScene, mouseNumToString(e.getButton()), EInputType.RELEASE, getMouseMods(e));
                 keys.put(mouseNumToString(e.getButton()), false);
             }
 
             @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
+            public void mouseEntered(MouseEvent e) {}
 
             @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
+            public void mouseExited(MouseEvent e) {}
         });
     }
 
@@ -314,14 +271,13 @@ public final class GameWindow {
             delta += (now - lastUpdate) / 1000.0f;
             lastUpdate = now;
 
-            // Only draw at desired frame rate, but update can be changed to a faster time
-            // (for physics and other calculations)
-            while (delta >= desiredDelta) {
+            if (delta >= desiredDelta) {
                 renderWindow();
                 Engine.getInstance().update(activeScene, delta);
-                delta -= desiredDelta;
+                delta = 0;
+                actualFPS = 1000.0f / (System.currentTimeMillis() - lastFrame);
+                lastFrame = System.currentTimeMillis();
             }
-
         }
         if (window != null) {
             window.dispose();
@@ -329,8 +285,42 @@ public final class GameWindow {
     }
 
     private void renderWindow() {
-        Engine.getInstance().render(root, activeScene);
-        window.repaint();
+        int renderWidth = (int) (window.getWidth() / scaleFactorX);
+        int renderHeight = (int) (window.getHeight() / scaleFactorY);
+
+        if (offScreenBuffer == null || offScreenBuffer.getWidth() != renderWidth || offScreenBuffer.getHeight() != renderHeight) {
+            offScreenBuffer = new BufferedImage(renderWidth, renderHeight, BufferedImage.TYPE_INT_ARGB);
+        }
+
+        Graphics2D g2d = offScreenBuffer.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+
+        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+
+        // Clear the entire buffer before rendering
+        g2d.clearRect(0, 0, offScreenBuffer.getWidth(), offScreenBuffer.getHeight());
+
+        // Render the scene at a lower resolution
+        Engine.getInstance().render(activeScene, g2d);
+        g2d.dispose();
+
+        // Scale the rendered image to fit the window size
+        Graphics g = window.getGraphics();
+        g.drawImage(offScreenBuffer, 0, 0, window.getWidth(), window.getHeight(), null);
+        g.dispose();
+    }
+
+    public void setWindowSize(int width, int height) {
+        // set on swing thread
+        SwingUtilities.invokeLater(() -> {
+            window.setSize(width, height);
+            scaleFactorX = (float) width / initialWidth;
+            scaleFactorY = (float) height / initialHeight;
+        });
     }
 
     public void closeWindow() {
@@ -347,11 +337,11 @@ public final class GameWindow {
     }
 
     public int getMouseX() {
-        return mouseX;
+        return (int) (mouseX / scaleFactorX); // Adjust mouseX by scaleFactor
     }
 
     public int getMouseY() {
-        return mouseY;
+        return (int) (mouseY / scaleFactorY); // Adjust mouseY by scaleFactor
     }
 
     private void unloadActiveScene() {
@@ -366,7 +356,6 @@ public final class GameWindow {
             throw new RuntimeException(new IllegalArgumentException("Scene cannot be null"));
         }
         unloadActiveScene();
-
         this.activeScene = activeScene;
         Engine.getInstance().start(activeScene);
     }
@@ -403,7 +392,25 @@ public final class GameWindow {
     }
 
     public boolean isKeyPressed(String key) {
-
         return keys.getOrDefault(key.toUpperCase(), false);
+    }
+
+    public float FPS() {
+        return actualFPS;
+    }
+
+    public void fancyStatsPrint() {
+        System.out.println("-----WIN STATS-----");
+        System.out.println("Desired FPS: " + desiredFPS);
+        System.out.println("Actual FPS: " + actualFPS);
+        System.out.println("Delta Time: " + delta);
+        System.out.println("Mouse Position: (" + getMouseX() + ", " + getMouseY() + ")");
+        System.out.println("Keys Pressed: ");
+        keys.forEach((k, v) -> {
+            if (v) {
+                System.out.println(k);
+            }
+        });
+        System.out.println("---END WIN STATS---");
     }
 }

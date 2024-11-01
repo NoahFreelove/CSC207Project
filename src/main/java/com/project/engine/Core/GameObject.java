@@ -51,39 +51,46 @@ public class GameObject {
     // region Variety of Constructors
     public GameObject() {
         this.transform = new Transform(this, new Tuple<>(0.0, 0.0));
+        addBehavior(transform);
     }
 
     public GameObject(String name){
         this.name = name;
         this.transform = new Transform(this, new Tuple<>(0.0, 0.0));
+        addBehavior(transform);
     }
 
     public GameObject(String name, double x, double y){
         this.name = name;
         this.transform = new Transform(this, new Tuple<>(x, y));
+        addBehavior(transform);
     }
 
     public GameObject(String name, Tuple<Double, Double> position){
         this.name = name;
         this.transform = new Transform(this, position);
+        addBehavior(transform);
     }
 
     public GameObject(String name, double x, double y, String tag){
         this.name = name;
         this.transform = new Transform(this, new Tuple<>(x, y));
         this.tag = tag;
+        addBehavior(transform);
     }
 
     public GameObject(String name, Tuple<Double, Double> position, String tag){
         this.name = name;
         this.transform = new Transform(this, position);
         this.tag = tag;
+        addBehavior(transform);
     }
 
     public GameObject(String name, String tag){
         this.name = name;
-        this.addBehavior(new Transform(this, new Tuple<>(0.0, 0.0)));
+        this.transform = (new Transform(this, new Tuple<>(0.0, 0.0)));
         this.tag = tag;
+        addBehavior(transform);
     }
     // endregion
 
@@ -148,7 +155,7 @@ public class GameObject {
      * @param script the behavior to add
      * @return true if the behavior was added, false if it was already present
      */
-    public boolean addBehavior(IScriptable script){
+    public synchronized boolean addBehavior(IScriptable script){
         if (behaviors.contains(script))
             return false;
         return behaviors.add(script);
@@ -159,20 +166,20 @@ public class GameObject {
      * @param script the behavior to remove
      * @return true if the behavior was removed, false if it was not present
      */
-    public boolean removeBehavior(IScriptable script){
+    public synchronized boolean removeBehavior(IScriptable script){
         if(behaviors.contains(script)) {
             return behaviors.remove(script);
         }
         return false;
     }
 
-    public boolean addRenderable(IRenderable renderable){
+    public synchronized boolean addRenderable(IRenderable renderable){
         if (renderables.contains(renderable))
             return false;
         return renderables.add(renderable);
     }
 
-    public boolean removeRenderable(IRenderable renderable){
+    public synchronized boolean removeRenderable(IRenderable renderable){
         if (renderables.contains(renderable)) {
             return renderables.remove(renderable);
         }

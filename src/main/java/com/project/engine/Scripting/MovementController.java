@@ -37,7 +37,6 @@ public class MovementController implements IScriptable {
         if (win == null) {
             return;
         }
-
         double actualSpeed = moveSpeed * deltaTime * 300;
 
         if (enableYMovement) {

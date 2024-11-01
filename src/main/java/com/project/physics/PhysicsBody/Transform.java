@@ -67,21 +67,26 @@ public class Transform implements IScriptable {
         }
     }
 
-    void translate(Double x, Double y){
+    public void translate(Double x, Double y){
         setPositionX(this.position.getFirst() + x);
         setPositionY(this.position.getSecond() + y);
     }
 
-    void setPositionX(double x){
+    public void setPositionX(double x){
         staged_position.setFirst(x);
     }
 
-    void setPositionY(double y){
+    public void setPositionY(double y){
         staged_position.setSecond(y);
     }
 
-    void setPosition(Tuple<Double, Double> position){
-        this.staged_position = position;
+    public void setPosition(Tuple<Double, Double> position){
+        this.staged_position = new Tuple<>(position.getFirst(), position.getSecond());
+    }
+
+    public void setPosition(double posX, double posY){
+        this.staged_position.setFirst(posX);
+        this.staged_position.setSecond(posY);
     }
 
     public void setScaleX(double x){
@@ -142,7 +147,8 @@ public class Transform implements IScriptable {
      * This design makes getters delayed by a frame, so game logic will take place based on
      * where the user sees the object.
      */
-    public void update() {
+    @Override
+    public void update(GameObject parent, double dt) {
         position = staged_position;
         scale = staged_scale;
         rotation = staged_rotation;

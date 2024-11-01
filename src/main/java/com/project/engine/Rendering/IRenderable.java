@@ -4,6 +4,7 @@ import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
 
 import javax.swing.*;
+import java.awt.*;
 
 public interface IRenderable {
 
@@ -12,5 +13,5 @@ public interface IRenderable {
      * We don't want to be using 200mb memory!
      * @return A formatted JComponent fit for rendering
      */
-    JComponent renderComponent(GameObject attached, Scene scene);
+    void renderComponent(GameObject attached, Scene scene, Graphics2D g2d);
 }
