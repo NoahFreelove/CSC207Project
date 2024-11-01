@@ -9,6 +9,7 @@ import com.project.engine.Scripting.WindowStatsDebug;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class EngineMain {
 
@@ -21,11 +22,14 @@ public class EngineMain {
             return;
         }
         while (!w.isReady()) {}
-        w.setWindowSize(1200, 1200);
+        w.setWindowSize(800, 800);
 
         JLabel label = new JLabel("_-_-_-Hello, World!-_-_-_");
-        label.setForeground(java.awt.Color.WHITE);
+        label.setForeground(Color.decode("#b500b5"));
         label.setFont(label.getFont().deriveFont(64.0f));
+        // set background
+        label.setOpaque(true);
+        label.setBackground(Color.decode("#00ff00"));
         label.setBounds(0, 200, 800, 100); // Set bounds for absolute positioning
         // align center
         label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -35,7 +39,7 @@ public class EngineMain {
         w.getActiveScene().addSceneObject(o, true);
 
         // Remove this comment to run the stress test
-        // measureAndRemoveObjects(w);
+        measureAndRemoveObjects(w);
     }
 
     /**
@@ -46,7 +50,7 @@ public class EngineMain {
         GameObject o = new GameObject();
         SpriteRenderer sr = new SpriteRenderer("assets/penguin.jpeg", 128,128);
         o.getTransform().setPosition(336,300);
-
+        o.getTransform().setZIndex(1);
         o.addBehavior(new MovementController());
         o.addBehavior(new WindowStatsDebug());
         o.addRenderable(sr);

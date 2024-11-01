@@ -7,6 +7,7 @@ import com.project.engine.Scripting.IScriptable;
 public class Transform implements IScriptable {
     private Tuple<Double, Double> position;
     private Tuple<Double, Double> scale;
+    private float z_index = 0;
 
     // Swing deals with rectangles so watch out for cropping
     private float rotation = 0;
@@ -134,6 +135,14 @@ public class Transform implements IScriptable {
 
     public float getRotation() {
         return rotation;
+    }
+
+    public float getZIndex() {
+        return z_index;
+    }
+
+    public void setZIndex(float z_index) {
+        this.z_index = z_index;
     }
 
     /**

@@ -5,9 +5,7 @@ import com.project.engine.Rendering.Camera;
 import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Scripting.IScriptable;
 
-import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -68,6 +66,16 @@ public class Scene {
         if (renderables.contains(renderableTuple))
             return;
         renderables.add(renderableTuple);
+
+        sortRenderablesByZIndex();
+    }
+
+    private void sortRenderablesByZIndex() {
+        renderables.sort((o1, o2) -> {
+            float z1 = o1.getFirst().getTransform().getZIndex();
+            float z2 = o2.getFirst().getTransform().getZIndex();
+            return Float.compare(z1, z2);
+        });
     }
 
     public synchronized void addRenderable(GameObject ref, IRenderable renderable){

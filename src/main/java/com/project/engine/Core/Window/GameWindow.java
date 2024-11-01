@@ -37,7 +37,7 @@ public final class GameWindow {
     // endregion
 
     // region FPS and Delta Attributes
-    public static final int BASE_FPS = 200; // Default FPS for all new windows
+    public static final int BASE_FPS = 120; // Default FPS for all new windows
     private float desiredFPS = BASE_FPS;
     private long lastUpdate = System.currentTimeMillis();
     private float desiredDelta = 1.0f / desiredFPS;
@@ -52,7 +52,6 @@ public final class GameWindow {
     private int mouseY;
     private HashMap<String, Boolean> keys = new HashMap<>();
     // endregion
-
 
     private GameWindow(int width, int height, String title) {
         this.initialHeight = height;
