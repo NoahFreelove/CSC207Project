@@ -3,6 +3,7 @@ package com.project.engine.Rendering;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Tuple;
 import com.project.engine.Scripting.IScriptable;
+import org.json.JSONObject;
 
 public class Camera implements IScriptable {
     private GameObject attached;
@@ -56,5 +57,24 @@ public class Camera implements IScriptable {
     public void translate(double x, double y){
         offsetX += x;
         offsetY += y;
+    }
+
+    @Override
+    public Class<?> attachedClass() {
+        return getClass();
+    }
+
+    @Override
+    public void deserialize(JSONObject data) {
+        offsetX = data.getDouble("offsetX");
+        offsetY = data.getDouble("offsetY");
+    }
+
+    @Override
+    public JSONObject serialize() {
+        JSONObject output = new JSONObject();
+        output.put("offsetX", offsetX);
+        output.put("offsetY", offsetY);
+        return output;
     }
 }

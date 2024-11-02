@@ -3,8 +3,11 @@ package com.project.physics.PhysicsBody;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Tuple;
 import com.project.engine.Scripting.IScriptable;
+import com.project.engine.Serialization.ISerializable;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-public class Transform implements IScriptable {
+public class Transform implements IScriptable, ISerializable {
     private Tuple<Double, Double> position;
     private Tuple<Double, Double> scale;
     private float z_index = 0;
@@ -161,5 +164,42 @@ public class Transform implements IScriptable {
         position = staged_position;
         scale = staged_scale;
         rotation = staged_rotation;
+    }
+
+    @Override
+    public JSONObject serialize() {
+        JSONObject output = new JSONObject();
+        JSONArray posArr = new JSONArray();
+        posArr.put(position.getFirst());
+        posArr.put(position.getSecond());
+        output.put("position", posArr);
+
+        JSONArray scaleArr = new JSONArray();
+        scaleArr.put(scale.getFirst());
+        scaleArr.put(scale.getSecond());
+        output.put("scale", scaleArr);
+
+        output.put("rotation", rotation);
+        output.put("zIndex", z_index);
+        return output;
+    }
+
+    @Override
+    public void deserialize(JSONObject data) {
+        JSONArray posArr = data.getJSONArray("position");
+        position = new Tuple<>(posArr.getDouble(0), posArr.getDouble(1));
+
+        JSONArray scaleArr = data.getJSONArray("scale");
+        scale = new Tuple<>(scaleArr.getDouble(0), scaleArr.getDouble(1));
+
+        rotation = data.getFloat("rotation");
+        z_index = data.getFloat("zIndex");
+
+        this.staged_rotation = rotation;
+        this.staged_position.setFirst(position.getFirst());
+        this.staged_position.setSecond(position.getSecond());
+        this.staged_scale.setFirst(scale.getFirst());
+        this.staged_scale.setSecond(scale.getSecond());
+
     }
 }

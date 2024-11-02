@@ -20,4 +20,9 @@ public class WindowStatsDebug implements IScriptable {
             target.fancyStatsPrint();
         }
     }
+
+    @Override
+    public Class<?> attachedClass() {
+        return getClass();
+    }
 }

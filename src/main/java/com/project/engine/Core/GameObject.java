@@ -6,12 +6,15 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Scripting.IScriptable;
+import com.project.engine.Serialization.ISerializable;
 import com.project.physics.PhysicsBody.Transform;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Base class for all Game Objects that have behavior.
  */
-public class GameObject {
+public final class GameObject implements ISerializable {
 
     // region Static Variables
     // Global counter for ensuring unique values
@@ -38,7 +41,7 @@ public class GameObject {
     /**
      * The behaviors attached to this GameObject. Each one will be run every update (not necessarily only at render).
      */
-    private final ArrayList<IScriptable> behaviors = new ArrayList<>();
+    private final ArrayList<IScriptable> scriptables = new ArrayList<>();
 
     /**
      * The renderables attached to this GameObject. Each one will be rendered every frame.
@@ -140,8 +143,8 @@ public class GameObject {
      * Get all behaviors attached to this GameObject.
      * @return an iterator of all behaviors
      */
-    public Iterator<IScriptable> getBehaviors() {
-        return behaviors.iterator();
+    public Iterator<IScriptable> getScriptables() {
+        return scriptables.iterator();
     }
 
     public Iterator<IRenderable> getRenderables() {
@@ -156,9 +159,9 @@ public class GameObject {
      * @return true if the behavior was added, false if it was already present
      */
     public synchronized boolean addBehavior(IScriptable script){
-        if (behaviors.contains(script))
+        if (scriptables.contains(script))
             return false;
-        return behaviors.add(script);
+        return scriptables.add(script);
     }
 
     /**
@@ -167,8 +170,8 @@ public class GameObject {
      * @return true if the behavior was removed, false if it was not present
      */
     public synchronized boolean removeBehavior(IScriptable script){
-        if(behaviors.contains(script)) {
-            return behaviors.remove(script);
+        if(scriptables.contains(script)) {
+            return scriptables.remove(script);
         }
         return false;
     }
@@ -189,7 +192,7 @@ public class GameObject {
 
     // region Boolean Methods
     public boolean hasScript(IScriptable listenerScript) {
-        return behaviors.contains(listenerScript);
+        return scriptables.contains(listenerScript);
     }
 
     public boolean hasRenderable(IRenderable renderable) {
@@ -217,6 +220,107 @@ public class GameObject {
      */
     private static long requestUid() {
         return GLOBAL_COUNTER.getAndIncrement();
+    }
+
+    @Override
+    public JSONObject serialize() {
+        JSONObject object = new JSONObject();
+        object.put("name", getName());
+        object.put("tag", getTag());
+        object.put("transform", getTransform().serialize());
+
+        JSONArray scriptablesJson = new JSONArray();
+        for (IScriptable r : scriptables) {
+            if(r.getClass().equals(Transform.class))
+                continue;
+
+            JSONObject serialized = r.serialize();
+            if (serialized == null) {
+                continue;
+            }
+            serialized.put("class", r.getClass().getName());
+
+            scriptablesJson.put(serialized);
+        }
+        object.put("scriptables", scriptablesJson);
+
+
+        JSONArray renderablesJson = new JSONArray();
+        for (IRenderable r : renderables) {
+            JSONObject serialized = r.serialize();
+            serialized.put("class", r.getClass().getName());
+            renderablesJson.put(serialized);
+
+        }
+        object.put("renderables", renderablesJson);
+
+        return object;
+    }
+
+    @Override
+    public void deserialize(JSONObject data) {
+        setName(data.getString("name"));
+        setTag(data.getString("tag"));
+        transform.deserialize(data.getJSONObject("transform"));
+        JSONArray scriptablesJson = data.getJSONArray("scriptables");
+        for (Object o : scriptablesJson) {
+            if (! (o instanceof JSONObject)) {
+                System.err.println("Found non-JSONObject in scriptables JSONArray");
+                continue;
+            }
+            JSONObject obj = (JSONObject) o;
+            String classNameString = obj.getString("class");
+            Class<?> classInst = null;
+
+            try {
+                classInst = Class.forName(classNameString);
+            } catch (ClassNotFoundException e) {
+                System.err.println("Error deserializing scriptable:  (" + e.getClass().getCanonicalName() + ")" + e.getMessage());
+                continue;
+            }
+
+            if(classInst.equals(Transform.class))
+                continue;
+
+            // instantiate the class default constructor with reflection
+            try {
+                IScriptable script = (IScriptable) classInst.getDeclaredConstructor().newInstance();
+                script.deserialize(obj);
+                addBehavior(script);
+            } catch (Exception e) {
+                System.err.println("Error deserializing scriptable: (" + e.getClass().getCanonicalName() + ")" + e.getMessage());
+                continue;
+            }
+        }
+
+        JSONArray renderablesJson = data.getJSONArray("renderables");
+        for (Object o : renderablesJson) {
+            if (! (o instanceof JSONObject)) {
+                System.err.println("Found non-JSONObject in renderables JSONArray");
+                continue;
+            }
+            JSONObject obj = (JSONObject) o;
+
+            Class<?> classInst = null;
+            try {
+                classInst = Class.forName(obj.getString("class"));
+            } catch (ClassNotFoundException e) {
+                System.err.println("Error deserializing renderable: (" + e.getClass().getCanonicalName() + ")" + e.getMessage());
+                continue;
+            }
+
+            // instantiate the class default constructor with reflection
+            try {
+                IRenderable renderable = (IRenderable) classInst.getDeclaredConstructor().newInstance();
+                renderable.deserialize(obj);
+                addRenderable(renderable);
+            } catch (Exception e) {
+                System.err.println("Error deserializing renderable: (" + e.getClass().getCanonicalName() + ")" + e.getMessage());
+                continue;
+            }
+        }
+
+
     }
     // endregion
 }

@@ -4,12 +4,15 @@ import com.project.engine.Input.EInputType;
 import com.project.engine.Rendering.Camera;
 import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Scripting.IScriptable;
+import com.project.engine.Serialization.ISerializable;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.awt.*;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Scene {
+public class Scene implements ISerializable {
 
     private final String name;
 
@@ -92,7 +95,7 @@ public class Scene {
             return;
         }
 
-        Iterator<IScriptable> scripts = object.getBehaviors();
+        Iterator<IScriptable> scripts = object.getScriptables();
         while (scripts.hasNext()){
             IScriptable script = scripts.next();
             addInputListenerCheckless(object, script);
@@ -112,7 +115,7 @@ public class Scene {
     }
 
     public synchronized void removeAllInputListeners(GameObject object){
-        Iterator<IScriptable> scripts = object.getBehaviors();
+        Iterator<IScriptable> scripts = object.getScriptables();
         while (scripts.hasNext()){
             IScriptable script = scripts.next();
             removeInputListener(script);
@@ -237,7 +240,7 @@ public class Scene {
     // region Scripting Methods
     public void start(){
         for (GameObject object : sceneObjects){
-            Iterator<IScriptable> scripts = object.getBehaviors();
+            Iterator<IScriptable> scripts = object.getScriptables();
             while (scripts.hasNext()){
                 IScriptable script = scripts.next();
                 script.start(object);
@@ -247,7 +250,7 @@ public class Scene {
 
     public void update(double deltaTime){
         for (GameObject object : sceneObjects){
-            Iterator<IScriptable> scripts = object.getBehaviors();
+            Iterator<IScriptable> scripts = object.getScriptables();
             while (scripts.hasNext()){
                 IScriptable script = scripts.next();
                 script.update(object, deltaTime);
@@ -257,7 +260,7 @@ public class Scene {
 
     public void stop(){
         for (GameObject object : sceneObjects){
-            Iterator<IScriptable> scripts = object.getBehaviors();
+            Iterator<IScriptable> scripts = object.getScriptables();
             while (scripts.hasNext()){
                 IScriptable script = scripts.next();
                 script.stop(object);
@@ -267,17 +270,61 @@ public class Scene {
 
     public void render(Graphics2D g2d) {
         for (Tuple<GameObject, IRenderable> renderable : renderables) {
-            renderable.getSecond().renderComponent(renderable.getFirst(), this, g2d);
+            renderable.getSecond().render(renderable.getFirst(), this, g2d);
         }
     }
     // endregion
 
+    public boolean isObjectListener(GameObject o) {
+        for (Tuple<GameObject, IScriptable> t : inputListeners) {
+            if (t.getFirst().equals(o)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     // region Static Methods
 
     public static Scene NullScene() {
         return new Scene();
     }
-
     // endregion
+
+    @Override
+    public JSONObject serialize() {
+        JSONObject output = new JSONObject();
+        output.put("name", getName());
+
+        JSONArray scene_objects = new JSONArray();
+        for (GameObject o : sceneObjects) {
+            JSONObject object = o.serialize();
+
+            boolean isListener = isObjectListener(o);
+            object.put("is_listener", isListener);
+
+            scene_objects.put(object);
+        }
+        output.put("scene_objects", scene_objects);
+        return output;
+    }
+
+    @Override
+    public void deserialize(JSONObject data) {
+        JSONArray scene_objects = data.getJSONArray("scene_objects");
+        for (Object o : scene_objects) {
+            JSONObject object = (JSONObject) o;
+            GameObject gameObject = new GameObject();
+            gameObject.deserialize(object);
+
+            addSceneObject(gameObject);
+
+            boolean isListener = object.getBoolean("is_listener");
+            if (isListener) {
+                addAllInputListeners(gameObject);
+            }
+
+        }
+    }
+
 }

@@ -4,6 +4,7 @@ import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Input.EInputType;
+import org.json.JSONObject;
 
 public class MovementController implements IScriptable {
 
@@ -112,5 +113,28 @@ public class MovementController implements IScriptable {
 
     public void setCanMoveY(boolean enableYMovement) {
         this.enableYMovement = enableYMovement;
+    }
+
+    @Override
+    public Class<?> attachedClass() {
+        return getClass();
+    }
+
+    @Override
+    public JSONObject serialize() {
+        JSONObject output = new JSONObject();
+        output.put("moveSpeed", moveSpeed);
+        output.put("jumpForce", jumpForce);
+        output.put("canMove", canMove);
+        output.put("enableYMovement", enableYMovement);
+        return output;
+    }
+
+    @Override
+    public void deserialize(JSONObject data) {
+        moveSpeed = data.getFloat("moveSpeed");
+        jumpForce = data.getFloat("jumpForce");
+        canMove = data.getBoolean("canMove");
+        enableYMovement = data.getBoolean("enableYMovement");
     }
 }

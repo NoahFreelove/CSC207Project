@@ -4,6 +4,7 @@ import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
 import com.project.engine.Core.Tuple;
 import com.project.engine.IO.ImageLoader;
+import org.json.JSONObject;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -13,8 +14,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SpriteRenderer extends RenderBase {
-    private final BufferedImage image;
+    private BufferedImage image = null;
     private final Map<String, BufferedImage> scaledImageCache = new HashMap<>();
+    private int width;
+    private int height;
+    private String imagePath = "";
+
+    public SpriteRenderer() {
+
+    }
 
     public SpriteRenderer(String spritePath) {
         this(spritePath, -1, -1);
@@ -22,9 +30,15 @@ public class SpriteRenderer extends RenderBase {
 
     public SpriteRenderer(String spritePath, int width, int height) {
         super();
+        setImage(spritePath, width, height);
+    }
+
+    public synchronized void setImage(String spritePath, int width, int height) {
         image = ImageLoader.loadImage(spritePath, width, height);
-        setWidth(image.getWidth());
-        setHeight(image.getHeight());
+        this.width = width;
+        this.height = height;
+        this.imagePath = spritePath;
+        scaledImageCache.clear();
     }
 
     private BufferedImage getTransformedImage(int width, int height, float rotation) {
@@ -51,7 +65,10 @@ public class SpriteRenderer extends RenderBase {
     }
 
     @Override
-    public void renderComponent(GameObject attached, Scene scene, Graphics2D g2d) {
+    public void render(GameObject attached, Scene scene, Graphics2D g2d) {
+        if (image == null)
+            return;
+
         Tuple<Double, Double> renderPosition = attached.getTransform().getPosition();
         Camera camera = scene.getCamera();
 
@@ -81,5 +98,19 @@ public class SpriteRenderer extends RenderBase {
 
         // Draw the image with the applied transformations
         g2d.drawImage(transformedImage, at, null);
+    }
+
+    @Override
+    public void deserialize(JSONObject data) {
+        setImage(data.getString("spritePath"), data.getInt("width"), data.getInt("height"));
+    }
+
+    @Override
+    public JSONObject serialize() {
+        JSONObject output = new JSONObject();
+        output.put("spritePath", imagePath);
+        output.put("width", width);
+        output.put("height", height);
+        return output;
     }
 }

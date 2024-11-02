@@ -6,6 +6,7 @@ import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.MovementController;
 import com.project.engine.Scripting.WindowStatsDebug;
+import com.project.engine.Serialization.SerializeManager;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -23,6 +24,8 @@ public class EngineMain {
         }
         while (!w.isReady()) {}
         w.setWindowSize(800, 800);
+        String serialized = "{\"scene_data\":{\"name\":\"Empty Scene\",\"scene_objects\":[{\"transform\":{\"rotation\":0,\"scale\":[1,1],\"position\":[336,300],\"zIndex\":1},\"renderables\":[{\"spritePath\":\"assets/penguin.jpeg\",\"width\":128,\"class\":\"com.project.engine.Rendering.SpriteRenderer\",\"height\":128}],\"is_listener\":true,\"scriptables\":[{\"canMove\":true,\"moveSpeed\":2,\"enableYMovement\":true,\"jumpForce\":10,\"class\":\"com.project.engine.Scripting.MovementController\"}],\"name\":\"GameObject\",\"tag\":\"Untagged\"}]}}\n";
+        w.setActiveScene(SerializeManager.deserialize(serialized));
 
         JLabel label = new JLabel("_-_-_-Hello, World!-_-_-_");
         label.setForeground(Color.decode("#b500b5"));
@@ -35,11 +38,12 @@ public class EngineMain {
         label.setHorizontalAlignment(SwingConstants.CENTER);
         w.addUIElement(label);
 
-        GameObject o = getTestObject();
-        w.getActiveScene().addSceneObject(o, true);
+        //GameObject o = getTestObject();
+        //w.getActiveScene().addSceneObject(o, true);
+        //System.out.println(SerializeManager.serialize(w.getActiveScene()));
 
         // Remove this comment to run the stress test
-        measureAndRemoveObjects(w);
+        //measureAndRemoveObjects(w);
     }
 
     /**

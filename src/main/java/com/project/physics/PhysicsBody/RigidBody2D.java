@@ -2,6 +2,7 @@ package com.project.physics.PhysicsBody;
 
 import com.project.engine.Core.GameObject;
 import com.project.engine.Scripting.IScriptable;
+import org.json.JSONObject;
 
 /**
  * A rigid body for a game object.
@@ -43,5 +44,20 @@ public class RigidBody2D implements IScriptable {
     public void update(GameObject parent, double deltaTime) {
         
         parent.getTransform().translate(currForceX * deltaTime, currForceY * deltaTime);
+    }
+
+    @Override
+    public Class<?> attachedClass() {
+        return getClass();
+    }
+
+    @Override
+    public void deserialize(JSONObject data) {
+        throw new RuntimeException(new Exception("Not Implemented"));
+    }
+
+    @Override
+    public JSONObject serialize() {
+        throw new RuntimeException(new Exception("Not Implemented"));
     }
 }

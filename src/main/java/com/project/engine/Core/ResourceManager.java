@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 public class ResourceManager {
     private static final HashMap<String, BufferedImage> loadedImages = new HashMap<>();
+    private static final HashMap<String, String> loadedText = new HashMap<>();
     private static final BufferedImage nullTexture = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
 
     // static blocks are so cool it's a shame they're not taught in most courses...
@@ -49,4 +50,6 @@ public class ResourceManager {
         }
         return new Tuple<>(result, true);
     }
+
+
 }
