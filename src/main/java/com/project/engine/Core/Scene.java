@@ -306,6 +306,7 @@ public class Scene implements ISerializable {
             scene_objects.put(object);
         }
         output.put("scene_objects", scene_objects);
+
         return output;
     }
 

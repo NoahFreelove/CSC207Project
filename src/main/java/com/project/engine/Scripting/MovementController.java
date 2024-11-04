@@ -38,6 +38,9 @@ public class MovementController implements IScriptable {
         if (win == null) {
             return;
         }
+
+        System.out.println(win.FPS());
+
         double actualSpeed = moveSpeed * deltaTime * 300;
 
         if (enableYMovement) {
@@ -113,11 +116,6 @@ public class MovementController implements IScriptable {
 
     public void setCanMoveY(boolean enableYMovement) {
         this.enableYMovement = enableYMovement;
-    }
-
-    @Override
-    public Class<?> attachedClass() {
-        return getClass();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.project.engine.IO;
 
-import com.project.engine.Core.ResourceManager;
 import com.project.engine.Core.Tuple;
 
 import java.awt.image.BufferedImage;

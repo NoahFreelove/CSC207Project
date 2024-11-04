@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.Scene;
 import com.project.engine.Rendering.GamePanel;
+import com.project.engine.UI.GameUIPanel;
 
 import static com.project.engine.Core.Window.Input.*;
 
@@ -17,7 +18,7 @@ public final class GameWindow {
 
     // region UI and Scaling
     private JLayeredPane layeredPane;
-    private JPanel uiRoot;
+    private GameUIPanel uiRoot = new GameUIPanel();
     private GamePanel gamePanel;
     private final Map<Component, Rectangle> originalBoundsMap = new HashMap<>();
     private final Map<Component, Float> originalFontSizeMap = new HashMap<>();
@@ -87,10 +88,9 @@ public final class GameWindow {
         layeredPane.add(gamePanel, JLayeredPane.DEFAULT_LAYER); // Game layer
 
         // UI Root Panel
-        uiRoot = new JPanel();
+        uiRoot = new GameUIPanel(0, 0, width, height);
         uiRoot.setOpaque(false);
         uiRoot.setLayout(null); // Set layout to null, so we can just absolute position everything
-        uiRoot.setBounds(0, 0, width, height);
         layeredPane.add(uiRoot, JLayeredPane.PALETTE_LAYER); // UI layer
 
         addKeyboardListeners(window, () -> activeScene, keys);
@@ -244,6 +244,7 @@ public final class GameWindow {
         }
         unloadActiveScene();
         this.activeScene = activeScene;
+        uiRoot.removeAll();
         Engine.getInstance().start(activeScene);
     }
 

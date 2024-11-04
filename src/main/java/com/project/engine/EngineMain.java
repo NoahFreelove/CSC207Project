@@ -3,10 +3,15 @@ package com.project.engine;
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Window.GameWindow;
+import com.project.engine.IO.FileIO;
+import com.project.engine.Rendering.GamePanel;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.MovementController;
 import com.project.engine.Scripting.WindowStatsDebug;
 import com.project.engine.Serialization.SerializeManager;
+import com.project.engine.UI.GameUI;
+import com.project.engine.UI.GameUILabel;
+import com.project.engine.UI.GameUIPanel;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -24,23 +29,27 @@ public class EngineMain {
         }
         while (!w.isReady()) {}
         w.setWindowSize(800, 800);
-        String serialized = "{\"scene_data\":{\"name\":\"Empty Scene\",\"scene_objects\":[{\"transform\":{\"rotation\":0,\"scale\":[1,1],\"position\":[336,300],\"zIndex\":1},\"renderables\":[{\"spritePath\":\"assets/penguin.jpeg\",\"width\":128,\"class\":\"com.project.engine.Rendering.SpriteRenderer\",\"height\":128}],\"is_listener\":true,\"scriptables\":[{\"canMove\":true,\"moveSpeed\":2,\"enableYMovement\":true,\"jumpForce\":10,\"class\":\"com.project.engine.Scripting.MovementController\"}],\"name\":\"GameObject\",\"tag\":\"Untagged\"}]}}\n";
+        String serialized = FileIO.ReadText("tmp/serialized_scene.json");
         w.setActiveScene(SerializeManager.deserialize(serialized));
 
-        JLabel label = new JLabel("_-_-_-Hello, World!-_-_-_");
-        label.setForeground(Color.decode("#b500b5"));
-        label.setFont(label.getFont().deriveFont(64.0f));
-        // set background
-        label.setOpaque(true);
-        label.setBackground(Color.decode("#00ff00"));
-        label.setBounds(0, 200, 800, 100); // Set bounds for absolute positioning
-        // align center
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        w.addUIElement(label);
+
+        GameUIPanel panel = new GameUIPanel(350,750, 50, 50);
+
+        panel.setBackground(Color.ORANGE);
+
+        w.addUIElement(panel);
+
+        GameUILabel label1 = new GameUILabel("Hello, World!", 0, 200, 800, 100);
+        label1.setForeground(Color.decode("#b500b5"));
+        label1.setFont(label1.getFont().deriveFont(64.0f));
+        label1.setBackground(Color.decode("#00ff00"));
+        label1.setHorizontalAlignment(SwingConstants.CENTER);
+        w.addUIElement(label1);
+
 
         //GameObject o = getTestObject();
         //w.getActiveScene().addSceneObject(o, true);
-        //System.out.println(SerializeManager.serialize(w.getActiveScene()));
+        //FileIO.WriteText("/tmp/serialized_scene.json", SerializeManager.serialize(w.getActiveScene()).toString(4));
 
         // Remove this comment to run the stress test
         //measureAndRemoveObjects(w);
