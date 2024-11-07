@@ -20,6 +20,8 @@ public class SpriteRenderer extends RenderBase {
     private int height;
     private String imagePath = "";
 
+    private boolean independentOfCamera = false;
+
     public SpriteRenderer() {
 
     }
@@ -80,8 +82,13 @@ public class SpriteRenderer extends RenderBase {
         int imageWidth = (int) (Math.abs(scaleX) * image.getWidth());
         int imageHeight = (int) (Math.abs(scaleY) * image.getHeight());
 
-        int finalX = (int) ((renderPosition.getFirst() - camera.getCameraX() + camera.getOffsetX()));
-        int finalY = (int) ((renderPosition.getSecond() - camera.getCameraY() + camera.getOffsetY()));
+        int finalX = renderPosition.getFirst().intValue();
+        int finalY = renderPosition.getSecond().intValue();
+
+        if (!independentOfCamera) {
+            finalX = (int) ((renderPosition.getFirst() - camera.getCameraX() + camera.getOffsetX()));
+            finalY = (int) ((renderPosition.getSecond() - camera.getCameraY() + camera.getOffsetY()));
+        }
 
         // Get the transformed image (scaled and rotated)
         BufferedImage transformedImage = getTransformedImage(imageWidth, imageHeight, rotation);
@@ -112,5 +119,13 @@ public class SpriteRenderer extends RenderBase {
         output.put("width", width);
         output.put("height", height);
         return output;
+    }
+
+    public boolean isIndependentOfCamera() {
+        return independentOfCamera;
+    }
+
+    public void setIndependentOfCamera(boolean independentOfCamera) {
+        this.independentOfCamera = independentOfCamera;
     }
 }

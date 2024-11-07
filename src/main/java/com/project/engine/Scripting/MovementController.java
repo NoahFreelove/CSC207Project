@@ -48,8 +48,6 @@ public class MovementController implements IScriptable {
             parent.getScriptable(RigidBody2D.class).grounded = false;
         }
 
-        //System.out.println(win.FPS());
-
         double actualSpeed = moveSpeed * deltaTime * 300;
 
         if (win.isKeyPressed("A") || win.isKeyPressed("LEFT")) {
@@ -64,7 +62,7 @@ public class MovementController implements IScriptable {
             move(parent, actualSpeed, 0);
         }
 
-        if (win.isKeyPressed("SPACE")) {
+        if (win.isKeyPressed("SPACE") || win.isKeyPressed("W")) {
             jump(parent);
         }
     }

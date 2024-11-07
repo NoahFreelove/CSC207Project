@@ -32,7 +32,7 @@ public final class GameWindow {
     private String name;
     private Thread windowThread = null;
     private JFrame window;
-    private final AtomicBoolean shouldClose = new AtomicBoolean(false);
+    private volatile boolean shouldClose = false;
     private AtomicBoolean ready = new AtomicBoolean(false);
     private volatile Scene activeScene;
     // endregion
@@ -108,7 +108,7 @@ public final class GameWindow {
 
 
     public void gameLoop() {
-        while (!shouldClose.get()) {
+        while (!shouldClose) {
             if (activeScene == null) {
                 continue;
             }
@@ -118,8 +118,12 @@ public final class GameWindow {
             lastUpdate = now;
 
             if (delta >= desiredDelta) {
-                gamePanel.repaint(); // Schedule a repaint of the game panel
+                if (delta > 0.009000001) {
+                    System.out.println(delta);
+                }
                 Engine.getInstance().update(activeScene, delta);
+
+                gamePanel.repaint(); // Schedule a repaint of the game panel
                 delta = 0;
                 actualFPS = 1000.0f / (System.currentTimeMillis() - lastFrame);
                 lastFrame = System.currentTimeMillis();
@@ -197,7 +201,7 @@ public final class GameWindow {
 
     public void closeWindow() {
         unloadActiveScene();
-        shouldClose.set(true);
+        shouldClose = true;
     }
 
     public void setName(String newName) {
