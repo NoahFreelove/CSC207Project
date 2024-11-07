@@ -13,22 +13,19 @@ import org.json.JSONObject;
  * Please DO NOT edit any of the math in this class without consulting Theran.
  */
 public class RigidBody2D implements IScriptable {
-    private boolean gravityEnabled;
-    private boolean airFrictionEnabled;
-    private boolean groundFrictionEnabled;
-
-    private boolean grounded;
-    private boolean isGround;
+    public RigidBodyAttribs attribs = new RigidBodyAttribs();
 
     private double currForceX;
     private double currForceY;
 
-    public void useGravity(boolean gravityOn) {
-        this.gravityEnabled = gravityOn;
-    }
+    private double velocityX;
+    private double velocityY;
 
-    public void checkGrounded() {
+    public boolean grounded = false;
+
+    public boolean checkGrounded() {
         // Requires collision, coming soon.
+        return grounded;
     }
 
     /**
@@ -37,13 +34,48 @@ public class RigidBody2D implements IScriptable {
      * @param forceY Force in Y direction
      */
     public void addForce(double forceX, double forceY) {
-        currForceX += forceX;
-        currForceY += forceY;
+        currForceX = forceX;
+        currForceY = forceY;
     }
 
     public void update(GameObject parent, double deltaTime) {
-        
-        parent.getTransform().translate(currForceX * deltaTime, currForceY * deltaTime);
+        double friction = 0f;
+
+        if(attribs.gravityEnabled && !checkGrounded()) {
+            currForceY += attribs.gravityForce;
+            if (velocityY > 0) {
+                currForceY *= attribs.fallMultiplier;
+            }
+            else if (velocityY < 0) {
+                currForceY = currForceY * attribs.fallMultiplier;
+            }
+        }
+        else if (checkGrounded()) {
+            velocityY = Math.min(0, velocityY);
+        }
+
+        if (checkGrounded() && attribs.groundFrictionEnabled) {
+            if (Math.abs(velocityX) > 0.5) {
+                friction = attribs.groundFrictionCoefficient * attribs.mass * attribs.gravityForce;
+                if (velocityX < 0) {
+                    friction = -friction;
+                }
+            }
+            else {
+                friction = 0;
+            }
+        }
+
+        velocityX += (currForceX - friction) / attribs.mass * deltaTime;
+
+        System.out.println(currForceX);
+
+        velocityY += currForceY / attribs.mass * deltaTime;
+
+        parent.getTransform().translate(velocityX * deltaTime, velocityY * deltaTime);
+
+        currForceX = 0;
+        currForceY = 0;
     }
 
     @Override

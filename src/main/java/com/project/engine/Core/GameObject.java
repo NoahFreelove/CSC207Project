@@ -150,6 +150,16 @@ public final class GameObject implements ISerializable {
     public Iterator<IRenderable> getRenderables() {
         return renderables.iterator();
     }
+
+    public <T extends IScriptable> T getScriptable(Class<T> objClass) {
+        for (IScriptable scriptable : scriptables) {
+            if (objClass.isInstance(scriptable)) {
+                return (T) scriptable;
+            }
+        }
+
+        return null;
+    }
     // endregion
 
     // region Adders & Removers

@@ -4,6 +4,7 @@ import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Input.EInputType;
+import com.project.physics.PhysicsBody.RigidBody2D;
 import org.json.JSONObject;
 
 public class MovementController implements IScriptable {
@@ -39,23 +40,17 @@ public class MovementController implements IScriptable {
             return;
         }
 
-        System.out.println(win.FPS());
+        if (parent.getTransform().getPositionY() >= 500) {
+            parent.getTransform().setPositionY(500);
+            parent.getScriptable(RigidBody2D.class).grounded = true;
+        }
+        else{
+            parent.getScriptable(RigidBody2D.class).grounded = false;
+        }
+
+        //System.out.println(win.FPS());
 
         double actualSpeed = moveSpeed * deltaTime * 300;
-
-        if (enableYMovement) {
-            if (win.isKeyPressed("W") || win.isKeyPressed("UP")) {
-                parent.getTransform().faceRight();
-                parent.getTransform().setRotation(270);
-                move(parent, 0, -actualSpeed);
-            }
-
-            if (win.isKeyPressed("S") || win.isKeyPressed("DOWN")) {
-                parent.getTransform().faceRight();
-                parent.getTransform().setRotation(90);
-                move(parent, 0, actualSpeed);
-            }
-        }
 
         if (win.isKeyPressed("A") || win.isKeyPressed("LEFT")) {
             parent.getTransform().faceLeft();
@@ -70,7 +65,7 @@ public class MovementController implements IScriptable {
         }
 
         if (win.isKeyPressed("SPACE")) {
-            jump();
+            jump(parent);
         }
     }
 
@@ -79,10 +74,13 @@ public class MovementController implements IScriptable {
             return;
         }
 
-        ref.getTransform().translate(xDelta, yDelta);
+        ref.getScriptable(RigidBody2D.class).addForce(xDelta*500, yDelta*200);
     }
 
-    private void jump() {
+    private void jump(GameObject ref) {
+        if(ref.getScriptable(RigidBody2D.class).grounded){
+            move(ref, 0, -1500);
+        }
 
     }
 

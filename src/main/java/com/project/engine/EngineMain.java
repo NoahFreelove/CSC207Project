@@ -12,6 +12,7 @@ import com.project.engine.Serialization.SerializeManager;
 import com.project.engine.UI.GameUI;
 import com.project.engine.UI.GameUILabel;
 import com.project.engine.UI.GameUIPanel;
+import com.project.physics.PhysicsBody.RigidBody2D;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -29,8 +30,8 @@ public class EngineMain {
         }
         while (!w.isReady()) {}
         w.setWindowSize(800, 800);
-        String serialized = FileIO.ReadText("tmp/serialized_scene.json");
-        w.setActiveScene(SerializeManager.deserialize(serialized));
+        //String serialized = FileIO.ReadText("tmp/serialized_scene.json");
+        //w.setActiveScene(SerializeManager.deserialize(serialized));
 
 
         GameUIPanel panel = new GameUIPanel(350,750, 50, 50);
@@ -47,9 +48,9 @@ public class EngineMain {
         w.addUIElement(label1);
 
 
-        //GameObject o = getTestObject();
-        //w.getActiveScene().addSceneObject(o, true);
-        //FileIO.WriteText("/tmp/serialized_scene.json", SerializeManager.serialize(w.getActiveScene()).toString(4));
+        GameObject o = getTestObject();
+        w.getActiveScene().addSceneObject(o, true);
+        FileIO.WriteText("/tmp/serialized_scene.json", SerializeManager.serialize(w.getActiveScene()).toString(4));
 
         // Remove this comment to run the stress test
         //measureAndRemoveObjects(w);
@@ -65,6 +66,7 @@ public class EngineMain {
         o.getTransform().setPosition(336,300);
         o.getTransform().setZIndex(1);
         o.addBehavior(new MovementController());
+        o.addBehavior(new RigidBody2D());
         o.addBehavior(new WindowStatsDebug());
         o.addRenderable(sr);
         return o;
