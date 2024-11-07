@@ -62,7 +62,7 @@ public class EngineMain {
      */
     private static @NotNull GameObject getTestObject() {
         GameObject o = new GameObject();
-        SpriteRenderer sr = new SpriteRenderer("assets/penguin.jpeg", 128,128);
+        SpriteRenderer sr = new SpriteRenderer("assets/CSC207_asset_char_right.png", 128,128);
         o.getTransform().setPosition(336,300);
         o.getTransform().setZIndex(1);
         o.addBehavior(new MovementController());

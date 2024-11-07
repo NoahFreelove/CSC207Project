@@ -15,8 +15,8 @@ public class RigidBodyAttribs {
 
     public float gravityForce = 350f;
     public float fallMultiplier = 13f;
-    public double maxForceX = 1000;
-    public double maxForceY = 1000;
+    public double maxVelocityX = 200;
+    public double maxVelocityY = 2000;
 
     public double groundFrictionCoefficient = 0.73f;
     public double mass = 6;
