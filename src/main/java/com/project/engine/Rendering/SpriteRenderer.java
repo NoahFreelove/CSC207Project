@@ -77,24 +77,21 @@ public class SpriteRenderer extends RenderBase {
         float rotation = attached.getTransform().getRotation();
 
         // Use absolute values for dimensions
-        int imageWidth = (int) (Math.abs(scaleX) * image.getWidth());
-        int imageHeight = (int) (Math.abs(scaleY) * image.getHeight());
+        int imageWidth = (int) (scaleX * image.getWidth());
+        int imageHeight = (int) (scaleY * image.getHeight());
 
         int finalX = (int) ((renderPosition.getFirst() - camera.getCameraX() + camera.getOffsetX()));
         int finalY = (int) ((renderPosition.getSecond() - camera.getCameraY() + camera.getOffsetY()));
 
         // Get the transformed image (scaled and rotated)
-        BufferedImage transformedImage = getTransformedImage(imageWidth, imageHeight, rotation);
+        BufferedImage transformedImage = getTransformedImage(Math.abs(imageWidth), Math.abs(imageHeight), rotation);
 
         AffineTransform at = new AffineTransform();
-        at.translate(finalX, finalY);
+        at.scale(Math.signum(scaleX),Math.signum(scaleY));
+        at.translate(Math.signum(scaleX)*finalX + Boolean.compare(scaleX < 0, false) * imageWidth * 0.75,
+                Math.signum(scaleY)*finalY  + Boolean.compare(scaleY < 0, false) * imageHeight * 0.75);
 
         // Apply flipping if scaleX or scaleY is negative
-        if (scaleX < 0 || scaleY < 0) {
-            at.translate(imageWidth / 2.0, imageHeight / 2.0);
-            at.scale(scaleX < 0 ? -1 : 1, scaleY < 0 ? -1 : 1);
-            at.translate(-imageWidth / 2.0, -imageHeight / 2.0);
-        }
 
         // Draw the image with the applied transformations
         g2d.drawImage(transformedImage, at, null);

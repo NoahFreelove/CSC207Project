@@ -57,7 +57,7 @@ public class Transform implements IScriptable, ISerializable {
      * NOTE: This is relative to default orientation.
      */
     public void faceUp() {
-        if (staged_scale.getSecond() > 0) {
+        if (staged_scale.getSecond() < 0) {
             staged_scale.setSecond(staged_scale.getSecond() * -1);
         }
     }
@@ -66,7 +66,7 @@ public class Transform implements IScriptable, ISerializable {
      * NOTE: This is relative to default orientation.
      */
     public void faceDown() {
-        if (staged_scale.getFirst() < 0) {
+        if (staged_scale.getFirst() > 0) {
             staged_scale.setFirst(staged_scale.getFirst() * -1);
         }
     }

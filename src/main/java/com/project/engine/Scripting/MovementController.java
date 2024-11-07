@@ -53,12 +53,14 @@ public class MovementController implements IScriptable {
         double actualSpeed = moveSpeed * deltaTime * 300;
 
         if (win.isKeyPressed("A") || win.isKeyPressed("LEFT")) {
+            parent.getTransform().setScaleX(2);
             parent.getTransform().faceLeft();
             parent.getTransform().setRotation(0);
             move(parent, -actualSpeed, 0);
         }
 
         if (win.isKeyPressed("D") || win.isKeyPressed("RIGHT")) {
+            parent.getTransform().setScaleX(1);
             parent.getTransform().faceRight();
             parent.getTransform().setRotation(0);
             move(parent, actualSpeed, 0);
