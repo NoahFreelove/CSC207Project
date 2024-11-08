@@ -8,16 +8,16 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Transform implements IScriptable, ISerializable {
-    private Tuple<Double, Double> position;
-    private Tuple<Double, Double> scale;
+    private Tuple<Double, Double> position, scale;
+    private Tuple<Integer, Integer> dimensions = new Tuple<>(1, 1);
     private float z_index = 0;
 
     // Swing deals with rectangles so watch out for cropping
     private float rotation = 0;
 
     // Check the update method for the rationale on the existence of these variables
-    private Tuple<Double, Double> staged_position;
-    private Tuple<Double, Double> staged_scale;
+    private Tuple<Double, Double> staged_position, staged_scale;
+    private Tuple<Integer, Integer> staged_dimensions = new Tuple<>(1, 1);;
     private float staged_rotation;
 
     public Transform(GameObject parent, Tuple<Double, Double> position){
@@ -29,9 +29,9 @@ public class Transform implements IScriptable, ISerializable {
         this.rotation = 0;
         this.scale = new Tuple<>(1.0, 1.0);
 
-        this.staged_position = this.position;
-        this.staged_scale = this.scale;
-        this.staged_rotation = this.rotation;
+        this.staged_position = new Tuple<>(0.0, 0.0);
+        this.staged_scale =  new Tuple<>(1.0, 1.0);
+        this.staged_rotation = 0;
     }
 
 
@@ -72,8 +72,8 @@ public class Transform implements IScriptable, ISerializable {
     }
 
     public void translate(Double x, Double y){
-        setPositionX(this.position.getFirst() + x);
-        setPositionY(this.position.getSecond() + y);
+        setPositionX(this.staged_position.getFirst() + x);
+        setPositionY(this.staged_position.getSecond() + y);
     }
 
     public void setPositionX(double x){
@@ -105,12 +105,25 @@ public class Transform implements IScriptable, ISerializable {
         this.staged_scale = scale;
     }
 
+    public void setWidth(int w) {
+        staged_dimensions.setFirst(w);
+    }
+
+    public void setHeight(int h) {
+        staged_dimensions.setSecond(h);
+    }
+
+    public void setDimensions(Tuple<Integer, Integer> dimension){
+        this.staged_dimensions = dimension;
+    }
+
     /**
      * Sets rotation in degrees.
      */
     public void setRotation(float angle){
         this.staged_rotation = angle;
     }
+
 
     public Double getPositionX() {
         return position.getFirst();
@@ -134,6 +147,14 @@ public class Transform implements IScriptable, ISerializable {
 
     public Tuple<Double, Double> getScale(boolean mutable) {
         return mutable ? staged_scale : new Tuple<>(scale.getFirst(), scale.getSecond());
+    }
+
+    public int getWidth() {
+        return (int)(dimensions.getFirst() * scale.getFirst());
+    }
+
+    public int getHeight() {
+        return (int)(dimensions.getSecond() * scale.getSecond());
     }
 
     public float getRotation() {
@@ -161,8 +182,10 @@ public class Transform implements IScriptable, ISerializable {
      */
     @Override
     public void update(GameObject parent, double dt) {
-        position = staged_position;
+        this.position = this.staged_position;
+
         scale = staged_scale;
+        dimensions = staged_dimensions;
         rotation = staged_rotation;
     }
 
@@ -200,6 +223,5 @@ public class Transform implements IScriptable, ISerializable {
         this.staged_position.setSecond(position.getSecond());
         this.staged_scale.setFirst(scale.getFirst());
         this.staged_scale.setSecond(scale.getSecond());
-
     }
 }

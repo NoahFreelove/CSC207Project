@@ -4,12 +4,9 @@ import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.IO.FileIO;
-import com.project.engine.Rendering.GamePanel;
 import com.project.engine.Rendering.SpriteRenderer;
-import com.project.engine.Scripting.MovementController;
-import com.project.engine.Scripting.WindowStatsDebug;
+import com.project.engine.Scripting.*;
 import com.project.engine.Serialization.SerializeManager;
-import com.project.engine.UI.GameUI;
 import com.project.engine.UI.GameUILabel;
 import com.project.engine.UI.GameUIPanel;
 import com.project.physics.PhysicsBody.RigidBody2D;
@@ -50,6 +47,12 @@ public class EngineMain {
 
         GameObject o = getTestObject();
         w.getActiveScene().addSceneObject(o, true);
+
+        GameObject o2 = getStaticObject();
+        w.getActiveScene().addSceneObject(o2, true);
+
+        GameObject o3 = getStaticObject2();
+        w.getActiveScene().addSceneObject(o3, true);
         FileIO.WriteText("/tmp/serialized_scene.json", SerializeManager.serialize(w.getActiveScene()).toString(4));
 
         // Remove this comment to run the stress test
@@ -67,7 +70,33 @@ public class EngineMain {
         o.getTransform().setZIndex(1);
         o.addBehavior(new MovementController());
         o.addBehavior(new RigidBody2D());
+        o.addBehavior(new SimpleCollider(0, 0, 1, 1));
+        o.addBehavior(new GroundTrigger(6.4, 115.3, 0.9, 0.1));
         o.addBehavior(new WindowStatsDebug());
+        o.addRenderable(sr);
+        return o;
+    }
+
+    private static @NotNull GameObject getStaticObject() {
+        GameObject o = new GameObject();
+        SpriteRenderer sr = new SpriteRenderer("assets/CSC207_asset_ground_brick.png", 128,128);
+        o.getTransform().setPosition(450,550);
+        o.getTransform().setScaleX(2);
+        o.getTransform().setZIndex(1);
+        o.addBehavior(new SimpleTrigger());
+        o.addRenderable(sr);
+        return o;
+    }
+
+    private static @NotNull GameObject getStaticObject2() {
+        GameObject o = new GameObject();
+        o.setTag("ground");
+        SpriteRenderer sr = new SpriteRenderer("assets/CSC207_asset_ground_brick.png", 128,128);
+        o.getTransform().setPosition(200,550);
+        o.getTransform().setScaleX(2);
+        o.getTransform().setZIndex(1);
+        o.addBehavior(new SimpleCollider());
+        o.addBehavior(new GroundStats(0.5));
         o.addRenderable(sr);
         return o;
     }

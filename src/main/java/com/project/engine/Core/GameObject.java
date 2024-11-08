@@ -5,8 +5,10 @@ import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.project.engine.Rendering.IRenderable;
+import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Serialization.ISerializable;
+import com.project.physics.Collision.CollisionVolume;
 import com.project.physics.PhysicsBody.Transform;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,7 +50,6 @@ public final class GameObject implements ISerializable {
      * Realistically, you should only have one renderable per GameObject. But, you can have more if you want.
      */
     private final ArrayList<IRenderable> renderables = new ArrayList<>();
-
     // endregion
 
     // region Variety of Constructors
@@ -146,9 +147,20 @@ public final class GameObject implements ISerializable {
     public Iterator<IScriptable> getScriptables() {
         return scriptables.iterator();
     }
-
     public Iterator<IRenderable> getRenderables() {
         return renderables.iterator();
+    }
+
+
+    public Iterator<CollisionVolume> getCollidables() {
+        ArrayList<CollisionVolume> collidables = new ArrayList<>();
+        for (IScriptable scriptable : scriptables) {
+            if (CollisionVolume.class.isInstance(scriptable)) {
+                 collidables.add((CollisionVolume) scriptable);
+            }
+        }
+
+        return collidables.iterator();
     }
 
     public <T extends IScriptable> T getScriptable(Class<T> objClass) {
@@ -189,6 +201,9 @@ public final class GameObject implements ISerializable {
     public synchronized boolean addRenderable(IRenderable renderable){
         if (renderables.contains(renderable))
             return false;
+        if (renderable instanceof SpriteRenderer) {
+            getTransform().setDimensions(((SpriteRenderer)renderable).getImageSize());
+        }
         return renderables.add(renderable);
     }
 

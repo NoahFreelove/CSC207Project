@@ -16,8 +16,6 @@ import java.util.Map;
 public class SpriteRenderer extends RenderBase {
     private BufferedImage image = null;
     private final Map<String, BufferedImage> scaledImageCache = new HashMap<>();
-    private int width;
-    private int height;
     private String imagePath = "";
 
     public SpriteRenderer() {
@@ -35,10 +33,12 @@ public class SpriteRenderer extends RenderBase {
 
     public synchronized void setImage(String spritePath, int width, int height) {
         image = ImageLoader.loadImage(spritePath, width, height);
-        this.width = width;
-        this.height = height;
         this.imagePath = spritePath;
         scaledImageCache.clear();
+    }
+
+    public Tuple<Integer, Integer> getImageSize() {
+        return new Tuple<>(image.getWidth(), image.getHeight());
     }
 
     private BufferedImage getTransformedImage(int width, int height, float rotation) {
@@ -77,8 +77,8 @@ public class SpriteRenderer extends RenderBase {
         float rotation = attached.getTransform().getRotation();
 
         // Use absolute values for dimensions
-        int imageWidth = (int) (scaleX * image.getWidth());
-        int imageHeight = (int) (scaleY * image.getHeight());
+        int imageWidth = attached.getTransform().getWidth();
+        int imageHeight = attached.getTransform().getHeight();
 
         int finalX = (int) ((renderPosition.getFirst() - camera.getCameraX() + camera.getOffsetX()));
         int finalY = (int) ((renderPosition.getSecond() - camera.getCameraY() + camera.getOffsetY()));
@@ -88,8 +88,8 @@ public class SpriteRenderer extends RenderBase {
 
         AffineTransform at = new AffineTransform();
         at.scale(Math.signum(scaleX),Math.signum(scaleY));
-        at.translate(Math.signum(scaleX)*finalX + Boolean.compare(scaleX < 0, false) * imageWidth * 0.75,
-                Math.signum(scaleY)*finalY  + Boolean.compare(scaleY < 0, false) * imageHeight * 0.75);
+        at.translate(Math.signum(scaleX)*finalX + Boolean.compare(scaleX < 0, false) * imageWidth,
+                Math.signum(scaleY)*finalY  + Boolean.compare(scaleY < 0, false) * imageHeight);
 
         // Apply flipping if scaleX or scaleY is negative
 
@@ -106,8 +106,6 @@ public class SpriteRenderer extends RenderBase {
     public JSONObject serialize() {
         JSONObject output = new JSONObject();
         output.put("spritePath", imagePath);
-        output.put("width", width);
-        output.put("height", height);
         return output;
     }
 }

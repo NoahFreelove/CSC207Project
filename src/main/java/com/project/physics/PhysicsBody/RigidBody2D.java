@@ -21,13 +21,6 @@ public class RigidBody2D implements IScriptable {
     private double velocityX;
     private double velocityY;
 
-    public boolean grounded = false;
-
-    public boolean checkGrounded() {
-        // Requires collision, coming soon.
-        return grounded;
-    }
-
     /**
      * Make sure you know what you are doing when you call this explicitly.
      * @param forceX Force in X direction
@@ -38,10 +31,28 @@ public class RigidBody2D implements IScriptable {
         currForceY = forceY;
     }
 
+    public double getVelocityX() {
+        return velocityX;
+    }
+
+    public double getVelocityY() {
+        return velocityY;
+    }
+
+    public void resetX() {
+        currForceX = 0;
+        velocityX = 0;
+    }
+
+    public void resetY() {
+        currForceY = 0;
+        velocityY = 0;
+    }
+
     public void update(GameObject parent, double deltaTime) {
         double friction = 0f;
 
-        if(attribs.gravityEnabled && !checkGrounded()) {
+        if(attribs.gravityEnabled && !attribs.grounded) {
             currForceY += attribs.gravityForce;
             if (velocityY > 0) {
                 currForceY *= attribs.fallMultiplier;
@@ -50,11 +61,11 @@ public class RigidBody2D implements IScriptable {
                 currForceY = currForceY * attribs.fallMultiplier;
             }
         }
-        else if (checkGrounded()) {
+        else if (attribs.grounded) {
             velocityY = Math.min(0, velocityY);
         }
 
-        if (checkGrounded() && attribs.groundFrictionEnabled) {
+        if (attribs.grounded && attribs.groundFrictionEnabled) {
             if (Math.abs(velocityX) > 0.5) {
                 friction = attribs.groundFrictionCoefficient * attribs.mass * attribs.gravityForce;
                 if (velocityX < 0) {

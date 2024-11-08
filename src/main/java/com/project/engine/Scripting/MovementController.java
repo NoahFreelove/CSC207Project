@@ -40,27 +40,17 @@ public class MovementController implements IScriptable {
             return;
         }
 
-        if (parent.getTransform().getPositionY() >= 500) {
-            parent.getTransform().setPositionY(500);
-            parent.getScriptable(RigidBody2D.class).grounded = true;
-        }
-        else{
-            parent.getScriptable(RigidBody2D.class).grounded = false;
-        }
-
         //System.out.println(win.FPS());
 
         double actualSpeed = moveSpeed * deltaTime * 300;
 
         if (win.isKeyPressed("A") || win.isKeyPressed("LEFT")) {
-            parent.getTransform().setScaleX(2);
             parent.getTransform().faceLeft();
             parent.getTransform().setRotation(0);
             move(parent, -actualSpeed, 0);
         }
 
         if (win.isKeyPressed("D") || win.isKeyPressed("RIGHT")) {
-            parent.getTransform().setScaleX(1);
             parent.getTransform().faceRight();
             parent.getTransform().setRotation(0);
             move(parent, actualSpeed, 0);
@@ -80,7 +70,8 @@ public class MovementController implements IScriptable {
     }
 
     private void jump(GameObject ref) {
-        if(ref.getScriptable(RigidBody2D.class).grounded){
+        if(ref.getScriptable(RigidBody2D.class).attribs.grounded){
+            ref.getScriptable(RigidBody2D.class).attribs.grounded = false;
             move(ref, 0, -1500);
         }
 

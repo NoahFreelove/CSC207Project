@@ -6,12 +6,15 @@ public class RigidBodyAttribs {
      * These can be overridden if required but they are
      * good benchmarks for what 'feels good' for movement.
      */
+    public boolean grounded = false;
     public boolean gravityEnabled = true;
-    boolean airFrictionEnabled;
-    boolean groundFrictionEnabled = true;
+    public boolean groundFrictionEnabled = true;
 
-    private boolean grounded;
-    private boolean isGround;
+    /**
+     * This flag is essential for objects which should not move.
+     * This flag ensures that the game object does not move when collided with.
+     */
+    public boolean isStatic = false;
 
     public float gravityForce = 350f;
     public float fallMultiplier = 13f;

@@ -5,6 +5,7 @@ import com.project.engine.Rendering.Camera;
 import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Serialization.ISerializable;
+import com.project.physics.Collision.CollisionManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,7 +16,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Scene implements ISerializable {
 
     private final String name;
-
+    private final CollisionManager collisionManager = new CollisionManager();
     private final CopyOnWriteArrayList<GameObject> sceneObjects = new CopyOnWriteArrayList<>();
 
     private final CopyOnWriteArrayList<Tuple<GameObject, IScriptable>> inputListeners = new CopyOnWriteArrayList<>();
@@ -249,6 +250,8 @@ public class Scene implements ISerializable {
     }
 
     public void update(double deltaTime){
+        collisionManager.update(sceneObjects);
+
         for (GameObject object : sceneObjects){
             Iterator<IScriptable> scripts = object.getScriptables();
             while (scripts.hasNext()){
