@@ -2,13 +2,15 @@ package com.project.engine.Core.Window;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.Scene;
+import com.project.engine.Core.Tuple;
 import com.project.engine.Rendering.GamePanel;
 import com.project.engine.UI.GameUIPanel;
 
@@ -29,12 +31,20 @@ public final class GameWindow {
     // region Window
     private int initialWidth;
     private int initialHeight;
+
+    private int targetWidth;
+    private int targetHeight;
+
+    private int actualWidth;
+    private int actualHeight;
+
     private String name;
     private Thread windowThread = null;
     private JFrame window;
     private volatile boolean shouldClose = false;
     private AtomicBoolean ready = new AtomicBoolean(false);
     private volatile Scene activeScene;
+
     // endregion
 
     // region FPS and Delta Attributes
@@ -55,8 +65,8 @@ public final class GameWindow {
     // endregion
 
     private GameWindow(int width, int height, String title) {
-        this.initialHeight = height;
-        this.initialWidth = width;
+        this.targetWidth = (actualWidth = (initialWidth = width));
+        this.targetHeight = (actualHeight = (initialHeight = height));
         this.name = title;
         setActiveScene(Scene.NullScene());
         Thread t = new Thread(() -> configGameWindow(width, height, title));
@@ -175,9 +185,19 @@ public final class GameWindow {
         }
     }
 
+    public void setWindowSizeForce(int width, int height) {
+        initialWidth = width;
+        initialHeight = height;
+        setWindowSize(width, height);
+    }
     public void setWindowSize(int width, int height) {
+        this.targetWidth = width;
+        this.targetHeight = height;
         SwingUtilities.invokeLater(() -> {
             window.setSize(width, height);
+            this.actualWidth = width;
+            this.actualHeight = height;
+
             scaleFactorX = (float) width / initialWidth;
             scaleFactorY = (float) height / initialHeight;
 
@@ -196,6 +216,14 @@ public final class GameWindow {
             uiRoot.revalidate();
             uiRoot.repaint();
         });
+    }
+
+    public Tuple<Integer, Integer> getWindowSize() {
+        return new Tuple<>(targetWidth, targetHeight);
+    }
+
+    public Tuple<Integer, Integer> getActualWindowSize() {
+        return new Tuple<>(actualWidth, actualHeight);
     }
 
 
@@ -238,6 +266,11 @@ public final class GameWindow {
     private void unloadActiveScene() {
         if (this.activeScene != null) {
             Engine.getInstance().stopScene(this.activeScene);
+
+            CopyOnWriteArrayList<JComponent> sceneUI = this.activeScene.getUIElements();
+            for (JComponent jComponent : sceneUI) {
+                uiRoot.remove(jComponent);
+            }
         }
         this.activeScene = Scene.NullScene();
     }
@@ -248,7 +281,21 @@ public final class GameWindow {
         }
         unloadActiveScene();
         this.activeScene = activeScene;
-        uiRoot.removeAll();
+
+        this.activeScene.addUICallback(new WindowUICallback() {
+            @Override
+            public void addUIComponent(JComponent component) {
+                addUIElement(component);
+            }
+
+            @Override
+            public void removeUIComponent(JComponent component) {
+                removeUIElement(component);
+            }
+        });
+
+        this.activeScene.getUIElements().forEach(this::addUIElement);
+
         Engine.getInstance().start(activeScene);
     }
 
