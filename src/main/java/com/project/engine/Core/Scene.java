@@ -1,5 +1,6 @@
 package com.project.engine.Core;
 
+import com.project.engine.Core.Window.WindowUICallback;
 import com.project.engine.Input.EInputType;
 import com.project.engine.Rendering.Camera;
 import com.project.engine.Rendering.IRenderable;
@@ -9,7 +10,9 @@ import com.project.physics.Collision.CollisionManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -18,9 +21,11 @@ public class Scene implements ISerializable {
     private final String name;
     private final CollisionManager collisionManager = new CollisionManager();
     private final CopyOnWriteArrayList<GameObject> sceneObjects = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<JComponent> uiElements = new CopyOnWriteArrayList<>();
 
     private final CopyOnWriteArrayList<Tuple<GameObject, IScriptable>> inputListeners = new CopyOnWriteArrayList<>();
 
+    private ArrayList<WindowUICallback> uiCallbacks = new ArrayList<>();
     /**
      * Why not just loop through every game object and get the renderables?
      * Because in our specific game - we plan to have many invisible triggers and other objects that don't render.
@@ -102,6 +107,39 @@ public class Scene implements ISerializable {
             addInputListenerCheckless(object, script);
         }
     }
+
+    public synchronized void addUIElement(JComponent element) {
+        addUIElement(element, false);
+    }
+
+    public synchronized void addUIElement(JComponent element, boolean persistent) {
+        if (uiElements.contains(element))
+            return;
+        if(!persistent)
+            uiElements.add(element);
+        uiCallbacks.forEach(windowUICallback -> windowUICallback.addUIComponent(element));
+    }
+    public synchronized void addUICallback(WindowUICallback callback) {
+        if (uiCallbacks.contains(callback))
+            return;
+        uiCallbacks.add(callback);
+        uiElements.forEach(callback::addUIComponent);
+    }
+
+    public synchronized void removeUIElement(JComponent element) {
+        uiElements.remove(element);
+        uiCallbacks.forEach(windowUICallback -> windowUICallback.removeUIComponent(element));
+    }
+    public synchronized void removeUICallback(WindowUICallback callback) {
+        uiCallbacks.remove(callback);
+        uiElements.forEach(callback::removeUIComponent);
+    }
+    public synchronized CopyOnWriteArrayList<JComponent> getUIElements() {
+        return uiElements;
+    }
+
+
+
 
     public synchronized void addAllRenderables(GameObject object){
         if (!sceneObjects.contains(object)){
