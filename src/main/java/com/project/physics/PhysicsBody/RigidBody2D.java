@@ -88,19 +88,4 @@ public class RigidBody2D implements IScriptable {
         currForceX = 0;
         currForceY = 0;
     }
-
-    @Override
-    public Class<?> attachedClass() {
-        return getClass();
-    }
-
-    @Override
-    public void deserialize(JSONObject data) {
-        throw new RuntimeException(new Exception("Not Implemented"));
-    }
-
-    @Override
-    public JSONObject serialize() {
-        throw new RuntimeException(new Exception("Not Implemented"));
-    }
 }
