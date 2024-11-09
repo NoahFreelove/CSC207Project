@@ -77,8 +77,8 @@ public class EngineMain {
         o.getTransform().setZIndex(1);
         o.addBehavior(new MovementController());
         o.addBehavior(new RigidBody2D());
-        o.addBehavior(new SimpleCollider(0, 0, 1, 1));
-        o.addBehavior(new GroundTrigger(6.4, 115.3, 0.9, 0.1));
+        o.addBehavior(new SimpleCollider(19.2, 19.2, 0.7, 0.7));
+        o.addBehavior(new GroundTrigger(19.2, 104, 0.7, 0.05));
         o.addBehavior(new WindowStatsDebug());
         o.addRenderable(sr);
         return o;

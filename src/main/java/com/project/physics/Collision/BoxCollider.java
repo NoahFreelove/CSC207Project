@@ -30,22 +30,27 @@ public class BoxCollider extends Collider {
         Transform t = parent.getTransform();
         Transform to = other.getTransform();
 
+        double x1 = t.getPositionX() + getXOffset(), y1 = t.getPositionY() + getYOffset();
+        double x2 = to.getPositionX() + interactor.getXOffset(), y2 = to.getPositionY() + interactor.getYOffset();
+        double w1 = t.getWidth() *  getRelWidth(), h1 = t.getHeight() * getRelHeight();
+        double w2 = to.getWidth() * interactor.getRelWidth(), h2 = to.getHeight() * interactor.getRelHeight();
 
-        if (t.getPositionY() + Math.abs(t.getHeight()) <= to.getPositionY() + 4){
-            t.setPositionY(to.getPositionY() - Math.abs(t.getHeight()) - 0.01);
+
+        if (y1 + h1 <= y2 + 4){
+            t.setPositionY(y2 - h1 - 0.01 - getYOffset());
             rb.resetY();
         }
-        else if (t.getPositionY() >= Math.abs(to.getHeight()) + to.getPositionY() - 2){
-            t.setPositionY(to.getPositionY() + Math.abs(to.getHeight()) + 0.01);
+        else if (y1 >= h2 + y2 - 2){
+            t.setPositionY(y2 + h2 + 0.01 - getYOffset());
             rb.resetY();
         }
 
-        else if (t.getPositionX() + Math.abs(t.getWidth()) <= to.getPositionX() + 2) {
-            t.setPositionX(to.getPositionX() - Math.abs(t.getWidth()) - 0.01);
+        if (x1 + w1 <= x2 + 2) {
+            t.setPositionX(x2 - w1 - 0.01 - getXOffset());
             rb.resetX();
         }
-        else if (t.getPositionX() >= to.getPositionX() + Math.abs(to.getWidth()) - 2) {
-            t.setPositionX(to.getPositionX() + Math.abs(to.getWidth()) + 0.01);
+        else if (x1 >= x2 + w2 - 2) {
+            t.setPositionX(x2 + w2 + 0.01 - getXOffset());
             rb.resetX();
         }
     }
