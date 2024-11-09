@@ -45,7 +45,7 @@ public class BoxCollider extends Collider {
             rb.resetY();
         }
 
-        if (x1 + w1 <= x2 + 2) {
+        else if (x1 + w1 <= x2 + 2) {
             t.setPositionX(x2 - w1 - 0.01 - getXOffset());
             rb.resetX();
         }

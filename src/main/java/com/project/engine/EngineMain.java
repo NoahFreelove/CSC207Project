@@ -74,11 +74,11 @@ public class EngineMain {
         o.setTag("player");
         SpriteRenderer sr = new SpriteRenderer("assets/character_right", 128,128);
         o.getTransform().setPosition(336,300);
-        o.getTransform().setZIndex(1);
+        o.getTransform().setZIndex(2);
         o.addBehavior(new MovementController());
         o.addBehavior(new RigidBody2D());
-        o.addBehavior(new SimpleCollider(19.2, 19.2, 0.7, 0.7));
-        o.addBehavior(new GroundTrigger(19.2, 104, 0.7, 0.05));
+        o.addBehavior(new SimpleCollider(32, 19.2, 0.5, 0.7));
+        o.addBehavior(new GroundTrigger(32, 104, 0.5, 0.05));
         o.addBehavior(new WindowStatsDebug());
         o.addRenderable(sr);
         return o;
