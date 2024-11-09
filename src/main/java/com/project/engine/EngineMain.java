@@ -94,7 +94,7 @@ public class EngineMain {
             @Override
             public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
                 if(other.getTag().equals("player") && SimpleCollider.class.isInstance(interactor)) {
-                    System.out.println("hi");
+                    System.out.println("heheheha");
                 }
             }
         }));

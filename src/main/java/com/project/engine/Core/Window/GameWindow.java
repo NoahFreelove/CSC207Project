@@ -190,6 +190,8 @@ public final class GameWindow {
         initialWidth = width;
         initialHeight = height;
         setWindowSize(width, height);
+        window.requestFocusInWindow();
+
     }
     public void setWindowSize(int width, int height) {
         this.targetWidth = width;
