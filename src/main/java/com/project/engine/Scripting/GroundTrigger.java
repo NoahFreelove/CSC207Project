@@ -2,7 +2,7 @@ package com.project.engine.Scripting;
 
 import com.project.engine.Core.GameObject;
 import com.project.physics.Collision.BoxTrigger;
-import com.project.physics.Collision.Trigger;
+import com.project.physics.Collision.CollisionVolume;
 import com.project.physics.PhysicsBody.RigidBody2D;
 import com.project.physics.PhysicsBody.RigidBodyAttribs;
 
@@ -13,7 +13,7 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
     }
 
     @Override
-    public void onTriggerEnter(GameObject parent, GameObject other) {
+    public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
         if (other.getTag().equals("ground")){
             RigidBodyAttribs rba = parent.getScriptable(RigidBody2D.class).attribs;
             rba.grounded = true;
@@ -23,7 +23,7 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
     }
 
     @Override
-    public void onTriggerExit(GameObject parent, GameObject other) {
+    public void onTriggerExit(GameObject parent, GameObject other, CollisionVolume interactor) {
         if (other.getTag().equals("ground")){
             parent.getScriptable(RigidBody2D.class).attribs.grounded = false;
             System.out.println("Ground exit");

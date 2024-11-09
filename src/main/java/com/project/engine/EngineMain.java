@@ -8,6 +8,7 @@ import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.*;
 import com.project.engine.UI.GameUILabel;
 import com.project.engine.UI.GameUIPanel;
+import com.project.physics.Collision.CollisionVolume;
 import com.project.physics.PhysicsBody.RigidBody2D;
 import org.jetbrains.annotations.NotNull;
 
@@ -91,8 +92,8 @@ public class EngineMain {
         o.getTransform().setZIndex(1);
         o.addBehavior(new SimpleTrigger(new ILambdaTrigger() {
             @Override
-            public void onTriggerEnter(GameObject parent, GameObject other) {
-                if(other.getTag().equals("player")) {
+            public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
+                if(other.getTag().equals("player") && SimpleCollider.class.isInstance(interactor)) {
                     System.out.println("hi");
                 }
             }

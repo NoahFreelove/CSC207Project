@@ -7,7 +7,7 @@ public class Trigger extends CollisionVolume {
 
     public ECollisionVolume volumeType() { return ECollisionVolume.TRIGGER; }
 
-    public void onTriggerEnter(GameObject parent, GameObject other) {}
-    public void onTriggerExit(GameObject parent, GameObject other) {}
-    public void onTriggerContinue(GameObject parent, GameObject other) {}
+    public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {}
+    public void onTriggerExit(GameObject parent, GameObject other, CollisionVolume interactor) {}
+    public void onTriggerContinue(GameObject parent, GameObject other, CollisionVolume interactor) {}
 }

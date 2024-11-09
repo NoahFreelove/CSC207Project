@@ -33,14 +33,14 @@ public class CollisionManager {
                 ((Collider)o1Col).onCollisionEnter(object1, object2, o2Col);
             }
             else {
-                ((Trigger)o1Col).onTriggerEnter(object1, object2);
+                ((Trigger)o1Col).onTriggerEnter(object1, object2, o2Col);
             }
 
             if (o2Col.volumeType() == ECollisionVolume.COLLIDER) {
                 ((Collider)o2Col).onCollisionEnter(object2, object1, o1Col);
             }
             else {
-                ((Trigger)o2Col).onTriggerEnter(object2, object1);
+                ((Trigger)o2Col).onTriggerEnter(object2, object1, o1Col);
             }
         }
         else if (intersect && !collided.get(key)) {
@@ -48,14 +48,14 @@ public class CollisionManager {
                 ((Collider)o1Col).onCollisionExit(object1, object2, o2Col);
             }
             else {
-                ((Trigger)o1Col).onTriggerExit(object1, object2);
+                ((Trigger)o1Col).onTriggerExit(object1, object2, o2Col);
             }
 
             if (o2Col.volumeType() == ECollisionVolume.COLLIDER) {
                 ((Collider)o2Col).onCollisionExit(object2, object1, o1Col);
             }
             else {
-                ((Trigger)o2Col).onTriggerExit(object2, object1);
+                ((Trigger)o2Col).onTriggerExit(object2, object1, o1Col);
             }
         }
         else if (intersect) {
@@ -63,14 +63,14 @@ public class CollisionManager {
                 ((Collider)o1Col).onCollisionContinue(object1, object2, o2Col);
             }
             else {
-                ((Trigger)o1Col).onTriggerContinue(object1, object2);
+                ((Trigger)o1Col).onTriggerContinue(object1, object2, o2Col);
             }
 
             if (o2Col.volumeType() == ECollisionVolume.COLLIDER) {
                 ((Collider)o2Col).onCollisionContinue(object2, object1, o1Col);
             }
             else {
-                ((Trigger)o2Col).onTriggerContinue(object2, object1);
+                ((Trigger)o2Col).onTriggerContinue(object2, object1, o1Col);
             }
         }
     }

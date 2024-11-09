@@ -2,6 +2,7 @@ package com.project.engine.Scripting;
 
 import com.project.engine.Core.GameObject;
 import com.project.physics.Collision.BoxTrigger;
+import com.project.physics.Collision.CollisionVolume;
 
 public class SimpleTrigger extends BoxTrigger implements IScriptable {
     private final ILambdaTrigger trigger;
@@ -15,17 +16,17 @@ public class SimpleTrigger extends BoxTrigger implements IScriptable {
     }
 
     @Override
-    public void onTriggerEnter(GameObject parent, GameObject other) {
-        trigger.onTriggerEnter(parent, other);
+    public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
+        trigger.onTriggerEnter(parent, other, interactor);
     }
 
     @Override
-    public void onTriggerExit(GameObject parent, GameObject other) {
-        trigger.onTriggerExit(parent, other);
+    public void onTriggerExit(GameObject parent, GameObject other, CollisionVolume interactor) {
+        trigger.onTriggerExit(parent, other, interactor);
     }
 
     @Override
-    public void onTriggerContinue(GameObject parent, GameObject other) {
-        trigger.onTriggerContinue(parent, other);
+    public void onTriggerContinue(GameObject parent, GameObject other, CollisionVolume interactor) {
+        trigger.onTriggerContinue(parent, other, interactor);
     }
 }
