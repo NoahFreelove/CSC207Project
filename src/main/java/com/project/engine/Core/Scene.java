@@ -40,6 +40,10 @@ public class Scene implements ISerializable {
         this.name = "Empty Scene";
     }
 
+    public Scene(String name) {
+        this.name = name;
+    }
+
     /**
      * This method exists to allow you to add listeners without checking the whole scene if the parent object is in
      * the scene. This is useful for when you are batch adding listeners, and it would be inefficient to check if the
@@ -119,6 +123,7 @@ public class Scene implements ISerializable {
             uiElements.add(element);
         uiCallbacks.forEach(windowUICallback -> windowUICallback.addUIComponent(element));
     }
+
     public synchronized void addUICallback(WindowUICallback callback) {
         if (uiCallbacks.contains(callback))
             return;
@@ -130,15 +135,15 @@ public class Scene implements ISerializable {
         uiElements.remove(element);
         uiCallbacks.forEach(windowUICallback -> windowUICallback.removeUIComponent(element));
     }
+
     public synchronized void removeUICallback(WindowUICallback callback) {
         uiCallbacks.remove(callback);
         uiElements.forEach(callback::removeUIComponent);
     }
+
     public synchronized CopyOnWriteArrayList<JComponent> getUIElements() {
         return uiElements;
     }
-
-
 
 
     public synchronized void addAllRenderables(GameObject object){

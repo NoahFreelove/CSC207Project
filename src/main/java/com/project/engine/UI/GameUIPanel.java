@@ -12,14 +12,14 @@ public class GameUIPanel extends JPanel implements GameUI {
 
     public GameUIPanel() {
         super();
-        setLayout(null);
+        //setLayout(null);
         setOpaque(true);
     }
 
     public GameUIPanel(int x, int y, int width, int height) {
         super();
         this.setBounds(x, y, width, height);
-        setLayout(null);
+        //setLayout(null);
         setOpaque(true);
     }
 
@@ -63,6 +63,11 @@ public class GameUIPanel extends JPanel implements GameUI {
                 continue;
             }
         }
+    }
+
+    public GameUIPanel setBackground(String hex) {
+        super.setBackground(Color.decode(hex));
+        return this;
     }
 
     public void setAlpha(int a) {

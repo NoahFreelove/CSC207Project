@@ -12,13 +12,13 @@ public class GameUILabel extends JLabel implements GameUI{
 
     public GameUILabel() {
         super();
-        setOpaque(true);
+        setOpaque(false);
     }
 
     public GameUILabel(String text, int x, int y, int width, int height) {
         super(text);
         this.setBounds(x, y, width, height);
-        setOpaque(true);
+        setOpaque(false);
     }
 
     public void setImage(String path) {
@@ -27,6 +27,12 @@ public class GameUILabel extends JLabel implements GameUI{
             setIcon(new ImageIcon(i));
         }
         imagePath = path;
+    }
+
+
+    public void setFontSize(int size) {
+        Font f = getFont();
+        setFont(new Font(f.getFontName(), f.getStyle(), size));
     }
 
     @Override

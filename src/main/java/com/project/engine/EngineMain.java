@@ -2,11 +2,10 @@ package com.project.engine;
 
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
+import com.project.engine.Core.Scene;
 import com.project.engine.Core.Window.GameWindow;
-import com.project.engine.IO.FileIO;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.*;
-import com.project.engine.Serialization.SerializeManager;
 import com.project.engine.UI.GameUILabel;
 import com.project.engine.UI.GameUIPanel;
 import com.project.physics.PhysicsBody.RigidBody2D;
@@ -18,6 +17,10 @@ import java.awt.*;
 public class EngineMain {
 
     public static void main(String[] args) {
+        loadTestScene();
+    }
+
+    public static void loadTestScene() {
         Engine e = Engine.getInstance();
         GameWindow w = e.getPrimaryWindow();
         if (w == null) {
@@ -25,36 +28,38 @@ public class EngineMain {
             System.exit(1);
             return;
         }
+
         while (!w.isReady()) {}
-        w.setWindowSize(800, 800);
         //String serialized = FileIO.ReadText("tmp/serialized_scene.json");
         //w.setActiveScene(SerializeManager.deserialize(serialized));
-
+        Scene s = new Scene("Test Scene");
 
         GameUIPanel panel = new GameUIPanel(350,750, 50, 50);
 
         panel.setBackground(Color.ORANGE);
 
-        w.addUIElement(panel);
+        s.addUIElement(panel);
 
         GameUILabel label1 = new GameUILabel("Hello, World!", 0, 200, 800, 100);
         label1.setForeground(Color.decode("#b500b5"));
         label1.setFont(label1.getFont().deriveFont(64.0f));
         label1.setBackground(Color.decode("#00ff00"));
         label1.setHorizontalAlignment(SwingConstants.CENTER);
-        w.addUIElement(label1);
+        s.addUIElement(label1);
 
 
         GameObject o = getTestObject();
-        w.getActiveScene().addSceneObject(o, true);
+        s.addSceneObject(o, true);
 
         GameObject o2 = getStaticObject();
-        w.getActiveScene().addSceneObject(o2, true);
+        s.addSceneObject(o2, true);
 
         GameObject o3 = getStaticObject2();
-        w.getActiveScene().addSceneObject(o3, true);
-        FileIO.WriteText("/tmp/serialized_scene.json", SerializeManager.serialize(w.getActiveScene()).toString(4));
+        s.addSceneObject(o3, true);
 
+        w.setActiveScene(s);
+
+        // FileIO.WriteText("/tmp/serialized_scene.json", SerializeManager.serialize(w.getActiveScene()).toString(4));
         // Remove this comment to run the stress test
         //measureAndRemoveObjects(w);
     }

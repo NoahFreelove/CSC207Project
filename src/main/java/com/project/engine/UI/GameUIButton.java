@@ -3,11 +3,12 @@ package com.project.engine.UI;
 import com.project.engine.IO.ImageLoader;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public abstract class GameUIButton extends JButton implements GameUI {
+public class GameUIButton extends JButton implements GameUI {
     private String imagePath = "";
-
+    public IOnClick onClickEvent = () -> {};
     public GameUIButton(){
         super();
         setOpaque(true);
@@ -22,6 +23,11 @@ public abstract class GameUIButton extends JButton implements GameUI {
         addActionListener(e -> onClick());
     }
 
+    public void setFontSize(int size) {
+        Font f = getFont();
+        setFont(new Font(f.getFontName(), f.getStyle(), size));
+    }
+
     public void setImage(String path) {
         BufferedImage i = ImageLoader.loadImage(path);
         if (i != null) {
@@ -30,8 +36,9 @@ public abstract class GameUIButton extends JButton implements GameUI {
         imagePath = path;
     }
 
-
-    public abstract void onClick();
+    public void onClick() {
+        onClickEvent.onClick();
+    }
 
 
 }
