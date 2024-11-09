@@ -293,8 +293,6 @@ public class Scene implements ISerializable {
     }
 
     public void update(double deltaTime){
-        collisionManager.update(sceneObjects);
-
         for (GameObject object : sceneObjects){
             Iterator<IScriptable> scripts = object.getScriptables();
             while (scripts.hasNext()){
@@ -302,6 +300,8 @@ public class Scene implements ISerializable {
                 script.update(object, deltaTime);
             }
         }
+        collisionManager.update(sceneObjects);
+
     }
 
     public void stop(){
