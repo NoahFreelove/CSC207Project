@@ -19,10 +19,11 @@ public class SpriteRenderer extends RenderBase {
     private String imagePath = "";
 
     private boolean independentOfCamera = false;
+    private boolean tile = false;
+    private int tileX = 1;
+    private int tileY = 1;
 
-    public SpriteRenderer() {
-
-    }
+    public SpriteRenderer() {}
 
     public SpriteRenderer(String spritePath) {
         this(spritePath, -1, -1);
@@ -49,13 +50,11 @@ public class SpriteRenderer extends RenderBase {
             return scaledImageCache.get(key);
         }
 
-        // Scale the image to the desired dimensions
         BufferedImage scaledImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = scaledImage.createGraphics();
         g2d.drawImage(image, 0, 0, width, height, null);
         g2d.dispose();
 
-        // Rotate the scaled image
         AffineTransform transform = new AffineTransform();
         transform.rotate(Math.toRadians(rotation), width / 2.0, height / 2.0);
 
@@ -78,41 +77,65 @@ public class SpriteRenderer extends RenderBase {
         double scaleY = attached.getTransform().getScaleY();
         float rotation = attached.getTransform().getRotation();
 
-        // Use absolute values for dimensions
-        int imageWidth = attached.getTransform().getWidth();
-        int imageHeight = attached.getTransform().getHeight();
+        /*
+            Why do this check?
+            When we tile we don't want to scale our image because that was the whole purpose of tiling the image.
+            getWidth() and getHeight() return getDimensions() * scale(). But we don't want scale if we're tiling.
+         */
+        int imageWidth = 0;
+        int imageHeight = 0;
+        if (tile){
+            Tuple<Integer, Integer> dim = attached.getTransform().getDimensions();
+            imageWidth = dim.getFirst();
+            imageHeight = dim.getSecond();
+        }
+        else {
+            imageWidth = attached.getTransform().getWidth();
+            imageHeight = attached.getTransform().getHeight();
+        }
 
         int finalX = renderPosition.getFirst().intValue();
         int finalY = renderPosition.getSecond().intValue();
 
         if (!independentOfCamera) {
-            finalX = (int) ((renderPosition.getFirst() - camera.getCameraX() + camera.getOffsetX()));
-            finalY = (int) ((renderPosition.getSecond() - camera.getCameraY() + camera.getOffsetY()));
+            finalX = (int) ((renderPosition.getFirst() - camera.getCameraX()));
+            finalY = (int) ((renderPosition.getSecond() - camera.getCameraY()));
         }
 
-        // Get the transformed image (scaled and rotated)
-        BufferedImage transformedImage = getTransformedImage(Math.abs(imageWidth), Math.abs(imageHeight), rotation);
-
-        AffineTransform at = new AffineTransform();
-        at.scale(Math.signum(scaleX),Math.signum(scaleY));
-        at.translate(Math.signum(scaleX)*finalX + Boolean.compare(scaleX < 0, false) * imageWidth,
-                Math.signum(scaleY)*finalY  + Boolean.compare(scaleY < 0, false) * imageHeight);
-
-        // Apply flipping if scaleX or scaleY is negative
-
-        // Draw the image with the applied transformations
-        g2d.drawImage(transformedImage, at, null);
+        if (tile) {
+            for (int i = 0; i < tileX; i++) {
+                for (int j = 0; j < tileY; j++) {
+                    AffineTransform at = new AffineTransform();
+                    at.translate(finalX + i * imageWidth, finalY + j * imageHeight);
+                    at.rotate(Math.toRadians(rotation), imageWidth / 2.0, imageHeight / 2.0);
+                    g2d.drawImage(image, at, null);
+                }
+            }
+        } else {
+            BufferedImage transformedImage = getTransformedImage(Math.abs(imageWidth), Math.abs(imageHeight), rotation);
+            AffineTransform at = new AffineTransform();
+            at.scale(Math.signum(scaleX), Math.signum(scaleY));
+            at.translate(Math.signum(scaleX) * finalX + Boolean.compare(scaleX < 0, false) * imageWidth,
+                    Math.signum(scaleY) * finalY + Boolean.compare(scaleY < 0, false) * imageHeight);
+            g2d.drawImage(transformedImage, at, null);
+        }
     }
 
     @Override
     public void deserialize(JSONObject data) {
         setImage(data.getString("spritePath"), data.getInt("width"), data.getInt("height"));
+        tile = data.optBoolean("tile", false);
+        tileX = data.optInt("tileX", 1);
+        tileY = data.optInt("tileY", 1);
     }
 
     @Override
     public JSONObject serialize() {
         JSONObject output = new JSONObject();
         output.put("spritePath", imagePath);
+        output.put("tile", tile);
+        output.put("tileX", tileX);
+        output.put("tileY", tileY);
         return output;
     }
 
@@ -122,5 +145,29 @@ public class SpriteRenderer extends RenderBase {
 
     public void setIndependentOfCamera(boolean independentOfCamera) {
         this.independentOfCamera = independentOfCamera;
+    }
+
+    public boolean isTile() {
+        return tile;
+    }
+
+    public void setTile(boolean tile) {
+        this.tile = tile;
+    }
+
+    public int getTileX() {
+        return tileX;
+    }
+
+    public void setTileX(int tileX) {
+        this.tileX = tileX;
+    }
+
+    public int getTileY() {
+        return tileY;
+    }
+
+    public void setTileY(int tileY) {
+        this.tileY = tileY;
     }
 }

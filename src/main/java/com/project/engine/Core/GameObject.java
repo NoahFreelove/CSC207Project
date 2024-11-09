@@ -40,6 +40,8 @@ public final class GameObject implements ISerializable {
     private final long uID = requestUid();
     private Transform transform;
 
+    private Scene linkedScene = null;
+
     /**
      * The behaviors attached to this GameObject. Each one will be run every update (not necessarily only at render).
      */
@@ -348,4 +350,15 @@ public final class GameObject implements ISerializable {
 
     }
     // endregion
+
+    public void linkTo(Scene scene) {
+        if (linkedScene != null) {
+            linkedScene.removeSceneObject(this);
+        }
+        linkedScene = scene;
+    }
+
+    public Scene getLinkedScene() {
+        return linkedScene;
+    }
 }
