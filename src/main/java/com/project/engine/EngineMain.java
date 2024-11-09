@@ -48,7 +48,7 @@ public class EngineMain {
         s.addUIElement(label1);
 
 
-        GameObject o = getTestObject();
+        GameObject o = getPlayerObject();
         s.addSceneObject(o, true);
 
         GameObject o2 = getStaticObject();
@@ -68,9 +68,10 @@ public class EngineMain {
      * Creates sample object with input script. WASD to move object, arrow keys to move camera.
      * @return The test object
      */
-    private static @NotNull GameObject getTestObject() {
+    private static @NotNull GameObject getPlayerObject() {
         GameObject o = new GameObject();
-        SpriteRenderer sr = new SpriteRenderer("assets/CSC207_asset_char_right.png", 128,128);
+        o.setTag("player");
+        SpriteRenderer sr = new SpriteRenderer("assets/character_right", 128,128);
         o.getTransform().setPosition(336,300);
         o.getTransform().setZIndex(1);
         o.addBehavior(new MovementController());
@@ -84,11 +85,18 @@ public class EngineMain {
 
     private static @NotNull GameObject getStaticObject() {
         GameObject o = new GameObject();
-        SpriteRenderer sr = new SpriteRenderer("assets/CSC207_asset_ground_brick.png", 128,128);
-        o.getTransform().setPosition(450,550);
-        o.getTransform().setScaleX(2);
+        SpriteRenderer sr = new SpriteRenderer("assets/ground_brick", 128,128);
+        o.getTransform().setPosition(600,550);
+        o.getTransform().setScaleX(1);
         o.getTransform().setZIndex(1);
-        o.addBehavior(new SimpleTrigger());
+        o.addBehavior(new SimpleTrigger(new ILambdaTrigger() {
+            @Override
+            public void onTriggerEnter(GameObject parent, GameObject other) {
+                if(other.getTag().equals("player")) {
+                    System.out.println("hi");
+                }
+            }
+        }));
         o.addRenderable(sr);
         return o;
     }
@@ -96,7 +104,7 @@ public class EngineMain {
     private static @NotNull GameObject getStaticObject2() {
         GameObject o = new GameObject();
         o.setTag("ground");
-        SpriteRenderer sr = new SpriteRenderer("assets/CSC207_asset_ground_brick.png", 128,128);
+        SpriteRenderer sr = new SpriteRenderer("assets/ground_brick", 128,128);
         o.getTransform().setPosition(200,550);
         o.getTransform().setScaleX(2);
         o.getTransform().setZIndex(1);
