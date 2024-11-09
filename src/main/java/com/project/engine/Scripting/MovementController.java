@@ -70,8 +70,9 @@ public class MovementController implements IScriptable {
     }
 
     private void jump(GameObject ref) {
-        if(ref.getScriptable(RigidBody2D.class).attribs.grounded){
-            ref.getScriptable(RigidBody2D.class).attribs.grounded = false;
+        RigidBody2D rb = ref.getScriptable(RigidBody2D.class);
+        if(rb.attribs.grounded && rb.getVelocityY() >= 0){
+            rb.attribs.grounded = false;
             move(ref, 0, -1500);
         }
 
