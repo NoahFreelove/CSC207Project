@@ -22,8 +22,8 @@ public class GameMain {
         while (!w.isReady()) {}
         //String serialized = FileIO.ReadText("tmp/serialized_scene.json");
         //w.setActiveScene(SerializeManager.deserialize(serialized));
-        EasyLevelFactory.loadEasyLevel();
-        //Scene main = MainMenuFactory.createScene();
-        //w.setActiveScene(main);
+        //EasyLevelFactory.loadEasyLevel();
+        Scene main = MainMenuFactory.createScene();
+        w.setActiveScene(main);
     }
 }

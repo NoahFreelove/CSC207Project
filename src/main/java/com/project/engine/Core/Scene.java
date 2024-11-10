@@ -311,7 +311,11 @@ public class Scene implements ISerializable {
                 script.update(object, deltaTime);
             }
         }
-        collisionManager.update(sceneObjects);
+        try {
+            collisionManager.update(sceneObjects);
+        }catch (Exception e){
+            System.err.println("Error in collision manager: " + e.getMessage());
+        }
 
     }
 

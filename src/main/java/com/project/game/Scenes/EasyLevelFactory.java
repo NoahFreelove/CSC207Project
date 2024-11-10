@@ -7,6 +7,7 @@ import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.WindowStatsDebug;
 import com.project.game.ObjectFactories.HiddenBlockFactory;
+import com.project.game.ObjectFactories.HiddenSpikeFactory;
 import com.project.game.ObjectFactories.PlayerFactory;
 import com.project.game.Scripts.*;
 import com.project.physics.PhysicsBody.RigidBody2D;
@@ -42,10 +43,11 @@ public class EasyLevelFactory {
         s.getCamera().setOffsetX(-100);
 
 
-        s.addSceneObjects(getBackgroundObject(), getGroundObject(0), getGroundObject(1550),
+        s.addSceneObjects(getBackgroundObject(), getGroundObject(0), getGroundObject(1600),
                 getFloatingObject1(), getFloatingObject2(),
                 HiddenBlockFactory.generateHiddenBlock(1280, 380, false),
                 HiddenBlockFactory.generateHiddenBlock(1280-64, 380, false),
+                HiddenSpikeFactory.generateHiddenSpike(900, 600),
                 getCloud(100, 50), getCloud(500, 100), getCloud(900, 90), getCloud(1400, 70));
 
         return s;
