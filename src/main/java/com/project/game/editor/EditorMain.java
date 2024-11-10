@@ -11,7 +11,7 @@ public class EditorMain {
             return;
         while (!w.isReady()){}
         w.setWindowSizeForce(1920,1080);
-        w.setActiveScene(LevelEditor.generateLevelEditor());
+        w.setActiveScene(LevelEditorFactory.generateLevelEditor());
 
     }
 }

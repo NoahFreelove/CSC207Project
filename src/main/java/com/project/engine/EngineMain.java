@@ -7,7 +7,6 @@ import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.*;
 import com.project.engine.UI.GameUILabel;
-import com.project.engine.UI.GameUIPanel;
 import com.project.physics.Collision.CollisionVolume;
 import com.project.physics.PhysicsBody.RigidBody2D;
 import org.jetbrains.annotations.NotNull;
@@ -34,12 +33,6 @@ public class EngineMain {
         //String serialized = FileIO.ReadText("tmp/serialized_scene.json");
         //w.setActiveScene(SerializeManager.deserialize(serialized));
         Scene s = new Scene("Test Scene");
-
-        GameUIPanel panel = new GameUIPanel(350,750, 50, 50);
-
-        panel.setBackground(Color.ORANGE);
-
-        s.addUIElement(panel);
 
         GameUILabel label1 = new GameUILabel("Hello, World!", 0, 200, 800, 100);
         label1.setForeground(Color.decode("#b500b5"));
@@ -72,7 +65,7 @@ public class EngineMain {
     private static @NotNull GameObject getPlayerObject() {
         GameObject o = new GameObject();
         o.setTag("player");
-        SpriteRenderer sr = new SpriteRenderer("assets/character_right", 128,128);
+        SpriteRenderer sr = new SpriteRenderer("assets/character.png", 128,128);
         o.getTransform().setPosition(336,300);
         o.getTransform().setZIndex(2);
         o.addBehavior(new MovementController());
@@ -86,15 +79,16 @@ public class EngineMain {
 
     private static @NotNull GameObject getStaticObject() {
         GameObject o = new GameObject();
-        SpriteRenderer sr = new SpriteRenderer("assets/ground_brick", 128,128);
+        SpriteRenderer sr = new SpriteRenderer("assets/ground_brick.png", 128,128);
+
         o.getTransform().setPosition(600,550);
         o.getTransform().setScaleX(1);
         o.getTransform().setZIndex(1);
         o.addBehavior(new SimpleTrigger(new ILambdaTrigger() {
             @Override
             public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
-                if(other.getTag().equals("player") && SimpleCollider.class.isInstance(interactor)) {
-                    System.out.println("hi");
+                if(other.getTag().equals("player") && interactor instanceof SimpleCollider) {
+                    System.out.println("heheheha");
                 }
             }
         }));
@@ -105,12 +99,14 @@ public class EngineMain {
     private static @NotNull GameObject getStaticObject2() {
         GameObject o = new GameObject();
         o.setTag("ground");
-        SpriteRenderer sr = new SpriteRenderer("assets/ground_brick", 128,128);
+        SpriteRenderer sr = new SpriteRenderer("assets/ground_brick.png", 128,128);
+        sr.setTile(true);
+        sr.setTileX(2);
         o.getTransform().setPosition(200,550);
         o.getTransform().setScaleX(2);
         o.getTransform().setZIndex(1);
         o.addBehavior(new SimpleCollider());
-        o.addBehavior(new GroundStats(0.5));
+        o.addBehavior(new GroundStats(0));
         o.addRenderable(sr);
         return o;
     }

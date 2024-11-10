@@ -149,6 +149,10 @@ public class Transform implements IScriptable, ISerializable {
         return mutable ? staged_scale : new Tuple<>(scale.getFirst(), scale.getSecond());
     }
 
+    public Tuple<Integer, Integer> getDimensions() {
+        return dimensions;
+    }
+
     public int getWidth() {
         return (int)(dimensions.getFirst() * scale.getFirst());
     }

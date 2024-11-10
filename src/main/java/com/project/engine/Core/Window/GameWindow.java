@@ -190,7 +190,9 @@ public final class GameWindow {
         initialWidth = width;
         initialHeight = height;
         setWindowSize(width, height);
+        window.requestFocusInWindow();
     }
+
     public void setWindowSize(int width, int height) {
         this.targetWidth = width;
         this.targetHeight = height;
@@ -217,6 +219,10 @@ public final class GameWindow {
             uiRoot.revalidate();
             uiRoot.repaint();
         });
+    }
+
+    public void refocusInWindow() {
+        window.requestFocusInWindow();
     }
 
     public Tuple<Integer, Integer> getWindowSize() {

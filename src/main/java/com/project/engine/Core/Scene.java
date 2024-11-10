@@ -35,6 +35,9 @@ public class Scene implements ISerializable {
 
     private Camera camera = new Camera();
 
+    private double scaleX = 1.0;
+    private double scaleY = 1.0;
+
 
     public Scene() {
         this.name = "Empty Scene";
@@ -224,7 +227,7 @@ public class Scene implements ISerializable {
 
         if(!sceneObjects.add(object))
             return false;
-
+        object.linkTo(this);
         addAllRenderables(object);
         return true;
     }
@@ -314,11 +317,36 @@ public class Scene implements ISerializable {
         }
     }
 
+
     public void render(Graphics2D g2d) {
+        // Apply zoom
+        g2d.scale(scaleX, scaleY);
+
         for (Tuple<GameObject, IRenderable> renderable : renderables) {
             renderable.getSecond().render(renderable.getFirst(), this, g2d);
         }
+
+        // Reset the transform after rendering
+        g2d.scale(1.0 / scaleX, 1.0 / scaleY);
     }
+
+    public double getScaleX() {
+        return scaleX;
+    }
+
+    public void setScaleX(double scaleX) {
+        this.scaleX = scaleX;
+    }
+
+    // Getter and setter for scaleY
+    public double getScaleY() {
+        return scaleY;
+    }
+
+    public void setScaleY(double scaleY) {
+        this.scaleY = scaleY;
+    }
+
     // endregion
 
     public boolean isObjectListener(GameObject o) {
