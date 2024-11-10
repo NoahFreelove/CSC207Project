@@ -190,7 +190,9 @@ public final class GameWindow {
         initialWidth = width;
         initialHeight = height;
         setWindowSize(width, height);
+        window.requestFocusInWindow();
     }
+
     public void setWindowSize(int width, int height) {
         this.targetWidth = width;
         this.targetHeight = height;
@@ -218,6 +220,10 @@ public final class GameWindow {
             uiRoot.repaint();
             window.requestFocusInWindow();
         });
+    }
+
+    public void refocusInWindow() {
+        window.requestFocusInWindow();
     }
 
     public Tuple<Integer, Integer> getWindowSize() {
@@ -299,6 +305,9 @@ public final class GameWindow {
         this.activeScene.getUIElements().forEach(this::addUIElement);
 
         Engine.getInstance().start(activeScene);
+        if (window != null) {
+            window.requestFocusInWindow();
+        }
     }
 
     public float getDelta() {

@@ -15,6 +15,11 @@ public class GameUILabel extends JLabel implements GameUI{
         setOpaque(false);
     }
 
+    public GameUILabel(String text) {
+        super(text);
+        setOpaque(false);
+    }
+
     public GameUILabel(String text, int x, int y, int width, int height) {
         super(text);
         this.setBounds(x, y, width, height);
