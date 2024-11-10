@@ -43,6 +43,19 @@ public class EasyLevelFactory {
         s.addSceneObject(o, true);
         o = getGroundObject();
         s.addSceneObject(o, true);
+        o = getFloatingObject1();
+        s.addSceneObject(o, true);
+        o = getFloatingObject2();
+        s.addSceneObject(o, true);
+
+        o = getCloud(100, 50);
+        s.addSceneObject(o, true);
+        o = getCloud(500, 100);
+        s.addSceneObject(o, true);
+        o = getCloud(900, 90);
+        s.addSceneObject(o, true);
+        o = getCloud(1400, 70);
+        s.addSceneObject(o, true);
 
         return s;
     }
@@ -83,7 +96,7 @@ public class EasyLevelFactory {
     private static @NotNull GameObject getGroundObject() {
         GameObject o = new GameObject();
         o.setTag("ground");
-        SpriteRenderer sr = new SpriteRenderer("assets/CSC207_asset_brick.png", 128,128);
+        SpriteRenderer sr = new SpriteRenderer("assets/ground_brick.png", 128,128);
         sr.setTile(true);
         sr.setTileX(10);
 
@@ -96,6 +109,44 @@ public class EasyLevelFactory {
         o.addRenderable(sr);
         return o;
     }
+
+    private static @NotNull GameObject getFloatingObject1() {
+        GameObject o = new GameObject();
+        o.setTag("ground");
+        SpriteRenderer sr = new SpriteRenderer("assets/CSC207_asset_brick.png", 128,128);
+
+        o.getTransform().setPosition(500, 520);
+        o.addBehavior(new GroundStats(0.5));
+        o.addBehavior(new SimpleCollider());
+        o.getTransform().setZIndex(0);
+        o.addRenderable(sr);
+        return o;
+    }
+
+    private static @NotNull GameObject getFloatingObject2() {
+        GameObject o = new GameObject();
+        o.setTag("ground");
+        SpriteRenderer sr = new SpriteRenderer("assets/CSC207_asset_brick.png", 128,64);
+
+        o.getTransform().setPosition(700, 400);
+        o.addBehavior(new GroundStats(0.5));
+        o.addBehavior(new SimpleCollider());
+        o.getTransform().setZIndex(1);
+        o.addRenderable(sr);
+        return o;
+    }
+
+    public static @NotNull GameObject getCloud(int x, int y) {
+        GameObject cloud = new GameObject("Cloud");
+        SpriteRenderer cloudRenderer = new SpriteRenderer("assets/CSC207_asset_cloud.png", 800, 800);
+        cloud.getTransform().setPosition(x, y);
+        cloud.getTransform().setZIndex(1);
+        cloud.getTransform().setScaleX(0.5);
+        cloud.getTransform().setScaleY(0.2);
+        cloud.addRenderable(cloudRenderer);
+        return cloud;
+    }
+
 
     public static void loadEasyLevel() {
         Engine.getInstance().getPrimaryWindow().setWindowSizeForce(800, 800);

@@ -60,6 +60,9 @@ public class EngineMain {
         GameObject o3 = getStaticObject2();
         s.addSceneObject(o3, true);
 
+        GameObject o4 = getStaticObject3();
+        s.addSceneObject(o4, true);
+
         w.setActiveScene(s);
 
         // FileIO.WriteText("/tmp/serialized_scene.json", SerializeManager.serialize(w.getActiveScene()).toString(4));
@@ -92,7 +95,7 @@ public class EngineMain {
         GameObject o = new GameObject();
         SpriteRenderer sr = new SpriteRenderer("assets/ground_brick.png", 128,128);
 
-        o.getTransform().setPosition(600,550);
+        o.getTransform().setPosition(640,550);
         o.getTransform().setScaleX(1);
         o.getTransform().setZIndex(1);
         o.addBehavior(new SimpleTrigger(new ILambdaTrigger() {
@@ -113,8 +116,20 @@ public class EngineMain {
         SpriteRenderer sr = new SpriteRenderer("assets/ground_brick.png", 128,128);
         sr.setTile(true);
         sr.setTileX(2);
-        o.getTransform().setPosition(200,550);
+        o.getTransform().setPosition(256,550);
         o.getTransform().setScaleX(2);
+        o.getTransform().setZIndex(1);
+        o.addBehavior(new SimpleCollider());
+        o.addBehavior(new GroundStats(0.5));
+        o.addRenderable(sr);
+        return o;
+    }
+
+    private static @NotNull GameObject getStaticObject3() {
+        GameObject o = new GameObject();
+        o.setTag("ground");
+        SpriteRenderer sr = new SpriteRenderer("assets/ground_brick.png", 128,128);
+        o.getTransform().setPosition(0,550);
         o.getTransform().setZIndex(1);
         o.addBehavior(new SimpleCollider());
         o.addBehavior(new GroundStats(0.5));
