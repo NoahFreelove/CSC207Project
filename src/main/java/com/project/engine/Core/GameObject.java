@@ -1,6 +1,7 @@
 package com.project.engine.Core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -31,7 +32,7 @@ public final class GameObject implements ISerializable {
 
     // Tags can be used to broadly classify GameObjects. Eg. you can check, regardless of name, if
     // an object is tagged as "enemy".
-    private String tag = "Untagged";
+    private ArrayList<String> tags = new ArrayList<>();
 
     // UID (Unique ID) is a guaranteed unique identifier each object is issued.
     // UIDs are unique even across scenes, i.e, if you reload a scene every object will have a new UID
@@ -81,21 +82,21 @@ public final class GameObject implements ISerializable {
     public GameObject(String name, double x, double y, String tag){
         this.name = name;
         this.transform = new Transform(this, new Tuple<>(x, y));
-        this.tag = tag;
+        this.tags.add(tag);
         addBehavior(transform);
     }
 
     public GameObject(String name, Tuple<Double, Double> position, String tag){
         this.name = name;
         this.transform = new Transform(this, position);
-        this.tag = tag;
+        this.tags.add(tag);
         addBehavior(transform);
     }
 
     public GameObject(String name, String tag){
         this.name = name;
         this.transform = (new Transform(this, new Tuple<>(0.0, 0.0)));
-        this.tag = tag;
+        this.tags.add(tag);
         addBehavior(transform);
     }
     // endregion
@@ -113,8 +114,8 @@ public final class GameObject implements ISerializable {
      * Get the GameObject tag.
      * @return gameObject's Tag
      */
-    public String getTag() {
-        return tag;
+    public boolean hasTag(String tag) {
+        return tags.contains(tag);
     }
 
     /**
@@ -138,8 +139,12 @@ public final class GameObject implements ISerializable {
      * Set object's tag.
      * @param tag the tag to set
      */
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void addTag(String tag) {
+        this.tags.add(tag);
+    }
+
+    public void removeTag(String tag) {
+        this.tags.remove(tag);
     }
 
     /**
@@ -233,7 +238,7 @@ public final class GameObject implements ISerializable {
     public String toString() {
         return "GameObject{" +
                 "name='" + name + '\'' +
-                ", tag='" + tag + '\'' +
+                ", tags='" + Arrays.toString(tags.toArray()) + '\'' +
                 ", uID=" + uID +
                 '}';
     }
@@ -253,7 +258,11 @@ public final class GameObject implements ISerializable {
     public JSONObject serialize() {
         JSONObject object = new JSONObject();
         object.put("name", getName());
-        object.put("tag", getTag());
+        JSONArray tagArray = new JSONArray();
+        for (String tag : tags) {
+            tagArray.put(tag);
+        }
+        object.put("tags", tagArray);
         object.put("transform", getTransform().serialize());
 
         JSONArray scriptablesJson = new JSONArray();
@@ -287,7 +296,14 @@ public final class GameObject implements ISerializable {
     @Override
     public void deserialize(JSONObject data) {
         setName(data.getString("name"));
-        setTag(data.getString("tag"));
+        JSONArray tagsJson = data.getJSONArray("tags");
+        for (Object o : tagsJson) {
+            if (! (o instanceof String)) {
+                System.err.println("Found non-String in tags JSONArray");
+                continue;
+            }
+            tags.add((String) o);
+        }
         transform.deserialize(data.getJSONObject("transform"));
         JSONArray scriptablesJson = data.getJSONArray("scriptables");
         for (Object o : scriptablesJson) {

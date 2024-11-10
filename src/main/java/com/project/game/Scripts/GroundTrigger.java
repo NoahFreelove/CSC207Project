@@ -16,7 +16,7 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
     public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
         RigidBody2D rb = parent.getScriptable(RigidBody2D.class);
 
-        if (other.getTag().equals("ground") && rb.getVelocityY() >= 0){
+        if (other.hasTag("ground") && rb.getVelocityY() >= 0){
             rb.resetY();
             parent.getTransform().setPositionY(other.getTransform().getPositionY() -
                     0.85 * parent.getTransform().getHeight());
@@ -27,7 +27,7 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
 
     @Override
     public void onTriggerExit(GameObject parent, GameObject other, CollisionVolume interactor) {
-        if (other.getTag().equals("ground")){
+        if (other.hasTag("ground")){
             parent.getScriptable(RigidBody2D.class).attribs.grounded = false;
         }
     }

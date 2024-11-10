@@ -8,6 +8,8 @@ import com.project.physics.PhysicsBody.RigidBody2D;
 public class SpawnPoint implements IScriptable {
     private Tuple<Double, Double> spawnPoint;
 
+    private GameObject parentGO = null;
+
     public SpawnPoint(double x, double y) {
         spawnPoint = new Tuple<>(x, y);
     }
@@ -27,6 +29,7 @@ public class SpawnPoint implements IScriptable {
 
     @Override
     public void start(GameObject parent) {
+        parentGO = parent;
         parent.getTransform().setPosition(spawnPoint);
 
         DeathJoke dj = parent.getScriptable(DeathJoke.class);
@@ -39,22 +42,32 @@ public class SpawnPoint implements IScriptable {
 
     @Override
     public void update(GameObject parent, double deltaTime) {
+        parentGO = parent;
         if (parent.getTransform().getPositionY() >= 800) {
-            parent.getTransform().setPosition(spawnPoint);
+            respawn();
+        }
+    }
 
-            RigidBody2D rb = parent.getScriptable(RigidBody2D.class);
-            if (rb != null) {
-                rb.resetX();
-                rb.resetY();
-            }
+    public void respawn() {
+        if (parentGO == null) {
+            return;
+        }
 
-            DeathJoke dj = parent.getScriptable(DeathJoke.class);
-            if (dj != null) {
-                dj.readJoke();
+        GameObject parent = parentGO;
+        parent.getTransform().setPosition(spawnPoint);
 
-                Thread t = new Thread(dj::generateJoke);
-                t.start();
-            }
+        RigidBody2D rb = parent.getScriptable(RigidBody2D.class);
+        if (rb != null) {
+            rb.resetX();
+            rb.resetY();
+        }
+
+        DeathJoke dj = parent.getScriptable(DeathJoke.class);
+        if (dj != null) {
+            dj.readJoke();
+
+            Thread t = new Thread(dj::generateJoke);
+            t.start();
         }
     }
 }

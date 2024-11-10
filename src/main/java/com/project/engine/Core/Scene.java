@@ -232,6 +232,14 @@ public class Scene implements ISerializable {
         return true;
     }
 
+    public synchronized boolean addSceneObjects(GameObject... object) {
+        boolean result = true;
+        for(GameObject o : object) {
+            result &= addSceneObject(o);
+        }
+        return result;
+    }
+
     /**
      * Add a GameObject to the scene. If addAllAsListeners is true, all scripts on the object will be added
      * and interpreted as input listeners. This is useful if you're lazy and don't want to add them manually.
@@ -303,7 +311,11 @@ public class Scene implements ISerializable {
                 script.update(object, deltaTime);
             }
         }
-        collisionManager.update(sceneObjects);
+        try {
+            collisionManager.update(sceneObjects);
+        }catch (Exception e){
+            System.err.println("Error in collision manager: " + e.getMessage());
+        }
 
     }
 

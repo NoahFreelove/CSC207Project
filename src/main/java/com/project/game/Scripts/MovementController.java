@@ -10,8 +10,8 @@ import org.json.JSONObject;
 
 public class MovementController implements IScriptable {
 
-    private float moveSpeed = 2f;
-    private float jumpForce = 10f;
+    private float moveSpeed = 8f;
+    private float jumpForce = 1.15f;
 
     private boolean canMove = true;
 
@@ -72,7 +72,7 @@ public class MovementController implements IScriptable {
         RigidBody2D rb = ref.getScriptable(RigidBody2D.class);
         if(rb.attribs.grounded && rb.getVelocityY() >= 0){
             rb.attribs.grounded = false;
-            move(ref, 0, -1500);
+            move(ref, 0, -1500*jumpForce);
         }
 
     }

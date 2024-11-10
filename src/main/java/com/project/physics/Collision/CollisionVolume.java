@@ -7,6 +7,20 @@ public class CollisionVolume {
     private double xOffset = 0, yOffset = 0;
     private double relWidth = 1, relHeight = 1;
 
+
+    private String tag = "volume";
+
+    public CollisionVolume() {}
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+
     public void setOffset(double xOffset, double yOffset) {
         this.xOffset = xOffset;
         this.yOffset = yOffset;

@@ -71,7 +71,7 @@ public class Transform implements IScriptable, ISerializable {
         }
     }
 
-    public void translate(Double x, Double y){
+    public void translate(double x, double y){
         setPositionX(this.staged_position.getFirst() + x);
         setPositionY(this.staged_position.getSecond() + y);
     }
