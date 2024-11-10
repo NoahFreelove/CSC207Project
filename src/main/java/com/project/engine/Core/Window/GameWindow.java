@@ -118,6 +118,10 @@ public final class GameWindow {
     }
 
 
+    private float physicsUpdateRatio = 1.25f;
+
+    private float physicsUpdateInterval = 1.0f / (desiredFPS * physicsUpdateRatio);
+    private long lastPhysicsUpdate = System.currentTimeMillis();
 
     public void gameLoop() {
         while (!shouldClose) {
@@ -130,23 +134,32 @@ public final class GameWindow {
             lastUpdate = now;
 
             if (delta >= desiredDelta) {
-                if (delta > 0.009000001) {
-                    System.out.println(delta);
-                }
                 Engine.getInstance().update(activeScene, delta);
-
                 if (!changingScene) {
                     gamePanel.repaint();
-                } // Schedule a repaint of the game panel
-
+                }
                 delta = 0;
                 actualFPS = 1000.0f / (System.currentTimeMillis() - lastFrame);
                 lastFrame = System.currentTimeMillis();
+            }
+
+            if ((now - lastPhysicsUpdate) / 1000.0f >= physicsUpdateInterval) {
+                Engine.getInstance().physicsUpdate(activeScene);
+                lastPhysicsUpdate = now;
             }
         }
         if (window != null) {
             window.dispose();
         }
+    }
+
+    public float getPhysicsUpdateRatio() {
+        return physicsUpdateRatio;
+    }
+
+    public void setPhysicsUpdateRatio(float physicsUpdateRatio) {
+        this.physicsUpdateRatio = physicsUpdateRatio;
+        this.physicsUpdateInterval = 1.0f / (desiredFPS * physicsUpdateRatio);
     }
 
     public void addUIElement(JComponent component) {
