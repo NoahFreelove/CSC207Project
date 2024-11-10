@@ -1,14 +1,15 @@
 package com.project.game.ObjectFactories;
 
 import com.project.engine.Core.GameObject;
+import com.project.engine.Core.Tuple;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.ILambdaTrigger;
-import com.project.game.Scripts.InterpolationMove;
-import com.project.game.Scripts.SimpleCollider;
-import com.project.game.Scripts.SimpleTrigger;
-import com.project.game.Scripts.SpawnPoint;
+import com.project.game.Scripts.*;
 import com.project.physics.Collision.CollisionVolume;
 import com.project.physics.PhysicsBody.RigidBody2D;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class HiddenSpikeFactory {
     public static GameObject generateHiddenSpike(int xPos, int yPos) {
@@ -50,7 +51,29 @@ public class HiddenSpikeFactory {
                     }
                     SpawnPoint sp = other.getScriptable(SpawnPoint.class);
                     if (sp != null) {
-                        sp.respawn();
+                        Tuple<Double, Double> death_pt = new Tuple<>(other.getTransform().getPositionX(), other.getTransform().getPositionY() - 300);
+                        other.getTransform().setPosition(death_pt);
+                        other.getScriptable(RigidBody2D.class).resetY();
+                        other.getScriptable(RigidBody2D.class).resetX();
+                        other.getScriptable(RigidBody2D.class).addForce(0, 1.15f*-99600);
+                        other.getTransform().setScaleX(2.0);
+                        Timer timer = new Timer();
+                        MovementController mc = other.getScriptable(MovementController.class);
+                        if (mc != null) {
+                            mc.setCanMove(false);
+                            mc.setCanJump(false);
+                        }
+                        other.removeTag("player"); // dont trigger other events when dead
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                // Execute the delayed actions
+                                sp.respawn();
+
+                                // Cancel the timer after execution to clean up
+                                timer.cancel();
+                            }
+                        }, 1420);
                         triggered[0] = true;
                     }
                     else {
