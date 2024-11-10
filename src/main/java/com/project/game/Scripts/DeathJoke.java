@@ -3,6 +3,7 @@ package com.project.game.Scripts;
 import com.project.engine.Network.JokeAPIRequest;
 import com.project.engine.Network.JokeType;
 import com.project.engine.Scripting.IScriptable;
+import com.project.game.tts.PlayTTS;
 
 public class DeathJoke implements IScriptable {
     private String jokeText;
@@ -22,6 +23,7 @@ public class DeathJoke implements IScriptable {
 
     public void readJoke() {
         System.out.println(jokeText);
+        PlayTTS.say(jokeText);
     }
 
 }
