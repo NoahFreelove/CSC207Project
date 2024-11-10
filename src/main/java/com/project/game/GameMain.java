@@ -5,10 +5,12 @@ import com.project.engine.Core.Scene;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.game.Scenes.LevelSelectionFactory;
 import com.project.game.Scenes.MainMenuFactory;
+import com.project.game.tts.PlayTTS;
 
 public class GameMain {
     public static void main(String[] args) {
         Engine e = Engine.getInstance();
+        e.closeHook = () -> PlayTTS.shutdown();
         GameWindow w = e.getPrimaryWindow();
         if (w == null) {
             System.out.println("Failed to obtain primary window");

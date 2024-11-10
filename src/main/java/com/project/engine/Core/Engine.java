@@ -2,6 +2,7 @@ package com.project.engine.Core;
 
 import com.project.engine.Input.EInputType;
 import com.project.engine.Core.Window.GameWindow;
+import com.project.game.tts.PlayTTS;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -13,6 +14,8 @@ public class Engine {
     private volatile static Engine instance = null;
 
     private final ArrayList<GameWindow> gameWindows = new ArrayList<>();
+
+    public Runnable closeHook = () -> {};
 
     private Engine(){
         instance = this;
@@ -85,6 +88,7 @@ public class Engine {
         for (GameWindow gameWindow : gameWindows) {
             gameWindow.closeWindow();
         }
+        closeHook.run();
     }
 
     /**

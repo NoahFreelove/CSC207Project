@@ -11,8 +11,10 @@ public class PlayTTS {
 
     private static final BlockingQueue<String> messageQueue = new LinkedBlockingQueue<>();
     private static volatile boolean running = true;
+    private static Thread mainThread;
 
     static {
+        mainThread = Thread.currentThread();
         new Thread(() -> {
             try {
                 System.setProperty("freetts.voices",
@@ -23,6 +25,10 @@ public class PlayTTS {
                 sy.resume();
 
                 while (running) {
+                    if (!mainThread.isAlive()) {
+                        running = false;
+                        break;
+                    }
                     String message = messageQueue.take();
                     sy.speakPlainText(message, null);
                     sy.waitEngineState(Synthesizer.QUEUE_EMPTY);
