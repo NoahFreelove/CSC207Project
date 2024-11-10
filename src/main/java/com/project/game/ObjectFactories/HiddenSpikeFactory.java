@@ -22,7 +22,8 @@ public class HiddenSpikeFactory {
         InterpolationMove im = new InterpolationMove(xPos, yPos, 500);
         im.setTarget(xPos, yPos - 64);
         output.addBehavior(im);
-        SimpleTrigger st = new SimpleTrigger(new ILambdaTrigger() {
+
+        SimpleTrigger triggerZone = new SimpleTrigger(new ILambdaTrigger() {
             @Override
             public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
                 if(other.hasTag("player") && interactor instanceof SimpleTrigger) {
@@ -31,8 +32,9 @@ public class HiddenSpikeFactory {
                 }
             }
         });
-        st.setOffset(0,-100);
-        output.addBehavior(st);
+        triggerZone.setRelDimensions(2,1d);
+        triggerZone.setOffset(-64,-100);
+        output.addBehavior(triggerZone);
 
         output.getTransform().translate(xPos, yPos);
         output.getTransform().setZIndex(zIndex);

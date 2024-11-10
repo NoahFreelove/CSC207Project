@@ -3,14 +3,15 @@ package com.project.game.Scenes;
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
-import com.project.engine.EngineMain;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.UI.FontCreator;
 import com.project.engine.UI.GameUIButton;
+import com.project.engine.UI.IOnClick;
 import com.project.game.Scripts.SceneExit;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 
 import static com.project.game.Scenes.MainMenuFactory.colorcode;
 
@@ -19,6 +20,12 @@ public class LevelSelectionFactory {
     public static int buttonXOffset = 56;
     public static int buttonXWidth = 210;
     public static int buttonYOffset = 100;
+
+    private static HashMap<Integer, Scene> levelMap = new HashMap<>();
+
+    static {
+        levelMap.put(0, EasyLevelFactory.createEasyLevel());
+    }
 
     private static Scene createScene() {
         Scene scene = new Scene();
@@ -86,6 +93,8 @@ public class LevelSelectionFactory {
             temp.setForeground(Color.decode(colorcode));
             temp.setHorizontalAlignment(SwingConstants.CENTER);
             temp.setTransparent(true);
+            int finalI = i;
+            temp.onClickEvent = () -> Engine.getInstance().getPrimaryWindow().setActiveScene(levelMap.get(finalI));
             scene.addUIElement(temp);
             XReset++;
         }

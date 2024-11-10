@@ -10,7 +10,7 @@ public class FontCreator {
     public static Font createFont(float size) {
         Font font = null;
         try {
-            InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream(".\\WestEnd.ttf");
+            InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("WestEnd.ttf");
             font = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(size);
         } catch (IOException | FontFormatException e) {
             //Handle exception

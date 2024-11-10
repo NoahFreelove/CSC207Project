@@ -5,12 +5,10 @@ import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Rendering.SpriteRenderer;
-import com.project.engine.Scripting.WindowStatsDebug;
 import com.project.game.ObjectFactories.HiddenBlockFactory;
 import com.project.game.ObjectFactories.HiddenSpikeFactory;
 import com.project.game.ObjectFactories.PlayerFactory;
 import com.project.game.Scripts.*;
-import com.project.physics.PhysicsBody.RigidBody2D;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -126,10 +124,12 @@ public class EasyLevelFactory {
         return cloud;
     }
 
-
-    public static void loadEasyLevel() {
+    public static void loadEasyLevel(){
         Engine.getInstance().getPrimaryWindow().setWindowSizeForce(800, 800);
-        Scene s = createScene();
-        Engine.getInstance().getPrimaryWindow().setActiveScene(s);
+        Engine.getInstance().getPrimaryWindow().setActiveScene(createScene());
+    }
+
+    public static Scene createEasyLevel() {
+        return createScene();
     }
 }

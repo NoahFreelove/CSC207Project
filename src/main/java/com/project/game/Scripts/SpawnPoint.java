@@ -50,7 +50,7 @@ public class SpawnPoint implements IScriptable {
     @Override
     public void update(GameObject parent, double deltaTime) {
         parentGO = parent;
-        if (parent.getTransform().getPositionY() >= 800) {
+        if (parent.getTransform().getPositionY() >= 800 && !isDead) {
             Tuple<Double, Double> death_pt = new Tuple<>(parent.getTransform().getPositionX(), parent.getTransform().getPositionY() - 300);
             parent.getTransform().setPosition(death_pt);
             parent.getScriptable(RigidBody2D.class).resetY();
@@ -59,6 +59,13 @@ public class SpawnPoint implements IScriptable {
             parent.getTransform().setScaleX(2.0);
             isDead = true;
             timeSinceDeath = 0.0;
+
+            MovementController mc = parent.getScriptable(MovementController.class);
+            if (mc != null) {
+                mc.setCanMove(false);
+                mc.setCanJump(false);
+            }
+            parent.removeTag("player"); // dont trigger other events when dead
         }
         if (isDead){
             timeSinceDeath += deltaTime;
@@ -76,12 +83,19 @@ public class SpawnPoint implements IScriptable {
         }
 
         GameObject parent = parentGO;
+        parent.addTag("player");
         parent.getTransform().setPosition(spawnPoint);
 
         RigidBody2D rb = parent.getScriptable(RigidBody2D.class);
         if (rb != null) {
             rb.resetX();
             rb.resetY();
+        }
+
+        MovementController mc = parent.getScriptable(MovementController.class);
+        if (mc != null) {
+            mc.setCanMove(true);
+            mc.setCanJump(true);
         }
 
         DeathJoke dj = parent.getScriptable(DeathJoke.class);
