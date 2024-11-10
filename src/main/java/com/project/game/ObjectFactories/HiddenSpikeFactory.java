@@ -70,8 +70,10 @@ public class HiddenSpikeFactory {
                                 // Execute the delayed actions
                                 sp.respawn();
 
+
                                 // Cancel the timer after execution to clean up
                                 timer.cancel();
+                                other.getTransform().setScaleX(1.0);
                             }
                         }, 1420);
                         triggered[0] = true;
