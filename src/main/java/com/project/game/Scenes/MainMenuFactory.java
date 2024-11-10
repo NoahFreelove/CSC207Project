@@ -15,6 +15,8 @@ import javax.swing.border.BevelBorder;
 import java.awt.*;
 
 public class MainMenuFactory {
+    public static String colorcode = "0x007e12";
+
     public static Scene createScene() {
         Scene scene = new Scene();
 
@@ -38,17 +40,17 @@ public class MainMenuFactory {
         GameUILabel title = new GameUILabel("Froggy's", 212, 40, 375, 200);
         // title.setBorder(new BevelBorder(BevelBorder.LOWERED));
         title.setFont(FontCreator.createFont(80f));
-        title.setForeground(Color.decode("0x00b119"));
+        title.setForeground(Color.decode(colorcode));
         title.setHorizontalAlignment(SwingConstants.CENTER);
         GameUILabel title2 = new GameUILabel("Adventure", 175, 140, 450, 200);
         // title2.setBorder(new BevelBorder(BevelBorder.LOWERED));
         title2.setFont(FontCreator.createFont(80f));
-        title2.setForeground(Color.decode("0x00b119"));
+        title2.setForeground(Color.decode(colorcode));
         title2.setHorizontalAlignment(SwingConstants.CENTER);
         // Play Button
         GameUIButton play = new GameUIButton("Play Game", 265, 300, 270, 80);
         play.setFont(FontCreator.createFont(40f));
-        play.setForeground(Color.decode("0x00b119"));
+        play.setForeground(Color.decode(colorcode));
         play.setHorizontalAlignment(SwingConstants.CENTER);
         play.setTransparent(true);
 
@@ -57,7 +59,7 @@ public class MainMenuFactory {
         // Leave Button
         GameUIButton leave = new GameUIButton("Leave game", 265, 400, 270, 80);
         leave.setFont(FontCreator.createFont(40f));
-        leave.setForeground(Color.decode("0x00b119"));
+        leave.setForeground(Color.decode(colorcode));
         leave.setHorizontalAlignment(SwingConstants.CENTER);
         leave.setTransparent(true);
 
