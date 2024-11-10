@@ -2,7 +2,6 @@ package com.project.physics.PhysicsBody;
 
 import com.project.engine.Core.GameObject;
 import com.project.engine.Scripting.IScriptable;
-import org.json.JSONObject;
 
 /**
  * A rigid body for a game object.

@@ -55,6 +55,7 @@ public final class GameWindow {
     private float delta = 0;
     private long lastFrame = System.currentTimeMillis();
     private float actualFPS = 0;
+    private boolean changingScene = true;
 
     // endregion
 
@@ -134,7 +135,10 @@ public final class GameWindow {
                 }
                 Engine.getInstance().update(activeScene, delta);
 
-                gamePanel.repaint(); // Schedule a repaint of the game panel
+                if (!changingScene) {
+                    gamePanel.repaint();
+                } // Schedule a repaint of the game panel
+
                 delta = 0;
                 actualFPS = 1000.0f / (System.currentTimeMillis() - lastFrame);
                 lastFrame = System.currentTimeMillis();
@@ -190,7 +194,6 @@ public final class GameWindow {
         initialWidth = width;
         initialHeight = height;
         setWindowSize(width, height);
-        window.requestFocusInWindow();
     }
 
     public void setWindowSize(int width, int height) {
@@ -218,7 +221,6 @@ public final class GameWindow {
             // Refresh the UI by invoking an update
             uiRoot.revalidate();
             uiRoot.repaint();
-            window.requestFocusInWindow();
         });
     }
 
@@ -287,6 +289,9 @@ public final class GameWindow {
         if (activeScene == null) {
             throw new RuntimeException(new IllegalArgumentException("Scene cannot be null"));
         }
+
+        changingScene = true;
+
         unloadActiveScene();
         this.activeScene = activeScene;
 
@@ -303,11 +308,15 @@ public final class GameWindow {
         });
 
         this.activeScene.getUIElements().forEach(this::addUIElement);
-
         Engine.getInstance().start(activeScene);
+        Engine.getInstance().update(activeScene, 0);
+
+
         if (window != null) {
             window.requestFocusInWindow();
         }
+
+        changingScene = false;
     }
 
     public float getDelta() {

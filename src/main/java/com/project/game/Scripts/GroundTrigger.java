@@ -1,10 +1,10 @@
-package com.project.engine.Scripting;
+package com.project.game.Scripts;
 
 import com.project.engine.Core.GameObject;
+import com.project.engine.Scripting.IScriptable;
 import com.project.physics.Collision.BoxTrigger;
 import com.project.physics.Collision.CollisionVolume;
 import com.project.physics.PhysicsBody.RigidBody2D;
-import com.project.physics.PhysicsBody.RigidBodyAttribs;
 
 public class GroundTrigger extends BoxTrigger implements IScriptable {
     public GroundTrigger(double xOff, double yOff, double widthOff, double heightOff) {

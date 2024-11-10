@@ -1,6 +1,7 @@
-package com.project.engine.Scripting;
+package com.project.game.Scripts;
 
 import com.project.engine.Core.GameObject;
+import com.project.engine.Scripting.IScriptable;
 import com.project.physics.Collision.BoxCollider;
 import com.project.physics.Collision.CollisionVolume;
 

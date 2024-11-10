@@ -3,8 +3,8 @@ package com.project.game;
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.Scene;
 import com.project.engine.Core.Window.GameWindow;
-import com.project.engine.Scenes.LevelSelectionFactory;
-import com.project.engine.Scenes.MainMenuFactory;
+import com.project.game.Scenes.LevelSelectionFactory;
+import com.project.game.Scenes.MainMenuFactory;
 
 public class GameMain {
     public static void main(String[] args) {
@@ -20,7 +20,6 @@ public class GameMain {
         //String serialized = FileIO.ReadText("tmp/serialized_scene.json");
         //w.setActiveScene(SerializeManager.deserialize(serialized));
         Scene main = MainMenuFactory.createScene();
-        Scene levels = LevelSelectionFactory.createScene();
         w.setActiveScene(main);
     }
 }

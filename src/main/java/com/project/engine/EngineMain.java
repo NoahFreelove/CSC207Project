@@ -5,7 +5,10 @@ import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Rendering.SpriteRenderer;
-import com.project.engine.Scripting.*;
+import com.project.engine.Scripting.ILambdaTrigger;
+import com.project.engine.Scripting.WindowStatsDebug;
+import com.project.game.Scenes.LevelSelectionFactory;
+import com.project.game.Scripts.*;
 import com.project.engine.UI.GameUILabel;
 import com.project.physics.Collision.CollisionVolume;
 import com.project.physics.PhysicsBody.RigidBody2D;
@@ -44,6 +47,10 @@ public class EngineMain {
         s.addUIElement(label1);
 
 
+        GameObject escapeDetector = new GameObject();
+        escapeDetector.addBehavior(new SceneExit(LevelSelectionFactory::loadLevelSelection));
+        s.addSceneObject(escapeDetector, true);
+
         GameObject o = getPlayerObject();
         s.addSceneObject(o, true);
 
@@ -71,6 +78,8 @@ public class EngineMain {
         o.getTransform().setPosition(336,300);
         o.getTransform().setZIndex(2);
         o.addBehavior(new MovementController());
+        o.addBehavior(new SpawnPoint(300, 480));
+        o.addBehavior(new DeathJoke());
         o.addBehavior(new RigidBody2D());
         o.addBehavior(new SimpleCollider(32, 19.2, 0.5, 0.7));
         o.addBehavior(new GroundTrigger(32, 103, 0.5, 0.05));
@@ -108,7 +117,7 @@ public class EngineMain {
         o.getTransform().setScaleX(2);
         o.getTransform().setZIndex(1);
         o.addBehavior(new SimpleCollider());
-        o.addBehavior(new GroundStats(0));
+        o.addBehavior(new GroundStats(0.5));
         o.addRenderable(sr);
         return o;
     }

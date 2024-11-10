@@ -1,4 +1,4 @@
-package com.project.engine.Scenes;
+package com.project.game.Scenes;
 
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
@@ -6,13 +6,16 @@ import com.project.engine.Core.Scene;
 import com.project.engine.EngineMain;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.UI.GameUIButton;
-import com.project.game.editor.LevelEditor;
+import com.project.game.Scripts.SceneExit;
 
 import javax.swing.*;
 
 public class LevelSelectionFactory {
-    public static Scene createScene() {
+    private static Scene createScene() {
         Scene scene = new Scene();
+
+        GameObject escapeDetector = new GameObject();
+        escapeDetector.addBehavior(new SceneExit(MainMenuFactory::loadMainMenu));
 
         // Background
         GameObject bg = new GameObject("Background");
@@ -33,13 +36,14 @@ public class LevelSelectionFactory {
         level1.setTransparent(true);
         level1.setHorizontalAlignment(SwingConstants.LEADING);
 
-        level1.onClickEvent = EngineMain::loadTestScene;
+        level1.onClickEvent = EasyLevelFactory::loadEasyLevel;
 
         // Level 2 button
         GameUIButton level2 = new GameUIButton("", 295, 350, 210, 80);
         level2.setImage("ui/CSC207_asset_level2.png", 190, 100);
         level2.setTransparent(true);
         level2.setHorizontalAlignment(SwingConstants.LEADING);
+        level2.onClickEvent = EngineMain::loadTestScene;
 
         // Back button
         GameUIButton back = new GameUIButton("", 295, 450, 210, 80);
@@ -50,6 +54,7 @@ public class LevelSelectionFactory {
         back.onClickEvent = MainMenuFactory::loadMainMenu;
 
         // Adding everything
+        scene.addSceneObject(escapeDetector, true);
         scene.addSceneObject(bg);
         scene.addSceneObject(cloud);
         scene.addUIElement(level1);

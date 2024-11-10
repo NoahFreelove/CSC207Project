@@ -1,19 +1,21 @@
-package com.project.engine.Scenes;
+package com.project.game.Scenes;
 
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
-import com.project.engine.Core.Tuple;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.UI.GameUIButton;
 import com.project.engine.UI.GameUILabel;
+import com.project.game.Scripts.SceneExit;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class MainMenuFactory {
     public static Scene createScene() {
         Scene scene = new Scene();
+
+        GameObject escapeDetector = new GameObject();
+        escapeDetector.addBehavior(new SceneExit(MainMenuFactory::leaveGame));
 
         // Background
         GameObject bg = new GameObject("Background");
@@ -48,6 +50,7 @@ public class MainMenuFactory {
          leave.onClickEvent = MainMenuFactory::leaveGame;
 
         // Adding everything to the scene
+        scene.addSceneObject(escapeDetector, true);
         scene.addSceneObject(bg);
         scene.addSceneObject(cloud);
         scene.addUIElement(title);
@@ -57,7 +60,7 @@ public class MainMenuFactory {
     }
 
     public static void leaveGame() {
-        System.exit(0);
+        Engine.getInstance().exitEngine();
     }
 
     public static void loadMainMenu() {

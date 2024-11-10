@@ -1,6 +1,6 @@
-package com.project.engine.Scripting;
+package com.project.game.Scripts;
 
-import java.io.Serializable;
+import com.project.engine.Scripting.IScriptable;
 
 public class GroundStats implements IScriptable {
     private double friction = 0;

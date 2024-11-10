@@ -1,9 +1,10 @@
-package com.project.engine.Scripting;
+package com.project.game.Scripts;
 
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Input.EInputType;
+import com.project.engine.Scripting.IScriptable;
 import com.project.physics.PhysicsBody.RigidBody2D;
 import org.json.JSONObject;
 
@@ -28,8 +29,6 @@ public class MovementController implements IScriptable {
         }
         else if (inputType == EInputType.RELEASE && "2".equals(keyName)) {
             moveSpeed--;
-        } else if (inputType == EInputType.RELEASE && "ESC".equals(keyName)) {
-            Engine.getInstance().exitEngine();
         }
     }
 
