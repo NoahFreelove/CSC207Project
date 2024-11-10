@@ -23,6 +23,8 @@ public class SpriteRenderer extends RenderBase {
     private int tileX = 1;
     private int tileY = 1;
 
+    private boolean enabled = true;
+
     public SpriteRenderer() {}
 
     public SpriteRenderer(String spritePath) {
@@ -67,7 +69,7 @@ public class SpriteRenderer extends RenderBase {
 
     @Override
     public void render(GameObject attached, Scene scene, Graphics2D g2d) {
-        if (image == null)
+        if (image == null || !enabled)
             return;
 
         Tuple<Double, Double> renderPosition = attached.getTransform().getPosition();
@@ -169,5 +171,13 @@ public class SpriteRenderer extends RenderBase {
 
     public void setTileY(int tileY) {
         this.tileY = tileY;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

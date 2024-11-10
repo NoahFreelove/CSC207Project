@@ -6,6 +6,8 @@ import com.project.engine.Core.Scene;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.WindowStatsDebug;
+import com.project.game.ObjectFactories.HiddenBlockFactory;
+import com.project.game.ObjectFactories.PlayerFactory;
 import com.project.game.Scripts.*;
 import com.project.physics.PhysicsBody.RigidBody2D;
 import org.jetbrains.annotations.NotNull;
@@ -39,23 +41,12 @@ public class EasyLevelFactory {
         s.getCamera().update(o, 0);
         s.getCamera().setOffsetX(-100);
 
-        o = getBackgroundObject();
-        s.addSceneObject(o, true);
-        o = getGroundObject();
-        s.addSceneObject(o, true);
-        o = getFloatingObject1();
-        s.addSceneObject(o, true);
-        o = getFloatingObject2();
-        s.addSceneObject(o, true);
 
-        o = getCloud(100, 50);
-        s.addSceneObject(o, true);
-        o = getCloud(500, 100);
-        s.addSceneObject(o, true);
-        o = getCloud(900, 90);
-        s.addSceneObject(o, true);
-        o = getCloud(1400, 70);
-        s.addSceneObject(o, true);
+        s.addSceneObjects(getBackgroundObject(), getGroundObject(0), getGroundObject(1550),
+                getFloatingObject1(), getFloatingObject2(),
+                HiddenBlockFactory.generateHiddenBlock(1280, 380, false),
+                HiddenBlockFactory.generateHiddenBlock(1280-64, 380, false),
+                getCloud(100, 50), getCloud(500, 100), getCloud(900, 90), getCloud(1400, 70));
 
         return s;
     }
@@ -65,21 +56,7 @@ public class EasyLevelFactory {
      * @return The test object
      */
     private static @NotNull GameObject getPlayerObject() {
-        GameObject o = new GameObject();
-        o.setTag("player");
-        SpriteRenderer sr = new SpriteRenderer("assets/character.png", 128,128);
-        sr.setIndependentOfCamera(false);
-        o.getTransform().setPosition(0,0);
-        o.getTransform().setZIndex(2);
-        o.addBehavior(new SpawnPoint(300, 480));
-        o.addBehavior(new DeathJoke());
-        o.addBehavior(new MovementController());
-        o.addBehavior(new RigidBody2D());
-        o.addBehavior(new SimpleCollider(32, 19.2, 0.5, 0.7));
-        o.addBehavior(new GroundTrigger(32, 99, 0.5, 0.1));
-        o.addBehavior(new WindowStatsDebug());
-        o.addRenderable(sr);
-        return o;
+        return PlayerFactory.createPlayer();
     }
 
 
@@ -93,14 +70,14 @@ public class EasyLevelFactory {
         return o;
     }
 
-    private static @NotNull GameObject getGroundObject() {
+    private static @NotNull GameObject getGroundObject(int xPos) {
         GameObject o = new GameObject();
-        o.setTag("ground");
+        o.addTag("ground");
         SpriteRenderer sr = new SpriteRenderer("assets/ground_brick.png", 128,128);
         sr.setTile(true);
         sr.setTileX(10);
 
-        o.getTransform().setPosition(0, 600);
+        o.getTransform().setPosition(xPos, 600);
         o.getTransform().setScaleX(10);
 
         o.addBehavior(new GroundStats(0.5));
@@ -112,8 +89,8 @@ public class EasyLevelFactory {
 
     private static @NotNull GameObject getFloatingObject1() {
         GameObject o = new GameObject();
-        o.setTag("ground");
-        SpriteRenderer sr = new SpriteRenderer("assets/CSC207_asset_brick.png", 128,128);
+        o.addTag("ground");
+        SpriteRenderer sr = new SpriteRenderer("assets/brick.png", 128,128);
 
         o.getTransform().setPosition(500, 520);
         o.addBehavior(new GroundStats(0.5));
@@ -125,8 +102,8 @@ public class EasyLevelFactory {
 
     private static @NotNull GameObject getFloatingObject2() {
         GameObject o = new GameObject();
-        o.setTag("ground");
-        SpriteRenderer sr = new SpriteRenderer("assets/CSC207_asset_brick.png", 128,64);
+        o.addTag("ground");
+        SpriteRenderer sr = new SpriteRenderer("assets/brick.png", 128,64);
 
         o.getTransform().setPosition(700, 400);
         o.addBehavior(new GroundStats(0.5));

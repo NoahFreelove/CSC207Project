@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class CollisionManager {
-    HashMap<String, Boolean> collided = new HashMap<>();
+    volatile HashMap<String, Boolean> collided = new HashMap<>();
 
     public CollisionManager() {}
 
@@ -28,6 +28,12 @@ public class CollisionManager {
 
     private void sendCollisionEvents(boolean intersect, String key, GameObject object1, GameObject object2,
                                      CollisionVolume o1Col, CollisionVolume o2Col) {
+        if (collided == null) {
+            collided = new HashMap<>();
+        }
+        if(o1Col == null || o2Col == null) {
+            return;
+        }
         if (!intersect && collided.get(key)) {
             if (o1Col.volumeType() == ECollisionVolume.COLLIDER) {
                 ((Collider)o1Col).onCollisionEnter(object1, object2, o2Col);

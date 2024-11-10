@@ -76,7 +76,7 @@ public class EngineMain {
      */
     private static @NotNull GameObject getPlayerObject() {
         GameObject o = new GameObject();
-        o.setTag("player");
+        o.addTag("player");
         SpriteRenderer sr = new SpriteRenderer("assets/character.png", 128,128);
         o.getTransform().setPosition(336,300);
         o.getTransform().setZIndex(2);
@@ -101,7 +101,7 @@ public class EngineMain {
         o.addBehavior(new SimpleTrigger(new ILambdaTrigger() {
             @Override
             public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
-                if(other.getTag().equals("player") && interactor instanceof SimpleCollider) {
+                if(other.hasTag("player") && interactor instanceof SimpleCollider) {
                     System.out.println("heheheha");
                 }
             }
@@ -112,7 +112,7 @@ public class EngineMain {
 
     private static @NotNull GameObject getStaticObject2() {
         GameObject o = new GameObject();
-        o.setTag("ground");
+        o.addTag("ground");
         SpriteRenderer sr = new SpriteRenderer("assets/ground_brick.png", 128,128);
         sr.setTile(true);
         sr.setTileX(2);
@@ -127,7 +127,7 @@ public class EngineMain {
 
     private static @NotNull GameObject getStaticObject3() {
         GameObject o = new GameObject();
-        o.setTag("ground");
+        o.addTag("ground");
         SpriteRenderer sr = new SpriteRenderer("assets/ground_brick.png", 128,128);
         o.getTransform().setPosition(0,550);
         o.getTransform().setZIndex(1);
