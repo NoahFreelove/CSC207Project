@@ -84,7 +84,7 @@ public class EasyLevelFactory {
 
         o.addBehavior(new GroundStats(0.5));
         o.addBehavior(new SimpleCollider());
-        o.getTransform().setZIndex(1);
+        o.getTransform().setZIndex(3);
         o.addRenderable(sr);
         return o;
     }
