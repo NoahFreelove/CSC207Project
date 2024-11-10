@@ -86,8 +86,9 @@ public class SpriteRenderer extends RenderBase {
         int finalY = renderPosition.getSecond().intValue();
 
         if (!independentOfCamera) {
-            finalX = (int) ((renderPosition.getFirst() - camera.getCameraX() + camera.getOffsetX()));
-            finalY = (int) ((renderPosition.getSecond() - camera.getCameraY() + camera.getOffsetY()));
+            finalX = (int) ((renderPosition.getFirst() - camera.getCameraX()));
+            finalY = (int) ((renderPosition.getSecond() - camera.getCameraY()));
+            System.out.println(camera.getCameraX());
         }
 
         // Get the transformed image (scaled and rotated)

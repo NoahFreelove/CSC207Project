@@ -24,6 +24,7 @@ public class EngineMain {
     public static void loadTestScene() {
         Engine e = Engine.getInstance();
         GameWindow w = e.getPrimaryWindow();
+
         if (w == null) {
             System.out.println("Failed to obtain primary window");
             System.exit(1);
@@ -31,6 +32,7 @@ public class EngineMain {
         }
 
         while (!w.isReady()) {}
+
         //String serialized = FileIO.ReadText("tmp/serialized_scene.json");
         //w.setActiveScene(SerializeManager.deserialize(serialized));
         Scene s = new Scene("Test Scene");

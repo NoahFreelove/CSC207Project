@@ -216,6 +216,7 @@ public final class GameWindow {
             // Refresh the UI by invoking an update
             uiRoot.revalidate();
             uiRoot.repaint();
+            window.requestFocusInWindow();
         });
     }
 

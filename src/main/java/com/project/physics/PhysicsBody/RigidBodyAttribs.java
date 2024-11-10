@@ -21,6 +21,6 @@ public class RigidBodyAttribs {
     public double maxVelocityX = 200;
     public double maxVelocityY = 2000;
 
-    public double groundFrictionCoefficient = 0.73f;
+    public double groundFrictionCoefficient = 0;
     public double mass = 6;
 }

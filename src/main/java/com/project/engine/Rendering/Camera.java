@@ -7,6 +7,10 @@ import org.json.JSONObject;
 
 public class Camera implements IScriptable {
     private GameObject attached;
+
+    private boolean followX = true;
+    private boolean followY = false;
+
     private double offsetX;
     private double offsetY;
 
@@ -25,14 +29,14 @@ public class Camera implements IScriptable {
     }
 
     public double getCameraX() {
-        if (attached == null) {
+        if (attached == null || !followX) {
             return offsetX;
         }
         return attached.getTransform().getPositionX() + offsetX;
     }
 
     public double getCameraY() {
-        if (attached == null) {
+        if (attached == null|| !followY) {
             return offsetY;
         }
         return attached.getTransform().getPositionY() + offsetY;
