@@ -1,11 +1,14 @@
 package com.project.engine.Scenes;
 
+import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
 import com.project.engine.Core.Tuple;
 import com.project.engine.Rendering.SpriteRenderer;
+import com.project.engine.UI.GameUIButton;
 import com.project.engine.UI.GameUILabel;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class MainMenuFactory {
@@ -26,14 +29,23 @@ public class MainMenuFactory {
         cloud.getTransform().setScaleY(0.2);
         cloud.addRenderable(cloudRenderer);
         // Game Label
-        GameUILabel title = new GameUILabel("", 50, 100, 600, 300);
+        GameUILabel title = new GameUILabel("", 75, 100, 600, 300);
         title.setImage("ui/CSC207_asset_game_title.png");
         // Play Button
-        PlayButton play = new PlayButton(300, 400, 150, 50);
-        play.setBackground(Color.decode("#ffffff"));
+        GameUIButton play = new GameUIButton("", 295, 350, 210, 80);
+        play.setImage("ui/CSC207_asset_play_game.png", 190, 100);
+        play.setTransparent(true);
+        play.setHorizontalAlignment(SwingConstants.LEADING);
+
+        play.onClickEvent = LevelSelectionFactory::loadLevelSelection;
+
         // Leave Button
-        ExitButton leave = new ExitButton(300, 500, 150, 50);
-        leave.setBackground(Color.decode("#ffffff"));
+        GameUIButton leave = new GameUIButton("", 295, 400, 210, 80);
+        leave.setImage("ui/CSC207_asset_leave_game.png", 190, 100);
+        leave.setTransparent(true);
+        leave.setHorizontalAlignment(SwingConstants.LEADING);
+
+         leave.onClickEvent = MainMenuFactory::leaveGame;
 
         // Adding everything to the scene
         scene.addSceneObject(bg);
@@ -42,5 +54,15 @@ public class MainMenuFactory {
         scene.addUIElement(play);
         scene.addUIElement(leave);
         return scene;
+    }
+
+    public static void leaveGame() {
+        System.exit(0);
+    }
+
+    public static void loadMainMenu() {
+        Engine.getInstance().getPrimaryWindow().setWindowSizeForce(800, 800);
+        Scene s = MainMenuFactory.createScene();
+        Engine.getInstance().getPrimaryWindow().setActiveScene(s);
     }
 }

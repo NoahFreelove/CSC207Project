@@ -298,6 +298,9 @@ public final class GameWindow {
         this.activeScene.getUIElements().forEach(this::addUIElement);
 
         Engine.getInstance().start(activeScene);
+        if (window != null) {
+            window.requestFocusInWindow();
+        }
     }
 
     public float getDelta() {

@@ -23,6 +23,12 @@ public class GameUIButton extends JButton implements GameUI {
         addActionListener(e -> onClick());
     }
 
+    public void setTransparent(boolean transparent){
+        setOpaque(!transparent);
+        setContentAreaFilled(!transparent);
+        setBorderPainted(!transparent);
+    }
+
     public void setFontSize(int size) {
         Font f = getFont();
         setFont(new Font(f.getFontName(), f.getStyle(), size));
@@ -32,6 +38,14 @@ public class GameUIButton extends JButton implements GameUI {
         BufferedImage i = ImageLoader.loadImage(path);
         if (i != null) {
             setIcon(new ImageIcon(i));
+        }
+        imagePath = path;
+    }
+
+    public void setImage(String path, int width, int height) {
+        BufferedImage i = ImageLoader.loadImage(path);
+        if (i != null) {
+            setIcon(new ImageIcon(i.getScaledInstance(width, height, BufferedImage.TYPE_INT_ARGB)));
         }
         imagePath = path;
     }
