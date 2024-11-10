@@ -31,7 +31,7 @@ public class LevelSelectionFactory {
         cloud.getTransform().setScaleY(0.2);
         cloud.addRenderable(cloudRenderer);
         // Level 1 button
-        GameUIButton level1 = new GameUIButton("", 295, 250, 210, 80);
+        GameUIButton level1 = new GameUIButton("Level 1", 295, 250, 210, 80);
         level1.setImage("ui/CSC207_asset_level1.png", 190, 100);
         level1.setTransparent(true);
         level1.setHorizontalAlignment(SwingConstants.LEADING);
