@@ -129,7 +129,7 @@ public class EasyLevelFactory {
         SpriteRenderer sr = new SpriteRenderer("assets/CSC207_asset_brick.png", 128,64);
 
         o.getTransform().setPosition(700, 400);
-        o.addBehavior(new GroundStats(0.5));
+        o.addBehavior(new GroundStats(1));
         o.addBehavior(new SimpleCollider());
         o.getTransform().setZIndex(1);
         o.addRenderable(sr);

@@ -130,9 +130,6 @@ public final class GameWindow {
             lastUpdate = now;
 
             if (delta >= desiredDelta) {
-                if (delta > 0.009000001) {
-                    System.out.println(delta);
-                }
                 Engine.getInstance().update(activeScene, delta);
 
                 if (!changingScene) {

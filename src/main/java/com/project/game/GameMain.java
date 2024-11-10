@@ -7,6 +7,8 @@ import com.project.game.Scenes.LevelSelectionFactory;
 import com.project.game.Scenes.MainMenuFactory;
 import com.project.game.tts.PlayTTS;
 
+import java.awt.*;
+
 public class GameMain {
     public static void main(String[] args) {
         Engine e = Engine.getInstance();
