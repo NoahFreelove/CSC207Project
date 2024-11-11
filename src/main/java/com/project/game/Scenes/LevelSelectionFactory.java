@@ -24,7 +24,7 @@ public class LevelSelectionFactory {
     private static HashMap<Integer, Scene> levelMap = new HashMap<>();
 
     static {
-        levelMap.put(0, EasyLevelFactory.createEasyLevel());
+        levelMap.put(0, EasyLevelFactory.createScene());
     }
 
     private static Scene createScene() {

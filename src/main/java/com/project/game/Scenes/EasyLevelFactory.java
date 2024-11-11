@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  * A simple Level for Game PoC
  */
 public class EasyLevelFactory {
-    private static Scene createScene() {
+    public static Scene createScene() {
         Engine e = Engine.getInstance();
         GameWindow w = e.getPrimaryWindow();
 
