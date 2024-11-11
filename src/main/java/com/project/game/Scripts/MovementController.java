@@ -88,6 +88,7 @@ public class MovementController implements IScriptable {
         if(rb.attribs.grounded && rb.getVelocityY() >= 0){
             rb.attribs.grounded = false;
             move(ref, 0, -1500*jumpForce);
+
         }
     }
 
