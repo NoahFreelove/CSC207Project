@@ -140,6 +140,8 @@ public final class GameObject implements ISerializable {
      * @param tag the tag to set
      */
     public void addTag(String tag) {
+        if(this.tags.contains(tag))
+            return;
         this.tags.add(tag);
     }
 

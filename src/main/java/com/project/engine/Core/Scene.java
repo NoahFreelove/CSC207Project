@@ -311,12 +311,15 @@ public class Scene implements ISerializable {
                 script.update(object, deltaTime);
             }
         }
+
+    }
+
+    public void physicsUpdate() {
         try {
             collisionManager.update(sceneObjects);
         }catch (Exception e){
             System.err.println("Error in collision manager: " + e.getMessage());
         }
-
     }
 
     public void stop(){
@@ -413,5 +416,6 @@ public class Scene implements ISerializable {
 
         }
     }
+
 
 }

@@ -8,6 +8,9 @@ import com.project.engine.Scripting.IScriptable;
 import com.project.physics.PhysicsBody.RigidBody2D;
 import org.json.JSONObject;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MovementController implements IScriptable {
 
     private float moveSpeed = 8f;
@@ -15,10 +18,17 @@ public class MovementController implements IScriptable {
 
     private boolean canMove = true;
 
-    private boolean enableYMovement = true;
+    private boolean canJump = true;
+
+    private RigidBody2D rb = null;
 
     public MovementController() {
 
+    }
+
+    @Override
+    public void start(GameObject parent) {
+        rb = parent.getScriptable(RigidBody2D.class);
     }
 
     @Override
@@ -35,46 +45,53 @@ public class MovementController implements IScriptable {
     @Override
     public void update(GameObject parent, double deltaTime) {
         GameWindow win = Engine.getInstance().getPrimaryWindow();
-        if (win == null) {
+        if (win == null || rb == null) {
             return;
         }
 
         //System.out.println(win.FPS());
 
-        double actualSpeed = moveSpeed * deltaTime * 300;
+        if(canMove) {
+            double actualSpeed = moveSpeed * deltaTime * 300;
 
-        if (win.isKeyPressed("A") || win.isKeyPressed("LEFT")) {
-            parent.getTransform().faceLeft();
-            parent.getTransform().setRotation(0);
-            move(parent, -actualSpeed, 0);
+            if (win.isKeyPressed("A") || win.isKeyPressed("LEFT")) {
+                parent.getTransform().faceLeft();
+                parent.getTransform().setRotation(0);
+                move(parent, -actualSpeed, 0);
+            }
+
+            if (win.isKeyPressed("D") || win.isKeyPressed("RIGHT")) {
+                parent.getTransform().faceRight();
+                parent.getTransform().setRotation(0);
+                move(parent, actualSpeed, 0);
+            }
         }
 
-        if (win.isKeyPressed("D") || win.isKeyPressed("RIGHT")) {
-            parent.getTransform().faceRight();
-            parent.getTransform().setRotation(0);
-            move(parent, actualSpeed, 0);
-        }
-
-        if (win.isKeyPressed("SPACE")) {
+        if (win.isKeyPressed("SPACE") && canJump) {
             jump(parent);
+            parent.getTransform().setScaleY(1.11);
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    // Execute the delayed actions
+                    parent.getTransform().setScaleY(1.0);
+                    // Cancel the timer after execution to clean up
+                    timer.cancel();
+                }
+            }, 100);
         }
     }
 
     private void move(GameObject ref, double xDelta, double yDelta) {
-        if (!canMove) {
-            return;
-        }
-
         ref.getScriptable(RigidBody2D.class).addForce(xDelta*500, yDelta*200);
     }
 
     private void jump(GameObject ref) {
-        RigidBody2D rb = ref.getScriptable(RigidBody2D.class);
         if(rb.attribs.grounded && rb.getVelocityY() >= 0){
             rb.attribs.grounded = false;
             move(ref, 0, -1500*jumpForce);
         }
-
     }
 
     public float getMoveSpeed() {
@@ -101,12 +118,12 @@ public class MovementController implements IScriptable {
         this.canMove = canMove;
     }
 
-    public boolean canMoveY() {
-        return enableYMovement;
+    public boolean canJump() {
+        return canJump;
     }
 
-    public void setCanMoveY(boolean enableYMovement) {
-        this.enableYMovement = enableYMovement;
+    public void setCanJump(boolean canJump) {
+        this.canJump = canJump;
     }
 
     @Override
@@ -115,7 +132,7 @@ public class MovementController implements IScriptable {
         output.put("moveSpeed", moveSpeed);
         output.put("jumpForce", jumpForce);
         output.put("canMove", canMove);
-        output.put("enableYMovement", enableYMovement);
+        output.put("enableYMovement", canJump);
         return output;
     }
 
@@ -124,6 +141,6 @@ public class MovementController implements IScriptable {
         moveSpeed = data.getFloat("moveSpeed");
         jumpForce = data.getFloat("jumpForce");
         canMove = data.getBoolean("canMove");
-        enableYMovement = data.getBoolean("enableYMovement");
+        canJump = data.getBoolean("enableYMovement");
     }
 }

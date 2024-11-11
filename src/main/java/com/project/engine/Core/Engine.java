@@ -72,6 +72,10 @@ public class Engine {
         scene.update(delta);
     }
 
+    public void physicsUpdate(Scene scene){
+        scene.physicsUpdate();
+    }
+
     public void start(Scene scene){
         scene.start();
     }
