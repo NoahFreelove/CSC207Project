@@ -12,7 +12,7 @@ import com.project.game.Scripts.SceneExit;
  * A simple Level for Game PoC
  */
 public class EasyLevel {
-    private static Scene createScene() {
+    public static Scene createScene() {
         Engine e = Engine.getInstance();
         GameWindow w = e.getPrimaryWindow();
 
