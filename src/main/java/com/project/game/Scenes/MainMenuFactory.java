@@ -61,7 +61,18 @@ public class MainMenuFactory {
         leave.setHorizontalAlignment(SwingConstants.CENTER);
         leave.setTransparent(true);
 
-         leave.onClickEvent = MainMenuFactory::leaveGame;
+        leave.onClickEvent = MainMenuFactory::leaveGame;
+
+
+        // Testing
+        GameUIButton test = new GameUIButton("Test Game", 265, 500, 270, 80);
+        test.setFont(FontCreator.createFont(40f));
+        test.setForeground(Color.decode(colorcode));
+        test.setHorizontalAlignment(SwingConstants.CENTER);
+        test.setTransparent(true);
+
+        test.onClickEvent = PauseMenuFactory::pauseGame;
+        scene.addUIElement(test);
 
         // Adding everything to the scene
         scene.addSceneObject(escapeDetector, true);
