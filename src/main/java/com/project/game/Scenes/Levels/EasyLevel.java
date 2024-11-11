@@ -46,12 +46,12 @@ public class EasyLevel {
         CloudFactory cloudMaker = (CloudFactory) AbstractObjectFactory.makeFactory(ObjectType.CLOUD);
 
         s.addSceneObjects(
-                groundMaker.generate(0, 600, 1, 10, 2),
-                groundMaker.generate(1600, 600, 1, 10, 2),
+                groundMaker.generate(0, 600, 1, 10, 2, 0.8),
+                groundMaker.generate(1600, 600, 1, 10, 2, 0.8),
                 groundMaker.generate(500, 520, 0, 1, 1, "assets/brick.png"),
                 groundMaker.generate(700, 400, 0, 1, 0.5, 1, "assets/brick.png"),
-                hiddenBlockMaker.generate(1280, 380, 1),
-                hiddenBlockMaker.generate(1280-64, 380, 1),
+                hiddenBlockMaker.generate(1280, 380, 1, 1,1, 0.8),
+                hiddenBlockMaker.generate(1280-64, 380, 1, 1, 1,0.8),
                 AbstractObjectFactory.generateOfType(ObjectType.HIDDEN_SPIKE,900, 600),
                 cloudMaker.generate(100, 50, 3, 1.5),
                 cloudMaker.generate(500, 100, 3, 1.5),
