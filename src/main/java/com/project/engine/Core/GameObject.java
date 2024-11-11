@@ -2,8 +2,10 @@ package com.project.engine.Core;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Predicate;
 
 import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Rendering.SpriteRenderer;
@@ -47,6 +49,7 @@ public final class GameObject implements ISerializable {
      * The behaviors attached to this GameObject. Each one will be run every update (not necessarily only at render).
      */
     private final ArrayList<IScriptable> scriptables = new ArrayList<>();
+    private final HashMap<IScriptable, Boolean> disabledScripts = new HashMap<>();
 
     /**
      * The renderables attached to this GameObject. Each one will be rendered every frame.
@@ -154,7 +157,7 @@ public final class GameObject implements ISerializable {
      * @return an iterator of all behaviors
      */
     public Iterator<IScriptable> getScriptables() {
-        return scriptables.iterator();
+        return scriptables.stream().filter(iScriptable -> !disabledScripts.containsKey(iScriptable)).iterator();
     }
     public Iterator<IRenderable> getRenderables() {
         return renderables.iterator();
@@ -162,19 +165,35 @@ public final class GameObject implements ISerializable {
 
 
     public Iterator<CollisionVolume> getCollidables() {
-        ArrayList<CollisionVolume> collidables = new ArrayList<>();
-        for (IScriptable scriptable : scriptables) {
-            if (CollisionVolume.class.isInstance(scriptable)) {
-                 collidables.add((CollisionVolume) scriptable);
-            }
-        }
 
-        return collidables.iterator();
+        Iterator<IScriptable> filtered =
+                scriptables.stream().filter(collisionVolume ->
+                        !disabledScripts.containsKey(collisionVolume) &&
+                                collisionVolume instanceof CollisionVolume).iterator();
+
+        return new Iterator<>() {
+            @Override
+            public boolean hasNext() {
+                return filtered.hasNext();
+            }
+
+            @Override
+            public CollisionVolume next() {
+                return (CollisionVolume) filtered.next();
+            }
+        };
     }
 
     public <T extends IScriptable> T getScriptable(Class<T> objClass) {
+        return getScriptable(objClass, false);
+    }
+
+    public <T extends IScriptable> T getScriptable(Class<T> objClass, boolean findDisabled) {
         for (IScriptable scriptable : scriptables) {
             if (objClass.isInstance(scriptable)) {
+                if(disabledScripts.containsKey(scriptable) && !findDisabled)
+                    return null;
+
                 return (T) scriptable;
             }
         }
@@ -219,6 +238,28 @@ public final class GameObject implements ISerializable {
     public synchronized boolean removeRenderable(IRenderable renderable){
         if (renderables.contains(renderable)) {
             return renderables.remove(renderable);
+        }
+        return false;
+    }
+
+    public synchronized boolean disableScript(IScriptable script) {
+        if(script == null)
+            return false;
+
+        if (scriptables.contains(script)) {
+            disabledScripts.put(script, true);
+            return true;
+        }
+        return false;
+    }
+
+    public synchronized boolean enableScript(IScriptable script) {
+        if(script == null)
+            return false;
+
+        if (scriptables.contains(script)) {
+            disabledScripts.remove(script);
+            return true;
         }
         return false;
     }

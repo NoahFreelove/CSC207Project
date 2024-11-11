@@ -118,4 +118,8 @@ public class CollisionManager {
             }
         }
     }
+
+    public void reset() {
+        collided.clear();
+    }
 }

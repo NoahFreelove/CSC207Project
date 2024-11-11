@@ -3,6 +3,7 @@ package com.project.game.ObjectFactories;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.ILambdaTrigger;
+import com.project.engine.Scripting.IScriptable;
 import com.project.game.Scripts.InterpolationMove;
 import com.project.game.Scripts.SimpleCollider;
 import com.project.game.Scripts.SimpleTrigger;
@@ -36,8 +37,6 @@ public class HiddenSpikeFactory extends AbstractObjectFactory {
                 if(other.hasTag("player") && interactor instanceof SimpleTrigger) {
                     im.setActive(true);
                     sr.setEnabled(true);
-
-                    System.out.println("AH, SPIKE");
                 }
             }
         });
@@ -47,10 +46,11 @@ public class HiddenSpikeFactory extends AbstractObjectFactory {
         SimpleTrigger deathCollider = new SimpleTrigger(new ILambdaTrigger() {
             @Override
             public void onTriggerContinue(GameObject parent, GameObject other, CollisionVolume interactor) {
+
                 if(other.hasTag("player")) {
                     SpawnPoint sp = other.getScriptable(SpawnPoint.class);
                     if (sp != null) {
-                        sp.respawn();
+                        sp.die(2000);
                     }
                     else {
                         System.err.println("No spawn point found");

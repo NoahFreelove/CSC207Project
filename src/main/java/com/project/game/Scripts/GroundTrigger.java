@@ -5,6 +5,7 @@ import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.IScriptable;
 import com.project.physics.Collision.BoxTrigger;
+import com.project.physics.Collision.Collider;
 import com.project.physics.Collision.CollisionVolume;
 import com.project.physics.PhysicsBody.RigidBody2D;
 
@@ -19,8 +20,8 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
     @Override
     public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
         RigidBody2D rb = parent.getScriptable(RigidBody2D.class);
-
-        if (other.hasTag("ground") && rb.getVelocityY() >= 0){
+        SimpleCollider thisCollider = parent.getScriptable(SimpleCollider.class);
+        if (other.hasTag("ground") && rb.getVelocityY() >= 0 && thisCollider != null){
             rb.resetY();
             rb.attribs.grounded = true;
             rb.attribs.groundFrictionCoefficient = other.getScriptable(GroundStats.class).getFriction();
