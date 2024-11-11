@@ -1,18 +1,17 @@
-package com.project.game.Scenes;
+package com.project.game.Scenes.Levels;
 
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
 import com.project.engine.Core.Window.GameWindow;
-import com.project.engine.Rendering.SpriteRenderer;
 import com.project.game.ObjectFactories.*;
+import com.project.game.Scenes.LevelSelectionFactory;
 import com.project.game.Scripts.SceneExit;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * A simple Level for Game PoC
  */
-public class EasyLevelFactory {
+public class EasyLevel {
     private static Scene createScene() {
         Engine e = Engine.getInstance();
         GameWindow w = e.getPrimaryWindow();
@@ -35,7 +34,7 @@ public class EasyLevelFactory {
 
         s.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND));
 
-        GameObject player = AbstractObjectFactory.generateOfType(ObjectType.PLAYER);
+        GameObject player = AbstractObjectFactory.generateOfType(ObjectType.PLAYER, 2);
 
         s.getCamera().update(player, 0);
         s.getCamera().setOffsetX(-100);
@@ -63,9 +62,8 @@ public class EasyLevelFactory {
         return s;
     }
 
-    public static void loadEasyLevel() {
-        Engine.getInstance().getPrimaryWindow().setWindowSizeForce(800, 800);
+    public static Scene loadEasyLevel() {
         Scene s = createScene();
-        Engine.getInstance().getPrimaryWindow().setActiveScene(s);
+        return s;
     }
 }

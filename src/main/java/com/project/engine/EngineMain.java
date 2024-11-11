@@ -23,7 +23,7 @@ public class EngineMain {
         loadTestScene();
     }
 
-    public static void loadTestScene() {
+    public static  void loadTestScene() {
         Engine e = Engine.getInstance();
         GameWindow w = e.getPrimaryWindow();
 

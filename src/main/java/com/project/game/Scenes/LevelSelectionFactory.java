@@ -3,10 +3,11 @@ package com.project.game.Scenes;
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
-import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.UI.FontCreator;
 import com.project.engine.UI.GameUIButton;
-import com.project.engine.UI.IOnClick;
+import com.project.game.ObjectFactories.AbstractObjectFactory;
+import com.project.game.ObjectFactories.ObjectType;
+import com.project.game.Scenes.Levels.EasyLevel;
 import com.project.game.Scripts.SceneExit;
 
 import javax.swing.*;
@@ -24,7 +25,7 @@ public class LevelSelectionFactory {
     private static HashMap<Integer, Scene> levelMap = new HashMap<>();
 
     static {
-        levelMap.put(0, EasyLevelFactory.createEasyLevel());
+        levelMap.put(0, EasyLevel.loadEasyLevel());
     }
 
     private static Scene createScene() {
@@ -33,29 +34,6 @@ public class LevelSelectionFactory {
         GameObject escapeDetector = new GameObject();
         escapeDetector.addBehavior(new SceneExit(MainMenuFactory::loadMainMenu));
 
-        // Background
-        GameObject bg = new GameObject("Background");
-        SpriteRenderer bgRenderer = new SpriteRenderer("assets/CSC207_asset_bg.png", 800, 800);
-        bg.getTransform().setPosition(0, 0);
-        bg.addRenderable(bgRenderer);
-        // Level 1 button
-//        GameUIButton level1 = new GameUIButton("Level 1", 295, 250, 210, 80);
-//        level1.setFont(FontCreator.createFont(40f));
-//        level1.setForeground(Color.decode("0x00b119"));
-//        level1.setHorizontalAlignment(SwingConstants.CENTER);
-//        level1.setTransparent(true);
-//
-//        level1.onClickEvent = EasyLevelFactory::loadEasyLevel;
-//
-//        // Level 2 button
-//        GameUIButton level2 = new GameUIButton("Level 2", 295, 350, 210, 80);
-//        level2.setFont(FontCreator.createFont(40f));
-//        level2.setForeground(Color.decode("0x00b119"));
-//        level2.setHorizontalAlignment(SwingConstants.CENTER);
-//        level2.setTransparent(true);
-//        level2.onClickEvent = EngineMain::loadTestScene;
-
-        // Back button
         GameUIButton back = new GameUIButton("Back to Main", 200, 450, 400, 80);
         back.setFont(FontCreator.createFont(40f));
         back.setForeground(Color.decode(colorcode));
@@ -63,11 +41,11 @@ public class LevelSelectionFactory {
         back.setTransparent(true);
         back.onClickEvent = MainMenuFactory::loadMainMenu;
 
-        createLevel(1, scene);
+        createLevel(2, scene);
 
         // Adding everything
         scene.addSceneObject(escapeDetector, true);
-        scene.addSceneObject(bg);
+        scene.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND));
 //        scene.addUIElement(level1);
 //        scene.addUIElement(level2);
         scene.addUIElement(back);

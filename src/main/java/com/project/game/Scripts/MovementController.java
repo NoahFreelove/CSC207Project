@@ -4,10 +4,14 @@ import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Input.EInputType;
+import com.project.engine.Rendering.IRenderable;
+import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.IScriptable;
 import com.project.physics.PhysicsBody.RigidBody2D;
 import org.json.JSONObject;
 
+import javax.imageio.event.IIOReadProgressListener;
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -69,17 +73,6 @@ public class MovementController implements IScriptable {
 
         if (win.isKeyPressed("SPACE") && canJump) {
             jump(parent);
-            parent.getTransform().setScaleY(1.11);
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    // Execute the delayed actions
-                    parent.getTransform().setScaleY(1.0);
-                    // Cancel the timer after execution to clean up
-                    timer.cancel();
-                }
-            }, 100);
         }
     }
 
@@ -91,6 +84,12 @@ public class MovementController implements IScriptable {
         if(rb.attribs.grounded && rb.getVelocityY() >= 0){
             rb.attribs.grounded = false;
             move(ref, 0, -1500*jumpForce);
+            Iterator<IRenderable> playerModel = ref.getRenderables();
+
+            while (playerModel.hasNext()) {
+                SpriteRenderer renderable = (SpriteRenderer)playerModel.next();
+                renderable.setImage("assets/character_jump.png", 128, 128);
+            }
         }
     }
 
