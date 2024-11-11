@@ -88,7 +88,7 @@ public class MovementController implements IScriptable {
 
             while (playerModel.hasNext()) {
                 SpriteRenderer renderable = (SpriteRenderer)playerModel.next();
-                renderable.setImage("assets/character_jump.png", 128, 128);
+                renderable.setImage("assets/char_jump_straight.png", 128, 128);
             }
         }
     }
