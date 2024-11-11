@@ -5,12 +5,8 @@ import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Rendering.SpriteRenderer;
-import com.project.engine.Scripting.WindowStatsDebug;
-import com.project.game.ObjectFactories.HiddenBlockFactory;
-import com.project.game.ObjectFactories.HiddenSpikeFactory;
-import com.project.game.ObjectFactories.PlayerFactory;
-import com.project.game.Scripts.*;
-import com.project.physics.PhysicsBody.RigidBody2D;
+import com.project.game.ObjectFactories.*;
+import com.project.game.Scripts.SceneExit;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -33,99 +29,39 @@ public class EasyLevelFactory {
         //w.setActiveScene(SerializeManager.deserialize(serialized));
         Scene s = new Scene("Test Scene");
 
-        GameObject escapeDetector = new GameObject();
-        escapeDetector.addBehavior(new SceneExit(LevelSelectionFactory::loadLevelSelection));
-        s.addSceneObject(escapeDetector, true);
+        GameObject exitInputLIstener = AbstractObjectFactory.generateOfType(ObjectType.ESCAPE_KEY);
+        exitInputLIstener.getScriptable(SceneExit.class).setOnExit(LevelSelectionFactory::loadLevelSelection);
+        s.addSceneObject(exitInputLIstener, true);
 
-        GameObject o = getPlayerObject();
-        s.addSceneObject(o, true);
-        s.getCamera().update(o, 0);
+        s.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND));
+
+        GameObject player = AbstractObjectFactory.generateOfType(ObjectType.PLAYER);
+
+        s.getCamera().update(player, 0);
         s.getCamera().setOffsetX(-100);
+        s.getCamera().setFollowY(false);
 
+        s.addSceneObject(player, true);
 
-        s.addSceneObjects(getBackgroundObject(), getGroundObject(0), getGroundObject(1600),
-                getFloatingObject1(), getFloatingObject2(),
-                HiddenBlockFactory.generateHiddenBlock(1280, 380, false),
-                HiddenBlockFactory.generateHiddenBlock(1280-64, 380, false),
-                HiddenSpikeFactory.generateHiddenSpike(900, 600),
-                getCloud(100, 50), getCloud(500, 100), getCloud(900, 90), getCloud(1400, 70));
+        GroundBlockFactory groundMaker = (GroundBlockFactory) AbstractObjectFactory.makeFactory(ObjectType.GROUND_BLOCK);
+        HiddenBlockFactory hiddenBlockMaker = (HiddenBlockFactory) AbstractObjectFactory.makeFactory(ObjectType.HIDDEN_BLOCK);
+        CloudFactory cloudMaker = (CloudFactory) AbstractObjectFactory.makeFactory(ObjectType.CLOUD);
+
+        s.addSceneObjects(
+                groundMaker.generate(0, 600, 1, 10, 2),
+                groundMaker.generate(1600, 600, 1, 10, 2),
+                groundMaker.generate(500, 520, 0, 1, 1, "assets/brick.png"),
+                groundMaker.generate(700, 400, 0, 1, 0.5, 1, "assets/brick.png"),
+                hiddenBlockMaker.generate(1280, 380, 1),
+                hiddenBlockMaker.generate(1280-64, 380, 1),
+                AbstractObjectFactory.generateOfType(ObjectType.HIDDEN_SPIKE,900, 600),
+                cloudMaker.generate(100, 50, 3, 1.5),
+                cloudMaker.generate(500, 100, 3, 1.5),
+                cloudMaker.generate(900, 90, 3, 1.5),
+                cloudMaker.generate(1400, 70, 3, 1.5));
 
         return s;
     }
-
-    /**
-     * Creates sample object with input script. WASD to move object, arrow keys to move camera.
-     * @return The test object
-     */
-    private static @NotNull GameObject getPlayerObject() {
-        return PlayerFactory.createPlayer();
-    }
-
-
-    private static @NotNull GameObject getBackgroundObject() {
-        GameObject o = new GameObject();
-        SpriteRenderer sr = new SpriteRenderer("assets/CSC207_asset_bg.png", 800,800);
-        sr.setIndependentOfCamera(true);
-        o.getTransform().setPosition(0,0);
-        o.getTransform().setZIndex(0);
-        o.addRenderable(sr);
-        return o;
-    }
-
-    private static @NotNull GameObject getGroundObject(int xPos) {
-        GameObject o = new GameObject();
-        o.addTag("ground");
-        SpriteRenderer sr = new SpriteRenderer("assets/ground_brick.png", 128,128);
-        sr.setTile(true);
-        sr.setTileX(10);
-
-        o.getTransform().setPosition(xPos, 600);
-        o.getTransform().setScaleX(10);
-
-        o.addBehavior(new GroundStats(0.5));
-        o.addBehavior(new SimpleCollider());
-        o.getTransform().setZIndex(1);
-        o.addRenderable(sr);
-        return o;
-    }
-
-    private static @NotNull GameObject getFloatingObject1() {
-        GameObject o = new GameObject();
-        o.addTag("ground");
-        SpriteRenderer sr = new SpriteRenderer("assets/brick.png", 128,128);
-
-        o.getTransform().setPosition(500, 520);
-        o.addBehavior(new GroundStats(0.5));
-        o.addBehavior(new SimpleCollider());
-        o.getTransform().setZIndex(0);
-        o.addRenderable(sr);
-        return o;
-    }
-
-    private static @NotNull GameObject getFloatingObject2() {
-        GameObject o = new GameObject();
-        o.addTag("ground");
-        SpriteRenderer sr = new SpriteRenderer("assets/brick.png", 128,64);
-
-        o.getTransform().setPosition(700, 400);
-        o.addBehavior(new GroundStats(1));
-        o.addBehavior(new SimpleCollider());
-        o.getTransform().setZIndex(1);
-        o.addRenderable(sr);
-        return o;
-    }
-
-    public static @NotNull GameObject getCloud(int x, int y) {
-        GameObject cloud = new GameObject("Cloud");
-        SpriteRenderer cloudRenderer = new SpriteRenderer("assets/CSC207_asset_cloud.png", 800, 800);
-        cloud.getTransform().setPosition(x, y);
-        cloud.getTransform().setZIndex(1);
-        cloud.getTransform().setScaleX(0.5);
-        cloud.getTransform().setScaleY(0.2);
-        cloud.addRenderable(cloudRenderer);
-        return cloud;
-    }
-
 
     public static void loadEasyLevel() {
         Engine.getInstance().getPrimaryWindow().setWindowSizeForce(800, 800);

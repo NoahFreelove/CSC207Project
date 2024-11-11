@@ -20,8 +20,8 @@ public class SpriteRenderer extends RenderBase {
 
     private boolean independentOfCamera = false;
     private boolean tile = false;
-    private int tileX = 1;
-    private int tileY = 1;
+    private double tileX = 1;
+    private double tileY = 1;
 
     private boolean enabled = true;
 
@@ -109,6 +109,7 @@ public class SpriteRenderer extends RenderBase {
                 for (int j = 0; j < tileY; j++) {
                     AffineTransform at = new AffineTransform();
                     at.translate(finalX + i * imageWidth, finalY + j * imageHeight);
+                    at.scale(Math.min(1, tileX - i), Math.min(1, tileY - j));
                     at.rotate(Math.toRadians(rotation), imageWidth / 2.0, imageHeight / 2.0);
                     g2d.drawImage(image, at, null);
                 }
@@ -157,19 +158,19 @@ public class SpriteRenderer extends RenderBase {
         this.tile = tile;
     }
 
-    public int getTileX() {
+    public double getTileX() {
         return tileX;
     }
 
-    public void setTileX(int tileX) {
+    public void setTileX(double tileX) {
         this.tileX = tileX;
     }
 
-    public int getTileY() {
+    public double getTileY() {
         return tileY;
     }
 
-    public void setTileY(int tileY) {
+    public void setTileY(double tileY) {
         this.tileY = tileY;
     }
 

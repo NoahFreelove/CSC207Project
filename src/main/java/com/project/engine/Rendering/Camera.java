@@ -9,7 +9,7 @@ public class Camera implements IScriptable {
     private GameObject attached;
 
     private boolean followX = true;
-    private boolean followY = false;
+    private boolean followY = true;
 
     private double offsetX;
     private double offsetY;
@@ -40,6 +40,14 @@ public class Camera implements IScriptable {
             return offsetY;
         }
         return attached.getTransform().getPositionY() + offsetY;
+    }
+
+    public void setFollowX(boolean followX) {
+        this.followX = followX;
+    }
+
+    public void setFollowY(boolean followY) {
+        this.followY = followY;
     }
 
     public double getOffsetY() {

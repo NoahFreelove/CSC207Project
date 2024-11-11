@@ -18,8 +18,6 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
 
         if (other.hasTag("ground") && rb.getVelocityY() >= 0){
             rb.resetY();
-            parent.getTransform().setPositionY(other.getTransform().getPositionY() -
-                    0.85 * parent.getTransform().getHeight());
             rb.attribs.grounded = true;
             rb.attribs.groundFrictionCoefficient = other.getScriptable(GroundStats.class).getFriction();
         }

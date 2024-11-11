@@ -1,6 +1,7 @@
 package com.project.game.ObjectFactories;
 
 import com.project.engine.Core.GameObject;
+import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.ILambdaTrigger;
 import com.project.game.Scripts.GroundStats;
@@ -10,28 +11,48 @@ import com.project.game.Scripts.SimpleTrigger;
 import com.project.physics.Collision.CollisionVolume;
 import com.project.physics.PhysicsBody.RigidBody2D;
 
-public class HiddenBlockFactory {
+import javax.naming.InsufficientResourcesException;
+import javax.naming.spi.ObjectFactory;
+import java.util.Iterator;
 
-    public static GameObject generateHiddenBlock(int xPos, int yPos) {
-        return generateHiddenBlock(xPos, yPos, false);
+public class HiddenBlockFactory extends AbstractObjectFactory {
+    private final String DEFAULT_GROUND_ASSET = "assets/brick.png";
+    protected HiddenBlockFactory() {
+        super();
     }
 
-    public static GameObject generateHiddenBlock(int xPos, int yPos, boolean debug) {
-        GameObject output = new GameObject();
-        output.getTransform().setPosition(xPos,yPos);
-        output.getTransform().setZIndex(2);
-        output.addBehavior(new GroundStats(0.5));
-        SpriteRenderer sr = new SpriteRenderer("assets/brick.png", 64, 64);
-        if(!debug) {
-            sr.setEnabled(false);
-        }
-        output.addRenderable(sr);
+    public GameObject generate(double x, double y, double width, double height, double friction) {
+        return produceGameObject(x, y, 0, width, height, friction, DEFAULT_GROUND_ASSET);
+    }
+
+    public GameObject generate(double x, double y, int z, double width, double height, String asset) {
+        return produceGameObject(x, y, z, width, height, 0.5, asset);
+    }
+
+    public GameObject generate(double x, double y, int z, double width, double height, double friction, String asset) {
+        return produceGameObject(x, y, z, width, height, friction, asset);
+    }
+
+    @Override
+    protected GameObject produceGameObject(double x, double y, int z, double width, double height) {
+        return produceGameObject(x, y, z, width, height, 0.5, DEFAULT_GROUND_ASSET);
+    }
+
+    protected GameObject produceGameObject(double x, double y, int z, double width, double height, double friction, String asset) {
+        GameObject obj = super.produceGameObject(x, y, z, width, height);
+
+        obj.getTransform().update(obj, 0); // This call allows obj to have right tiling scale.
+        SpriteRenderer sr = new SpriteRenderer(asset, 64,64);
+        sr.setEnabled(false);
+        obj.addRenderable(sr);
+
+        obj.addBehavior(new GroundStats(friction));
 
         SimpleTrigger st = new SimpleTrigger(new ILambdaTrigger() {
             @Override
             public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
                 if(other.hasTag("player") && interactor instanceof SimpleTrigger) {
-                    //System.out.println(interactor.getTag());
+                    // System.out.println(interactor.getTag());
 
                     RigidBody2D rb = other.getScriptable(RigidBody2D.class);
                     if (rb == null) {
@@ -40,15 +61,16 @@ public class HiddenBlockFactory {
                     }
                     if(rb.getVelocityY() < 0) {
                         //System.out.println("activate");
-                        output.addBehavior(new SimpleCollider());
-                        output.addTag("ground");
-                        SimpleTrigger st = output.getScriptable(SimpleTrigger.class);
+                        obj.addBehavior(new SimpleCollider());
+                        obj.addTag("ground");
+                        SimpleTrigger st = obj.getScriptable(SimpleTrigger.class);
                         if (st == null) {
                             System.err.println("SimpleTrigger not found on hidden block");
                             return;
                         }
-                        output.removeBehavior(st);
+                        obj.removeBehavior(st);
                         sr.setEnabled(true);
+
 
                         rb.resetY();
                     }
@@ -58,10 +80,10 @@ public class HiddenBlockFactory {
 
         st.setRelDimensions(0.1d, 0.01);
         st.setOffset(32,50);
+        obj.addBehavior(st);
 
-        output.addBehavior(st);
+        obj.addBehavior(new HiddenBlockScript());
 
-        output.addBehavior(new HiddenBlockScript());
-        return output;
+        return obj;
     }
 }

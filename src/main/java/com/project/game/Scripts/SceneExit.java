@@ -14,6 +14,9 @@ public class SceneExit implements IScriptable {
         this.onExit = onExit;
     }
 
+    public void setOnExit(Runnable onExit) {
+        this.onExit = onExit;
+    }
 
     @Override
     public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
