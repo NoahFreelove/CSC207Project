@@ -63,17 +63,20 @@ public class MovementController implements IScriptable {
                 parent.getTransform().faceLeft();
                 parent.getTransform().setRotation(0);
                 move(parent, -actualSpeed, 0);
+                Animation.updateFrame("A");
             }
 
             if (win.isKeyPressed("D") || win.isKeyPressed("RIGHT")) {
                 parent.getTransform().faceRight();
                 parent.getTransform().setRotation(0);
                 move(parent, actualSpeed, 0);
+                Animation.updateFrame("D");
             }
         }
 
-        if (win.isKeyPressed("SPACE") && canJump) {
+        if ((win.isKeyPressed("SPACE") || win.isKeyPressed("UP") || win.isKeyPressed("W")) && canJump) {
             jump(parent);
+            Animation.updateFrame("SPACE");
         }
 
         // Display the current frame
