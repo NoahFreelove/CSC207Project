@@ -4,26 +4,21 @@ import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Input.EInputType;
-import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.IScriptable;
 import com.project.physics.PhysicsBody.RigidBody2D;
+import com.project.engine.Rendering.SpriteRenderer;
+import entity.Animation;
 import org.json.JSONObject;
 
-import javax.imageio.event.IIOReadProgressListener;
-import java.util.Iterator;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.awt.image.BufferedImage;
+
 
 public class MovementController implements IScriptable {
-
     private float moveSpeed = 8f;
     private float jumpForce = 1.15f;
-
     private boolean canMove = true;
-
     private boolean canJump = true;
-
     private RigidBody2D rb = null;
 
     public MovementController() {
@@ -62,17 +57,26 @@ public class MovementController implements IScriptable {
                 parent.getTransform().faceLeft();
                 parent.getTransform().setRotation(0);
                 move(parent, -actualSpeed, 0);
+                Animation.updateFrame("A");
             }
 
             if (win.isKeyPressed("D") || win.isKeyPressed("RIGHT")) {
                 parent.getTransform().faceRight();
                 parent.getTransform().setRotation(0);
                 move(parent, actualSpeed, 0);
+                Animation.updateFrame("D");
             }
         }
 
         if (win.isKeyPressed("SPACE") && canJump) {
             jump(parent);
+            Animation.updateFrame("SPACE");
+        }
+
+        // Display the current frame
+        String currentFrame = Animation.getCurrentFrame();
+        if (currentFrame != null) {  // If the current frame is not null
+            ((SpriteRenderer)parent.getRenderables().next()).setImage(currentFrame, 128, 128);
         }
     }
 
@@ -84,12 +88,6 @@ public class MovementController implements IScriptable {
         if(rb.attribs.grounded && rb.getVelocityY() >= 0){
             rb.attribs.grounded = false;
             move(ref, 0, -1500*jumpForce);
-            Iterator<IRenderable> playerModel = ref.getRenderables();
-
-            while (playerModel.hasNext()) {
-                SpriteRenderer renderable = (SpriteRenderer)playerModel.next();
-                renderable.setImage("assets/char_jump_straight.png", 128, 128);
-            }
         }
     }
 

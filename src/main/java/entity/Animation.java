@@ -6,6 +6,8 @@ public class Animation {
     public static String left2 = "assets/CSC207_asset_char_left_02.png";
     public static String right1 = "assets/character.png";
     public static String right2 = "assets/character_right_02.png";
+    public static String jump1 = "assets/char_jump_straight.png";
+    public static String jump2 = "assets/character_jump.png";
     ;
     private static int frameDelay = 20; // Adjust this value to control the speed
     private static int frameCounter = 0;
@@ -29,6 +31,11 @@ public class Animation {
         }
         if ("D".equals(currentDirection)) {
             return currentFrameIndex == 0 ? right1 : right2;
+        }
+
+        if ("SPACE".equals(currentDirection)) {
+            return currentFrameIndex == 0 ? jump1 : jump2;
+
         }
         return null;
     }
