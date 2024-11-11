@@ -8,10 +8,8 @@ import com.project.engine.UI.FontCreator;
 import com.project.engine.UI.GameUIButton;
 import com.project.engine.UI.GameUILabel;
 import com.project.game.Scripts.SceneExit;
-import jdk.dynalink.beans.BeansLinker;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import java.awt.*;
 
 public class MainMenuFactory {
@@ -25,7 +23,7 @@ public class MainMenuFactory {
 
         // Background
         GameObject bg = new GameObject("Background");
-        SpriteRenderer bgRenderer = new SpriteRenderer("assets/CSC207_asset_bg.png", 800, 800);
+        SpriteRenderer bgRenderer = new SpriteRenderer("assets/bg.png", 800, 800);
         bg.getTransform().setPosition(0, 0);
         bg.addRenderable(bgRenderer);
         // Cloud

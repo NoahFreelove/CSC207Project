@@ -3,8 +3,6 @@ package com.project.game;
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.Scene;
 import com.project.engine.Core.Window.GameWindow;
-import com.project.game.Scenes.EasyLevelFactory;
-import com.project.game.Scenes.LevelSelectionFactory;
 import com.project.game.Scenes.MainMenuFactory;
 import com.project.game.tts.PlayTTS;
 

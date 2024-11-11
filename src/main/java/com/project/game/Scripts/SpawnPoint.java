@@ -42,8 +42,7 @@ public class SpawnPoint implements IScriptable {
         DeathJoke dj = parent.getScriptable(DeathJoke.class);
 
         if (dj != null) {
-            Thread t = new Thread(dj::generateJoke);
-            t.start();
+            dj.generateJoke();
         }
     }
 
@@ -51,30 +50,37 @@ public class SpawnPoint implements IScriptable {
     public void update(GameObject parent, double deltaTime) {
         parentGO = parent;
         if (parent.getTransform().getPositionY() >= 800 && !isDead) {
-            Tuple<Double, Double> death_pt = new Tuple<>(parent.getTransform().getPositionX(), parent.getTransform().getPositionY() - 300);
-            parent.getTransform().setPosition(death_pt);
-            parent.getScriptable(RigidBody2D.class).resetY();
-            parent.getScriptable(RigidBody2D.class).resetX();
-            parent.getScriptable(RigidBody2D.class).addForce(0, 1.15f*-300600);
-            parent.getTransform().setScaleX(2.0);
-            isDead = true;
-            timeSinceDeath = 0.0;
-
-            MovementController mc = parent.getScriptable(MovementController.class);
-            if (mc != null) {
-                mc.setCanMove(false);
-                mc.setCanJump(false);
-            }
-            parent.removeTag("player"); // dont trigger other events when dead
+            die(300600);
         }
         if (isDead){
             timeSinceDeath += deltaTime;
             if (timeSinceDeath >= respawnDelay) {
                 respawn();
                 isDead = false;
-                parent.getTransform().setScaleX(1.0);
             }
         }
+    }
+
+
+    public void die(float force) {
+        GameObject parent = parentGO;
+        Tuple<Double, Double> death_pt = new Tuple<>(parent.getTransform().getPositionX(), parent.getTransform().getPositionY() - 300);
+        parent.getTransform().setPosition(death_pt);
+        parent.getScriptable(RigidBody2D.class).resetY();
+        parent.getScriptable(RigidBody2D.class).resetX();
+        parent.getScriptable(RigidBody2D.class).addForce(0, -1f*force);
+
+        parent.disableScript(parent.getScriptable(SimpleCollider.class)); // don't hard collide with anything
+        parent.getTransform().setScaleX(2.0);
+        isDead = true;
+        timeSinceDeath = 0.0;
+
+        MovementController mc = parent.getScriptable(MovementController.class);
+        if (mc != null) {
+            mc.setCanMove(false);
+            mc.setCanJump(false);
+        }
+        parent.removeTag("player"); // don't trigger other events when dead
     }
 
     public void respawn() {
@@ -82,9 +88,21 @@ public class SpawnPoint implements IScriptable {
             return;
         }
 
-        GameObject parent = parentGO;
-        parent.addTag("player");
+        parentGO.getLinkedScene().reset();
+
+        DeathJoke dj = parentGO.getScriptable(DeathJoke.class);
+        if (dj != null) {
+            dj.readJoke();
+
+            dj.generateJoke();
+        }
+        //parent.addTag("player");
+    }
+
+    @Override
+    public void reset(GameObject parent) {
         parent.getTransform().setPosition(spawnPoint);
+        parent.enableScript(parent.getScriptable(SimpleCollider.class, true)); // now we want hard collision events with anything
 
         RigidBody2D rb = parent.getScriptable(RigidBody2D.class);
         if (rb != null) {
@@ -97,13 +115,8 @@ public class SpawnPoint implements IScriptable {
             mc.setCanMove(true);
             mc.setCanJump(true);
         }
+        parent.addTag("player");
+        parent.getTransform().setScaleX(1.0);
 
-        DeathJoke dj = parent.getScriptable(DeathJoke.class);
-        if (dj != null) {
-            dj.readJoke();
-
-            Thread t = new Thread(dj::generateJoke);
-            t.start();
-        }
     }
 }

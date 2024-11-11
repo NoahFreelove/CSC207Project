@@ -1,24 +1,28 @@
 package com.project.game.Scripts;
 
+import com.project.engine.Network.APIResponse;
 import com.project.engine.Network.JokeAPIRequest;
 import com.project.engine.Network.JokeType;
 import com.project.engine.Scripting.IScriptable;
 import com.project.game.tts.PlayTTS;
+import org.json.JSONObject;
 
 public class DeathJoke implements IScriptable {
     private String jokeText;
     public DeathJoke() {}
 
     public void generateJoke() {
-        JokeAPIRequest joke = new JokeAPIRequest(JokeType.Programming, JokeType.Any);
-
-        if (joke.getResponseDefaultIfNull().has("joke")) {
-            jokeText = (String)joke.getResponseDefaultIfNull().get("joke");
-        }
-        else{
-            jokeText = joke.getResponseDefaultIfNull().get("setup") + "\n"
-                        + joke.getResponseDefaultIfNull().get("delivery");
-        }
+        new JokeAPIRequest(new APIResponse() {
+            @Override
+            public void onResponse(JSONObject res) {
+                if (res.has("joke")) {
+                    jokeText = (String) res.get("joke");
+                } else {
+                    jokeText = res.get("setup") + "\n"
+                            + res.get("delivery");
+                }
+            }
+        }, JokeType.Programming, JokeType.Any);
     }
 
     public void readJoke() {

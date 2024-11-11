@@ -9,4 +9,6 @@ public interface IScriptable extends ISerializable {
     default void update(GameObject parent, double deltaTime) {}
     default void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {}
     default void stop(GameObject parent) {}
+
+    default void reset(GameObject parent){}
 }

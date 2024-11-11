@@ -1,30 +1,37 @@
 package com.project.game.ObjectFactories;
 
 import com.project.engine.Core.GameObject;
-import com.project.engine.Core.Tuple;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.ILambdaTrigger;
-import com.project.game.Scripts.*;
+import com.project.engine.Scripting.IScriptable;
+import com.project.game.Scripts.InterpolationMove;
+import com.project.game.Scripts.SimpleCollider;
+import com.project.game.Scripts.SimpleTrigger;
+import com.project.game.Scripts.SpawnPoint;
 import com.project.physics.Collision.CollisionVolume;
 import com.project.physics.PhysicsBody.RigidBody2D;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import javax.naming.spi.ObjectFactory;
 
-public class HiddenSpikeFactory {
-    public static GameObject generateHiddenSpike(int xPos, int yPos) {
-        return generateHiddenSpike(xPos, yPos, 2);
+public class HiddenSpikeFactory extends AbstractObjectFactory {
+    protected HiddenSpikeFactory() {
+        super();
     }
-    public static GameObject generateHiddenSpike(int xPos, int yPos, int zIndex) {
-        GameObject output = new GameObject();
+
+    @Override
+    protected GameObject produceGameObject(double x, double y, int z, double width, double height) {
+        GameObject obj = super.produceGameObject(x, y, z, width, height);
+        obj.addTag("spike");
+
         SpriteRenderer sr = new SpriteRenderer("assets/spike.png", 64, 64);
         sr.setEnabled(false);
-        output.addRenderable(sr);
-        InterpolationMove im = new InterpolationMove(xPos, yPos, 500);
-        im.setTarget(xPos, yPos - 64);
-        output.addBehavior(im);
+        obj.addRenderable(sr);
 
-        SimpleTrigger triggerZone = new SimpleTrigger(new ILambdaTrigger() {
+        InterpolationMove im = new InterpolationMove(x, y, 300);
+        im.setTarget(x, y-64);
+        obj.addBehavior(im);
+
+        SimpleTrigger st = new SimpleTrigger(new ILambdaTrigger() {
             @Override
             public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
                 if(other.hasTag("player") && interactor instanceof SimpleTrigger) {
@@ -33,70 +40,28 @@ public class HiddenSpikeFactory {
                 }
             }
         });
-        triggerZone.setRelDimensions(2,1d);
-        triggerZone.setOffset(-64,-100);
-        output.addBehavior(triggerZone);
+        st.setOffset(0,-100);
+        obj.addBehavior(st);
 
-        output.getTransform().translate(xPos, yPos);
-        output.getTransform().setZIndex(zIndex);
-        output.addTag("spike");
-
-        boolean[] triggered = new boolean[1];
         SimpleTrigger deathCollider = new SimpleTrigger(new ILambdaTrigger() {
             @Override
             public void onTriggerContinue(GameObject parent, GameObject other, CollisionVolume interactor) {
+
                 if(other.hasTag("player")) {
-                    if (triggered[0]) {
-                        return;
-                    }
                     SpawnPoint sp = other.getScriptable(SpawnPoint.class);
                     if (sp != null) {
-                        Tuple<Double, Double> death_pt = new Tuple<>(other.getTransform().getPositionX(), other.getTransform().getPositionY() - 300);
-                        other.getTransform().setPosition(death_pt);
-                        other.getScriptable(RigidBody2D.class).resetY();
-                        other.getScriptable(RigidBody2D.class).resetX();
-                        other.getScriptable(RigidBody2D.class).addForce(0, 1.15f*-99600);
-                        other.getTransform().setScaleX(2.0);
-                        Timer timer = new Timer();
-                        MovementController mc = other.getScriptable(MovementController.class);
-                        if (mc != null) {
-                            mc.setCanMove(false);
-                            mc.setCanJump(false);
-                        }
-                        other.removeTag("player"); // dont trigger other events when dead
-                        timer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                // Execute the delayed actions
-                                sp.respawn();
-                                other.getTransform().setScaleX(1.0);
-
-                                // Cancel the timer after execution to clean up
-                                timer.cancel();
-                            }
-                        }, 1420);
-                        triggered[0] = true;
+                        sp.die(2000);
                     }
                     else {
                         System.err.println("No spawn point found");
                     }
                 }
             }
-
-            @Override
-            public void onTriggerExit(GameObject parent, GameObject other, CollisionVolume interactor) {
-                if(other.hasTag("player")) {
-                    triggered[0] = false;
-                    //im.setActive(false);
-                    //output.getTransform().translate(0,64);
-                    //sr.setEnabled(false);
-                }
-            }
         });
         deathCollider.setRelDimensions(1,0.25);
         deathCollider.setOffset(0,48);
-        output.addBehavior(deathCollider);
+        obj.addBehavior(deathCollider);
 
-        return output;
+        return obj;
     }
 }

@@ -330,6 +330,18 @@ public class Scene implements ISerializable {
                 script.stop(object);
             }
         }
+        collisionManager.reset();
+    }
+
+    // Soft reset
+    public void reset() {
+        for (GameObject object : sceneObjects){
+            Iterator<IScriptable> scripts = object.getScriptables();
+            while (scripts.hasNext()){
+                IScriptable script = scripts.next();
+                script.reset(object);
+            }
+        }
     }
 
 

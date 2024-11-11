@@ -101,6 +101,11 @@ public class Transform implements IScriptable, ISerializable {
         staged_scale.setSecond(y);
     }
 
+    public void setScale(double x, double y){
+        this.staged_scale.setFirst(x);
+        this.staged_scale.setSecond(y);
+    }
+
     public void setScale(Tuple<Double, Double> scale){
         this.staged_scale = scale;
     }
