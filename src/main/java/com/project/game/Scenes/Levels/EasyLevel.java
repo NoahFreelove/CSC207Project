@@ -35,13 +35,12 @@ public class EasyLevel {
         s.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND));
 
         GameObject player = AbstractObjectFactory.generateOfType(ObjectType.PLAYER, 2);
-
         s.getCamera().update(player, 0);
         s.getCamera().setOffsetX(-100);
         s.getCamera().setFollowY(false);
 
         s.addSceneObject(player, true);
-
+        s.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.VOID));
         GroundBlockFactory groundMaker = (GroundBlockFactory) AbstractObjectFactory.makeFactory(ObjectType.GROUND_BLOCK);
         HiddenBlockFactory hiddenBlockMaker = (HiddenBlockFactory) AbstractObjectFactory.makeFactory(ObjectType.HIDDEN_BLOCK);
         CloudFactory cloudMaker = (CloudFactory) AbstractObjectFactory.makeFactory(ObjectType.CLOUD);

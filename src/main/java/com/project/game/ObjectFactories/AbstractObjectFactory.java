@@ -39,6 +39,8 @@ public class AbstractObjectFactory {
                 return new BackgroundFactory();
             case ESCAPE_KEY:
                 return new EscapeKeyDetectorFactory();
+            case VOID:
+                return new VoidFactory();
         }
 
         return new AbstractObjectFactory();
