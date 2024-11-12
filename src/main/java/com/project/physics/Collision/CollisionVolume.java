@@ -6,6 +6,7 @@ import com.project.physics.Collision.Types.ECollisionVolume;
 public class CollisionVolume {
     private double xOffset = 0, yOffset = 0;
     private double relWidth = 1, relHeight = 1;
+    private boolean enabled = true;
 
 
     private String tag = "volume";

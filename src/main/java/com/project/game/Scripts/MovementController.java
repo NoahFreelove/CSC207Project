@@ -38,13 +38,7 @@ public class MovementController implements IScriptable {
 
     @Override
     public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
-        //System.out.println(keyName);
-        if (inputType == EInputType.RELEASE && "1".equals(keyName)) {
-            moveSpeed++;
-        }
-        else if (inputType == EInputType.RELEASE && "2".equals(keyName)) {
-            moveSpeed--;
-        }
+
     }
 
     @Override
@@ -53,8 +47,6 @@ public class MovementController implements IScriptable {
         if (win == null || rb == null) {
             return;
         }
-
-        //System.out.println(win.FPS());
 
         if(canMove) {
             double actualSpeed = moveSpeed * deltaTime * 300;
@@ -81,7 +73,6 @@ public class MovementController implements IScriptable {
         if (currentFrame != null) {  // If the current frame is not null
             ((SpriteRenderer)parent.getRenderables().next()).setImage(currentFrame, 128, 128);
         }
-
     }
 
     private void move(GameObject ref, double xDelta, double yDelta) {

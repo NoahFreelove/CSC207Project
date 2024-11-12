@@ -21,8 +21,8 @@ public class HiddenBlockFactory extends AbstractObjectFactory {
         super();
     }
 
-    public GameObject generate(double x, double y, double width, double height, double friction) {
-        return produceGameObject(x, y, 0, width, height, friction, DEFAULT_GROUND_ASSET);
+    public GameObject generate(double x, double y, int z, double width, double height, double friction) {
+        return produceGameObject(x, y, z, width, height, friction, DEFAULT_GROUND_ASSET);
     }
 
     public GameObject generate(double x, double y, int z, double width, double height, String asset) {
@@ -60,7 +60,7 @@ public class HiddenBlockFactory extends AbstractObjectFactory {
                         return;
                     }
                     if(rb.getVelocityY() < 0) {
-                        //System.out.println("activate");
+                        System.out.println("activate");
                         obj.addBehavior(new SimpleCollider());
                         obj.addTag("ground");
                         SimpleTrigger st = obj.getScriptable(SimpleTrigger.class);
