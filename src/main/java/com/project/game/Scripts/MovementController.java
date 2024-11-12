@@ -37,11 +37,6 @@ public class MovementController implements IScriptable {
     }
 
     @Override
-    public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
-
-    }
-
-    @Override
     public void update(GameObject parent, double deltaTime) {
         GameWindow win = Engine.getInstance().getPrimaryWindow();
         if (win == null || rb == null) {
@@ -64,7 +59,7 @@ public class MovementController implements IScriptable {
             }
         }
 
-        if (win.isKeyPressed("SPACE") && canJump) {
+        if ((win.isKeyPressed("SPACE") || win.isKeyPressed("W") || win.isKeyPressed("UP"))  && canJump) {
             jump(parent);
         }
 

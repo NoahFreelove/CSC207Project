@@ -14,6 +14,9 @@ public class Camera implements IScriptable {
     private double offsetX;
     private double offsetY;
 
+    private double positionX;
+    private double positionY;
+
     @Override
     public void update(GameObject parent, double deltaTime) {
         attached = parent;
@@ -29,17 +32,19 @@ public class Camera implements IScriptable {
     }
 
     public double getCameraX() {
-        if (attached == null || !followX) {
-            return offsetX;
+        if (attached != null && followX) {
+            positionX = attached.getTransform().getPositionX();
         }
-        return attached.getTransform().getPositionX() + offsetX;
+
+        return positionX + offsetX;
     }
 
     public double getCameraY() {
-        if (attached == null|| !followY) {
-            return offsetY;
+        if (attached != null && followY) {
+            positionY = attached.getTransform().getPositionY();
         }
-        return attached.getTransform().getPositionY() + offsetY;
+
+        return positionY + offsetY;
     }
 
     public void setFollowX(boolean followX) {

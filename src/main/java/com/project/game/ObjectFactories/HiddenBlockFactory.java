@@ -1,19 +1,13 @@
 package com.project.game.ObjectFactories;
 
 import com.project.engine.Core.GameObject;
-import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.ILambdaTrigger;
 import com.project.game.Scripts.GroundStats;
-import com.project.game.Scripts.HiddenBlockScript;
 import com.project.game.Scripts.SimpleCollider;
 import com.project.game.Scripts.SimpleTrigger;
 import com.project.physics.Collision.CollisionVolume;
 import com.project.physics.PhysicsBody.RigidBody2D;
-
-import javax.naming.InsufficientResourcesException;
-import javax.naming.spi.ObjectFactory;
-import java.util.Iterator;
 
 public class HiddenBlockFactory extends AbstractObjectFactory {
     private final String DEFAULT_GROUND_ASSET = "assets/brick.png";
@@ -55,14 +49,15 @@ public class HiddenBlockFactory extends AbstractObjectFactory {
                     // System.out.println(interactor.getTag());
 
                     RigidBody2D rb = other.getScriptable(RigidBody2D.class);
+
                     if (rb == null) {
                         System.err.println("RigidBody2D not found on player");
                         return;
                     }
                     if(rb.getVelocityY() < 0) {
-                        System.out.println("activate");
                         obj.addBehavior(new SimpleCollider());
                         obj.addTag("ground");
+
                         SimpleTrigger st = obj.getScriptable(SimpleTrigger.class);
                         if (st == null) {
                             System.err.println("SimpleTrigger not found on hidden block");
@@ -70,7 +65,6 @@ public class HiddenBlockFactory extends AbstractObjectFactory {
                         }
                         obj.removeBehavior(st);
                         sr.setEnabled(true);
-
 
                         rb.resetY();
                     }
@@ -81,8 +75,6 @@ public class HiddenBlockFactory extends AbstractObjectFactory {
         st.setRelDimensions(0.1d, 0.01);
         st.setOffset(32,50);
         obj.addBehavior(st);
-
-        obj.addBehavior(new HiddenBlockScript());
 
         return obj;
     }

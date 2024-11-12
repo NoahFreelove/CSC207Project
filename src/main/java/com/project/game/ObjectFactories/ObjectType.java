@@ -8,5 +8,6 @@ public enum ObjectType {
     GROUND_BLOCK,
     HIDDEN_BLOCK,
     HIDDEN_SPIKE,
-    VOID
+    VOID,
+    BOUNDARY
 }

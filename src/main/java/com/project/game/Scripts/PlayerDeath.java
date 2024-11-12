@@ -23,13 +23,9 @@ public class PlayerDeath implements IScriptable {
     }
 
     public void update(GameObject parent, double delta) {
-        if (!dead) { return; }
+        deathCooldown += delta; // Add death cooldown to prevent double firring of death logic
 
-        // Add death cooldown to prevent double firring of death logic
-        if (deathCooldown >= 0) {
-            deathCooldown -= delta;
-            return;
-        }
+        if (!dead) { return; }
 
         if (timeScinceDeath == 0) {
             die(parent,300600);
@@ -39,12 +35,13 @@ public class PlayerDeath implements IScriptable {
 
         if (timeScinceDeath >= respawnDelay) {
             timeScinceDeath = 0;
-            deathCooldown = COOLDOWN_TIME;
+            deathCooldown = 0;
 
             dead = false;
 
             parent.enableScript(parent.getScriptable(SimpleCollider.class, true)); // now we want hard collision events with anything
 
+            parent.getLinkedScene().getCamera().setFollowX(true);
             parent.getTransform().setScaleX(1.0);
             parent.getScriptable(SpawnPoint.class).queueRespawn();
             parent.addTag("player");
@@ -55,7 +52,7 @@ public class PlayerDeath implements IScriptable {
     }
 
     public void queueDeath() {
-        if (!dead) {
+        if (!dead && deathCooldown >= COOLDOWN_TIME) {
             this.dead = true;
         }
     }
@@ -64,7 +61,10 @@ public class PlayerDeath implements IScriptable {
         parent.getScriptable(RigidBody2D.class).resetY();
         parent.getScriptable(RigidBody2D.class).resetX();
         parent.getScriptable(RigidBody2D.class).addForce(0, -1f*deathForce);
+
+        parent.getLinkedScene().getCamera().setFollowX(false);
         parent.getTransform().setScaleX(2.0 * Math.signum(parent.getTransform().getScaleX()));
+        parent.getTransform().setPositionX(parent.getTransform().getPositionX() - 0.25 *    Math.abs(parent.getTransform().getWidth()));
 
         DeathJoke dj = parent.getScriptable(DeathJoke.class);
         if (dj != null) {

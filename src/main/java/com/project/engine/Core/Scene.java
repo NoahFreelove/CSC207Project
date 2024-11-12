@@ -315,11 +315,7 @@ public class Scene implements ISerializable {
     }
 
     public void physicsUpdate() {
-        try {
-            collisionManager.update(sceneObjects);
-        }catch (Exception e){
-            System.err.println("Error in collision manager: " + e.getMessage());
-        }
+        collisionManager.update(sceneObjects);
     }
 
     public void stop(){

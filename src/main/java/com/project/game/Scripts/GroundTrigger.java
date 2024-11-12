@@ -18,6 +18,15 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
     }
 
     @Override
+    public void update(GameObject parent, double deltaTime) {
+        RigidBody2D rb = parent.getScriptable(RigidBody2D.class);
+
+        if (!rb.attribs.grounded) {
+            groundInteractCount = 0;
+        }
+    }
+
+    @Override
     public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
         RigidBody2D rb = parent.getScriptable(RigidBody2D.class);
         SimpleCollider thisCollider = parent.getScriptable(SimpleCollider.class);

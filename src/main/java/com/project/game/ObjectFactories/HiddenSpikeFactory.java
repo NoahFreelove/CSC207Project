@@ -58,8 +58,8 @@ public class HiddenSpikeFactory extends AbstractObjectFactory {
                 }
             }
         });
-        deathCollider.setRelDimensions(1,0.25);
-        deathCollider.setOffset(0,48);
+        deathCollider.setRelDimensions(1,0.4);
+        deathCollider.setOffset(0,38.4d);
         obj.addBehavior(deathCollider);
 
         return obj;
