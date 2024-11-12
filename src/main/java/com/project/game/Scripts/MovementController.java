@@ -9,6 +9,8 @@ import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.IScriptable;
 import com.project.physics.PhysicsBody.RigidBody2D;
 import entity.Animation;
+import entity.AnimationManager;
+import entity.WalkAnimation;
 import org.json.JSONObject;
 
 import javax.imageio.event.IIOReadProgressListener;
@@ -27,34 +29,90 @@ public class MovementController implements IScriptable {
 
     private RigidBody2D rb = null;
 
+    private AnimationManager animationManager;
+
+    private boolean isMoving = false;
+    private Timer animationTimer;
     public MovementController() {
 
     }
 
     @Override
     public void start(GameObject parent) {
+
         rb = parent.getScriptable(RigidBody2D.class);
+        animationManager = new AnimationManager((SpriteRenderer) parent.getRenderables().next(), 128, 128);
+        animationManager.addAnimation("walk", new WalkAnimation());
     }
 
     @Override
     public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
+        GameWindow win = Engine.getInstance().getPrimaryWindow();
+
+        if (keyName.equals("A") && inputType == EInputType.PRESS) {
+            startMoving(parent, true);
+        }
+        // Check if the "A" key is released
+        else if (keyName.equals("A") && inputType == EInputType.RELEASE) {
+            stopMoving();
+        }
 
     }
 
+    private void startMoving(GameObject parent, boolean isLeft) {
+        isMoving = true;
+        if (isLeft) {
+            parent.getTransform().faceLeft();
+        } else {
+            parent.getTransform().faceRight();
+        }
+        animationManager.startAnimation("walk");
+
+        // Start a timer to update the animation manager periodically
+        if (animationTimer == null) {
+            animationTimer = new Timer();
+            animationTimer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    animationManager.update();
+                }
+            }, 0, 1000 / 30); // Run at ~30 FPS
+        }
+
+    }
+
+    private void stopMoving() {
+        isMoving = false;
+        animationManager.endAnimation();
+
+        // Cancel the timer to stop the animation loop
+        if (animationTimer != null) {
+            animationTimer.cancel();
+            animationTimer = null;
+        }
+    }
+
+
     @Override
     public void update(GameObject parent, double deltaTime) {
+        animationManager = new AnimationManager((SpriteRenderer) parent.getRenderables().next(), 128, 128);
+        animationManager.addAnimation("walk", new WalkAnimation());
         GameWindow win = Engine.getInstance().getPrimaryWindow();
         if (win == null || rb == null) {
             return;
         }
 
-        if(canMove) {
+        boolean isMoving = false;
+
+        if (canMove) {
             double actualSpeed = moveSpeed * deltaTime * 300;
+
 
             if (win.isKeyPressed("A") || win.isKeyPressed("LEFT")) {
                 parent.getTransform().faceLeft();
                 parent.getTransform().setRotation(0);
                 move(parent, -actualSpeed, 0);
+
             }
 
             if (win.isKeyPressed("D") || win.isKeyPressed("RIGHT")) {
@@ -69,10 +127,15 @@ public class MovementController implements IScriptable {
         }
 
         // Display the current frame
-        String currentFrame = Animation.getCurrentFrame();
+     /*   String currentFrame = Animation.getCurrentFrame();
         if (currentFrame != null) {  // If the current frame is not null
             ((SpriteRenderer)parent.getRenderables().next()).setImage(currentFrame, 128, 128);
-        }
+        } */
+
+
+        animationManager.setPosition(128, 128);
+
+
     }
 
     private void move(GameObject ref, double xDelta, double yDelta) {

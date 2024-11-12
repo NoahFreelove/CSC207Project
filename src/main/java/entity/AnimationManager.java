@@ -3,16 +3,19 @@ package entity;
 import com.project.engine.Rendering.SpriteRenderer;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class AnimationManager {
     private Map<String, AnimationState> animations = new HashMap<>();
     private AnimationState currentAnimation;
     private String currentAnimationName;
     private boolean isAnimating;
-    private SpriteRenderer renderer;  // Reference to the renderer
-    private int x, y;  // Position coordinates
+    private SpriteRenderer renderer;
+    private Timer animationTimer;// Reference to the renderer
+    private double x, y;  // Position coordinates
 
-    public AnimationManager(SpriteRenderer renderer, int startX, int startY) {
+    public AnimationManager(SpriteRenderer renderer, double startX, double startY) {
         this.renderer = renderer;
         this.isAnimating = false;
         this.x = startX;
@@ -57,5 +60,34 @@ public class AnimationManager {
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public void startMoving(String animationName) {
+        if (!isAnimating) {
+            isAnimating = true;
+            startAnimation(animationName);
+
+            // Start a timer to update the animation manager periodically (e.g., ~30 FPS)
+            animationTimer = new Timer();
+            animationTimer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    update();
+                }
+            }, 0, 1000 / 30);
+        }
+    }
+
+    public void stopMoving() {
+        if (isAnimating) {
+            isAnimating = false;
+            endAnimation();
+
+            // Cancel the timer to stop the animation updates
+            if (animationTimer != null) {
+                animationTimer.cancel();
+                animationTimer = null;
+            }
+        }
     }
 }
