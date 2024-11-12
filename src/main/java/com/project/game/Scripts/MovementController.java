@@ -8,6 +8,7 @@ import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.IScriptable;
 import com.project.physics.PhysicsBody.RigidBody2D;
+import entity.Animation;
 import org.json.JSONObject;
 
 import javax.imageio.event.IIOReadProgressListener;
@@ -66,7 +67,12 @@ public class MovementController implements IScriptable {
         if (win.isKeyPressed("SPACE") && canJump) {
             jump(parent);
         }
-        //System.out.println(win.FPS());
+
+        // Display the current frame
+        String currentFrame = Animation.getCurrentFrame();
+        if (currentFrame != null) {  // If the current frame is not null
+            ((SpriteRenderer)parent.getRenderables().next()).setImage(currentFrame, 128, 128);
+        }
     }
 
     private void move(GameObject ref, double xDelta, double yDelta) {
