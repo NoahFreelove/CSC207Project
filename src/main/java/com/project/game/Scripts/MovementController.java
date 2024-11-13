@@ -39,7 +39,7 @@ public class MovementController implements IScriptable {
 
     @Override
     public void start(GameObject parent) {
-
+        System.out.println("Start being printed");
         rb = parent.getScriptable(RigidBody2D.class);
         animationManager = new AnimationManager((SpriteRenderer) parent.getRenderables().next(), 128, 128);
         animationManager.addAnimation("walk", new WalkAnimation());
@@ -47,7 +47,7 @@ public class MovementController implements IScriptable {
 
     @Override
     public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
-
+        System.out.println("onInput being called");
         if (keyName.equals("A") && inputType == EInputType.RELEASE) {
             System.out.println("Key A released");
             animationManager.stopMoving();  // Stop the walking animation, reverting to idle
@@ -61,8 +61,7 @@ public class MovementController implements IScriptable {
 
     @Override
     public void update(GameObject parent, double deltaTime) {
-        animationManager = new AnimationManager((SpriteRenderer) parent.getRenderables().next(), 128, 128);
-        animationManager.addAnimation("walk", new WalkAnimation());
+        System.out.println("update being called");
         GameWindow win = Engine.getInstance().getPrimaryWindow();
         assert win != null;
         if (win.isKeyPressed("A")) {
@@ -107,8 +106,6 @@ public class MovementController implements IScriptable {
             ((SpriteRenderer)parent.getRenderables().next()).setImage(currentFrame, 128, 128);
         } */
 
-
-        animationManager.setPosition(128, 128);
 
 
     }

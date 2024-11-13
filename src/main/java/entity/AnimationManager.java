@@ -75,6 +75,7 @@ public class AnimationManager {
                 @Override
                 public void run() {
                     update();
+                    System.out.println("running walking animation");
                 }
             }, 0, 1000 / 30);
         }
