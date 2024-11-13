@@ -33,6 +33,18 @@ public class Engine {
         return instance;
     }
 
+    public static Tuple<Engine, GameWindow> createAndWait() {
+        if (instance == null)
+        {
+            Engine outEngine = getInstance();
+            GameWindow outWindow = outEngine.getPrimaryWindow();
+            while (!outWindow.isReady()) {}
+            return new Tuple<>(outEngine, outWindow);
+        }
+        while (!instance.getPrimaryWindow().isReady()) {}
+        return new Tuple<>(instance, instance.getPrimaryWindow());
+    }
+
 
     @Nullable
     public GameWindow getPrimaryWindow(){

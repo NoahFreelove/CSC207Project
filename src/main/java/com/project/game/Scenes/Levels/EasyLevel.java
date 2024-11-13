@@ -3,6 +3,7 @@ package com.project.game.Scenes.Levels;
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
+import com.project.engine.Core.Tuple;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.game.ObjectFactories.*;
 import com.project.game.Scenes.LevelSelectionFactory;
@@ -13,17 +14,9 @@ import com.project.game.Scripts.SceneExit;
  */
 public class EasyLevel {
     public static Scene createScene() {
-        Engine e = Engine.getInstance();
-        GameWindow w = e.getPrimaryWindow();
-
-        if (w == null) {
-            System.out.println("Failed to obtain primary window");
-            e.exitEngine();
-            return null;
-        }
-
-        while (!w.isReady()) {}
-
+        Tuple<Engine, GameWindow> out = Engine.createAndWait();
+        Engine e = out.getFirst();
+        GameWindow w = out.getSecond();
         //String serialized = FileIO.ReadText("tmp/serialized_scene.json");
         //w.setActiveScene(SerializeManager.deserialize(serialized));
         Scene s = new Scene("Test Scene");
