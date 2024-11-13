@@ -3,13 +3,14 @@ package com.project.game.Scenes;
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
+import com.project.engine.Core.Tuple;
+import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.UI.FontCreator;
 import com.project.engine.UI.GameUIButton;
 import com.project.game.ObjectFactories.AbstractObjectFactory;
 import com.project.game.ObjectFactories.ObjectType;
 import com.project.game.Scenes.Levels.EasyLevel;
 import com.project.game.Scripts.SceneExit;
-import com.project.game.UIFactories.EngineFactory;
 import com.project.game.UIFactories.UIFactory;
 
 import javax.swing.*;
@@ -47,9 +48,10 @@ public class LevelSelectionFactory {
     }
 
     public static void loadLevelSelection() {
-        Engine e = EngineFactory.createEngine();
+        Tuple<Engine, GameWindow> out = Engine.createAndWait();
+        GameWindow w = out.getSecond();
         Scene s = LevelSelectionFactory.createScene();
-        e.getPrimaryWindow().setActiveScene(s);
+        w.setActiveScene(s);
     }
 
     private static void createLevel(int levels, Scene scene) {
