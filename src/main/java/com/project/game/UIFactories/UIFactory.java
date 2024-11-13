@@ -41,5 +41,6 @@ public class UIFactory {
         for (int i = 0; i < UIElements.size(); i++) {
             scene.addUIElement(UIElements.get(i));
         }
+        UIElements.clear();
     }
 }

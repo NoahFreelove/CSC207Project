@@ -11,6 +11,7 @@ import com.project.game.ObjectFactories.AbstractObjectFactory;
 import com.project.game.ObjectFactories.CloudFactory;
 import com.project.game.ObjectFactories.ObjectType;
 import com.project.game.Scripts.SceneExit;
+import com.project.game.UIFactories.EngineFactory;
 import com.project.game.UIFactories.UIFactory;
 
 import javax.swing.*;
@@ -60,8 +61,8 @@ public class MainMenuFactory {
     }
 
     public static void loadMainMenu() {
-        Engine.getInstance().getPrimaryWindow().setWindowSizeForce(800, 800);
+        Engine e = EngineFactory.createEngine();
         Scene s = MainMenuFactory.createScene();
-        Engine.getInstance().getPrimaryWindow().setActiveScene(s);
+        e.getPrimaryWindow().setActiveScene(s);
     }
 }

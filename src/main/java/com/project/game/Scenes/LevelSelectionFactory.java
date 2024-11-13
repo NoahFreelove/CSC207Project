@@ -42,7 +42,7 @@ public class LevelSelectionFactory {
         scene.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND));
 //        scene.addUIElement(level1);
 //        scene.addUIElement(level2);
-        scene.addUIElement(back);
+        UIFactory.addToScene(scene);
         return scene;
     }
 
