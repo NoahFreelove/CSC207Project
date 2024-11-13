@@ -39,45 +39,17 @@ public class MovementController implements IScriptable {
 
     @Override
     public void start(GameObject parent) {
-        System.out.println("Start being printed");
         rb = parent.getScriptable(RigidBody2D.class);
         animationManager = new AnimationManager((SpriteRenderer) parent.getRenderables().next(), 128, 128);
         animationManager.addAnimation("walk", new WalkAnimation());
     }
 
     @Override
-    public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
-        System.out.println("onInput being called");
-        if (keyName.equals("A") && inputType == EInputType.RELEASE) {
-            System.out.println("Key A released");
-            animationManager.stopMoving();  // Stop the walking animation, reverting to idle
-            //Part that Paul is not clear on, detecting error
-            isMoving = false;
-        }
-
-    }
-
-
-
-    @Override
     public void update(GameObject parent, double deltaTime) {
-        System.out.println("update being called");
         GameWindow win = Engine.getInstance().getPrimaryWindow();
-        assert win != null;
-        if (win.isKeyPressed("A")) {
-            if (!isMoving) {
-                animationManager.startMoving("walk");  // Start walking animation if not already moving
-                isMoving = true;
-            }
+        if (win == null)
+            return;
 
-            // Move the player to the left while "A" key is held dow
-            // Update AnimationManager position based on the player's current position
-
-
-            // Update the animation frame
-
-
-        }
         if (canMove) {
             double actualSpeed = moveSpeed * deltaTime * 300;
 
@@ -100,13 +72,23 @@ public class MovementController implements IScriptable {
             jump(parent);
         }
 
-        // Display the current frame
-     /*   String currentFrame = Animation.getCurrentFrame();
-        if (currentFrame != null) {  // If the current frame is not null
-            ((SpriteRenderer)parent.getRenderables().next()).setImage(currentFrame, 128, 128);
-        } */
+        if (animationManager == null)
+            return;
 
+        if (win.isKeyPressed("A") || win.isKeyPressed("LEFT") || win.isKeyPressed("D") || win.isKeyPressed("RIGHT")) {
+            if (!isMoving) {
+                animationManager.startMoving("walk");  // Start walking animation if not already moving
+                isMoving = true;
+            }
 
+        }
+
+        if (!win.isKeyPressed("A") && !win.isKeyPressed("D") && !win.isKeyPressed("LEFT") && !win.isKeyPressed("RIGHT")) {
+            animationManager.stopMoving();  // Stop the walking animation, reverting to idle
+            //Part that Paul is not clear on, detecting error
+            // 😂😂😂
+            isMoving = false;
+        }
 
     }
 

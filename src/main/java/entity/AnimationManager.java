@@ -46,11 +46,7 @@ public class AnimationManager {
     }
 
     private void endAnimation() {
-        System.out.println(isAnimating);
-        System.out.println(currentAnimation);
-
         if (isAnimating && currentAnimation != null) {
-            System.out.println("EndAnimation");
             currentAnimation.onEnd(renderer, x, y);  // Pass coordinates to onEnd
             isAnimating = false;
             currentAnimation = null;
@@ -75,14 +71,12 @@ public class AnimationManager {
                 @Override
                 public void run() {
                     update();
-                    System.out.println("running walking animation");
                 }
             }, 0, 1000 / 30);
         }
     }
 
     public void stopMoving() {
-        System.out.println("not working");
         endAnimation();  // End the current animation and set to idle
 
         // Cancel the timer to stop animation updates
