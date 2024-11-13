@@ -53,12 +53,11 @@ public class RigidBody2D implements IScriptable {
 
         if(attribs.gravityEnabled && !attribs.grounded) {
             currForceY += attribs.gravityForce;
-            if (velocityY > 0) {
+            if (velocityY != 0) {
                 currForceY *= attribs.fallMultiplier;
             }
-            else if (velocityY < 0) {
-                currForceY = currForceY * attribs.fallMultiplier;
-            }
+
+            currForceX *= attribs.airControlMultiplier;
         }
         else if (attribs.grounded) {
             velocityY = Math.min(0, velocityY);

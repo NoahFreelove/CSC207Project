@@ -9,7 +9,7 @@ import java.util.Iterator;
 
 public class VoidScript extends SimpleTrigger implements IScriptable {
     private int updateFramesUntilVoid = 3; //Void gets generated 3 frames in
-
+    private final int X_BUFFER = 300; //Extends void beyond object placement for safety
     @Override
     public void update(GameObject parent, double deltaTime) {
         if (updateFramesUntilVoid > 0) {
@@ -24,7 +24,7 @@ public class VoidScript extends SimpleTrigger implements IScriptable {
         double voidY = Engine.getInstance().getPrimaryWindow().getActualWindowSize().getSecond();
         double voidXmin = 0, voidXmax = 0;
 
-        Iterator<GameObject> objectIterator =parent.getLinkedScene().getSceneObjects();
+        Iterator<GameObject> objectIterator = parent.getLinkedScene().getSceneObjects();
 
         while (objectIterator.hasNext()) {
             GameObject object = objectIterator.next();
@@ -32,8 +32,8 @@ public class VoidScript extends SimpleTrigger implements IScriptable {
             voidXmax = Math.max(voidXmax, object.getTransform().getPositionX() + object.getTransform().getWidth());
         }
 
-        parent.getTransform().setPosition(voidXmin - 100, voidY - 50);
-        parent.getTransform().setWidth((int)(voidXmax - voidXmin + 200));
+        parent.getTransform().setPosition(voidXmin - X_BUFFER, voidY - 50);
+        parent.getTransform().setWidth((int)(voidXmax - voidXmin + X_BUFFER * 2));
         parent.getTransform().setHeight(50);
         parent.getTransform().setScale(1, 1);
     }

@@ -10,6 +10,7 @@ import com.project.game.Scripts.SimpleTrigger;
 import com.project.game.Scripts.SpawnPoint;
 import com.project.game.Scripts.*;
 import com.project.physics.Collision.CollisionVolume;
+import com.project.physics.Collision.Types.ECollisionVolume;
 import com.project.physics.PhysicsBody.RigidBody2D;
 
 import javax.naming.spi.ObjectFactory;
@@ -29,25 +30,26 @@ public class HiddenSpikeFactory extends AbstractObjectFactory {
         obj.addRenderable(sr);
 
         InterpolationMove im = new InterpolationMove(x, y, 300);
-        im.setTarget(x, y-64);
+        im.setTarget(x, y-63);
         obj.addBehavior(im);
 
         SimpleTrigger st = new SimpleTrigger(new ILambdaTrigger() {
             @Override
             public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
-                if(other.hasTag("player") && interactor instanceof SimpleTrigger) {
+                if(other.hasTag("player") && interactor.volumeType() == ECollisionVolume.COLLIDER) {
                     im.setActive(true);
                     sr.setEnabled(true);
                 }
             }
         });
-        st.setOffset(0,-100);
+        st.setRelDimensions(1.15,0.45);
+        st.setOffset(-4.8,-64 + 35.2);
         obj.addBehavior(st);
 
         SimpleTrigger deathCollider = new SimpleTrigger(new ILambdaTrigger() {
             @Override
             public void onTriggerContinue(GameObject parent, GameObject other, CollisionVolume interactor) {
-                if(other.hasTag("player")) {
+                if(other.hasTag("player") && interactor.volumeType() == ECollisionVolume.COLLIDER) {
                     PlayerDeath pd = other.getScriptable(PlayerDeath.class);
                     if (pd != null) {
                         pd.queueDeath();
@@ -58,8 +60,8 @@ public class HiddenSpikeFactory extends AbstractObjectFactory {
                 }
             }
         });
-        deathCollider.setRelDimensions(1,0.25);
-        deathCollider.setOffset(0,48);
+        deathCollider.setRelDimensions(1,0.4);
+        deathCollider.setOffset(0,38.4);
         obj.addBehavior(deathCollider);
 
         return obj;

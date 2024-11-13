@@ -68,7 +68,7 @@ public class MovementController implements IScriptable {
             }
         }
 
-        if (win.isKeyPressed("SPACE") && canJump) {
+        if ((win.isKeyPressed("SPACE") || win.isKeyPressed("W") || win.isKeyPressed("UP"))  && canJump) {
             jump(parent);
         }
 
