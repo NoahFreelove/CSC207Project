@@ -18,6 +18,8 @@ public class RigidBodyAttribs {
 
     public float gravityForce = 350f;
     public float fallMultiplier = 13f;
+
+    public float airControlMultiplier = 0.4f;
     public double maxVelocityX = 300;
     public double maxVelocityY = 2000;
 

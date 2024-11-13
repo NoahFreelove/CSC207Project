@@ -76,6 +76,10 @@ public class Camera implements IScriptable {
         offsetY += y;
     }
 
+    public GameObject getAttached() {
+        return attached;
+    }
+
     @Override
     public Class<?> attachedClass() {
         return getClass();
