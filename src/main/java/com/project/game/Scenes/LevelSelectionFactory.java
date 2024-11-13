@@ -9,18 +9,16 @@ import com.project.game.ObjectFactories.AbstractObjectFactory;
 import com.project.game.ObjectFactories.ObjectType;
 import com.project.game.Scenes.Levels.EasyLevel;
 import com.project.game.Scripts.SceneExit;
+import com.project.game.UIFactories.EngineFactory;
+import com.project.game.UIFactories.UIFactory;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-import static com.project.game.Scenes.MainMenuFactory.colorcode;
+import static com.project.engine.UI.UIConstants.*;
 
 public class LevelSelectionFactory {
-
-    public static int buttonXOffset = 56;
-    public static int buttonXWidth = 210;
-    public static int buttonYOffset = 100;
 
     private static HashMap<Integer, Scene> levelMap = new HashMap<>();
 
@@ -34,11 +32,7 @@ public class LevelSelectionFactory {
         GameObject escapeDetector = new GameObject();
         escapeDetector.addBehavior(new SceneExit(MainMenuFactory::loadMainMenu));
 
-        GameUIButton back = new GameUIButton("Back to Main", 200, 450, 400, 80);
-        back.setFont(FontCreator.createFont(40f));
-        back.setForeground(Color.decode(colorcode));
-        back.setHorizontalAlignment(SwingConstants.CENTER);
-        back.setTransparent(true);
+        GameUIButton back = UIFactory.ButtonFactory("Back to Main", 200, 450, 400, 80);
         back.onClickEvent = MainMenuFactory::loadMainMenu;
 
         createLevel(2, scene);
@@ -53,9 +47,9 @@ public class LevelSelectionFactory {
     }
 
     public static void loadLevelSelection() {
-        Engine.getInstance().getPrimaryWindow().setWindowSizeForce(800, 800);
+        Engine e = EngineFactory.createEngine();
         Scene s = LevelSelectionFactory.createScene();
-        Engine.getInstance().getPrimaryWindow().setActiveScene(s);
+        e.getPrimaryWindow().setActiveScene(s);
     }
 
     private static void createLevel(int levels, Scene scene) {
@@ -66,9 +60,9 @@ public class LevelSelectionFactory {
                 j += 1;
                 XReset = 0;
             }
-            GameUIButton temp = new GameUIButton("Level " + (i + 1), buttonXOffset + XReset * buttonXWidth, j * buttonYOffset, buttonXWidth, 80);
+            GameUIButton temp = new GameUIButton("Level " + (i + 1), BUTTON_X_OFFSET + XReset * BUTTON_X_WIDTH, j * BUTTON_Y_OFFSET, BUTTON_X_WIDTH, 80);
             temp.setFont(FontCreator.createFont(40f));
-            temp.setForeground(Color.decode(colorcode));
+            temp.setForeground(Color.decode(FOREST_GREEN));
             temp.setHorizontalAlignment(SwingConstants.CENTER);
             temp.setTransparent(true);
             int finalI = i;
