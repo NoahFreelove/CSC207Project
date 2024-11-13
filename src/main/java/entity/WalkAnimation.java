@@ -2,10 +2,11 @@ package entity;
 
 import com.project.engine.Rendering.SpriteRenderer;
 
+//For example it is called WalkAnimation but later on will be called
 public class WalkAnimation implements AnimationState {
     private static final String[] frames = {"assets/CSC207_asset_cloud.png", "assets/character_right_02.png"};
     private int frameIndex = 0;
-    private int frameDelay = 20;
+    private int frameDelay = 5; //Controls Animation Speed
     private int frameCounter = 0;
 
     @Override

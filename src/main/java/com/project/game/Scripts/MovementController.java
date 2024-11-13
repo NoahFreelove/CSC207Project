@@ -75,7 +75,7 @@ public class MovementController implements IScriptable {
 
 
             // Update the animation frame
-            animationManager.update();
+
 
         }
         if (canMove) {

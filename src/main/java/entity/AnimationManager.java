@@ -39,7 +39,7 @@ public class AnimationManager {
         currentAnimation.onStart(renderer, x, y);  // Pass coordinates to onStart
     }
 
-    public void update() {
+    private void update() {
         if (isAnimating && currentAnimation != null) {
             currentAnimation.onContinue(renderer, x, y);  // Pass coordinates to onContinue
         }
@@ -58,7 +58,7 @@ public class AnimationManager {
         }
     }
 
-    // Method to update position if needed
+    // Method to update position if needed, kind useless but can get rid of if you guys want
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
