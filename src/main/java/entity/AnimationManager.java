@@ -18,6 +18,7 @@ public class AnimationManager {
     public AnimationManager(SpriteRenderer renderer, double startX, double startY) {
         this.renderer = renderer;
         this.isAnimating = false;
+        this.currentAnimation = null;
         this.x = startX;
         this.y = startY;
     }
@@ -26,14 +27,11 @@ public class AnimationManager {
         animations.put(name, animation);
     }
 
-    public void startAnimation(String name) {
+    private void startAnimation(String name) {
         if (!animations.containsKey(name)) {
             throw new IllegalArgumentException("Animation " + name + " does not exist.");
         }
 
-        if (isAnimating && currentAnimation != null) {
-            currentAnimation.onEnd(renderer, x, y);
-        }
 
         currentAnimation = animations.get(name);
         currentAnimationName = name;
@@ -47,8 +45,12 @@ public class AnimationManager {
         }
     }
 
-    public void endAnimation() {
+    private void endAnimation() {
+        System.out.println(isAnimating);
+        System.out.println(currentAnimation);
+
         if (isAnimating && currentAnimation != null) {
+            System.out.println("EndAnimation");
             currentAnimation.onEnd(renderer, x, y);  // Pass coordinates to onEnd
             isAnimating = false;
             currentAnimation = null;
@@ -79,15 +81,13 @@ public class AnimationManager {
     }
 
     public void stopMoving() {
-        if (isAnimating) {
-            isAnimating = false;
-            endAnimation();
+        System.out.println("not working");
+        endAnimation();  // End the current animation and set to idle
 
-            // Cancel the timer to stop the animation updates
-            if (animationTimer != null) {
-                animationTimer.cancel();
-                animationTimer = null;
-            }
+        // Cancel the timer to stop animation updates
+        if (animationTimer != null) {
+            animationTimer.cancel();
+            animationTimer = null;
         }
     }
 }

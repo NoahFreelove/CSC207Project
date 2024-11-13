@@ -47,50 +47,16 @@ public class MovementController implements IScriptable {
 
     @Override
     public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
-        GameWindow win = Engine.getInstance().getPrimaryWindow();
 
-        if (keyName.equals("A") && inputType == EInputType.PRESS) {
-            startMoving(parent, true);
-        }
-        // Check if the "A" key is released
-        else if (keyName.equals("A") && inputType == EInputType.RELEASE) {
-            stopMoving();
+        if (keyName.equals("A") && inputType == EInputType.RELEASE) {
+            System.out.println("Key A released");
+            animationManager.stopMoving();  // Stop the walking animation, reverting to idle
+            //Part that Paul is not clear on, detecting error
+            isMoving = false;
         }
 
     }
 
-    private void startMoving(GameObject parent, boolean isLeft) {
-        isMoving = true;
-        if (isLeft) {
-            parent.getTransform().faceLeft();
-        } else {
-            parent.getTransform().faceRight();
-        }
-        animationManager.startAnimation("walk");
-
-        // Start a timer to update the animation manager periodically
-        if (animationTimer == null) {
-            animationTimer = new Timer();
-            animationTimer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    animationManager.update();
-                }
-            }, 0, 1000 / 30); // Run at ~30 FPS
-        }
-
-    }
-
-    private void stopMoving() {
-        isMoving = false;
-        animationManager.endAnimation();
-
-        // Cancel the timer to stop the animation loop
-        if (animationTimer != null) {
-            animationTimer.cancel();
-            animationTimer = null;
-        }
-    }
 
 
     @Override
@@ -98,12 +64,21 @@ public class MovementController implements IScriptable {
         animationManager = new AnimationManager((SpriteRenderer) parent.getRenderables().next(), 128, 128);
         animationManager.addAnimation("walk", new WalkAnimation());
         GameWindow win = Engine.getInstance().getPrimaryWindow();
-        if (win == null || rb == null) {
-            return;
+        assert win != null;
+        if (win.isKeyPressed("A")) {
+            if (!isMoving) {
+                animationManager.startMoving("walk");  // Start walking animation if not already moving
+                isMoving = true;
+            }
+
+            // Move the player to the left while "A" key is held dow
+            // Update AnimationManager position based on the player's current position
+
+
+            // Update the animation frame
+            animationManager.update();
+
         }
-
-        boolean isMoving = false;
-
         if (canMove) {
             double actualSpeed = moveSpeed * deltaTime * 300;
 
