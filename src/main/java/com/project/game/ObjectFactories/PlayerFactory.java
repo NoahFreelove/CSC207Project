@@ -22,6 +22,7 @@ public class PlayerFactory extends AbstractObjectFactory {
         obj.addRenderable(sr);
 
         obj.addBehavior(new SpawnPoint(300, 480));
+        obj.addBehavior(new PlayerDeath());
         obj.addBehavior(new DeathJoke());
         obj.addBehavior(new MovementController());
         obj.addBehavior(new RigidBody2D());

@@ -1,6 +1,8 @@
 package entity;
 import java.io.IOException;
 
+
+//Old Implementation Doesn't matter Anymore now that we have a new implementation
 public class Animation {
     public static String left1 = "assets/CSC207_asset_char_left.png";
     public static String left2 = "assets/CSC207_asset_char_left_02.png";

@@ -10,7 +10,7 @@ import com.project.physics.PhysicsBody.RigidBody2D;
  * Note, to use a Box Collider, the object must also have a rigid body.
  */
 public class BoxCollider extends Collider {
-    private final double bufferSpace = 3;
+    private final double bufferSpace = 4;
 
     public ECollisionShape volumeShape() { return ECollisionShape.BOX; }
 

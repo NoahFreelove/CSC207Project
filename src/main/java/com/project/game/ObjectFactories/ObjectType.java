@@ -7,5 +7,7 @@ public enum ObjectType {
     ESCAPE_KEY,
     GROUND_BLOCK,
     HIDDEN_BLOCK,
-    HIDDEN_SPIKE
+    HIDDEN_SPIKE,
+    VOID,
+    BOUNDARY
 }

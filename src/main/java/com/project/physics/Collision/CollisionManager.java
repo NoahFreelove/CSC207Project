@@ -28,12 +28,6 @@ public class CollisionManager {
 
     private void sendCollisionEvents(boolean intersect, String key, GameObject object1, GameObject object2,
                                      CollisionVolume o1Col, CollisionVolume o2Col) {
-        if (collided == null) {
-            collided = new HashMap<>();
-        }
-        if(o1Col == null || o2Col == null) {
-            return;
-        }
         if (!intersect && collided.get(key)) {
             if (o1Col.volumeType() == ECollisionVolume.COLLIDER) {
                 ((Collider)o1Col).onCollisionEnter(object1, object2, o2Col);
@@ -85,11 +79,20 @@ public class CollisionManager {
         while (colliders1.hasNext()){
             CollisionVolume o1Col = colliders1.next();
 
-            Iterator<CollisionVolume> colliders2 = object2.getCollidables();
+            if (o1Col == null) {
+                continue;
+            }
 
+            Iterator<CollisionVolume> colliders2 = object2.getCollidables();
             while (colliders2.hasNext()){
                 CollisionVolume o2Col = colliders2.next();
+
+                if (o2Col == null) {
+                    continue;
+                }
+
                 String colKey = object1.getUid() + o1Col.hashCode() + ", " + object2.getUid() + o2Col.hashCode();
+
                 boolean intersect = collided.getOrDefault(colKey, false);
 
                 if (o1Col.volumeShape() == o2Col.volumeShape() && o2Col.volumeShape() == ECollisionShape.BOX) {

@@ -4,23 +4,35 @@ import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Input.EInputType;
+import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.IScriptable;
 import com.project.physics.PhysicsBody.RigidBody2D;
-import com.project.engine.Rendering.SpriteRenderer;
 import entity.Animation;
+import entity.AnimationManager;
+import entity.WalkAnimation;
 import org.json.JSONObject;
 
-import java.awt.image.BufferedImage;
-
+import javax.imageio.event.IIOReadProgressListener;
+import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MovementController implements IScriptable {
+
     private float moveSpeed = 8f;
     private float jumpForce = 1.15f;
+
     private boolean canMove = true;
+
     private boolean canJump = true;
+
     private RigidBody2D rb = null;
 
+    private AnimationManager animationManager;
+
+    private boolean isMoving = false;
+    private Timer animationTimer;
     public MovementController() {
 
     }
@@ -28,56 +40,56 @@ public class MovementController implements IScriptable {
     @Override
     public void start(GameObject parent) {
         rb = parent.getScriptable(RigidBody2D.class);
-    }
-
-    @Override
-    public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
-        //System.out.println(keyName);
-        if (inputType == EInputType.RELEASE && "1".equals(keyName)) {
-            moveSpeed++;
-        }
-        else if (inputType == EInputType.RELEASE && "2".equals(keyName)) {
-            moveSpeed--;
-        }
+        animationManager = new AnimationManager((SpriteRenderer) parent.getRenderables().next(), 128, 128);
+        animationManager.addAnimation("walk", new WalkAnimation());
     }
 
     @Override
     public void update(GameObject parent, double deltaTime) {
         GameWindow win = Engine.getInstance().getPrimaryWindow();
-        if (win == null || rb == null) {
+        if (win == null)
             return;
-        }
 
-        //System.out.println(win.FPS());
-
-        if(canMove) {
+        if (canMove) {
             double actualSpeed = moveSpeed * deltaTime * 300;
+
 
             if (win.isKeyPressed("A") || win.isKeyPressed("LEFT")) {
                 parent.getTransform().faceLeft();
                 parent.getTransform().setRotation(0);
                 move(parent, -actualSpeed, 0);
-                Animation.updateFrame("A");
+
             }
 
             if (win.isKeyPressed("D") || win.isKeyPressed("RIGHT")) {
                 parent.getTransform().faceRight();
                 parent.getTransform().setRotation(0);
                 move(parent, actualSpeed, 0);
-                Animation.updateFrame("D");
             }
         }
 
-        if (win.isKeyPressed("SPACE") && canJump) {
+        if ((win.isKeyPressed("SPACE") || win.isKeyPressed("W") || win.isKeyPressed("UP"))  && canJump) {
             jump(parent);
-            Animation.updateFrame("SPACE");
         }
 
-        // Display the current frame
-        String currentFrame = Animation.getCurrentFrame();
-        if (currentFrame != null) {  // If the current frame is not null
-            ((SpriteRenderer)parent.getRenderables().next()).setImage(currentFrame, 128, 128);
+        if (animationManager == null)
+            return;
+
+        if (win.isKeyPressed("A") || win.isKeyPressed("LEFT") || win.isKeyPressed("D") || win.isKeyPressed("RIGHT")) {
+            if (!isMoving) {
+                animationManager.startMoving("walk");  // Start walking animation if not already moving
+                isMoving = true;
+            }
+
         }
+
+        if (!win.isKeyPressed("A") && !win.isKeyPressed("D") && !win.isKeyPressed("LEFT") && !win.isKeyPressed("RIGHT")) {
+            animationManager.stopMoving();  // Stop the walking animation, reverting to idle
+            //Part that Paul is not clear on, detecting error
+            // 😂😂😂
+            isMoving = false;
+        }
+
     }
 
     private void move(GameObject ref, double xDelta, double yDelta) {
@@ -88,7 +100,12 @@ public class MovementController implements IScriptable {
         if(rb.attribs.grounded && rb.getVelocityY() >= 0){
             rb.attribs.grounded = false;
             move(ref, 0, -1500*jumpForce);
+            Iterator<IRenderable> playerModel = ref.getRenderables();
 
+            while (playerModel.hasNext()) {
+                SpriteRenderer renderable = (SpriteRenderer)playerModel.next();
+                renderable.setImage("assets/char_jump_straight.png", 128, 128);
+            }
         }
     }
 
