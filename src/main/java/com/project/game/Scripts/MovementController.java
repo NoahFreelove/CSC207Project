@@ -10,6 +10,7 @@ import com.project.engine.Scripting.IScriptable;
 import com.project.physics.PhysicsBody.RigidBody2D;
 import entity.Animation;
 import entity.AnimationManager;
+import entity.JumpAnimation;
 import entity.WalkAnimation;
 import org.json.JSONObject;
 
@@ -42,6 +43,7 @@ public class MovementController implements IScriptable {
         rb = parent.getScriptable(RigidBody2D.class);
         animationManager = new AnimationManager((SpriteRenderer) parent.getRenderables().next(), 128, 128);
         animationManager.addAnimation("walk", new WalkAnimation());
+        animationManager.addAnimation("jump", new JumpAnimation());
     }
 
     @Override
@@ -69,6 +71,8 @@ public class MovementController implements IScriptable {
         }
 
         if ((win.isKeyPressed("SPACE") || win.isKeyPressed("W") || win.isKeyPressed("UP"))  && canJump) {
+            animationManager.startMoving("jump");
+            System.out.println("Jump starting");
             jump(parent);
         }
 
@@ -102,10 +106,14 @@ public class MovementController implements IScriptable {
             move(ref, 0, -1500*jumpForce);
             Iterator<IRenderable> playerModel = ref.getRenderables();
 
-            while (playerModel.hasNext()) {
+            /*while (playerModel.hasNext()) {
                 SpriteRenderer renderable = (SpriteRenderer)playerModel.next();
                 renderable.setImage("assets/char_jump_straight.png", 128, 128);
+
+
             }
+
+             */
         }
     }
 
