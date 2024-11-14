@@ -3,21 +3,17 @@ package com.project.game.Scripts;
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Window.GameWindow;
-import com.project.engine.Input.EInputType;
 import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.IScriptable;
-import com.project.physics.PhysicsBody.RigidBody2D;
-import entity.Animation;
+import com.project.engine.Physics.PhysicsBody.RigidBody2D;
 import entity.AnimationManager;
 import entity.JumpAnimation;
 import entity.WalkAnimation;
 import org.json.JSONObject;
 
-import javax.imageio.event.IIOReadProgressListener;
 import java.util.Iterator;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class MovementController implements IScriptable {
 
@@ -73,7 +69,6 @@ public class MovementController implements IScriptable {
         if ((win.isKeyPressed("SPACE") || win.isKeyPressed("W") || win.isKeyPressed("UP"))  && canJump) {
 
                 animationManager.startMoving("jump");
-                System.out.println("Jump starting");
                 jump(parent);
                 isMoving = true;
 
@@ -107,16 +102,7 @@ public class MovementController implements IScriptable {
         if(rb.attribs.grounded && rb.getVelocityY() >= 0){
             rb.attribs.grounded = false;
             move(ref, 0, -1500*jumpForce);
-            Iterator<IRenderable> playerModel = ref.getRenderables();
-
-            /*while (playerModel.hasNext()) {
-                SpriteRenderer renderable = (SpriteRenderer)playerModel.next();
-                renderable.setImage("assets/char_jump_straight.png", 128, 128);
-
-
-            }
-
-             */
+            
         }
     }
 
