@@ -75,6 +75,7 @@ public class PlayerDeath implements IScriptable {
         if (mc != null) {
             mc.setCanMove(false);
             mc.setCanJump(false);
+            mc.enableAnimation = false;
         }
 
         parent.disableScript(parent.getScriptable(SimpleCollider.class, true)); // now we want hard collision events with anything

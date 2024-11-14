@@ -54,6 +54,8 @@ public class SpawnPoint implements IScriptable {
             if (mc != null) {
                 mc.setCanMove(true);
                 mc.setCanJump(true);
+                mc.reset(parent);
+
             }
 
             respawnQueued = false;
