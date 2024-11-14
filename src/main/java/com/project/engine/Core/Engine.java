@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class Engine {
     // Singleton design pattern 😎
     private volatile static Engine instance = null;
+    private boolean paused = false;
 
     private final ArrayList<GameWindow> gameWindows = new ArrayList<>();
 
@@ -81,10 +82,14 @@ public class Engine {
     }
 
     public void update(Scene scene, double delta){
+        if (paused)
+            return;
         scene.update(delta);
     }
 
     public void physicsUpdate(Scene scene){
+        if (paused)
+            return;
         scene.physicsUpdate();
     }
 
@@ -105,6 +110,18 @@ public class Engine {
             gameWindow.closeWindow();
         }
         closeHook.run();
+    }
+
+    public void pauseGame() {
+        paused = true;
+    }
+
+    public void unpauseGame() {
+        paused = false;
+    }
+
+    public boolean isPaused() {
+        return paused;
     }
 
     /**
