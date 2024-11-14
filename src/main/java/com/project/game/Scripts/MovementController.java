@@ -9,8 +9,6 @@ import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.IScriptable;
 import com.project.physics.PhysicsBody.RigidBody2D;
 import entity.Animation;
-import entity.AnimationManager;
-import entity.WalkAnimation;
 import org.json.JSONObject;
 
 import javax.imageio.event.IIOReadProgressListener;
@@ -29,10 +27,6 @@ public class MovementController implements IScriptable {
 
     private RigidBody2D rb = null;
 
-    private AnimationManager animationManager;
-
-    private boolean isMoving = false;
-    private Timer animationTimer;
     public MovementController() {
 
     }
@@ -40,25 +34,35 @@ public class MovementController implements IScriptable {
     @Override
     public void start(GameObject parent) {
         rb = parent.getScriptable(RigidBody2D.class);
-        animationManager = new AnimationManager((SpriteRenderer) parent.getRenderables().next(), 128, 128);
-        animationManager.addAnimation("walk", new WalkAnimation());
+    }
+
+    @Override
+    public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
+        //System.out.println(keyName);
+        if (inputType == EInputType.RELEASE && "1".equals(keyName)) {
+            moveSpeed++;
+        }
+        else if (inputType == EInputType.RELEASE && "2".equals(keyName)) {
+            moveSpeed--;
+        }
     }
 
     @Override
     public void update(GameObject parent, double deltaTime) {
         GameWindow win = Engine.getInstance().getPrimaryWindow();
-        if (win == null)
+        if (win == null || rb == null) {
             return;
+        }
 
-        if (canMove) {
+        //System.out.println(win.FPS());
+
+        if(canMove) {
             double actualSpeed = moveSpeed * deltaTime * 300;
-
 
             if (win.isKeyPressed("A") || win.isKeyPressed("LEFT")) {
                 parent.getTransform().faceLeft();
                 parent.getTransform().setRotation(0);
                 move(parent, -actualSpeed, 0);
-
             }
 
             if (win.isKeyPressed("D") || win.isKeyPressed("RIGHT")) {
@@ -68,26 +72,14 @@ public class MovementController implements IScriptable {
             }
         }
 
-        if ((win.isKeyPressed("SPACE") || win.isKeyPressed("W") || win.isKeyPressed("UP"))  && canJump) {
+        if ((win.isKeyPressed("SPACE") || win.isKeyPressed("W") || win.isKeyPressed("UP"))&& canJump) {
             jump(parent);
         }
 
-        if (animationManager == null)
-            return;
-
-        if (win.isKeyPressed("A") || win.isKeyPressed("LEFT") || win.isKeyPressed("D") || win.isKeyPressed("RIGHT")) {
-            if (!isMoving) {
-                animationManager.startMoving("walk");  // Start walking animation if not already moving
-                isMoving = true;
-            }
-
-        }
-
-        if (!win.isKeyPressed("A") && !win.isKeyPressed("D") && !win.isKeyPressed("LEFT") && !win.isKeyPressed("RIGHT")) {
-            animationManager.stopMoving();  // Stop the walking animation, reverting to idle
-            //Part that Paul is not clear on, detecting error
-            // 😂😂😂
-            isMoving = false;
+        // Display the current frame
+        String currentFrame = Animation.getCurrentFrame();
+        if (currentFrame != null) {  // If the current frame is not null
+            ((SpriteRenderer)parent.getRenderables().next()).setImage(currentFrame, 128, 128);
         }
 
     }

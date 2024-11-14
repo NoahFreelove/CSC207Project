@@ -10,14 +10,13 @@ public class Animation {
     public static String right2 = "assets/character_right_02.png";
     public static String jump1 = "assets/char_jump_straight.png";
     public static String jump2 = "assets/character_jump.png";
-    ;
-    private static int frameDelay = 20; // Adjust this value to control the speed
+    private static int frameDelay = 30; // Adjust this value to control the speed
     private static int frameCounter = 0;
     private static int currentFrameIndex = 0;
     private static String currentDirection = "";
 
     public static void updateFrame(String key) {
-        if ("A".equals(key) || "D".equals(key)) {
+        if ("A".equals(key) || "D".equals(key) || "SPACE".equals(key)) {
             currentDirection = key;
             frameCounter++;
             if (frameCounter >= frameDelay) {
@@ -34,12 +33,9 @@ public class Animation {
         if ("D".equals(currentDirection)) {
             return currentFrameIndex == 0 ? right1 : right2;
         }
-
         if ("SPACE".equals(currentDirection)) {
             return currentFrameIndex == 0 ? jump1 : jump2;
-
         }
         return null;
     }
 }
-
