@@ -13,6 +13,7 @@ public class GameMain {
         Engine e = out.getFirst();
         GameWindow w = out.getSecond();
         e.closeHook = PlayTTS::shutdown;
+
         Scene main = MainMenuFactory.createScene();
         w.setActiveScene(main);
     }

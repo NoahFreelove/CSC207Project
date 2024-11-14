@@ -3,7 +3,6 @@ package com.project.game.Scripts;
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Window.GameWindow;
-import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Physics.PhysicsBody.RigidBody2D;
@@ -11,9 +10,6 @@ import entity.AnimationManager;
 import entity.JumpAnimation;
 import entity.WalkAnimation;
 import org.json.JSONObject;
-
-import java.util.Iterator;
-import java.util.Timer;
 
 public class MovementController implements IScriptable {
 
@@ -29,7 +25,10 @@ public class MovementController implements IScriptable {
     private AnimationManager animationManager;
 
     private boolean isMoving = false;
-    private Timer animationTimer;
+    private boolean isJumping = false;
+
+    public boolean enableAnimation = true;
+
     public MovementController() {
 
     }
@@ -67,31 +66,55 @@ public class MovementController implements IScriptable {
         }
 
         if ((win.isKeyPressed("SPACE") || win.isKeyPressed("W") || win.isKeyPressed("UP"))  && canJump) {
-
+                isJumping = true;
                 animationManager.startMoving("jump");
                 jump(parent);
                 isMoving = true;
 
         }
 
+        movementAnimation(win);
+    }
+
+    private void movementAnimation(GameWindow win) {
         if (animationManager == null)
             return;
 
+        if(!enableAnimation) {
+            animationManager.stopMoving();
+            return;
+        }
         if (win.isKeyPressed("A") || win.isKeyPressed("LEFT") || win.isKeyPressed("D") || win.isKeyPressed("RIGHT")) {
-            if (!isMoving) {
+            if (!isMoving && !isJumping) {
                 animationManager.startMoving("walk");  // Start walking animation if not already moving
                 isMoving = true;
             }
-
+            if(isJumping)
+                animationManager.startMoving("jump");
         }
 
-        if (!win.isKeyPressed("A") && !win.isKeyPressed("D") && !win.isKeyPressed("LEFT") && !win.isKeyPressed("RIGHT")) {
+        if (!win.isKeyPressed("A") && !win.isKeyPressed("D") && !win.isKeyPressed("LEFT") && !win.isKeyPressed("RIGHT") && !isJumping) {
             animationManager.stopMoving();  // Stop the walking animation, reverting to idle
             //Part that Paul is not clear on, detecting error
             // 😂😂😂
             isMoving = false;
+            if(isJumping)
+                animationManager.startMoving("jump");
+        }
+        if(rb.attribs.grounded) {
+            isJumping = false;
+            if (isMoving) {
+                animationManager.startMoving("walk");
+            }
         }
 
+        if(isJumping)
+            animationManager.startMoving("jump");
+    }
+
+    @Override
+    public void reset(GameObject parent) {
+        enableAnimation = true;
     }
 
     private void move(GameObject ref, double xDelta, double yDelta) {
