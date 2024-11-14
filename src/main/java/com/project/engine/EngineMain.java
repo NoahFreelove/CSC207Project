@@ -10,8 +10,8 @@ import com.project.engine.Scripting.WindowStatsDebug;
 import com.project.game.Scenes.LevelSelectionFactory;
 import com.project.game.Scripts.*;
 import com.project.engine.UI.GameUILabel;
-import com.project.physics.Collision.CollisionVolume;
-import com.project.physics.PhysicsBody.RigidBody2D;
+import com.project.engine.Physics.Collision.CollisionVolume;
+import com.project.engine.Physics.PhysicsBody.RigidBody2D;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;

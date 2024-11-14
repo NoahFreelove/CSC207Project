@@ -3,17 +3,11 @@ package com.project.game.ObjectFactories;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.ILambdaTrigger;
-import com.project.engine.Scripting.IScriptable;
 import com.project.game.Scripts.InterpolationMove;
-import com.project.game.Scripts.SimpleCollider;
 import com.project.game.Scripts.SimpleTrigger;
-import com.project.game.Scripts.SpawnPoint;
 import com.project.game.Scripts.*;
-import com.project.physics.Collision.CollisionVolume;
-import com.project.physics.Collision.Types.ECollisionVolume;
-import com.project.physics.PhysicsBody.RigidBody2D;
-
-import javax.naming.spi.ObjectFactory;
+import com.project.engine.Physics.Collision.CollisionVolume;
+import com.project.engine.Physics.Collision.Types.ECollisionVolume;
 
 public class HiddenSpikeFactory extends AbstractObjectFactory {
     protected HiddenSpikeFactory() {

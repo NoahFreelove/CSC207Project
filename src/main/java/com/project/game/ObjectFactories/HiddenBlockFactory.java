@@ -6,8 +6,8 @@ import com.project.engine.Scripting.ILambdaTrigger;
 import com.project.game.Scripts.GroundStats;
 import com.project.game.Scripts.SimpleCollider;
 import com.project.game.Scripts.SimpleTrigger;
-import com.project.physics.Collision.CollisionVolume;
-import com.project.physics.PhysicsBody.RigidBody2D;
+import com.project.engine.Physics.Collision.CollisionVolume;
+import com.project.engine.Physics.PhysicsBody.RigidBody2D;
 
 public class HiddenBlockFactory extends AbstractObjectFactory {
     private final String DEFAULT_GROUND_ASSET = "assets/brick.png";

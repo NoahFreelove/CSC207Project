@@ -1,11 +1,10 @@
 package com.project.game.ObjectFactories;
 
 import com.project.engine.Core.GameObject;
-import com.project.engine.Core.Scene;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.WindowStatsDebug;
 import com.project.game.Scripts.*;
-import com.project.physics.PhysicsBody.RigidBody2D;
+import com.project.engine.Physics.PhysicsBody.RigidBody2D;
 
 public class PlayerFactory extends AbstractObjectFactory {
     protected PlayerFactory() {

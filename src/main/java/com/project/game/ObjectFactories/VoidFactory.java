@@ -1,15 +1,8 @@
 package com.project.game.ObjectFactories;
 
-import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
-import com.project.engine.Scripting.ILambdaTrigger;
-import com.project.engine.Scripting.IScriptable;
-import com.project.game.Scripts.PlayerDeath;
 import com.project.game.Scripts.SimpleTrigger;
 import com.project.game.Scripts.VoidScript;
-import com.project.physics.Collision.CollisionVolume;
-
-import java.util.Iterator;
 
 public class VoidFactory extends AbstractObjectFactory {
     protected VoidFactory() {

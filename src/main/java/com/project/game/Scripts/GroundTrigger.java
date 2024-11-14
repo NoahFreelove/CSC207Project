@@ -4,9 +4,9 @@ import com.project.engine.Core.GameObject;
 import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.IScriptable;
-import com.project.physics.Collision.BoxTrigger;
-import com.project.physics.Collision.CollisionVolume;
-import com.project.physics.PhysicsBody.RigidBody2D;
+import com.project.engine.Physics.Collision.BoxTrigger;
+import com.project.engine.Physics.Collision.CollisionVolume;
+import com.project.engine.Physics.PhysicsBody.RigidBody2D;
 
 import java.util.Iterator;
 

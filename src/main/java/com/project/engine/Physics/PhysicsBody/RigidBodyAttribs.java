@@ -1,4 +1,4 @@
-package com.project.physics.PhysicsBody;
+package com.project.engine.Physics.PhysicsBody;
 
 public class RigidBodyAttribs {
     /**

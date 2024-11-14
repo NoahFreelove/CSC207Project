@@ -1,4 +1,4 @@
-package com.project.physics;
+package com.project.engine.Physics;
 
 public class PhysicsMain {
     public static void main(String[] args) {

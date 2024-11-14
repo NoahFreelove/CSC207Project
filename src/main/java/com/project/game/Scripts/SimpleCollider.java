@@ -2,8 +2,8 @@ package com.project.game.Scripts;
 
 import com.project.engine.Core.GameObject;
 import com.project.engine.Scripting.IScriptable;
-import com.project.physics.Collision.BoxCollider;
-import com.project.physics.Collision.CollisionVolume;
+import com.project.engine.Physics.Collision.BoxCollider;
+import com.project.engine.Physics.Collision.CollisionVolume;
 
 public class SimpleCollider extends BoxCollider implements IScriptable {
     public SimpleCollider(double xOffset, double yOffset, double width, double height) {

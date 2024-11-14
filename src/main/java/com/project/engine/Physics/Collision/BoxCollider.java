@@ -1,10 +1,10 @@
-package com.project.physics.Collision;
+package com.project.engine.Physics.Collision;
 
 import com.project.engine.Core.GameObject;
-import com.project.physics.Collision.Types.ECollisionVolume;
-import com.project.physics.PhysicsBody.Transform;
-import com.project.physics.Collision.Types.ECollisionShape;
-import com.project.physics.PhysicsBody.RigidBody2D;
+import com.project.engine.Physics.Collision.Types.ECollisionVolume;
+import com.project.engine.Physics.PhysicsBody.Transform;
+import com.project.engine.Physics.Collision.Types.ECollisionShape;
+import com.project.engine.Physics.PhysicsBody.RigidBody2D;
 
 /**
  * Note, to use a Box Collider, the object must also have a rigid body.

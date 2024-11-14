@@ -1,4 +1,4 @@
-package com.project.physics.Collision.Types;
+package com.project.engine.Physics.Collision.Types;
 
 public enum ECollisionVolume {
     NONE,

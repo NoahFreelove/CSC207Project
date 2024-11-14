@@ -1,9 +1,8 @@
 package com.project.game.Scripts;
 
 import com.project.engine.Core.GameObject;
-import com.project.engine.Core.Tuple;
 import com.project.engine.Scripting.IScriptable;
-import com.project.physics.PhysicsBody.RigidBody2D;
+import com.project.engine.Physics.PhysicsBody.RigidBody2D;
 
 public class PlayerDeath implements IScriptable {
     private boolean dead = false;

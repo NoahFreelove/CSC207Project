@@ -6,7 +6,7 @@ import com.project.engine.Rendering.Camera;
 import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Serialization.ISerializable;
-import com.project.physics.Collision.CollisionManager;
+import com.project.engine.Physics.Collision.CollisionManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

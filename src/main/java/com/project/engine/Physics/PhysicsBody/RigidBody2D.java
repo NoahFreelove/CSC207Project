@@ -1,4 +1,4 @@
-package com.project.physics.PhysicsBody;
+package com.project.engine.Physics.PhysicsBody;
 
 import com.project.engine.Core.GameObject;
 import com.project.engine.Scripting.IScriptable;
@@ -53,7 +53,8 @@ public class RigidBody2D implements IScriptable {
 
         if(attribs.gravityEnabled && !attribs.grounded) {
             currForceY += attribs.gravityForce;
-            if (velocityY != 0) {
+
+            if (Math.abs(velocityY) > 1) {
                 currForceY *= attribs.fallMultiplier;
             }
 

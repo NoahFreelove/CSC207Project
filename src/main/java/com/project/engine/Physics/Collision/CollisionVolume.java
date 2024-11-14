@@ -1,7 +1,7 @@
-package com.project.physics.Collision;
+package com.project.engine.Physics.Collision;
 
-import com.project.physics.Collision.Types.ECollisionShape;
-import com.project.physics.Collision.Types.ECollisionVolume;
+import com.project.engine.Physics.Collision.Types.ECollisionShape;
+import com.project.engine.Physics.Collision.Types.ECollisionVolume;
 
 public class CollisionVolume {
     private double xOffset = 0, yOffset = 0;

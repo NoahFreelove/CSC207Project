@@ -1,9 +1,9 @@
-package com.project.physics.Collision;
+package com.project.engine.Physics.Collision;
 
 import com.project.engine.Core.GameObject;
-import com.project.physics.Collision.Types.ECollisionShape;
-import com.project.physics.Collision.Types.ECollisionVolume;
-import com.project.physics.PhysicsBody.Transform;
+import com.project.engine.Physics.Collision.Types.ECollisionShape;
+import com.project.engine.Physics.Collision.Types.ECollisionVolume;
+import com.project.engine.Physics.PhysicsBody.Transform;
 
 import java.util.HashMap;
 import java.util.Iterator;
