@@ -14,6 +14,7 @@ public class PauseBackgroundFactory extends AbstractObjectFactory {
 
         SpriteRenderer sr = new SpriteRenderer("ui/darken_bg.png", 800,800);
         sr.setIndependentOfCamera(true);
+        sr.setEnabled(true);
         obj.addRenderable(sr);
 
         return obj;

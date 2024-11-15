@@ -23,9 +23,9 @@ public class LevelSelectionFactory {
 
     private static HashMap<Integer, Scene> levelMap = new HashMap<>();
 
-    static {
-        levelMap.put(0, EasyLevel.loadEasyLevel());
-    }
+//    static {
+//        levelMap.put(0, EasyLevel.loadEasyLevel());
+//    }
 
     private static Scene createScene() {
         Scene scene = new Scene();
@@ -62,7 +62,7 @@ public class LevelSelectionFactory {
             }
             GameUIButton temp = UIFactory.ButtonFactory("Level " + (i + 1), BUTTON_X_OFFSET + XReset * BUTTON_X_WIDTH, j * BUTTON_Y_OFFSET, BUTTON_X_WIDTH, 80);
             int finalI = i;
-            temp.onClickEvent = () -> Engine.getInstance().getPrimaryWindow().setActiveScene(levelMap.get(finalI));
+            temp.onClickEvent = EasyLevel::loadEasyLevel;
             scene.addUIElements(temp);
             XReset++;
         }

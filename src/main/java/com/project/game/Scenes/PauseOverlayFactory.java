@@ -5,6 +5,7 @@ import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
 import com.project.engine.Core.Tuple;
 import com.project.engine.Core.Window.GameWindow;
+import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.UI.GameUIButton;
 import com.project.engine.UI.GameUILabel;
 import com.project.engine.UI.GameUIPanel;
@@ -21,8 +22,7 @@ import java.util.ArrayList;
 import static com.project.engine.UI.UIConstants.LIGHT_GREEN;
 
 public class PauseOverlayFactory {
-    public static Boolean paused = false;
-    public static GameObject pauseBackground = AbstractObjectFactory.generateOfType(ObjectType.PAUSE_BACKGROUND);
+    // public static GameObject pauseBackground = AbstractObjectFactory.generateOfType(ObjectType.PAUSE_BACKGROUND);
 
     public static void createPauseOverlay(Scene scene) {
 
@@ -45,25 +45,26 @@ public class PauseOverlayFactory {
     }
 
     public static void pauseGame() {
-        paused = true;
         loadPauseMenu();
     }
 
     public static void unpauseGame() {
-        paused = false;
         unloadPauseMenu();
     }
 
     public static void loadPauseMenu() {
         Scene s = Engine.getInstance().getPrimaryWindow().getActiveScene();
         createPauseOverlay(s);
-        s.addSceneObject(pauseBackground);
+        // pauseBackground.getScriptable(SpriteRenderer.class).setEnabled(true);
+        Engine.getInstance().pauseGame();
     }
 
     public static void unloadPauseMenu() {
         Scene s = Engine.getInstance().getPrimaryWindow().getActiveScene();
         UIFactory.removePause(s);
-        s.removeSceneObject(pauseBackground);
+        // pauseBackground.getScriptable(SpriteRenderer.class).setEnabled(false);
+        Engine.getInstance().unpauseGame();
+        Engine.getInstance().getPrimaryWindow().refocusInWindow();
     }
 
 }

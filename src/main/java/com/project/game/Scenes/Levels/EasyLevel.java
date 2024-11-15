@@ -57,6 +57,7 @@ public class EasyLevel {
                 cloudMaker.generate(500, 100, 3, 1.5),
                 cloudMaker.generate(900, 90, 3, 1.5),
                 cloudMaker.generate(1400, 70, 3, 1.5));
+
         // Testing
         GameUIButton test = UIFactory.ButtonFactory("Pause", 600, 10, 220, 50);
 
