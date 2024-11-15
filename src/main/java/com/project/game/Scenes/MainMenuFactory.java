@@ -6,6 +6,7 @@ import com.project.engine.Core.Scene;
 import com.project.engine.Core.Tuple;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.UI.GameUIButton;
+import com.project.engine.UI.GameUILabel;
 import com.project.game.ObjectFactories.AbstractObjectFactory;
 import com.project.game.ObjectFactories.CloudFactory;
 import com.project.game.ObjectFactories.ObjectType;
@@ -26,8 +27,8 @@ public class MainMenuFactory {
         CloudFactory cloud = (CloudFactory) AbstractObjectFactory.makeFactory(ObjectType.CLOUD);
         scene.addSceneObject(cloud.generate(300, 30, 3, 1.5));
         // Game Label
-        UIFactory.LabelFactory("Froggy's", 212, 40, 375, 200);
-        UIFactory.LabelFactory("Adventure", 175, 140, 450, 200);
+        GameUILabel title1 = UIFactory.LabelFactory("Froggy's", 212, 40, 375, 200);
+        GameUILabel title2 = UIFactory.LabelFactory("Adventure", 175, 140, 450, 200);
         // Play Button
         GameUIButton play = UIFactory.ButtonFactory("Play Game", 265, 300, 270, 80);
 
@@ -38,14 +39,8 @@ public class MainMenuFactory {
 
         leave.onClickEvent = MainMenuFactory::leaveGame;
 
-
-        // Testing
-        GameUIButton test = UIFactory.ButtonFactory("Test Game", 265, 500, 270, 80);
-
-        test.onClickEvent = PauseMenuFactory::pauseGame;
-
         // Adding everything to the scene
-        UIFactory.addToScene(scene);
+        scene.addUIElements(play, leave, title1, title2);
         return scene;
     }
 

@@ -43,6 +43,8 @@ public class AbstractObjectFactory {
                 return new VoidFactory();
             case BOUNDARY:
                 return new BoundaryFactory();
+            case PAUSE_BACKGROUND:
+                return new PauseBackgroundFactory();
         }
 
         return new AbstractObjectFactory();

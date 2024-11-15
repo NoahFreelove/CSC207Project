@@ -41,9 +41,7 @@ public class LevelSelectionFactory {
         // Adding everything
         scene.addSceneObject(escapeDetector, true);
         scene.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND));
-//        scene.addUIElement(level1);
-//        scene.addUIElement(level2);
-        UIFactory.addToScene(scene);
+        scene.addUIElements(back);
         return scene;
     }
 
@@ -62,14 +60,10 @@ public class LevelSelectionFactory {
                 j += 1;
                 XReset = 0;
             }
-            GameUIButton temp = new GameUIButton("Level " + (i + 1), BUTTON_X_OFFSET + XReset * BUTTON_X_WIDTH, j * BUTTON_Y_OFFSET, BUTTON_X_WIDTH, 80);
-            temp.setFont(FontCreator.createFont(40f));
-            temp.setForeground(Color.decode(FOREST_GREEN));
-            temp.setHorizontalAlignment(SwingConstants.CENTER);
-            temp.setTransparent(true);
+            GameUIButton temp = UIFactory.ButtonFactory("Level " + (i + 1), BUTTON_X_OFFSET + XReset * BUTTON_X_WIDTH, j * BUTTON_Y_OFFSET, BUTTON_X_WIDTH, 80);
             int finalI = i;
             temp.onClickEvent = () -> Engine.getInstance().getPrimaryWindow().setActiveScene(levelMap.get(finalI));
-            scene.addUIElement(temp);
+            scene.addUIElements(temp);
             XReset++;
         }
     }

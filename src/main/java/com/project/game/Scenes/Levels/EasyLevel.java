@@ -5,9 +5,12 @@ import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
 import com.project.engine.Core.Tuple;
 import com.project.engine.Core.Window.GameWindow;
+import com.project.engine.UI.GameUIButton;
 import com.project.game.ObjectFactories.*;
 import com.project.game.Scenes.LevelSelectionFactory;
+import com.project.game.Scenes.PauseOverlayFactory;
 import com.project.game.Scripts.SceneExit;
+import com.project.game.UIFactories.UIFactory;
 
 /**
  * A simple Level for Game PoC
@@ -54,6 +57,11 @@ public class EasyLevel {
                 cloudMaker.generate(500, 100, 3, 1.5),
                 cloudMaker.generate(900, 90, 3, 1.5),
                 cloudMaker.generate(1400, 70, 3, 1.5));
+        // Testing
+        GameUIButton test = UIFactory.ButtonFactory("Pause", 600, 10, 220, 50);
+
+        test.onClickEvent = PauseOverlayFactory::pauseGame;
+        s.addUIElement(test);
 
         return s;
     }

@@ -127,6 +127,12 @@ public class Scene implements ISerializable {
         uiCallbacks.forEach(windowUICallback -> windowUICallback.addUIComponent(element));
     }
 
+    public synchronized void addUIElements(JComponent... element) {
+        for(JComponent o : element) {
+            addUIElement(o);
+        }
+    }
+
     public synchronized void addUICallback(WindowUICallback callback) {
         if (uiCallbacks.contains(callback))
             return;
