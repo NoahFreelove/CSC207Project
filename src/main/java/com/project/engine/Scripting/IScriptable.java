@@ -11,4 +11,6 @@ public interface IScriptable extends ISerializable {
     default void stop(GameObject parent) {}
 
     default void reset(GameObject parent){}
+
+    default void pauseEvent(GameObject parent, boolean isPaused){}
 }

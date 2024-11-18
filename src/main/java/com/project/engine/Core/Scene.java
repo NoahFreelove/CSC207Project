@@ -216,6 +216,12 @@ public class Scene implements ISerializable {
         }
     }
 
+    public void pauseEvent(boolean paused) {
+        for (Tuple<GameObject, IScriptable> listener : inputListeners) {
+            listener.getSecond().pauseEvent(listener.getFirst(), paused);
+        }
+    }
+
     public Iterator<GameObject> getSceneObjects() {
         return sceneObjects.iterator();
     }

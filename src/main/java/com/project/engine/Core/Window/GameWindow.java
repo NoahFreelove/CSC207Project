@@ -387,4 +387,8 @@ public final class GameWindow {
     public float getScaleFactorY() {
         return scaleFactorY;
     }
+
+    public void resetInput() {
+        keys.forEach((k, v) -> keys.put(k, false));
+    }
 }

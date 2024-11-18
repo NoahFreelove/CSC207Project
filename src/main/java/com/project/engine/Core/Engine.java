@@ -113,15 +113,24 @@ public class Engine {
     }
 
     public void pauseGame() {
+        for (GameWindow w : gameWindows)
+            w.resetInput();
         paused = true;
+        runPauseEvents(true);
     }
 
     public void unpauseGame() {
         paused = false;
+        runPauseEvents(false);
     }
 
     public boolean isPaused() {
         return paused;
+    }
+
+    private void runPauseEvents(boolean paused){
+        for (GameWindow w : gameWindows)
+            w.getActiveScene().pauseEvent(paused);
     }
 
     /**
