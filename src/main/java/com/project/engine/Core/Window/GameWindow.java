@@ -381,6 +381,8 @@ public final class GameWindow {
 
     public void removeUIElement(JComponent component) {
         SwingUtilities.invokeLater(() -> {
+            if(component == null)
+                return;
             uiRoot.remove(component);
             uiRoot.revalidate();
             uiRoot.repaint();

@@ -50,7 +50,7 @@ public class BoxCollider extends Collider {
             t.setPositionX(x2 + w2 + 0.01 - getXOffset());
             rb.resetX();
         }
-        else if (y1 >= h2 + y2 - bufferSpace){
+        else if (y1 >= h2 + y2 - bufferSpace && rb.getVelocityY() < 0) {
             t.setPositionY(y2 + h2 + 0.01 - getYOffset());
             rb.resetY();
         }

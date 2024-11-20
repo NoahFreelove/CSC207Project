@@ -105,7 +105,7 @@ public class LevelEditorFactory {
             @Override
             public void onClick() {
                 w.setWindowSizeForce(800, 800);
-                w.setActiveScene(scene.exportToScene());
+                w.setActiveScene(scene.exportToScene(true));
             }
         };
 

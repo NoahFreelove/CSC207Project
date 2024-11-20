@@ -5,11 +5,14 @@ import com.project.engine.Core.Scene;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Core.GameObject;
 import com.project.engine.IO.FileIO;
+import com.project.engine.Input.EInputType;
+import com.project.engine.Scripting.IScriptable;
 import com.project.game.ObjectFactories.AbstractObjectFactory;
 import com.project.game.ObjectFactories.GroundBlockFactory;
 import com.project.game.ObjectFactories.ObjectType;
 import com.project.game.ObjectFactories.PlayerFactory;
 import com.project.game.Scenes.MainMenuFactory;
+import com.project.game.Scripts.VoidScript;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -133,7 +136,7 @@ public class LevelEditor extends Scene {
         FileIO.WriteTextAbs(activeFile, output.toString(4));
     }
 
-    public Scene exportToScene() {
+    public Scene exportToScene(boolean testing) {
         Scene output = new Scene();
 
         GroundBlockFactory groundBlockFactory = (GroundBlockFactory) AbstractObjectFactory.makeFactory(ObjectType.GROUND_BLOCK);
@@ -145,7 +148,27 @@ public class LevelEditor extends Scene {
                     out = PlayerFactory.makeFactory(ObjectType.PLAYER)
                             .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 10, obj.scaleX, obj.scaleY);
                     out.getTransform().setRotation(obj.rot);
-                    break;
+                    if(testing) {
+                        out.addBehavior(new IScriptable() {
+                            @Override
+                            public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
+                                if (keyName.equals("ESC") && inputType == EInputType.RELEASE) {
+                                    GameWindow w = Engine.getInstance().getPrimaryWindow();
+                                    if (w == null)
+                                        return;
+                                    w.setWindowSizeForce(1920,1080);
+                                    w.setActiveScene(LevelEditor.this);
+                                }
+                            }
+                        });
+                    }
+                    output.getCamera().update(out, 0);
+                    output.getCamera().setOffsetX(-100);
+                    output.getCamera().setOffsetY(100);
+
+                    output.getCamera().setFollowY(false);
+                    output.addSceneObject(out, true);
+                    continue;
                 }
                 case 1: {
                     out = groundBlockFactory
@@ -159,14 +182,16 @@ public class LevelEditor extends Scene {
                 }
             }
             output.addSceneObject(out);
-            output.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND));
-        }
 
+        }
+        output.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BOUNDARY, 0, 0, 5, 800));
+        output.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND));
+        output.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.VOID));
         return output;
     }
 
     public void exportToFile(String path) {
-        FileIO.WriteTextAbs(path, exportToScene().serialize().toString(4));
+        FileIO.WriteTextAbs(path, exportToScene(false).serialize().toString(4));
     }
 
     public void exitLevelEditor() {

@@ -14,7 +14,7 @@ public class JokeAPIRequest extends APIRequest {
 
     private static HashMap<String, String> getDefaultBlacklist() {
         HashMap<String,String> output = new HashMap<>();
-        output.put("blacklistFlags", "nsfw,religious,political,racist,sexist,explicit");
+        output.put("blacklistFlags", "nsfw,religious,political,racist,sexist,explicit,dark");
         return output;
     }
 

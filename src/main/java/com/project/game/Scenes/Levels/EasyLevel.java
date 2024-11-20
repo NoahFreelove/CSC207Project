@@ -28,11 +28,13 @@ public class EasyLevel {
         exitInputLIstener.getScriptable(SceneExit.class).setOnExit(LevelSelectionFactory::loadLevelSelection);
         s.addSceneObject(exitInputLIstener, true);
 
-        s.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND));
+        s.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND, 0, -128));
 
-        GameObject player = AbstractObjectFactory.generateOfType(ObjectType.PLAYER, 10);
+        GameObject player = AbstractObjectFactory.generateOfType(ObjectType.PLAYER, 300, 400, 10);
         s.getCamera().update(player, 0);
         s.getCamera().setOffsetX(-100);
+        s.getCamera().setOffsetY(100);
+
         s.getCamera().setFollowY(false);
 
         s.addSceneObject(player, true);
@@ -47,11 +49,12 @@ public class EasyLevel {
         PrincessFactory princess = (PrincessFactory) AbstractObjectFactory.makeFactory(ObjectType.PRINCESS);
 
         s.addSceneObjects(
-                groundMaker.generate(0, 600, 2, 10, 2, 0.8),
-                groundMaker.generate(1600, 600, 2, 10, 2, 0.8),
-                groundMaker.generate(500, 520, 1, 1, 1, "assets/brick.png"),
-                groundMaker.generate(764, 400-64, 1, 0.5, 0.5, 1, "assets/brick.png"),
-                groundMaker.generate(700, 400, 1, 0.5, 0.5, 1, "assets/brick.png"),
+                groundMaker.generate(0, 600, 2, 20, 4, 0.8),
+                groundMaker.generate(1600, 600, 2, 20, 4, 0.8),
+                groundMaker.generate(500, 600-64, 2, 2, 1, "assets/brick.png"),
+                groundMaker.generate(764, 400-64, 2, 1, 1, 1, "assets/brick.png"),
+                groundMaker.generate(700, 400, 2, 1, 1, 1, "assets/brick.png"),
+                hiddenBlockMaker.generate(1280+64, 380, 1, 1,1, 0.8),
 
                 hiddenBlockMaker.generate(1280, 380, 1, 1,1, 0.8),
                 hiddenBlockMaker.generate(1280-64, 380, 1, 1, 1,0.8),
@@ -68,14 +71,14 @@ public class EasyLevel {
 
         pause.onClickEvent = PauseOverlayFactory::pauseGame;
         s.addUIElement(pause);
-
+        s.setScaleX(1.25f);
+        s.setScaleY(1.25f);
         return s;
     }
 
     public static Scene loadEasyLevel() {
         Scene s = createScene();
         Engine.getInstance().getPrimaryWindow().setActiveScene(s);
-        System.out.println(s.serialize().toString(4));
         return s;
     }
 }

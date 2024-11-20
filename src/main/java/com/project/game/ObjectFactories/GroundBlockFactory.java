@@ -36,7 +36,7 @@ public class GroundBlockFactory extends AbstractObjectFactory {
         obj.addTag("ground");
 
         obj.getTransform().update(obj, 0); // This call allows obj to have right tiling scale.
-        SpriteRenderer sr = new SpriteRenderer(asset, 128,128);
+        SpriteRenderer sr = new SpriteRenderer(asset, 64,64);
         sr.setTile(true);
         sr.setTileX(obj.getTransform().getScaleX());
         sr.setTileY(obj.getTransform().getScaleY());
