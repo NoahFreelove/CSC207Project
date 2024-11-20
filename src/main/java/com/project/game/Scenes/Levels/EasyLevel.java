@@ -44,6 +44,8 @@ public class EasyLevel {
         HiddenBlockFactory hiddenBlockMaker = (HiddenBlockFactory) AbstractObjectFactory.makeFactory(ObjectType.HIDDEN_BLOCK);
         CloudFactory cloudMaker = (CloudFactory) AbstractObjectFactory.makeFactory(ObjectType.CLOUD);
 
+        PrincessFactory princess = (PrincessFactory) AbstractObjectFactory.makeFactory(ObjectType.PRINCESS);
+
         s.addSceneObjects(
                 groundMaker.generate(0, 600, 2, 10, 2, 0.8),
                 groundMaker.generate(1600, 600, 2, 10, 2, 0.8),
@@ -56,13 +58,14 @@ public class EasyLevel {
                 cloudMaker.generate(100, 50, 3, 1.5),
                 cloudMaker.generate(500, 100, 3, 1.5),
                 cloudMaker.generate(900, 90, 3, 1.5),
-                cloudMaker.generate(1400, 70, 3, 1.5));
+                cloudMaker.generate(1400, 70, 3, 1.5),
+                princess.generate(2000, 490, 1, 1));
 
         // Testing
-        GameUIButton test = UIFactory.ButtonFactory("Pause", 600, 10, 220, 50);
+        GameUIButton pause = UIFactory.ButtonFactory("Pause", 600, 10, 220, 50);
 
-        test.onClickEvent = PauseOverlayFactory::pauseGame;
-        s.addUIElement(test);
+        pause.onClickEvent = PauseOverlayFactory::pauseGame;
+        s.addUIElement(pause);
 
         return s;
     }

@@ -10,5 +10,6 @@ public enum ObjectType {
     HIDDEN_SPIKE,
     VOID,
     BOUNDARY,
-    PAUSE_BACKGROUND
+    PAUSE_BACKGROUND,
+    PRINCESS,
 }
