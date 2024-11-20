@@ -1,8 +1,8 @@
-package com.project.game;
+package com.project.game.editor;
 
 import java.util.HashMap;
 
-public class TileCache {
+public class EditorTileCache {
     public static final int BASE_TILE_SIZE = 64;
     public static final HashMap<Integer, String> spriteCache = new HashMap<>();
 

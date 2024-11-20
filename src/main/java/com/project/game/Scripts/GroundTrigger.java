@@ -7,6 +7,7 @@ import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Physics.Collision.BoxTrigger;
 import com.project.engine.Physics.Collision.CollisionVolume;
 import com.project.engine.Physics.PhysicsBody.RigidBody2D;
+import org.json.JSONObject;
 
 import java.util.Iterator;
 
@@ -55,5 +56,21 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
                 parent.getScriptable(RigidBody2D.class).attribs.grounded = false;
             }
         }
+    }
+
+    @Override
+    public JSONObject serialize() {
+        JSONObject out = new JSONObject();
+        out.put("relX", getRelWidth());
+        out.put("relY", getRelHeight());
+        out.put("offX", getXOffset());
+        out.put("offY", getYOffset());
+        return out;
+    }
+
+    @Override
+    public void deserialize(JSONObject data) {
+        setRelDimensions(data.getDouble("relX"), data.getDouble("relY"));
+        setOffset(data.getDouble("offX"), data.getDouble("offY"));
     }
 }

@@ -23,7 +23,7 @@ public class Scene implements ISerializable {
 
     private final String name;
     private final CollisionManager collisionManager = new CollisionManager();
-    private final CopyOnWriteArrayList<GameObject> sceneObjects = new CopyOnWriteArrayList<>();
+    protected final CopyOnWriteArrayList<GameObject> sceneObjects = new CopyOnWriteArrayList<>();
     private final CopyOnWriteArrayList<JComponent> uiElements = new CopyOnWriteArrayList<>();
 
     private final CopyOnWriteArrayList<Tuple<GameObject, IScriptable>> inputListeners = new CopyOnWriteArrayList<>();
@@ -451,5 +451,11 @@ public class Scene implements ISerializable {
             }
 
         }
+    }
+
+    public void purgeScene() {
+        sceneObjects.clear();
+        renderables.clear();
+        inputListeners.clear();
     }
 }

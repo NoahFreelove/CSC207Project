@@ -3,6 +3,7 @@ package com.project.game.Scripts;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Physics.PhysicsBody.RigidBody2D;
+import org.json.JSONObject;
 
 public class PlayerDeath implements IScriptable {
     private boolean dead = false;
@@ -11,6 +12,7 @@ public class PlayerDeath implements IScriptable {
     private final double COOLDOWN_TIME = 0.1; //Death cooldown in seconds
     private double deathCooldown = 0;
 
+    public PlayerDeath() {}
 
     @Override
     public void start(GameObject parent) {
@@ -82,5 +84,10 @@ public class PlayerDeath implements IScriptable {
 
 
         parent.removeTag("player"); // dont trigger other events when dead
+    }
+
+    @Override
+    public JSONObject serialize() {
+        return new JSONObject();
     }
 }

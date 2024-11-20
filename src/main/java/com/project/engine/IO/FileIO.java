@@ -46,4 +46,25 @@ public class FileIO {
             return false;
         }
     }
+
+    public static boolean WriteTextAbs(String absolutePath, String text) {
+        try {
+            Path path = Paths.get(absolutePath);
+            Files.createDirectories(path.getParent());
+            Files.writeString(path, text);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Exception (" + e.getClass().getSimpleName() + "): Failed to write text (absolute): " + absolutePath + "\n" + e.getMessage());
+            return false;
+        }
+    }
+
+    public static String ReadTextAbs(String path) {
+        try {
+            return Files.readString(Paths.get(path));
+        } catch (IOException e) {
+            System.err.println("IO Exception (" + e.getClass().getSimpleName() + "): Failed to load text (absolute): " + path + "\nResolution: Using default text");
+            return "";
+        }
+    }
 }

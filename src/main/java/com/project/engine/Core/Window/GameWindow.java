@@ -402,4 +402,8 @@ public final class GameWindow {
     public void resetInput() {
         keys.forEach((k, v) -> keys.put(k, false));
     }
+
+    public Component getRootPane() {
+        return uiRoot;
+    }
 }

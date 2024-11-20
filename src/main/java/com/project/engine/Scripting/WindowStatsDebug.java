@@ -4,6 +4,7 @@ import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Input.EInputType;
+import org.json.JSONObject;
 
 public class WindowStatsDebug implements IScriptable {
     private GameWindow target = Engine.getInstance().getPrimaryWindow();
@@ -24,5 +25,10 @@ public class WindowStatsDebug implements IScriptable {
     @Override
     public Class<?> attachedClass() {
         return getClass();
+    }
+
+    @Override
+    public JSONObject serialize() {
+        return new JSONObject();
     }
 }

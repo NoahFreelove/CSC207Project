@@ -1,6 +1,7 @@
 package com.project.game.Scripts;
 
 import com.project.engine.Scripting.IScriptable;
+import org.json.JSONObject;
 
 public class GroundStats implements IScriptable {
     private double friction = 0;
@@ -20,5 +21,17 @@ public class GroundStats implements IScriptable {
 
     public void setFriction(double friction) {
         this.friction = friction;
+    }
+
+    @Override
+    public JSONObject serialize() {
+        JSONObject out = new JSONObject();
+        out.put("friction", friction);
+        return out;
+    }
+
+    @Override
+    public void deserialize(JSONObject data) {
+        friction = data.getDouble("friction");
     }
 }

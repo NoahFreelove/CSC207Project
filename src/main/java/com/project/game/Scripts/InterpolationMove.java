@@ -2,12 +2,17 @@ package com.project.game.Scripts;
 
 import com.project.engine.Core.GameObject;
 import com.project.engine.Scripting.IScriptable;
+import org.json.JSONObject;
 
 public class InterpolationMove implements IScriptable {
     private double x, y;
     private double targetX, targetY;
     private double speed;
     private boolean active;
+
+    public InterpolationMove() {
+        this(0, 0, 0);
+    }
 
     public InterpolationMove(double x, double y, double speed) {
         this.x = x;
@@ -53,5 +58,27 @@ public class InterpolationMove implements IScriptable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    @Override
+    public JSONObject serialize() {
+        JSONObject out = new JSONObject();
+        out.put("x", x);
+        out.put("y", y);
+        out.put("speed", speed);
+        out.put("active", active);
+        out.put("targetX", targetX);
+        out.put("targetY", targetY);
+        return out;
+    }
+
+    @Override
+    public void deserialize(JSONObject data) {
+        x = data.getDouble("x");
+        y = data.getDouble("y");
+        speed = data.getDouble("speed");
+        active = data.getBoolean("active");
+        targetX = data.getDouble("targetX");
+        targetY = data.getDouble("targetY");
     }
 }

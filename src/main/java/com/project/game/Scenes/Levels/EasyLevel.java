@@ -75,6 +75,7 @@ public class EasyLevel {
     public static Scene loadEasyLevel() {
         Scene s = createScene();
         Engine.getInstance().getPrimaryWindow().setActiveScene(s);
+        System.out.println(s.serialize().toString(4));
         return s;
     }
 }
