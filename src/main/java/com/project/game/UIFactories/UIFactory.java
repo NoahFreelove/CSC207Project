@@ -1,6 +1,7 @@
 package com.project.game.UIFactories;
 
 
+import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
 import com.project.engine.Rendering.GamePanel;
@@ -87,9 +88,5 @@ public class UIFactory {
                 scene.removeSceneObject((GameObject) obj);
             }
         }
-    }
-
-    public static void addPausedElem(Object obj) {
-        PausedElements.add(-1, obj);
     }
 }

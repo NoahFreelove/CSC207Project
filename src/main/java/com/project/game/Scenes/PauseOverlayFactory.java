@@ -23,6 +23,7 @@ import static com.project.engine.UI.UIConstants.LIGHT_GREEN;
 
 public class PauseOverlayFactory {
     // public static GameObject pauseBackground = AbstractObjectFactory.generateOfType(ObjectType.PAUSE_BACKGROUND);
+    public static Boolean isPaused = false;
 
     public static void createPauseOverlay(Scene scene) {
 
@@ -48,10 +49,12 @@ public class PauseOverlayFactory {
 
     public static void pauseGame() {
         loadPauseMenu();
+        isPaused = true;
     }
 
     public static void unpauseGame() {
         unloadPauseMenu();
+        isPaused = false;
     }
 
     public static void loadPauseMenu() {

@@ -48,6 +48,9 @@ public class LevelSelectionFactory {
     public static void loadLevelSelection() {
         Tuple<Engine, GameWindow> out = Engine.createAndWait();
         GameWindow w = out.getSecond();
+        if (PauseOverlayFactory.isPaused) {
+            PauseOverlayFactory.unpauseGame();
+        }
         Scene s = LevelSelectionFactory.createScene();
         w.setActiveScene(s);
     }
