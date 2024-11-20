@@ -45,6 +45,8 @@ public class AbstractObjectFactory {
                 return new BoundaryFactory();
             case PAUSE_BACKGROUND:
                 return new PauseBackgroundFactory();
+            case PRINCESS:
+                return new PrincessFactory();
         }
 
         return new AbstractObjectFactory();

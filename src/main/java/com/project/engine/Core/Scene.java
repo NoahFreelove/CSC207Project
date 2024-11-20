@@ -7,6 +7,9 @@ import com.project.engine.Rendering.Camera;
 import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Serialization.ISerializable;
+
+import com.project.engine.UI.GameUIButton;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -143,6 +146,15 @@ public class Scene implements ISerializable {
     public synchronized void removeUIElement(JComponent element) {
         uiElements.remove(element);
         uiCallbacks.forEach(windowUICallback -> windowUICallback.removeUIComponent(element));
+    }
+
+    public synchronized GameUIButton getButton(String name) {
+        for (JComponent o: uiElements) {
+            if (o instanceof GameUIButton && ((GameUIButton) o).getText().equals(name)) {
+                return ((GameUIButton) o);
+            }
+        }
+        return null;
     }
 
     public synchronized void removeUICallback(WindowUICallback callback) {
