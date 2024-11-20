@@ -1,11 +1,10 @@
 package com.project.game.UIFactories;
 
 
+import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
-import com.project.engine.UI.FontCreator;
-import com.project.engine.UI.GameUI;
-import com.project.engine.UI.GameUIButton;
-import com.project.engine.UI.GameUILabel;
+import com.project.engine.Rendering.GamePanel;
+import com.project.engine.UI.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,14 +13,31 @@ import java.util.ArrayList;
 import static com.project.engine.UI.UIConstants.*;
 
 public class UIFactory {
-    public static ArrayList<JComponent> UIElements = new ArrayList<>();
+    public static ArrayList<Object> PausedElements = new ArrayList<>();
+
+    public static GameUIPanel PanelFactory(int x, int y, int width, int height) {
+        GameUIPanel panel = new GameUIPanel(x, y, width, height);
+        panel.setBackground(BLACK);
+        return panel;
+    }
 
     public static GameUILabel LabelFactory(String text, int x, int y, int width, int height) {
         GameUILabel label = new GameUILabel(text, x, y, width, height);
         label.setFont(FontCreator.createFont(TITLE_SIZE));
         label.setForeground(Color.decode(FOREST_GREEN));
         label.setHorizontalAlignment(SwingConstants.CENTER);
-        UIElements.add(label);
+
+        return label;
+    }
+
+    public static GameUILabel LabelFactory(String text, int x, int y, int width, int height, String color) {
+        GameUILabel label = new GameUILabel(text, x, y, width, height);
+        label.setFont(FontCreator.createFont(TITLE_SIZE));
+        label.setForeground(Color.decode(color));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        if (color == LIGHT_GREEN) {
+            PausedElements.add(label);
+        }
 
         return label;
     }
@@ -32,15 +48,48 @@ public class UIFactory {
         button.setForeground(Color.decode(FOREST_GREEN));
         button.setHorizontalAlignment(SwingConstants.CENTER);
         button.setTransparent(true);
-        UIElements.add(button);
 
         return button;
     }
 
-    public static void addToScene(Scene scene) {
-        for (int i = 0; i < UIElements.size(); i++) {
-            scene.addUIElement(UIElements.get(i));
+    public static GameUIButton ButtonFactory(String text, int x, int y, int width, int height, String color) {
+        GameUIButton button = new GameUIButton(text, x, y, width, height);
+        button.setFont(FontCreator.createFont(BUTTON_SIZE));
+        button.setForeground(Color.decode(color));
+        button.setHorizontalAlignment(SwingConstants.CENTER);
+        button.setTransparent(true);
+        if (color == LIGHT_GREEN) {
+            PausedElements.add(button);
         }
-        UIElements.clear();
+
+        return button;
+    }
+
+
+
+    public static void addToPause(Scene scene) {
+        for (int i = 0; i < PausedElements.size(); i++) {
+            Object obj = PausedElements.get(i);
+            if (obj instanceof JComponent) {
+                scene.addUIElement((JComponent) obj);
+            } else {
+                scene.addSceneObject((GameObject) obj);
+            }
+        }
+    }
+
+    public static void removePause(Scene scene) {
+        for (int i = 0; i < PausedElements.size(); i++) {
+            Object obj = PausedElements.get(i);
+            if (obj instanceof JComponent) {
+                scene.removeUIElement((JComponent) obj);
+            } else {
+                scene.removeSceneObject((GameObject) obj);
+            }
+        }
+    }
+
+    public static void addPausedElem(Object obj) {
+        PausedElements.add(-1, obj);
     }
 }

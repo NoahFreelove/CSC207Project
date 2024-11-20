@@ -113,6 +113,12 @@ public class MovementController implements IScriptable {
     }
 
     @Override
+    public void pauseEvent(GameObject parent, boolean isPaused) {
+        if (isPaused)
+            animationManager.stopMoving();
+    }
+
+    @Override
     public void reset(GameObject parent) {
         enableAnimation = true;
     }

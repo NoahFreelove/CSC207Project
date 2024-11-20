@@ -9,5 +9,6 @@ public enum ObjectType {
     HIDDEN_BLOCK,
     HIDDEN_SPIKE,
     VOID,
-    BOUNDARY
+    BOUNDARY,
+    PAUSE_BACKGROUND
 }

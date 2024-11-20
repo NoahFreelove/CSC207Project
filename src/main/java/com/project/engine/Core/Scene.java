@@ -127,6 +127,12 @@ public class Scene implements ISerializable {
         uiCallbacks.forEach(windowUICallback -> windowUICallback.addUIComponent(element));
     }
 
+    public synchronized void addUIElements(JComponent... element) {
+        for(JComponent o : element) {
+            addUIElement(o);
+        }
+    }
+
     public synchronized void addUICallback(WindowUICallback callback) {
         if (uiCallbacks.contains(callback))
             return;
@@ -207,6 +213,12 @@ public class Scene implements ISerializable {
     public void onInput(String keyName, EInputType inputType, int inputMods) {
         for (Tuple<GameObject, IScriptable> listener : inputListeners) {
             listener.getSecond().onInput(listener.getFirst(), keyName, inputType, inputMods);
+        }
+    }
+
+    public void pauseEvent(boolean paused) {
+        for (Tuple<GameObject, IScriptable> listener : inputListeners) {
+            listener.getSecond().pauseEvent(listener.getFirst(), paused);
         }
     }
 
