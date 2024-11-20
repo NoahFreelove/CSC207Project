@@ -52,6 +52,7 @@ public class LevelSelectionFactory {
             PauseOverlayFactory.unpauseGame();
         }
         Scene s = LevelSelectionFactory.createScene();
+        Engine.getInstance().unpauseGame();
         w.setActiveScene(s);
     }
 
