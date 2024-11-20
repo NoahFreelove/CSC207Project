@@ -34,13 +34,15 @@ public class PauseOverlayFactory {
         //Buttons
         GameUIButton resume = UIFactory.ButtonFactory("Resume Game", 250, 300, 300, 80, LIGHT_GREEN);
         GameUIButton exit = UIFactory.ButtonFactory("Exit Game", 265, 400, 270, 80, LIGHT_GREEN);
+        GameUIButton darken_bg = UIFactory.ButtonFactory("", 0, 0, 800, 800, LIGHT_GREEN);
+        darken_bg.setImage("ui/darken_bg.png");
 
         // TODO: make resume game button more dynamic
         resume.onClickEvent = PauseOverlayFactory::unpauseGame;
 
         exit.onClickEvent = LevelSelectionFactory::loadLevelSelection;
 
-        scene.addUIElements(resume, exit, label);
+        scene.addUIElements(resume, exit, label, darken_bg);
 
     }
 
