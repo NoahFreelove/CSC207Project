@@ -2,11 +2,11 @@ package com.project.engine.Core;
 
 import com.project.engine.Core.Window.WindowUICallback;
 import com.project.engine.Input.EInputType;
+import com.project.engine.Physics.Collision.CollisionManager;
 import com.project.engine.Rendering.Camera;
 import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Serialization.ISerializable;
-import com.project.engine.Physics.Collision.CollisionManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,7 +25,7 @@ public class Scene implements ISerializable {
 
     private final CopyOnWriteArrayList<Tuple<GameObject, IScriptable>> inputListeners = new CopyOnWriteArrayList<>();
 
-    private ArrayList<WindowUICallback> uiCallbacks = new ArrayList<>();
+    private final ArrayList<WindowUICallback> uiCallbacks = new ArrayList<>();
     /**
      * Why not just loop through every game object and get the renderables?
      * Because in our specific game - we plan to have many invisible triggers and other objects that don't render.
@@ -192,7 +192,9 @@ public class Scene implements ISerializable {
                 break;
             }
         }
-        inputListeners.remove(listener);
+        if (listener != null) {
+            inputListeners.remove(listener);
+        }
     }
 
     public synchronized void removeRenderable(IRenderable renderable) {
@@ -203,7 +205,9 @@ public class Scene implements ISerializable {
                 break;
             }
         }
-        renderables.remove(renderableTuple);
+        if (renderableTuple != null) {
+            renderables.remove(renderableTuple);
+        }
     }
 
     public String getName() {
@@ -436,6 +440,4 @@ public class Scene implements ISerializable {
 
         }
     }
-
-
 }

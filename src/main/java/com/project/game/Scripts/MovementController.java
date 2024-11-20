@@ -68,7 +68,7 @@ public class MovementController implements IScriptable {
         if ((win.isKeyPressed("SPACE") || win.isKeyPressed("W") || win.isKeyPressed("UP"))  && canJump) {
                 isJumping = true;
                 animationManager.startMoving("jump");
-                jump(parent);
+                jump(parent, deltaTime);
                 isMoving = true;
 
         }
@@ -127,10 +127,10 @@ public class MovementController implements IScriptable {
         ref.getScriptable(RigidBody2D.class).addForce(xDelta*500, yDelta*200);
     }
 
-    private void jump(GameObject ref) {
+    private void jump(GameObject ref, double dt) {
         if(rb.attribs.grounded && rb.getVelocityY() >= 0){
             rb.attribs.grounded = false;
-            move(ref, 0, -1500*jumpForce);
+            move(ref, 0, -1500*jumpForce*(0.6d)/* * dt*20*/);
             
         }
     }
