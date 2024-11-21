@@ -5,13 +5,16 @@ import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
 import com.project.engine.Core.Tuple;
 import com.project.engine.Core.Window.GameWindow;
+import com.project.engine.UI.GameUI;
 import com.project.engine.UI.GameUIButton;
 import com.project.engine.UI.GameUILabel;
+import com.project.engine.UI.IOnClick;
 import com.project.game.ObjectFactories.AbstractObjectFactory;
 import com.project.game.ObjectFactories.CloudFactory;
 import com.project.game.ObjectFactories.ObjectType;
 import com.project.game.Scripts.SceneExit;
 import com.project.game.UIFactories.UIFactory;
+import com.project.game.editor.LevelEditorFactory;
 
 public class MainMenuFactory {
 
@@ -27,20 +30,23 @@ public class MainMenuFactory {
         CloudFactory cloud = (CloudFactory) AbstractObjectFactory.makeFactory(ObjectType.CLOUD);
         scene.addSceneObject(cloud.generate(300, 30, 3, 1.5));
         // Game Label
-        GameUILabel title1 = UIFactory.LabelFactory("Froggy's", 212, 40, 375, 200);
-        GameUILabel title2 = UIFactory.LabelFactory("Adventure", 175, 140, 450, 200);
+        GameUILabel title1 = UIFactory.LabelFactory("Froggy's", 212, 20, 375, 200);
+        GameUILabel title2 = UIFactory.LabelFactory("Adventure", 175, 120, 450, 200);
         // Play Button
-        GameUIButton play = UIFactory.ButtonFactory("Play Game", 265, 300, 270, 80);
-
+        GameUIButton play = UIFactory.ButtonFactory("Play Game", 265, 280, 270, 80);
         play.onClickEvent = LevelSelectionFactory::loadLevelSelection;
 
         // Leave Button
-        GameUIButton leave = UIFactory.ButtonFactory("Leave game", 265, 400, 270, 80);
-
+        GameUIButton leave = UIFactory.ButtonFactory("Leave Game", 265, 380, 270, 80);
         leave.onClickEvent = MainMenuFactory::leaveGame;
 
+        // Editor Button
+        GameUIButton editor = UIFactory.ButtonFactory("Level Editor", 200, 480, 400, 80);
+        editor.onClickEvent = () -> LevelEditorFactory.loadLevelEditor(Engine.getInstance().getPrimaryWindow());
+
+
         // Adding everything to the scene
-        scene.addUIElements(play, leave, title1, title2);
+        scene.addUIElements(play, leave, title1, title2, editor);
         return scene;
     }
 

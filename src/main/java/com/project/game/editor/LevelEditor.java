@@ -4,6 +4,8 @@ import com.project.engine.Core.Engine;
 import com.project.engine.Core.Scene;
 import com.project.engine.EngineMain;
 import com.project.engine.Core.GameObject;
+import com.project.game.GameMain;
+import com.project.game.Scenes.MainMenuFactory;
 
 import java.util.ArrayList;
 
@@ -78,7 +80,7 @@ public class LevelEditor extends Scene {
 
     public void exitLevelEditor() {
         Engine.getInstance().getPrimaryWindow().setWindowSizeForce(800, 800);
-        EngineMain.loadTestScene();
-    }
+        Scene main = MainMenuFactory.createScene();
+        Engine.getInstance().getPrimaryWindow().setActiveScene(main);    }
 
 }
