@@ -37,8 +37,8 @@ public class SpikeFactory extends AbstractObjectFactory {
                 }
             }
         });
-        deathCollider.setRelDimensions(1,0.4);
-        deathCollider.setOffset(0,38.4);
+        deathCollider.setRelDimensions(0.4,0.4);
+        deathCollider.setOffset(25,25);
         obj.addBehavior(deathCollider);
 
         return obj;

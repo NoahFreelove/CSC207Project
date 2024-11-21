@@ -212,7 +212,7 @@ public class LevelEditor extends Scene {
                     }
                     output.getCamera().update(out, 0);
                     output.getCamera().setOffsetX(-100);
-                    output.getCamera().setOffsetY(100);
+                    output.getCamera().setOffsetY(64);
 
                     output.getCamera().setFollowY(false);
                     output.addSceneObject(out, true);
@@ -266,7 +266,7 @@ public class LevelEditor extends Scene {
 
         }
         output.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BOUNDARY, 0, 0, 5, 800));
-        output.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND));
+        output.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND, 0, -128, 0));
         GameObject voidObject = AbstractObjectFactory.generateOfType(ObjectType.VOID);
         output.addSceneObject(voidObject);
         output.setScaleX(1.25f);

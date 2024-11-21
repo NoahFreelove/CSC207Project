@@ -16,6 +16,7 @@ public class EditorTileCache {
         spriteCache.put(5, "assets/hiddenspike_tile.png");
         spriteCache.put(6, "assets/hiddenitemblock_tile.png");
 
+        disableTransformMutations.put(6, true);
         disableTransformMutations.put(5, true);
         disableTransformMutations.put(3, true);
         //disableTransformMutations.put(4, true);
