@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 public class MovementController implements IScriptable {
 
-    private float moveSpeed = 8f;
+    private float moveSpeed = 6f;
     private float jumpForce = 1.15f;
 
     private boolean canMove = true;

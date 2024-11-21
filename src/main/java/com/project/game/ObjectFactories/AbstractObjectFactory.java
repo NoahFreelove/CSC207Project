@@ -33,8 +33,12 @@ public class AbstractObjectFactory {
                 return new CloudFactory();
             case HIDDEN_BLOCK:
                 return new HiddenBlockFactory();
+            case ITEM_BLOCK:
+                return new ItemBlockFactory();
             case HIDDEN_SPIKE:
                 return new HiddenSpikeFactory();
+            case SPIKE:
+                return new SpikeFactory();
             case BACKGROUND:
                 return new BackgroundFactory();
             case ESCAPE_KEY:

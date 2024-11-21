@@ -1,16 +1,16 @@
 package com.project.game.ObjectFactories;
 
 import com.project.engine.Core.GameObject;
+import com.project.engine.Physics.Collision.CollisionVolume;
+import com.project.engine.Physics.Collision.Types.ECollisionVolume;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.ILambdaTrigger;
 import com.project.game.Scripts.InterpolationMove;
+import com.project.game.Scripts.PlayerDeath;
 import com.project.game.Scripts.SimpleTrigger;
-import com.project.game.Scripts.*;
-import com.project.engine.Physics.Collision.CollisionVolume;
-import com.project.engine.Physics.Collision.Types.ECollisionVolume;
 
-public class HiddenSpikeFactory extends AbstractObjectFactory {
-    protected HiddenSpikeFactory() {
+public class SpikeFactory extends AbstractObjectFactory {
+    protected SpikeFactory() {
         super();
     }
 
@@ -20,25 +20,8 @@ public class HiddenSpikeFactory extends AbstractObjectFactory {
         obj.addTag("spike");
 
         SpriteRenderer sr = new SpriteRenderer("assets/spike.png", 64, 64);
-        sr.setEnabled(false);
         obj.addRenderable(sr);
 
-        InterpolationMove im = new InterpolationMove(x, y, 300);
-        im.setTarget(x, y-64);
-        obj.addBehavior(im);
-
-        SimpleTrigger st = new SimpleTrigger(new ILambdaTrigger() {
-            @Override
-            public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
-                if(other.hasTag("player") && interactor.volumeType() == ECollisionVolume.COLLIDER) {
-                    im.setActive(true);
-                    sr.setEnabled(true);
-                }
-            }
-        });
-        st.setRelDimensions(1.15,0.45);
-        st.setOffset(-4.8,-64 + 35.2);
-        obj.addBehavior(st);
 
         SimpleTrigger deathCollider = new SimpleTrigger(new ILambdaTrigger() {
             @Override

@@ -4,7 +4,7 @@ import com.project.engine.Scripting.IScriptable;
 import org.json.JSONObject;
 
 public class GroundStats implements IScriptable {
-    private double friction = 0;
+    private double friction;
 
     public GroundStats(double friction) {
         this.friction = friction;

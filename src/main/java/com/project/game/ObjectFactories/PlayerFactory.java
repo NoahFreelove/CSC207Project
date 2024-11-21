@@ -27,7 +27,8 @@ public class PlayerFactory extends AbstractObjectFactory {
         obj.addBehavior(new PlayerDeath());
         obj.addBehavior(new DeathJoke());
         obj.addBehavior(new MovementController());
-        obj.addBehavior(new RigidBody2D());
+        var rb = new RigidBody2D();
+        obj.addBehavior(rb);
         SimpleCollider sc = new SimpleCollider(tmp/8, tmp*0.15, 0.5, 0.7);
         obj.addBehavior(sc);
         obj.addBehavior(new GroundTrigger(tmp/8,tmp*0.8, 0.5, 0.05));
