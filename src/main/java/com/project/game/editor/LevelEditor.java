@@ -6,13 +6,17 @@ import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Core.GameObject;
 import com.project.engine.IO.FileIO;
 import com.project.engine.Input.EInputType;
+import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.IScriptable;
+import com.project.engine.UI.GameUIButton;
 import com.project.game.ObjectFactories.AbstractObjectFactory;
 import com.project.game.ObjectFactories.GroundBlockFactory;
 import com.project.game.ObjectFactories.ObjectType;
 import com.project.game.ObjectFactories.PlayerFactory;
 import com.project.game.Scenes.MainMenuFactory;
+import com.project.game.Scenes.PauseOverlayFactory;
 import com.project.game.Scripts.VoidScript;
+import com.project.game.UIFactories.UIFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -41,9 +45,18 @@ public class LevelEditor extends Scene {
         addTile(0, 256, 256);
         setScaleX(2);
         setScaleY(2);
+        addGuideLines();
+
+        loadFromFile(FileIO.GetAbsPathOfResource("/levels/level1.json"));
     }
 
     public void addTile(int ID, int x, int y) {
+        if (x < 0 )
+            return;
+
+        if (y >= 640)
+            return;
+
         boolean[] exists = new boolean[1];
         boolean[] playerExists = new boolean[1];
         tiles.forEach(editorObjectStruct -> {
@@ -76,7 +89,6 @@ public class LevelEditor extends Scene {
         }
     }
 
-
     public void removeTile(int xPos, int yPos) {
         GameObject foundRef = tiles.stream().filter(eos -> eos.xPos == xPos && eos.yPos == yPos).findFirst().map(eos -> eos.linkedObject).orElse(null);
         if (foundRef == null)
@@ -99,7 +111,38 @@ public class LevelEditor extends Scene {
             proposedRot = (int) rot;
         }
     }
-    
+
+    private void addGuideLines() {
+        int size = 500 * 64;
+        GameObject xGuide = new GameObject();
+        xGuide.getTransform().setWidth(800);
+        xGuide.getTransform().setHeight(1);
+        xGuide.getTransform().translate(-64, 640);
+        SpriteRenderer xGuideRenderer = new SpriteRenderer("assets/red.jpg", size, 64);
+        xGuideRenderer.setIndependentOfCamera(false);
+        xGuide.addRenderable(xGuideRenderer);
+        addSceneObject(xGuide);
+
+        GameObject yGuide = new GameObject();
+        yGuide.getTransform().setWidth(1);
+        yGuide.getTransform().setHeight(800);
+        yGuide.getTransform().translate(-64, 640 - (size));
+        SpriteRenderer yGuideRenderer = new SpriteRenderer("assets/red.jpg", 64, size);
+        yGuideRenderer.setIndependentOfCamera(false);
+        yGuide.addRenderable(yGuideRenderer);
+        addSceneObject(yGuide);
+
+
+    }
+
+    public void newFile(){
+        activeFile = "";
+        for(EditorObjectStruct eos : tiles) {
+            removeSceneObject(eos.linkedObject);
+        }
+        tiles.clear();
+        addGuideLines();
+    }
 
     public void loadFromFile(String path) {
         activeFile = path;
@@ -107,6 +150,7 @@ public class LevelEditor extends Scene {
             removeSceneObject(eos.linkedObject);
         }
         tiles.clear();
+        addGuideLines();
         String fileContents = FileIO.ReadTextAbs(path);
         JSONObject read = new JSONObject(fileContents);
         JSONArray tileArray = read.getJSONArray("tiles");
@@ -116,7 +160,6 @@ public class LevelEditor extends Scene {
             tiles.add(eos);
             addSceneObject(eos.linkedObject);
         });
-
     }
 
     public void saveToFile() {
@@ -181,6 +224,17 @@ public class LevelEditor extends Scene {
                     continue;
                 }
             }
+
+            if(!testing){
+                GameUIButton pause = UIFactory.ButtonFactory("Pause", 600, 10, 220, 50);
+
+                pause.onClickEvent = PauseOverlayFactory::pauseGame;
+                output.addUIElement(pause);
+            }
+
+            output.setScaleX(1.25f);
+            output.setScaleY(1.25f);
+
             output.addSceneObject(out);
 
         }
@@ -200,6 +254,17 @@ public class LevelEditor extends Scene {
             return;
         w.setWindowSizeForce(800, 800);
         w.setActiveScene(MainMenuFactory.createScene());
+    }
+
+
+    public static LevelGenerationInterface loadFromFileForMainGame(String abs) {
+        return () -> {
+            LevelEditor le = new LevelEditor();
+            le.loadFromFile(abs);
+            le.start();
+            le.update(0.001d);
+            return le.exportToScene(false);
+        };
     }
 
 }

@@ -5,13 +5,17 @@ import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
 import com.project.engine.Core.Tuple;
 import com.project.engine.Core.Window.GameWindow;
+import com.project.engine.IO.FileIO;
 import com.project.engine.UI.FontCreator;
 import com.project.engine.UI.GameUIButton;
+import com.project.engine.UI.IOnClick;
 import com.project.game.ObjectFactories.AbstractObjectFactory;
 import com.project.game.ObjectFactories.ObjectType;
 import com.project.game.Scenes.Levels.EasyLevel;
 import com.project.game.Scripts.SceneExit;
 import com.project.game.UIFactories.UIFactory;
+import com.project.game.editor.LevelEditor;
+import com.project.game.editor.LevelGenerationInterface;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,11 +25,12 @@ import static com.project.engine.UI.UIConstants.*;
 
 public class LevelSelectionFactory {
 
-    private static HashMap<Integer, Scene> levelMap = new HashMap<>();
+    private static HashMap<Integer, LevelGenerationInterface> levelMap = new HashMap<>();
 
-//    static {
-//        levelMap.put(0, EasyLevel.loadEasyLevel());
-//    }
+    static {
+        levelMap.put(0, EasyLevel::createScene);
+        levelMap.put(1, LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource("/levels/level1.json")));
+    }
 
     private static Scene createScene() {
         Scene scene = new Scene();
@@ -66,7 +71,7 @@ public class LevelSelectionFactory {
             }
             GameUIButton temp = UIFactory.ButtonFactory("Level " + (i + 1), BUTTON_X_OFFSET + XReset * BUTTON_X_WIDTH, j * BUTTON_Y_OFFSET, BUTTON_X_WIDTH, 80);
             int finalI = i;
-            temp.onClickEvent = EasyLevel::loadEasyLevel;
+            temp.onClickEvent = () -> Engine.getInstance().getPrimaryWindow().setActiveScene(levelMap.get(finalI).genScene());
             scene.addUIElements(temp);
             XReset++;
         }

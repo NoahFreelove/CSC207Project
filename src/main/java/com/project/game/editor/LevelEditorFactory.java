@@ -106,14 +106,19 @@ public class LevelEditorFactory {
             public void onClick() {
                 w.setWindowSizeForce(800, 800);
                 w.setActiveScene(scene.exportToScene(true));
+                Engine.getInstance().getPrimaryWindow().refocusInWindow();
             }
         };
 
-        GameUIButton exportButton = new GameUIButton("Export", 40, 280, 300, 50);
-        exportButton.setForeground(Color.WHITE);
-        exportButton.setFontSize(32);
-        exportButton.setBackground(Color.decode("#66328a"));
-        exportButton.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 5));
+        GameUIButton newButton = new GameUIButton("New", 40, 280, 300, 50);
+        newButton.setForeground(Color.WHITE);
+        newButton.setFontSize(32);
+        newButton.setBackground(Color.decode("#66328a"));
+        newButton.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 5));
+        newButton.onClickEvent = () -> {
+            scene.newFile();
+            Engine.getInstance().getPrimaryWindow().refocusInWindow();
+        };
 
         GameUIButton backToGameButton = new GameUIButton("Back to Game", 40, 340, 300, 50);
         backToGameButton.setForeground(Color.WHITE);
@@ -136,7 +141,7 @@ public class LevelEditorFactory {
 
         leftSidebar.add(loadButton);
         leftSidebar.add(testButton);
-        leftSidebar.add(exportButton);
+        leftSidebar.add(newButton);
 
         // add spacer
         leftSidebar.add(new GameUIPanel().setBackground("#404040"));

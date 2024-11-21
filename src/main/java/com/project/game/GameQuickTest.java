@@ -13,5 +13,6 @@ public class GameQuickTest {
         GameWindow w = out.getSecond();
         e.closeHook = PlayTTS::shutdown;
         EasyLevel.loadEasyLevel();
+
     }
 }

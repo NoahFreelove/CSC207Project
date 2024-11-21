@@ -67,4 +67,13 @@ public class FileIO {
             return "";
         }
     }
+
+    public static String GetAbsPathOfResource(String relResourcePath) {
+        try {
+            return Paths.get(FileIO.class.getResource(relResourcePath).toURI()).toString();
+        } catch (Exception e) {
+            System.err.println("Exception (" + e.getClass().getSimpleName() + "): Failed to get absolute path of resource: " + relResourcePath + "\n" + e.getMessage());
+            return "";
+        }
+    }
 }

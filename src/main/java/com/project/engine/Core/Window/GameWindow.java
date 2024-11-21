@@ -112,7 +112,7 @@ public final class GameWindow {
         return ready.get();
     }
 
-    private float physicsUpdateRatio = 8f;
+    private float physicsUpdateRatio = 4f;
     private float physicsUpdateInterval = 1.0f / (desiredFPS * physicsUpdateRatio);
 
     public void gameLoop() {
