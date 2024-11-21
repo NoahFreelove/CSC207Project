@@ -47,12 +47,11 @@ public class Engine {
     }
 
 
-    @Nullable
     public GameWindow getPrimaryWindow(){
         if(gameWindows.isEmpty()){
             System.err.println("Could not fetch primary window, exiting...");
             System.exit(1);
-            return null;
+            return GameWindow.nullWindow();
         }
         return gameWindows.get(0);
     }

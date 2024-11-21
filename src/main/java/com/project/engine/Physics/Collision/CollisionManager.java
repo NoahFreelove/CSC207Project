@@ -43,6 +43,9 @@ public class CollisionManager {
 
     private void sendCollisionEvents(boolean previousIntersect, String key, GameObject object1, GameObject object2,
                                      CollisionVolume o1Col, CollisionVolume o2Col) {
+        if(key == null)
+            return;
+
         boolean currentIntersect = collided.get(key);
 
         if (!previousIntersect && currentIntersect) {

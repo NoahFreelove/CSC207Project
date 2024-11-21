@@ -9,6 +9,7 @@ import com.project.engine.UI.GameUIButton;
 import com.project.game.ObjectFactories.*;
 import com.project.game.Scenes.LevelSelectionFactory;
 import com.project.game.Scenes.PauseOverlayFactory;
+import com.project.game.Scenes.WinOverlayFactory;
 import com.project.game.Scripts.SceneExit;
 import com.project.game.UIFactories.UIFactory;
 
@@ -79,6 +80,8 @@ public class EasyLevel {
     public static Scene loadEasyLevel() {
         Scene s = createScene();
         Engine.getInstance().getPrimaryWindow().setActiveScene(s);
+        Engine.getInstance().unpauseGame();
+        WinOverlayFactory.removeWinOverlay();
         return s;
     }
 }

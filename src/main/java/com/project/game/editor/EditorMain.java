@@ -9,8 +9,6 @@ public class EditorMain {
         if (w == null)
             return;
         while (!w.isReady()){}
-        w.setWindowSizeForce(1920,1080);
-        w.setActiveScene(LevelEditorFactory.generateLevelEditor());
-
+        LevelEditorFactory.loadLevelEditor(w);
     }
 }

@@ -56,6 +56,7 @@ public class LevelSelectionFactory {
         if (PauseOverlayFactory.isPaused) {
             PauseOverlayFactory.unpauseGame();
         }
+        WinOverlayFactory.removeWinOverlay();
         Scene s = LevelSelectionFactory.createScene();
         Engine.getInstance().unpauseGame();
         w.setActiveScene(s);

@@ -261,4 +261,10 @@ public class LevelEditorFactory {
 
         return scene;
     }
+
+    public static void loadLevelEditor(GameWindow w) {
+        w.setWindowSizeForce(1920,1080);
+        Scene s = LevelEditorFactory.generateLevelEditor();
+        w.setActiveScene(s);
+    }
 }
