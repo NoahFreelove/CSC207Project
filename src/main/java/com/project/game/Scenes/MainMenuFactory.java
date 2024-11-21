@@ -8,6 +8,7 @@ import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.UI.GameUI;
 import com.project.engine.UI.GameUIButton;
 import com.project.engine.UI.GameUILabel;
+import com.project.engine.UI.IOnClick;
 import com.project.game.ObjectFactories.AbstractObjectFactory;
 import com.project.game.ObjectFactories.CloudFactory;
 import com.project.game.ObjectFactories.ObjectType;
@@ -41,7 +42,7 @@ public class MainMenuFactory {
 
         // Editor Button
         GameUIButton editor = UIFactory.ButtonFactory("Level Editor", 200, 480, 400, 80);
-        editor.onClickEvent = LevelEditorFactory::loadLevelEditor;
+        editor.onClickEvent = () -> LevelEditorFactory.loadLevelEditor(Engine.getInstance().getPrimaryWindow());
 
 
         // Adding everything to the scene

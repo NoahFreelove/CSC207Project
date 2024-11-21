@@ -148,10 +148,8 @@ public class LevelEditorFactory {
         return scene;
     }
 
-    public static void loadLevelEditor() {
-        Tuple<Engine, GameWindow> out = Engine.createAndWait();
-        GameWindow w = out.getSecond();
-
+    public static void loadLevelEditor(GameWindow w) {
+        w.setWindowSizeForce(1920, 1080);
         Scene s = LevelEditorFactory.generateLevelEditor();
         w.setActiveScene(s);
     }

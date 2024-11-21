@@ -60,6 +60,11 @@ public final class GameWindow {
     private HashMap<String, Boolean> keys = new HashMap<>();
     // endregion
 
+    private GameWindow(){}
+    public static GameWindow nullWindow(){
+        return new GameWindow();
+    }
+
     private GameWindow(int width, int height, String title) {
         this.targetWidth = (actualWidth = (initialWidth = width));
         this.targetHeight = (actualHeight = (initialHeight = height));
