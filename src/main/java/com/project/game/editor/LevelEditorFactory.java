@@ -8,6 +8,7 @@ import com.project.engine.IO.ImageLoader;
 import com.project.engine.UI.GameUIButton;
 import com.project.engine.UI.GameUILabel;
 import com.project.engine.UI.GameUIPanel;
+import com.project.game.Scenes.MainMenuFactory;
 import com.project.game.TileCache;
 
 import javax.swing.*;
@@ -145,5 +146,13 @@ public class LevelEditorFactory {
         scene.addUIElement(background);
 
         return scene;
+    }
+
+    public static void loadLevelEditor() {
+        Tuple<Engine, GameWindow> out = Engine.createAndWait();
+        GameWindow w = out.getSecond();
+
+        Scene s = LevelEditorFactory.generateLevelEditor();
+        w.setActiveScene(s);
     }
 }
