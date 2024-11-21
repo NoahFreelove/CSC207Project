@@ -220,27 +220,32 @@ public class LevelEditor extends Scene {
                 }
                 case 1: {
                     out = groundBlockFactory
-                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 2, obj.scaleX, obj.scaleY);
+                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 3, obj.scaleX, obj.scaleY);
                     break;
                 }
                 case 2: {
                     out = groundBlockFactory
-                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 2, obj.scaleX, obj.scaleY, "assets/brick.png");
+                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 4, obj.scaleX, obj.scaleY, "assets/brick.png");
                     break;
                 }
                 case 3: {
                     out = itemBlockFactory
-                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 2, obj.scaleX, obj.scaleY);
+                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 5, obj.scaleX, obj.scaleY);
                     break;
                 }
                 case 4: {
                     out = spikeFactory
-                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 2, obj.scaleX, obj.scaleY);
+                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 6, obj.scaleX, obj.scaleY);
                     break;
                 }
                 case 5: {
                     out = hiddenSpikeFactory
                             .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY()+64, 2, obj.scaleX, obj.scaleY);
+                    break;
+                }
+                case 6: {
+                    out = hiddenBlockFactory
+                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 5, obj.scaleX, obj.scaleY);
                     break;
                 }
                 default: {

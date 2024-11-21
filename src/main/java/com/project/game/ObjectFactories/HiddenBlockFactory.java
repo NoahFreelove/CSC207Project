@@ -10,7 +10,7 @@ import com.project.engine.Physics.Collision.CollisionVolume;
 import com.project.engine.Physics.PhysicsBody.RigidBody2D;
 
 public class HiddenBlockFactory extends AbstractObjectFactory {
-    private final String DEFAULT_GROUND_ASSET = "assets/brick.png";
+    private final String DEFAULT_GROUND_ASSET = "assets/used_item_block.png";
     protected HiddenBlockFactory() {
         super();
     }
