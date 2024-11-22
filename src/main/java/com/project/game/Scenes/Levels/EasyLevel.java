@@ -65,7 +65,7 @@ public class EasyLevel {
                 cloudMaker.generate(500, 100, 3, 1.5),
                 cloudMaker.generate(900, 90, 3, 1.5),
                 cloudMaker.generate(1400, 70, 3, 1.5),
-                princess.generate(2000, 490, 1, 1));
+                princess.generate(2000, 516, 1, 1));
 
         // Testing
         GameUIButton pause = UIFactory.ButtonFactory("Pause", 600, 10, 220, 50);

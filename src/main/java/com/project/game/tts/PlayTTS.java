@@ -29,9 +29,14 @@ public class PlayTTS {
                         running = false;
                         break;
                     }
+
+                    // if queue is empty just continue so we actually check if the main thread is alive
+                    if (messageQueue.isEmpty()) {
+                        continue;
+                    }
+
                     String message = messageQueue.take();
                     sy.speakPlainText(message, null);
-                    sy.waitEngineState(Synthesizer.QUEUE_EMPTY);
                 }
 
                 sy.deallocate();

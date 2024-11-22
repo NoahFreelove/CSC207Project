@@ -15,12 +15,14 @@ public class EditorTileCache {
         spriteCache.put(4, "assets/spike.png");
         spriteCache.put(5, "assets/hiddenspike_tile.png");
         spriteCache.put(6, "assets/hiddenitemblock_tile.png");
+        spriteCache.put(7, "assets/princess.png");
 
-        disableTransformMutations.put(6, true);
-        disableTransformMutations.put(5, true);
-        disableTransformMutations.put(3, true);
+        disableTransformMutations.put(6, true); // hidden item block
+        disableTransformMutations.put(5, true); // hidden spike
+        disableTransformMutations.put(3, true); // item block
         //disableTransformMutations.put(4, true);
-        disableTransformMutations.put(0, true);
+        disableTransformMutations.put(0, true); // player
+        disableTransformMutations.put(7, true); // princess
 
     }
 }

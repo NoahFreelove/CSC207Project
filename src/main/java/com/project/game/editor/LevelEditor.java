@@ -12,6 +12,7 @@ import com.project.engine.UI.GameUIButton;
 import com.project.game.ObjectFactories.*;
 import com.project.game.Scenes.MainMenuFactory;
 import com.project.game.Scenes.PauseOverlayFactory;
+import com.project.game.Scripts.WinScript;
 import com.project.game.UIFactories.UIFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -54,6 +55,7 @@ public class LevelEditor extends Scene {
 
         boolean[] exists = new boolean[1];
         boolean[] playerExists = new boolean[1];
+        boolean[] princessExists = new boolean[1];
         tiles.forEach(editorObjectStruct -> {
             if (editorObjectStruct.xPos == x && editorObjectStruct.yPos == y) {
                 exists[0] = true;
@@ -61,15 +63,14 @@ public class LevelEditor extends Scene {
 
             if (editorObjectStruct.ID == 0)
                 playerExists[0] = true;
+            if (editorObjectStruct.ID == 7)
+                princessExists[0] = true;
         });
 
-        if (exists[0]) {
+        if ((ID == 0 && playerExists[0]) || exists[0] || (princessExists[0] && ID == 7)) {
             return;
         }
 
-        if (ID == 0 && playerExists[0]) {
-            return;
-        }
         if(EditorTileCache.disableTransformMutations.getOrDefault(ID, false)) {
             GameObject go = new GameObject();
             EditorObjectStruct eos = new EditorObjectStruct(ID, go, x, y, 1, 1, 0);
@@ -202,8 +203,6 @@ public class LevelEditor extends Scene {
                             public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
                                 if (keyName.equals("ESC") && inputType == EInputType.RELEASE) {
                                     GameWindow w = Engine.getInstance().getPrimaryWindow();
-                                    if (w == null)
-                                        return;
                                     w.setWindowSizeForce(1920,1080);
                                     w.setActiveScene(LevelEditor.this);
                                 }
@@ -246,6 +245,20 @@ public class LevelEditor extends Scene {
                 case 6: {
                     out = hiddenBlockFactory
                             .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 5, obj.scaleX, obj.scaleY);
+                    break;
+                }
+                case 7: {
+                    out = PrincessFactory.makeFactory(ObjectType.PRINCESS)
+                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY()-16, 12, obj.scaleX, obj.scaleY);
+                    if(testing) {
+                        WinScript w = out.getScriptable(WinScript.class);
+                        w.overrideWinEvent = true;
+                        w.r = () -> {
+                            GameWindow w1 = Engine.getInstance().getPrimaryWindow();
+                            w1.setWindowSizeForce(1920,1080);
+                            w1.setActiveScene(LevelEditor.this);
+                        };
+                    }
                     break;
                 }
                 default: {

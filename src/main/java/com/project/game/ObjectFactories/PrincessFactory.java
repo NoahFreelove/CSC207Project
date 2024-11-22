@@ -15,7 +15,7 @@ public class PrincessFactory extends AbstractObjectFactory {
         GameObject obj = super.produceGameObject(x, y, z, width, height);
         obj.addTag("princess");
 
-        SpriteRenderer sr = new SpriteRenderer("assets/princess.png", 128,128);
+        SpriteRenderer sr = new SpriteRenderer("assets/princess.png", 96,96);
         obj.getTransform().faceLeft();
         obj.addRenderable(sr);
         SimpleTrigger trigger = new WinScript();

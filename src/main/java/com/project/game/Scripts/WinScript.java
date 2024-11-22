@@ -9,11 +9,17 @@ import com.project.game.Scenes.WinOverlayFactory;
 import java.util.Iterator;
 
 public class WinScript extends SimpleTrigger implements IScriptable {
-
+    public boolean overrideWinEvent = false;
+    public Runnable r = null;
     @Override
     public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
         if (other.hasTag("player")) {
-            WinOverlayFactory.winGame();
+            if(!overrideWinEvent)
+                WinOverlayFactory.winGame();
+            else {
+                if (r != null)
+                    r.run();
+            }
         }
     }
 }
