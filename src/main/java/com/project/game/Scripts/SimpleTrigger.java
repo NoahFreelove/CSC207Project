@@ -48,4 +48,9 @@ public class SimpleTrigger extends BoxTrigger implements IScriptable {
         setRelDimensions(data.getDouble("relX"), data.getDouble("relY"));
         setOffset(data.getDouble("offX"), data.getDouble("offY"));
     }
+
+    @Override
+    public void reset(GameObject parent) {
+        trigger.onReset();
+    }
 }

@@ -399,6 +399,86 @@
             "rot": 0,
             "ID": 1,
             "xPos": -64
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 128,
+            "rot": 0,
+            "ID": 9,
+            "xPos": 128
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 128,
+            "rot": 0,
+            "ID": 3,
+            "xPos": 192
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 192,
+            "rot": 0,
+            "ID": 8,
+            "xPos": 512
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 128,
+            "rot": 0,
+            "ID": 8,
+            "xPos": 768
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 448,
+            "rot": 0,
+            "ID": 3,
+            "xPos": 0
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 576,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 384
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 576,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 256
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 576,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 0
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 576,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 128
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 576,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 64
         }
     ],
     "meta": {}

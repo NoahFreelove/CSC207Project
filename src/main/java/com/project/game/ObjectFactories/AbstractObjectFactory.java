@@ -31,6 +31,8 @@ public class AbstractObjectFactory {
                 return new GroundBlockFactory();
             case CLOUD:
                 return new CloudFactory();
+            case CLOUD_ENEMY:
+                return new EnemyCloudFactory();
             case HIDDEN_BLOCK:
                 return new HiddenBlockFactory();
             case ITEM_BLOCK:

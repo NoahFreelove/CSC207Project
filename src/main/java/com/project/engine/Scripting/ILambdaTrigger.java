@@ -7,4 +7,5 @@ public interface ILambdaTrigger {
     default void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor){}
     default void onTriggerExit(GameObject parent, GameObject other, CollisionVolume interactor){}
     default void onTriggerContinue(GameObject parent, GameObject other, CollisionVolume interactor){}
+    default void onReset(){}
 }

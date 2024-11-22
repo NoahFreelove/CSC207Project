@@ -47,7 +47,7 @@ public class PlayerDeath implements IScriptable {
             parent.getScriptable(SpawnPoint.class).queueRespawn();
             parent.addTag("player");
 
-            // TODO: Find a way to respawn things that move
+            parent.getLinkedScene().reset();
         }
 
     }

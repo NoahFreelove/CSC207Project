@@ -4,6 +4,7 @@ public enum ObjectType {
     PLAYER,
     BACKGROUND,
     CLOUD,
+    CLOUD_ENEMY,
     ESCAPE_KEY,
     GROUND_BLOCK,
     HIDDEN_BLOCK,
