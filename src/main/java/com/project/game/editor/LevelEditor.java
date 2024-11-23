@@ -2,6 +2,7 @@ package com.project.game.editor;
 
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.Scene;
+import com.project.engine.Core.Tuple;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Core.GameObject;
 import com.project.engine.IO.FileIO;
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 public class LevelEditor extends Scene {
 
     private final ArrayList<EditorObjectStruct> tiles = new ArrayList<>();
+
+    public static final Tuple<Integer, Integer> levelEditorScreenSize = new Tuple<>(1536,864); // 1920x1080 * 0.8
 
     public String activeFile = "";
 
@@ -204,7 +207,7 @@ public class LevelEditor extends Scene {
                             public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
                                 if (keyName.equals("ESC") && inputType == EInputType.RELEASE) {
                                     GameWindow w = Engine.getInstance().getPrimaryWindow();
-                                    w.setWindowSizeForce(1920,1080);
+                                    w.setWindowSizeForce(levelEditorScreenSize.getFirst(),levelEditorScreenSize.getSecond());
                                     w.setActiveScene(LevelEditor.this);
                                 }
                             }
@@ -256,7 +259,7 @@ public class LevelEditor extends Scene {
                         w.overrideWinEvent = true;
                         w.r = () -> {
                             GameWindow w1 = Engine.getInstance().getPrimaryWindow();
-                            w1.setWindowSizeForce(1920,1080);
+                            w1.setWindowSizeForce(levelEditorScreenSize.getFirst(),levelEditorScreenSize.getSecond());
                             w1.setActiveScene(LevelEditor.this);
                         };
                     }
@@ -310,7 +313,6 @@ public class LevelEditor extends Scene {
         w.setWindowSizeForce(800, 800);
         w.setActiveScene(MainMenuFactory.createScene());
     }
-
 
     public static LevelGenerationInterface loadFromFileForMainGame(String abs) {
         return () -> {

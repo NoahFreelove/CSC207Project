@@ -13,6 +13,8 @@ import com.project.engine.UI.IOnClick;
 import javax.swing.*;
 import java.awt.*;
 
+import static com.project.game.editor.LevelEditor.levelEditorScreenSize;
+
 public class LevelEditorFactory {
     public static Scene generateLevelEditor() {
         LevelEditor scene = new LevelEditor();
@@ -28,7 +30,7 @@ public class LevelEditorFactory {
         background.setOpaque(false);
 
         // Left sidebar
-        GameUIPanel leftSidebar = new GameUIPanel(0, 0, 400, windowSize.getSecond());
+        GameUIPanel leftSidebar = new GameUIPanel(0, 0, 300, windowSize.getSecond());
         leftSidebar.setBackground(Color.decode("#404040"));
         leftSidebar.setLayout(new GridLayout(12, 1)); // Set GridLayout with one column
         background.add(leftSidebar);
@@ -141,10 +143,10 @@ public class LevelEditorFactory {
 
         leftSidebar.add(loadButton);
         leftSidebar.add(testButton);
-        leftSidebar.add(newButton);
 
         // add spacer
         leftSidebar.add(new GameUIPanel().setBackground("#404040"));
+        leftSidebar.add(newButton);
 
         leftSidebar.add(backToGameButton);
 
@@ -243,7 +245,6 @@ public class LevelEditorFactory {
         rotationLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 
-
         // Add components to right sidebar
         rightSidebar.add(selectedTileLabel);
         rightSidebar.add(selectedTileIcon);
@@ -263,7 +264,7 @@ public class LevelEditorFactory {
     }
 
     public static void loadLevelEditor(GameWindow w) {
-        w.setWindowSizeForce(1920,1080);
+        w.setWindowSizeForce(levelEditorScreenSize.getFirst(),levelEditorScreenSize.getSecond());
 
         Scene s = LevelEditorFactory.generateLevelEditor();
         w.setActiveScene(s);
