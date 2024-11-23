@@ -10,7 +10,7 @@ import com.project.engine.Scripting.IScriptable;
 
 public class EditorCameraController implements IScriptable {
 
-    float moveSpeed = 150f;
+    float moveSpeed = 400f;
 
     @Override
     public void update(GameObject parent, double deltaTime) {

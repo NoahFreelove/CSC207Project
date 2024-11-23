@@ -187,10 +187,10 @@ public class LevelEditorFactory {
         // rotation should be 0-270 in increments of 90
         // both of these should be in the right sidebar under the selected tile
 
-        JSlider scaleXSlider = new JSlider(JSlider.HORIZONTAL, 1, 8, 2);
+        JSlider scaleXSlider = new JSlider(JSlider.HORIZONTAL, 1, 4, 1);
         scaleXSlider.addChangeListener(e -> {
             int value = scaleXSlider.getValue();
-            scene.modifyTile(value/2f, -1, -1);
+            scene.modifyTile(value, -1, -1);
             w.refocusInWindow();
         });
         scaleXSlider.setMajorTickSpacing(1);
@@ -201,10 +201,10 @@ public class LevelEditorFactory {
         scaleXSlider.setForeground(Color.WHITE);
 
 
-        JSlider scaleYSlider = new JSlider(JSlider.HORIZONTAL, 1, 8, 2);
+        JSlider scaleYSlider = new JSlider(JSlider.HORIZONTAL, 1, 4, 1);
         scaleYSlider.addChangeListener(e -> {
             int value = scaleYSlider.getValue();
-            scene.modifyTile(-1, value/2f, -1);
+            scene.modifyTile(-1, value, -1);
             w.refocusInWindow();
         });
 
@@ -229,12 +229,12 @@ public class LevelEditorFactory {
         rotationSlider.setForeground(Color.WHITE);
 
         // labels
-        GameUILabel scaleXLabel = new GameUILabel("Scale X (*0.5)");
+        GameUILabel scaleXLabel = new GameUILabel("Scale X");
         scaleXLabel.setForeground(Color.WHITE);
         scaleXLabel.setFontSize(20);
         scaleXLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        GameUILabel scaleYLabel = new GameUILabel("Scale Y (*0.5)");
+        GameUILabel scaleYLabel = new GameUILabel("Scale Y");
         scaleYLabel.setForeground(Color.WHITE);
         scaleYLabel.setFontSize(20);
         scaleYLabel.setHorizontalAlignment(SwingConstants.CENTER);
