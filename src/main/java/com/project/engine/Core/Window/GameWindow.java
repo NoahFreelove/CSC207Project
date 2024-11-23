@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.Scene;
@@ -30,8 +31,8 @@ public final class GameWindow {
     private int initialWidth;
     private int initialHeight;
 
-    private int targetWidth;
-    private int targetHeight;
+    private AtomicInteger targetWidth;
+    private AtomicInteger targetHeight;
 
     private int actualWidth;
     private int actualHeight;
@@ -66,8 +67,8 @@ public final class GameWindow {
     }
 
     private GameWindow(int width, int height, String title) {
-        this.targetWidth = (actualWidth = (initialWidth = width));
-        this.targetHeight = (actualHeight = (initialHeight = height));
+        this.targetWidth = new AtomicInteger((actualWidth = (initialWidth = width)));
+        this.targetHeight = new AtomicInteger((actualHeight = (initialHeight = height)));
         this.name = title;
         setActiveScene(Scene.NullScene());
 
@@ -224,8 +225,8 @@ public final class GameWindow {
     }
 
     public void setWindowSize(int width, int height) {
-        this.targetWidth = width;
-        this.targetHeight = height;
+        this.targetWidth.set(width);
+        this.targetHeight.set(height);
         SwingUtilities.invokeLater(() -> {
             window.setSize(width, height);
             this.actualWidth = width;
@@ -254,7 +255,7 @@ public final class GameWindow {
     }
 
     public Tuple<Integer, Integer> getWindowSize() {
-        return new Tuple<>(targetWidth, targetHeight);
+        return new Tuple<>(targetWidth.get(), targetHeight.get());
     }
 
     public Tuple<Integer, Integer> getActualWindowSize() {
