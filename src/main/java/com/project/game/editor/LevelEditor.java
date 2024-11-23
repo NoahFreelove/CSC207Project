@@ -24,7 +24,7 @@ public class LevelEditor extends Scene {
 
     private final ArrayList<EditorObjectStruct> tiles = new ArrayList<>();
 
-    public static final Tuple<Integer, Integer> levelEditorScreenSize = new Tuple<>(1536,864); // 1920x1080 * 0.8
+    public static final Tuple<Integer, Integer> levelEditorScreenSize = new Tuple<>(1440,810); // 1920x1080 * 0.75
 
     public String activeFile = "";
 
