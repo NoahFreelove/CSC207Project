@@ -6,13 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Consumer;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.Scene;
 import com.project.engine.Core.Tuple;
 import com.project.engine.Rendering.GamePanel;
-import com.project.engine.UI.GameUIPanel;
 
 import static com.project.engine.Core.Window.Input.*;
 
@@ -32,14 +31,13 @@ public final class GameWindow {
     private int initialWidth;
     private int initialHeight;
 
-    private int targetWidth;
-    private int targetHeight;
+    private AtomicInteger targetWidth;
+    private AtomicInteger targetHeight;
 
     private int actualWidth;
     private int actualHeight;
 
     private String name;
-    private Thread windowThread = null;
     private JFrame window;
     private volatile boolean shouldClose = false;
     private AtomicBoolean ready = new AtomicBoolean(false);
@@ -48,12 +46,10 @@ public final class GameWindow {
     // endregion
 
     // region FPS and Delta Attributes
-    public static final int BASE_FPS = 120; // Default FPS for all new windows
+    public static final int BASE_FPS = 60; // Default FPS for all new windows
     private float desiredFPS = BASE_FPS;
-    private long lastUpdate = System.currentTimeMillis();
     private float desiredDelta = 1.0f / desiredFPS;
     private float delta = 0;
-    private long lastFrame = System.currentTimeMillis();
     private float actualFPS = 0;
     private boolean changingScene = true;
 
@@ -65,14 +61,18 @@ public final class GameWindow {
     private HashMap<String, Boolean> keys = new HashMap<>();
     // endregion
 
+    private GameWindow(){}
+    public static GameWindow nullWindow(){
+        return new GameWindow();
+    }
+
     private GameWindow(int width, int height, String title) {
-        this.targetWidth = (actualWidth = (initialWidth = width));
-        this.targetHeight = (actualHeight = (initialHeight = height));
+        this.targetWidth = new AtomicInteger((actualWidth = (initialWidth = width)));
+        this.targetHeight = new AtomicInteger((actualHeight = (initialHeight = height)));
         this.name = title;
         setActiveScene(Scene.NullScene());
-        Thread t = new Thread(() -> configGameWindow(width, height, title));
-        this.windowThread = t;
-        t.start();
+
+        SwingUtilities.invokeLater(() -> configGameWindow(width, height, title));
     }
 
     public static GameWindow createGameWindow(int width, int height, String title) {
@@ -110,56 +110,71 @@ public final class GameWindow {
         addMouseMotionListeners(gamePanel, this::setMousePosition, this::setMousePosition);
 
         this.ready.set(true);
-        gameLoop();
+
+        new Thread(this::gameLoop).start();
     }
 
     public boolean isReady() {
         return ready.get();
     }
 
-
-    private float physicsUpdateRatio = 1.25f;
-
+    private float physicsUpdateRatio = 4f;
     private float physicsUpdateInterval = 1.0f / (desiredFPS * physicsUpdateRatio);
-    private long lastPhysicsUpdate = System.currentTimeMillis();
 
     public void gameLoop() {
+        final int TARGET_FPS = (int) desiredFPS;
+        final long OPTIMAL_TIME = 1_000_000_000 / TARGET_FPS;
+        long lastLoopTime = System.nanoTime();
+        double physicsAccumulator = 0.0;
+
         while (!shouldClose) {
             if (activeScene == null) {
                 continue;
             }
 
-            long now = System.currentTimeMillis();
-            delta += (now - lastUpdate) / 1000.0f;
-            lastUpdate = now;
+            long now = System.nanoTime();
+            long updateLength = now - lastLoopTime;
+            lastLoopTime = now;
+            delta = updateLength / 1_000_000_000.0f;
 
-            if (delta >= desiredDelta) {
-                Engine.getInstance().update(activeScene, delta);
+            physicsAccumulator += delta;
+
+            Engine.getInstance().update(activeScene, delta);
+
+            // Physics updates at fixed intervals
+            while (physicsAccumulator >= physicsUpdateInterval) {
+                Engine.getInstance().physicsUpdate(activeScene);
+                physicsAccumulator -= physicsUpdateInterval;
+            }
+
+            SwingUtilities.invokeLater(() -> {
                 if (!changingScene) {
                     gamePanel.repaint();
                 }
-                delta = 0;
-                actualFPS = 1000.0f / (System.currentTimeMillis() - lastFrame);
-                lastFrame = System.currentTimeMillis();
-            }
+            });
 
-            if ((now - lastPhysicsUpdate) / 1000.0f >= physicsUpdateInterval) {
-                Engine.getInstance().physicsUpdate(activeScene);
-                lastPhysicsUpdate = now;
+            actualFPS = 1_000_000_000.0f / updateLength;
+
+            try {
+                long sleepTime = (lastLoopTime - System.nanoTime() + OPTIMAL_TIME) / 1_000_000;
+                if (sleepTime > 0) {
+                    Thread.sleep(sleepTime);
+                } else {
+                    Thread.yield();
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
+
         if (window != null) {
             window.dispose();
         }
     }
 
+
     public float getPhysicsUpdateRatio() {
         return physicsUpdateRatio;
-    }
-
-    public void setPhysicsUpdateRatio(float physicsUpdateRatio) {
-        this.physicsUpdateRatio = physicsUpdateRatio;
-        this.physicsUpdateInterval = 1.0f / (desiredFPS * physicsUpdateRatio);
     }
 
     public void addUIElement(JComponent component) {
@@ -210,8 +225,8 @@ public final class GameWindow {
     }
 
     public void setWindowSize(int width, int height) {
-        this.targetWidth = width;
-        this.targetHeight = height;
+        this.targetWidth.set(width);
+        this.targetHeight.set(height);
         SwingUtilities.invokeLater(() -> {
             window.setSize(width, height);
             this.actualWidth = width;
@@ -225,8 +240,6 @@ public final class GameWindow {
             uiRoot.setBounds(0, 0, width, height);
 
             // Scale each UI component and its font (if applicable) based on the new scaling factors
-            // Otherwise we'd have large font small components which is not ideal for maintaining
-            // Consistency across different resolutions
             for (Component component : uiRoot.getComponents()) {
                 scaleComponentAndFont(component);
             }
@@ -242,13 +255,12 @@ public final class GameWindow {
     }
 
     public Tuple<Integer, Integer> getWindowSize() {
-        return new Tuple<>(targetWidth, targetHeight);
+        return new Tuple<>(targetWidth.get(), targetHeight.get());
     }
 
     public Tuple<Integer, Integer> getActualWindowSize() {
         return new Tuple<>(actualWidth, actualHeight);
     }
-
 
     public void closeWindow() {
         unloadActiveScene();
@@ -279,12 +291,10 @@ public final class GameWindow {
         return (int) (mouseY / scaleFactorY);
     }
 
-
     private void setMousePosition(int x, int y) {
         mouseX = x;
         mouseY = y;
     }
-
 
     private void unloadActiveScene() {
         if (this.activeScene != null) {
@@ -324,7 +334,6 @@ public final class GameWindow {
         Engine.getInstance().start(activeScene);
         Engine.getInstance().update(activeScene, 0);
 
-
         if (window != null) {
             window.requestFocusInWindow();
         }
@@ -340,10 +349,18 @@ public final class GameWindow {
         return desiredFPS;
     }
 
+
     public void setDesiredFPS(float desiredFPS) {
         this.desiredFPS = desiredFPS;
         this.desiredDelta = 1.0f / desiredFPS;
+        this.physicsUpdateInterval = 1.0f / (desiredFPS * physicsUpdateRatio);
     }
+
+    public void setPhysicsUpdateRatio(float physicsUpdateRatio) {
+        this.physicsUpdateRatio = physicsUpdateRatio;
+        this.physicsUpdateInterval = 1.0f / (desiredFPS * physicsUpdateRatio);
+    }
+
 
     public boolean isKeyPressed(String key) {
         return keys.getOrDefault(key.toUpperCase(), false);
@@ -370,6 +387,8 @@ public final class GameWindow {
 
     public void removeUIElement(JComponent component) {
         SwingUtilities.invokeLater(() -> {
+            if(component == null)
+                return;
             uiRoot.remove(component);
             uiRoot.revalidate();
             uiRoot.repaint();
@@ -386,5 +405,13 @@ public final class GameWindow {
 
     public float getScaleFactorY() {
         return scaleFactorY;
+    }
+
+    public void resetInput() {
+        keys.forEach((k, v) -> keys.put(k, false));
+    }
+
+    public Component getRootPane() {
+        return uiRoot;
     }
 }

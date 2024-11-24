@@ -21,7 +21,7 @@ public class RigidBodyAttribs {
 
     public float airControlMultiplier = 0.4f;
     public double maxVelocityX = 300;
-    public double maxVelocityY = 2000;
+    public double maxVelocityY = 500;
 
     public double groundFrictionCoefficient = 0;
     public double mass = 6;

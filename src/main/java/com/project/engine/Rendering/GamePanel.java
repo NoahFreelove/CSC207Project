@@ -17,6 +17,8 @@ public class GamePanel extends JPanel {
     public GamePanel(GameWindow gameWindow) {
         this.gameWindow = gameWindow;
         this.setOpaque(true);
+
+        this.setDoubleBuffered(false);
     }
 
     @Override
@@ -26,17 +28,22 @@ public class GamePanel extends JPanel {
         int renderWidth = (int) (getWidth() / gameWindow.getScaleFactorX());
         int renderHeight = (int) (getHeight() / gameWindow.getScaleFactorY());
 
+        // Only recreate the buffer if the size has changed
         if (offScreenBuffer == null || offScreenBuffer.getWidth() != renderWidth || offScreenBuffer.getHeight() != renderHeight) {
             offScreenBuffer = new BufferedImage(renderWidth, renderHeight, BufferedImage.TYPE_INT_ARGB);
         }
 
         Graphics2D g2d = offScreenBuffer.createGraphics();
 
-        // Clear the buffer, render the scene to the buffer, then draw it on the panel
-        g2d.clearRect(0, 0, offScreenBuffer.getWidth(), offScreenBuffer.getHeight());
+        g2d.setComposite(AlphaComposite.Clear);
+        g2d.fillRect(0, 0, offScreenBuffer.getWidth(), offScreenBuffer.getHeight());
+        g2d.setComposite(AlphaComposite.SrcOver);
 
+        // render scene
         Engine.getInstance().render(gameWindow.getActiveScene(), g2d);
         g2d.dispose();
+
+        // draw da buffer
         g.drawImage(offScreenBuffer, 0, 0, getWidth(), getHeight(), null);
     }
 }

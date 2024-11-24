@@ -10,7 +10,7 @@ import com.project.engine.Physics.PhysicsBody.RigidBody2D;
  * Note, to use a Box Collider, the object must also have a rigid body.
  */
 public class BoxCollider extends Collider {
-    private final double bufferSpace = 4;
+    private final double bufferSpace = 20;
 
     public ECollisionShape volumeShape() { return ECollisionShape.BOX; }
 
@@ -50,7 +50,7 @@ public class BoxCollider extends Collider {
             t.setPositionX(x2 + w2 + 0.01 - getXOffset());
             rb.resetX();
         }
-        else if (y1 >= h2 + y2 - bufferSpace){
+        else if (y1 >= h2 + y2 - bufferSpace && rb.getVelocityY() < 0) {
             t.setPositionY(y2 + h2 + 0.01 - getYOffset());
             rb.resetY();
         }

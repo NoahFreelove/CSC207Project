@@ -9,7 +9,7 @@ import java.util.TimerTask;
 public class AnimationManager {
     private Map<String, AnimationState> animations = new HashMap<>();
     private AnimationState currentAnimation;
-    private String currentAnimationName;
+    private String currentAnimationName = "";
     private boolean isAnimating;
     private SpriteRenderer renderer;
     private Timer animationTimer;// Reference to the renderer
@@ -50,7 +50,7 @@ public class AnimationManager {
             currentAnimation.onEnd(renderer, x, y);  // Pass coordinates to onEnd
             isAnimating = false;
             currentAnimation = null;
-            currentAnimationName = null;
+            currentAnimationName = "";
         }
     }
 
@@ -61,19 +61,26 @@ public class AnimationManager {
     }
 
     public void startMoving(String animationName) {
-        if (!isAnimating) {
-            isAnimating = true;
-            startAnimation(animationName);
-
-            // Start a timer to update the animation manager periodically (e.g., ~30 FPS)
-            animationTimer = new Timer();
-            animationTimer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    update();
-                }
-            }, 0, 1000 / 30);
+        if(!currentAnimationName.equals(animationName)) {
+            if (animationTimer != null)
+                animationTimer.cancel();
         }
+        else{
+            return;
+        }
+        currentAnimationName = animationName;
+
+        isAnimating = true;
+        startAnimation(currentAnimationName);
+
+        // Start a timer to update the animation manager periodically (e.g., ~30 FPS)
+        animationTimer = new Timer();
+        animationTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                update();
+            }
+        }, 0, 1000 / 30);
     }
 
     public void stopMoving() {

@@ -3,6 +3,7 @@ package com.project.game.Scripts;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Physics.PhysicsBody.RigidBody2D;
+import org.json.JSONObject;
 
 import java.util.Iterator;
 
@@ -13,6 +14,7 @@ public class PlayerDeath implements IScriptable {
     private final double COOLDOWN_TIME = 0.1; //Death cooldown in seconds
     private double deathCooldown = 0;
 
+    public PlayerDeath() {}
 
     @Override
     public void start(GameObject parent) {
@@ -47,19 +49,7 @@ public class PlayerDeath implements IScriptable {
             parent.getScriptable(SpawnPoint.class).queueRespawn();
             parent.addTag("player");
 
-            // TODO: Find a way to respawn things that move
-            Iterator<GameObject> sceneObjs = parent.getLinkedScene().getSceneObjects();
-            while (sceneObjs.hasNext()) {
-                GameObject sceneObj = sceneObjs.next();
-
-                SpawnPoint spawn = sceneObj.getScriptable(SpawnPoint.class);
-
-                if (spawn != null) {
-                    spawn.queueRespawn();
-                }
-
-            }
-
+            parent.getLinkedScene().reset();
         }
 
     }
@@ -89,11 +79,17 @@ public class PlayerDeath implements IScriptable {
         if (mc != null) {
             mc.setCanMove(false);
             mc.setCanJump(false);
+            mc.enableAnimation = false;
         }
 
         parent.disableScript(parent.getScriptable(SimpleCollider.class, true)); // now we want hard collision events with anything
 
 
         parent.removeTag("player"); // dont trigger other events when dead
+    }
+
+    @Override
+    public JSONObject serialize() {
+        return new JSONObject();
     }
 }

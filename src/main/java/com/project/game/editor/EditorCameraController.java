@@ -7,11 +7,10 @@ import com.project.engine.Core.Tuple;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Input.EInputType;
 import com.project.engine.Scripting.IScriptable;
-import com.project.game.TileCache;
 
-public class CameraController implements IScriptable {
+public class EditorCameraController implements IScriptable {
 
-    float moveSpeed = 150f;
+    float moveSpeed = 400f;
 
     @Override
     public void update(GameObject parent, double deltaTime) {
@@ -32,24 +31,37 @@ public class CameraController implements IScriptable {
         if (win.isKeyPressed("S") || win.isKeyPressed("DOWN")) {
             parent.getTransform().translate(0d, moveSpeed*deltaTime);
         }
+
+        if(win.isKeyPressed("SHIFT")) {
+            modifyTile(parent, true);
+        }
+        else if (win.isKeyPressed("CTRL")) {
+            modifyTile(parent, false);
+        }
     }
 
-    private Tuple<Integer, Integer> getMousePos(GameObject parent, Scene s,GameWindow w) {
-        int preX = w.getMouseX();
-        int preY = w.getMouseY();
+    private Tuple<Integer, Integer> getMousePos(GameObject camera, Scene scene, GameWindow window) {
+        double mouseX = window.getMouseX();
+        double mouseY = window.getMouseY();
 
-        // adjust for screen scaling
-        preX /= (int) s.getScaleX();
-        preY /= (int) s.getScaleY();
+        double scaleX = scene.getScaleX();
+        double scaleY = scene.getScaleY();
 
-        preX += parent.getTransform().getPositionX();
-        preY += parent.getTransform().getPositionY();
+        double adjustedMouseX;
+        double adjustedMouseY;
 
-        int xPos = ((int)((preX/(0.0f + TileCache.BASE_TILE_SIZE)))) * 64;
-        int yPos = ((int)((preY/(0.0f + TileCache.BASE_TILE_SIZE)))) * 64;
+        adjustedMouseX = mouseX / scaleX + camera.getTransform().getPositionX();
+        adjustedMouseY = mouseY / scaleY + camera.getTransform().getPositionY();
 
-        return new Tuple<>(xPos, yPos);
+        int tileX = (int) Math.floor(adjustedMouseX / EditorTileCache.BASE_TILE_SIZE);
+        int tileY = (int) Math.floor(adjustedMouseY / EditorTileCache.BASE_TILE_SIZE);
+
+        int snappedX = tileX * EditorTileCache.BASE_TILE_SIZE;
+        int snappedY = tileY * EditorTileCache.BASE_TILE_SIZE;
+
+        return new Tuple<>(snappedX, snappedY);
     }
+
 
     private void modifyTile(GameObject parent, boolean add) {
         GameWindow w = Engine.getInstance().getPrimaryWindow();
@@ -62,7 +74,7 @@ public class CameraController implements IScriptable {
         Tuple<Integer, Integer> mousePos = getMousePos(parent, s, w);
 
         if (add)
-            le.addTile(le.selectedTileType, mousePos.getFirst(), mousePos.getSecond(), 1, 1);
+            le.addTile(le.selectedTileType, mousePos.getFirst(), mousePos.getSecond());
         else
             le.removeTile(mousePos.getFirst(), mousePos.getSecond());
     }
@@ -113,7 +125,5 @@ public class CameraController implements IScriptable {
             s.setScaleX(newScaleX);
             s.setScaleY(newScaleY);
         }
-
-
     }
 }

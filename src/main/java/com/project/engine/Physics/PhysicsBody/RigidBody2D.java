@@ -2,6 +2,7 @@ package com.project.engine.Physics.PhysicsBody;
 
 import com.project.engine.Core.GameObject;
 import com.project.engine.Scripting.IScriptable;
+import org.json.JSONObject;
 
 /**
  * A rigid body for a game object.
@@ -19,6 +20,8 @@ public class RigidBody2D implements IScriptable {
 
     private double velocityX;
     private double velocityY;
+
+    public RigidBody2D() {}
 
     /**
      * Make sure you know what you are doing when you call this explicitly.
@@ -86,5 +89,10 @@ public class RigidBody2D implements IScriptable {
 
         currForceX = 0;
         currForceY = 0;
+    }
+
+    @Override
+    public JSONObject serialize() {
+        return new JSONObject();
     }
 }

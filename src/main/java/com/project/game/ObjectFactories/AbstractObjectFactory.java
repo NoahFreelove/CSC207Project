@@ -31,10 +31,16 @@ public class AbstractObjectFactory {
                 return new GroundBlockFactory();
             case CLOUD:
                 return new CloudFactory();
+            case CLOUD_ENEMY:
+                return new EnemyCloudFactory();
             case HIDDEN_BLOCK:
                 return new HiddenBlockFactory();
+            case ITEM_BLOCK:
+                return new ItemBlockFactory();
             case HIDDEN_SPIKE:
                 return new HiddenSpikeFactory();
+            case SPIKE:
+                return new SpikeFactory();
             case BACKGROUND:
                 return new BackgroundFactory();
             case ESCAPE_KEY:
@@ -45,6 +51,10 @@ public class AbstractObjectFactory {
                 return new BoundaryFactory();
             case ENEMY:
                 return new EnemyFactory();
+            case PAUSE_BACKGROUND:
+                return new PauseBackgroundFactory();
+            case PRINCESS:
+                return new PrincessFactory();
         }
 
         return new AbstractObjectFactory();

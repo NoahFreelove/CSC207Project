@@ -4,6 +4,7 @@ import com.project.engine.Core.GameObject;
 import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Physics.Collision.BoxTrigger;
 import com.project.engine.Physics.Collision.CollisionVolume;
+import org.json.JSONObject;
 
 public class SceneBoundary extends BoxTrigger implements IScriptable {
 
@@ -30,5 +31,10 @@ public class SceneBoundary extends BoxTrigger implements IScriptable {
             double cameraX = parent.getTransform().getPositionX();
             parent.getLinkedScene().getCamera().setOffsetX(cameraX - playerX);
         }
+    }
+
+    @Override
+    public JSONObject serialize() {
+        return new JSONObject();
     }
 }

@@ -9,5 +9,8 @@ public final class UIConstants {
     public static int BUTTON_X_WIDTH = 210;
     public static int BUTTON_Y_OFFSET = 100;
 
+    public static String LIGHT_GREEN = "0x00b01c";
+    public static String BLACK = "0x000000";
+
     private UIConstants() {}
 }

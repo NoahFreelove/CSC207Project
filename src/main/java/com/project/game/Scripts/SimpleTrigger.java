@@ -5,6 +5,7 @@ import com.project.engine.Scripting.ILambdaTrigger;
 import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Physics.Collision.BoxTrigger;
 import com.project.engine.Physics.Collision.CollisionVolume;
+import org.json.JSONObject;
 
 public class SimpleTrigger extends BoxTrigger implements IScriptable {
     private final ILambdaTrigger trigger;
@@ -30,5 +31,26 @@ public class SimpleTrigger extends BoxTrigger implements IScriptable {
     @Override
     public void onTriggerContinue(GameObject parent, GameObject other, CollisionVolume interactor) {
         trigger.onTriggerContinue(parent, other, interactor);
+    }
+
+    @Override
+    public JSONObject serialize() {
+        JSONObject out = new JSONObject();
+        out.put("relX", getRelWidth());
+        out.put("relY", getRelHeight());
+        out.put("offX", getXOffset());
+        out.put("offY", getYOffset());
+        return out;
+    }
+
+    @Override
+    public void deserialize(JSONObject data) {
+        setRelDimensions(data.getDouble("relX"), data.getDouble("relY"));
+        setOffset(data.getDouble("offX"), data.getDouble("offY"));
+    }
+
+    @Override
+    public void reset(GameObject parent) {
+        trigger.onReset();
     }
 }

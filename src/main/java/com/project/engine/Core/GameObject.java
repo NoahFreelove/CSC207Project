@@ -314,6 +314,7 @@ public final class GameObject implements ISerializable {
 
             JSONObject serialized = r.serialize();
             if (serialized == null) {
+                System.out.println("Script doesnt support serialization: " + r.getClass().getName());
                 continue;
             }
             serialized.put("class", r.getClass().getName());

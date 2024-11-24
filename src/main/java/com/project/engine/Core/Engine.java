@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class Engine {
     // Singleton design pattern 😎
     private volatile static Engine instance = null;
+    private boolean paused = false;
 
     private final ArrayList<GameWindow> gameWindows = new ArrayList<>();
 
@@ -46,12 +47,11 @@ public class Engine {
     }
 
 
-    @Nullable
     public GameWindow getPrimaryWindow(){
         if(gameWindows.isEmpty()){
             System.err.println("Could not fetch primary window, exiting...");
             System.exit(1);
-            return null;
+            return GameWindow.nullWindow();
         }
         return gameWindows.get(0);
     }
@@ -81,10 +81,14 @@ public class Engine {
     }
 
     public void update(Scene scene, double delta){
+        if (paused)
+            return;
         scene.update(delta);
     }
 
     public void physicsUpdate(Scene scene){
+        if (paused)
+            return;
         scene.physicsUpdate();
     }
 
@@ -105,6 +109,27 @@ public class Engine {
             gameWindow.closeWindow();
         }
         closeHook.run();
+    }
+
+    public void pauseGame() {
+        for (GameWindow w : gameWindows)
+            w.resetInput();
+        paused = true;
+        runPauseEvents(true);
+    }
+
+    public void unpauseGame() {
+        paused = false;
+        runPauseEvents(false);
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    private void runPauseEvents(boolean paused){
+        for (GameWindow w : gameWindows)
+            w.getActiveScene().pauseEvent(paused);
     }
 
     /**

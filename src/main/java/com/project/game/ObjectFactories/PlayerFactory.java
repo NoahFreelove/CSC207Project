@@ -16,19 +16,22 @@ public class PlayerFactory extends AbstractObjectFactory {
         GameObject obj = super.produceGameObject(x, y, z, width, height);
         obj.addTag("player");
 
-        SpriteRenderer sr = new SpriteRenderer("assets/character.png", 128,128);
+        float factor = 1.5f;
+        float tmp = 128/factor;
+
+        SpriteRenderer sr = new SpriteRenderer("assets/character.png", (int)(tmp),(int)(tmp));
         sr.setIndependentOfCamera(false);
         obj.addRenderable(sr);
 
-        obj.addBehavior(new SpawnPoint(300, 480));
+        obj.addBehavior(new SpawnPoint(x, y));
         obj.addBehavior(new PlayerDeath());
         obj.addBehavior(new DeathJoke());
         obj.addBehavior(new MovementController());
-        obj.addBehavior(new RigidBody2D());
-        SimpleCollider sc = new SimpleCollider(32, 19.2, 0.5, 0.7);
+        var rb = new RigidBody2D();
+        obj.addBehavior(rb);
+        SimpleCollider sc = new SimpleCollider(tmp/8, tmp*0.15, 0.5, 0.7);
         obj.addBehavior(sc);
-
-        GroundTrigger gt = new GroundTrigger(32,103, 0.5, 0.05);
+        GroundTrigger gt = new GroundTrigger(tmp/8,tmp*0.8, 0.5, 0.05);
         gt.setTag("PlayerGround");
 
         obj.addBehavior(gt);
@@ -38,8 +41,8 @@ public class PlayerFactory extends AbstractObjectFactory {
         SimpleTrigger st = new SimpleTrigger();
         st.setTag("playerHead");
 
-        st.setOffset(0, -1);
-        st.setRelDimensions(1, 0.2f);
+        st.setOffset(0, -1/2f);
+        st.setRelDimensions(1, 0.2f/2f);
         obj.addBehavior(st);
 
         return obj;

@@ -21,7 +21,7 @@ public class VoidScript extends SimpleTrigger implements IScriptable {
 
         updateFramesUntilVoid -= 1;
 
-        double voidY = Engine.getInstance().getPrimaryWindow().getActualWindowSize().getSecond();
+        double voidY = Engine.getInstance().getPrimaryWindow().getWindowSize().getSecond();
         double voidXmin = 0, voidXmax = 0;
 
         Iterator<GameObject> objectIterator = parent.getLinkedScene().getSceneObjects();

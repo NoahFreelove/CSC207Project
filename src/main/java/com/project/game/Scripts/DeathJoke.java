@@ -8,7 +8,7 @@ import com.project.game.tts.PlayTTS;
 import org.json.JSONObject;
 
 public class DeathJoke implements IScriptable {
-    private String jokeText;
+    private String jokeText = "";
     public DeathJoke() {}
 
     public void generateJoke() {
@@ -30,4 +30,8 @@ public class DeathJoke implements IScriptable {
         PlayTTS.say(jokeText);
     }
 
+    @Override
+    public JSONObject serialize() {
+        return new JSONObject();
+    }
 }

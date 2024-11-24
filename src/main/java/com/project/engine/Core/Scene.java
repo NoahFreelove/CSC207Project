@@ -2,11 +2,14 @@ package com.project.engine.Core;
 
 import com.project.engine.Core.Window.WindowUICallback;
 import com.project.engine.Input.EInputType;
+import com.project.engine.Physics.Collision.CollisionManager;
 import com.project.engine.Rendering.Camera;
 import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Serialization.ISerializable;
-import com.project.engine.Physics.Collision.CollisionManager;
+
+import com.project.engine.UI.GameUIButton;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,12 +23,12 @@ public class Scene implements ISerializable {
 
     private final String name;
     private final CollisionManager collisionManager = new CollisionManager();
-    private final CopyOnWriteArrayList<GameObject> sceneObjects = new CopyOnWriteArrayList<>();
+    protected final CopyOnWriteArrayList<GameObject> sceneObjects = new CopyOnWriteArrayList<>();
     private final CopyOnWriteArrayList<JComponent> uiElements = new CopyOnWriteArrayList<>();
 
     private final CopyOnWriteArrayList<Tuple<GameObject, IScriptable>> inputListeners = new CopyOnWriteArrayList<>();
 
-    private ArrayList<WindowUICallback> uiCallbacks = new ArrayList<>();
+    private final ArrayList<WindowUICallback> uiCallbacks = new ArrayList<>();
     /**
      * Why not just loop through every game object and get the renderables?
      * Because in our specific game - we plan to have many invisible triggers and other objects that don't render.
@@ -129,6 +132,12 @@ public class Scene implements ISerializable {
         uiCallbacks.forEach(windowUICallback -> windowUICallback.addUIComponent(element));
     }
 
+    public synchronized void addUIElements(JComponent... element) {
+        for(JComponent o : element) {
+            addUIElement(o);
+        }
+    }
+
     public synchronized void addUICallback(WindowUICallback callback) {
         if (uiCallbacks.contains(callback))
             return;
@@ -139,6 +148,15 @@ public class Scene implements ISerializable {
     public synchronized void removeUIElement(JComponent element) {
         uiElements.remove(element);
         uiCallbacks.forEach(windowUICallback -> windowUICallback.removeUIComponent(element));
+    }
+
+    public synchronized GameUIButton getButton(String name) {
+        for (JComponent o: uiElements) {
+            if (o instanceof GameUIButton && ((GameUIButton) o).getText().equals(name)) {
+                return ((GameUIButton) o);
+            }
+        }
+        return null;
     }
 
     public synchronized void removeUICallback(WindowUICallback callback) {
@@ -188,7 +206,9 @@ public class Scene implements ISerializable {
                 break;
             }
         }
-        inputListeners.remove(listener);
+        if (listener != null) {
+            inputListeners.remove(listener);
+        }
     }
 
     public synchronized void removeRenderable(IRenderable renderable) {
@@ -199,7 +219,9 @@ public class Scene implements ISerializable {
                 break;
             }
         }
-        renderables.remove(renderableTuple);
+        if (renderableTuple != null) {
+            renderables.remove(renderableTuple);
+        }
     }
 
     public String getName() {
@@ -209,6 +231,12 @@ public class Scene implements ISerializable {
     public void onInput(String keyName, EInputType inputType, int inputMods) {
         for (Tuple<GameObject, IScriptable> listener : inputListeners) {
             listener.getSecond().onInput(listener.getFirst(), keyName, inputType, inputMods);
+        }
+    }
+
+    public void pauseEvent(boolean paused) {
+        for (Tuple<GameObject, IScriptable> listener : inputListeners) {
+            listener.getSecond().pauseEvent(listener.getFirst(), paused);
         }
     }
 
@@ -427,5 +455,9 @@ public class Scene implements ISerializable {
         }
     }
 
-
+    public void purgeScene() {
+        sceneObjects.clear();
+        renderables.clear();
+        inputListeners.clear();
+    }
 }

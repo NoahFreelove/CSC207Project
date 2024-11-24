@@ -4,6 +4,7 @@ import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Tuple;
 import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Physics.PhysicsBody.RigidBody2D;
+import org.json.JSONObject;
 
 
 public class SpawnPoint implements IScriptable {
@@ -56,6 +57,8 @@ public class SpawnPoint implements IScriptable {
             if (mc != null) {
                 mc.setCanMove(true);
                 mc.setCanJump(true);
+                mc.reset(parent);
+
             }
 
             respawnQueued = false;
@@ -64,6 +67,21 @@ public class SpawnPoint implements IScriptable {
 
     @Override
     public void reset(GameObject parent) {
+        respawnQueued = true;
         update(parent, 0.0);
+    }
+
+    @Override
+    public JSONObject serialize() {
+        JSONObject output = new JSONObject();
+        output.put("x", spawnPoint.getFirst());
+        output.put("y", spawnPoint.getSecond());
+        return output;
+    }
+
+    @Override
+    public void deserialize(JSONObject data) {
+        spawnPoint.setFirst(data.getDouble("x"));
+        spawnPoint.setSecond(data.getDouble("y"));
     }
 }
