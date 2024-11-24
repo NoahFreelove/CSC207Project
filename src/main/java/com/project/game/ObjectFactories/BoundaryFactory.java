@@ -12,7 +12,7 @@ public class BoundaryFactory extends AbstractObjectFactory {
     @Override
     protected GameObject produceGameObject(double x, double y, int z, double width, double height) {
         GameObject obj = super.produceGameObject(x, y, z, width, height);
-
+        obj.getTransform().update(obj, 0);
         SimpleCollider sc = new SimpleCollider();
         obj.addBehavior(sc);
 

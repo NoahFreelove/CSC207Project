@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 public class GameUIButton extends JButton implements GameUI {
     private String imagePath = "";
     public IOnClick onClickEvent = () -> {};
+
     public GameUIButton(){
         super();
         setOpaque(true);

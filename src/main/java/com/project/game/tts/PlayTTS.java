@@ -42,12 +42,14 @@ public class PlayTTS {
     }
 
     public static void say(String message) {
-        try {
-            messageQueue.put(message);
+        /*try {
+            //messageQueue.put(message);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             System.err.println("Error when adding message to queue: " + e.getMessage());
         }
+
+         */
     }
 
     public static void shutdown() {

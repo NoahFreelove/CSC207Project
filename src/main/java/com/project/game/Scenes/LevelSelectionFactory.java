@@ -21,10 +21,10 @@ import static com.project.engine.UI.UIConstants.*;
 
 public class LevelSelectionFactory {
 
-    private static HashMap<Integer, Scene> levelMap = new HashMap<>();
+    private static HashMap<Integer, ISceneLoader> levelMap = new HashMap<>();
 
     static {
-        levelMap.put(0, EasyLevel.loadEasyLevel());
+        levelMap.put(0, new EasyLevel());
     }
 
     private static Scene createScene() {
@@ -68,7 +68,7 @@ public class LevelSelectionFactory {
             temp.setHorizontalAlignment(SwingConstants.CENTER);
             temp.setTransparent(true);
             int finalI = i;
-            temp.onClickEvent = () -> Engine.getInstance().getPrimaryWindow().setActiveScene(levelMap.get(finalI));
+            temp.onClickEvent = () -> Engine.getInstance().getPrimaryWindow().setActiveScene(levelMap.get(finalI).loadScene());
             scene.addUIElement(temp);
             XReset++;
         }

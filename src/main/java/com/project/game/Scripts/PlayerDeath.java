@@ -4,6 +4,8 @@ import com.project.engine.Core.GameObject;
 import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Physics.PhysicsBody.RigidBody2D;
 
+import java.util.Iterator;
+
 public class PlayerDeath implements IScriptable {
     private boolean dead = false;
     private double respawnDelay = 1.42; // delay in seconds
@@ -46,6 +48,18 @@ public class PlayerDeath implements IScriptable {
             parent.addTag("player");
 
             // TODO: Find a way to respawn things that move
+            Iterator<GameObject> sceneObjs = parent.getLinkedScene().getSceneObjects();
+            while (sceneObjs.hasNext()) {
+                GameObject sceneObj = sceneObjs.next();
+
+                SpawnPoint spawn = sceneObj.getScriptable(SpawnPoint.class);
+
+                if (spawn != null) {
+                    spawn.queueRespawn();
+                }
+
+            }
+
         }
 
     }

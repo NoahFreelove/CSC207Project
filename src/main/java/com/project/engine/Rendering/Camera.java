@@ -20,6 +20,8 @@ public class Camera implements IScriptable {
     @Override
     public void update(GameObject parent, double deltaTime) {
         attached = parent;
+        positionX = attached.getTransform().getPositionX();
+        positionY = attached.getTransform().getPositionY();
     }
 
     public Tuple<Double, Double> getCameraPosition() {
@@ -78,6 +80,12 @@ public class Camera implements IScriptable {
 
     public GameObject getAttached() {
         return attached;
+    }
+
+    public void reset() {
+        attached = null;
+        followX = false;
+        followY = false;
     }
 
     @Override

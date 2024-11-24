@@ -6,13 +6,14 @@ import com.project.engine.Core.Scene;
 import com.project.engine.Core.Tuple;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.game.ObjectFactories.*;
+import com.project.game.Scenes.ISceneLoader;
 import com.project.game.Scenes.LevelSelectionFactory;
 import com.project.game.Scripts.SceneExit;
 
 /**
  * A simple Level for Game PoC
  */
-public class EasyLevel {
+public class EasyLevel implements ISceneLoader {
     public static Scene createScene() {
         Tuple<Engine, GameWindow> out = Engine.createAndWait();
         Engine e = out.getFirst();
@@ -28,8 +29,10 @@ public class EasyLevel {
         s.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND));
 
         GameObject player = AbstractObjectFactory.generateOfType(ObjectType.PLAYER, 10);
+        s.getCamera().reset();
         s.getCamera().update(player, 0);
         s.getCamera().setOffsetX(-100);
+        s.getCamera().setFollowX(true);
         s.getCamera().setFollowY(false);
 
         s.addSceneObject(player, true);
@@ -43,6 +46,7 @@ public class EasyLevel {
 
         s.addSceneObjects(
                 groundMaker.generate(0, 600, 2, 10, 2, 0.8),
+                groundMaker.generate(760, 500, 2, 1, 1, 0.8),
                 groundMaker.generate(1600, 600, 2, 10, 2, 0.8),
                 groundMaker.generate(500, 520, 1, 1, 1, "assets/brick.png"),
                 groundMaker.generate(700, 400, 1, 1, 0.5, 1, "assets/brick.png"),
@@ -53,12 +57,13 @@ public class EasyLevel {
                 cloudMaker.generate(100, 50, 3, 1.5),
                 cloudMaker.generate(500, 100, 3, 1.5),
                 cloudMaker.generate(900, 90, 3, 1.5),
-                cloudMaker.generate(1400, 70, 3, 1.5));
+                cloudMaker.generate(1400, 70, 3, 1.5),
+                AbstractObjectFactory.generateOfType(ObjectType.ENEMY, 500, 300, 2,1, 1));
 
         return s;
     }
 
-    public static Scene loadEasyLevel() {
+    public Scene loadScene() {
         Scene s = createScene();
         return s;
     }

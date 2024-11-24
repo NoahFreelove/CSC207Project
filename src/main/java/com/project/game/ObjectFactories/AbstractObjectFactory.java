@@ -43,6 +43,8 @@ public class AbstractObjectFactory {
                 return new VoidFactory();
             case BOUNDARY:
                 return new BoundaryFactory();
+            case ENEMY:
+                return new EnemyFactory();
         }
 
         return new AbstractObjectFactory();

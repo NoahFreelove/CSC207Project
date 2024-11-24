@@ -27,7 +27,11 @@ public class PlayerFactory extends AbstractObjectFactory {
         obj.addBehavior(new RigidBody2D());
         SimpleCollider sc = new SimpleCollider(32, 19.2, 0.5, 0.7);
         obj.addBehavior(sc);
-        obj.addBehavior(new GroundTrigger(32,103, 0.5, 0.05));
+
+        GroundTrigger gt = new GroundTrigger(32,103, 0.5, 0.05);
+        gt.setTag("PlayerGround");
+
+        obj.addBehavior(gt);
         obj.addBehavior(new WindowStatsDebug());
 
         // add head trigger

@@ -4,10 +4,10 @@ import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Input.EInputType;
+import com.project.engine.Physics.PhysicsBody.RigidBody2D;
 import com.project.engine.Rendering.IRenderable;
 import com.project.engine.Rendering.SpriteRenderer;
 import com.project.engine.Scripting.IScriptable;
-import com.project.physics.PhysicsBody.RigidBody2D;
 import entity.Animation;
 import org.json.JSONObject;
 

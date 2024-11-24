@@ -7,9 +7,8 @@ import com.project.engine.Physics.Collision.CollisionVolume;
 
 public class SceneBoundary extends BoxTrigger implements IScriptable {
 
-    @Override
     public void start(GameObject parent) {
-        setRelDimensions(-parent.getLinkedScene().getCamera().getOffsetX()/parent.getTransform().getWidth(), 1); // Test left boundary
+        setRelDimensions(-parent.getLinkedScene().getCamera().getOffsetX() / parent.getTransform().getWidth(), 1); // Test left boundary
     }
 
     @Override

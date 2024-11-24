@@ -33,7 +33,7 @@ public class Scene implements ISerializable {
      */
     private final CopyOnWriteArrayList<Tuple<GameObject, IRenderable>> renderables = new CopyOnWriteArrayList<>();
 
-    private Camera camera = new Camera();
+    private Camera camera;
 
     private double scaleX = 1.0;
     private double scaleY = 1.0;
@@ -41,10 +41,12 @@ public class Scene implements ISerializable {
 
     public Scene() {
         this.name = "Empty Scene";
+        this.camera = new Camera();
     }
 
     public Scene(String name) {
         this.name = name;
+        this.camera = new Camera();
     }
 
     /**
