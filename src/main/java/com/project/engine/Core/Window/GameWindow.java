@@ -118,6 +118,10 @@ public final class GameWindow {
         return ready.get();
     }
 
+    public boolean isFocused() {
+        return window.isFocused();
+    }
+
     private float physicsUpdateRatio = 4f;
     private float physicsUpdateInterval = 1.0f / (desiredFPS * physicsUpdateRatio);
 
@@ -140,6 +144,10 @@ public final class GameWindow {
             physicsAccumulator += delta;
 
             Engine.getInstance().update(activeScene, delta);
+
+            if(!isFocused()) {
+                resetInput();
+            }
 
             // Physics updates at fixed intervals
             while (physicsAccumulator >= physicsUpdateInterval) {

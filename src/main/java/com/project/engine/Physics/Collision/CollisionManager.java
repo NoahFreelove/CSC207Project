@@ -43,17 +43,22 @@ public class CollisionManager {
 
     private void sendCollisionEvents(boolean previousIntersect, String key, GameObject object1, GameObject object2,
                                      CollisionVolume o1Col, CollisionVolume o2Col) {
-        if(key == null)
-            return;
+        try{
+            if(key == null)
+                return;
 
-        boolean currentIntersect = collided.get(key);
+            boolean currentIntersect = collided.get(key);
 
-        if (!previousIntersect && currentIntersect) {
-            triggerCollisionEnterEvents(object1, object2, o1Col, o2Col);
-        } else if (previousIntersect && !currentIntersect) {
-            triggerCollisionExitEvents(object1, object2, o1Col, o2Col);
-        } else if (currentIntersect) {
-            triggerCollisionContinueEvents(object1, object2, o1Col, o2Col);
+            if (!previousIntersect && currentIntersect) {
+                triggerCollisionEnterEvents(object1, object2, o1Col, o2Col);
+            } else if (previousIntersect && !currentIntersect) {
+                triggerCollisionExitEvents(object1, object2, o1Col, o2Col);
+            } else if (currentIntersect) {
+                triggerCollisionContinueEvents(object1, object2, o1Col, o2Col);
+            }
+        }
+        catch (NullPointerException e) {
+            System.err.println("physics manager nullptr");
         }
     }
 
