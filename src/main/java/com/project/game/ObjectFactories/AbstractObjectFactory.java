@@ -29,10 +29,14 @@ public class AbstractObjectFactory {
                 return new PlayerFactory();
             case GROUND_BLOCK:
                 return new GroundBlockFactory();
+            case ICE_BLOCK:
+                return new IceBlockFactory();
             case CLOUD:
                 return new CloudFactory();
             case CLOUD_ENEMY:
                 return new EnemyCloudFactory();
+            case MOVEMENT_PLATFORM:
+                return new MovePlatformFactory();
             case HIDDEN_BLOCK:
                 return new HiddenBlockFactory();
             case ITEM_BLOCK:

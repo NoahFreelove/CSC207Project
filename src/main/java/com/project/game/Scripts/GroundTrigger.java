@@ -50,6 +50,25 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
     }
 
     @Override
+    public void onTriggerContinue(GameObject parent, GameObject other, CollisionVolume interactor) {
+        MovementController mc = parent.getScriptable(MovementController.class);
+        if (mc == null)
+            return;
+        if(other.hasTag("speedupPlatform")){
+            mc.speedupPlatform = true;
+        }
+        else{
+            mc.speedupPlatform = false;
+        }
+        if(other.hasTag("ice")){
+            mc.onIce = true;
+        }
+        else{
+            mc.onIce = false;
+        }
+    }
+
+    @Override
     public void onTriggerExit(GameObject parent, GameObject other, CollisionVolume interactor) {
         if (other.hasTag("ground")){
             groundInteractCount--;
@@ -57,6 +76,17 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
                 parent.getScriptable(RigidBody2D.class).attribs.grounded = false;
             }
         }
+
+     /*   MovementController mc = parent.getScriptable(MovementController.class);
+        if (mc == null)
+            return;
+
+        if(other.hasTag("speedupPlatform")){
+            mc.speedupPlatform = false;
+        }
+        if(other.hasTag("ice")){
+            mc.onIce = false;
+        }*/
     }
 
     @Override

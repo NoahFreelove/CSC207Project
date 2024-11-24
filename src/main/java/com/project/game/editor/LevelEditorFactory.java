@@ -30,13 +30,13 @@ public class LevelEditorFactory {
         background.setOpaque(false);
 
         // Left sidebar
-        GameUIPanel leftSidebar = new GameUIPanel(0, 0, 300, windowSize.getSecond());
+        GameUIPanel leftSidebar = new GameUIPanel(0, 0, 200, windowSize.getSecond());
         leftSidebar.setBackground(Color.decode("#404040"));
         leftSidebar.setLayout(new GridLayout(12, 1)); // Set GridLayout with one column
         background.add(leftSidebar);
 
         // Right sidebar
-        GameUIPanel rightSidebar = new GameUIPanel(windowSize.getFirst() - 300, 0, 300, windowSize.getSecond());
+        GameUIPanel rightSidebar = new GameUIPanel(windowSize.getFirst() - 400, 0, 400, windowSize.getSecond());
         rightSidebar.setBackground(Color.decode("#404040"));
         rightSidebar.setLayout(new GridLayout(12, 1)); // Set GridLayout with one column
         background.add(rightSidebar);
@@ -46,9 +46,9 @@ public class LevelEditorFactory {
         centerPanel.setOpaque(false);
         background.add(centerPanel);
 
-        GameUILabel title = new GameUILabel("Level Editor", 40, 40, 300, 50);
+        GameUILabel title = new GameUILabel("Editor", 40, 40, 300, 50);
         title.setForeground(Color.WHITE);
-        title.setFontSize(50);
+        title.setFontSize(40);
         title.setOpaque(false);
         // center
         title.setHorizontalAlignment(SwingConstants.CENTER);
@@ -124,7 +124,7 @@ public class LevelEditorFactory {
 
         GameUIButton backToGameButton = new GameUIButton("Back to Game", 40, 340, 300, 50);
         backToGameButton.setForeground(Color.WHITE);
-        backToGameButton.setFontSize(32);
+        backToGameButton.setFontSize(20);
         backToGameButton.setBackground(Color.decode("#8a3a32"));
         backToGameButton.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 5));
 
@@ -177,7 +177,6 @@ public class LevelEditorFactory {
 
         tileSlider.setMajorTickSpacing(1);
         tileSlider.setPaintTicks(true);
-        tileSlider.setPaintLabels(true);
         tileSlider.setSnapToTicks(true);
         tileSlider.setBackground(Color.decode("#404040"));
         tileSlider.setForeground(Color.WHITE);

@@ -24,7 +24,7 @@ public class LevelEditor extends Scene {
 
     private final ArrayList<EditorObjectStruct> tiles = new ArrayList<>();
 
-    public static final Tuple<Integer, Integer> levelEditorScreenSize = new Tuple<>(1440,810); // 1920x1080 * 0.75
+    public static final Tuple<Integer, Integer> levelEditorScreenSize = new Tuple<>((int)(1920*0.8),(int)(1080*0.8));
 
     public String activeFile = "";
 
@@ -195,6 +195,10 @@ public class LevelEditor extends Scene {
         HiddenBlockFactory hiddenBlockFactory = (HiddenBlockFactory) AbstractObjectFactory.makeFactory(ObjectType.HIDDEN_BLOCK);
         CloudFactory cloudFactory = (CloudFactory) AbstractObjectFactory.makeFactory(ObjectType.CLOUD);
         EnemyCloudFactory enemyCloudFactory = (EnemyCloudFactory) AbstractObjectFactory.makeFactory(ObjectType.CLOUD_ENEMY);
+        EnemyFactory enemyFactory = (EnemyFactory) AbstractObjectFactory.makeFactory(ObjectType.ENEMY);
+        IceBlockFactory iceBlockFactory = (IceBlockFactory) AbstractObjectFactory.makeFactory(ObjectType.ICE_BLOCK);
+        MovePlatformFactory movePlatformFactory = (MovePlatformFactory) AbstractObjectFactory.makeFactory(ObjectType.MOVEMENT_PLATFORM);
+
         for (EditorObjectStruct obj : tiles) {
             GameObject out = null;
             switch (obj.ID) {
@@ -273,6 +277,21 @@ public class LevelEditor extends Scene {
                 case 9: {
                     out = enemyCloudFactory
                             .generate(obj.linkedObject.getTransform().getPositionX()- (128*3/2f - 32), obj.linkedObject.getTransform().getPositionY() - (128*1.5/2 -32), 3,3, 1.5);
+                    break;
+                }
+                case 10: {
+                    out = enemyFactory
+                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 10, obj.scaleX, obj.scaleY);
+                    break;
+                }
+                case 11: {
+                    out = iceBlockFactory
+                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 5, obj.scaleX, obj.scaleY);
+                    break;
+                }
+                case 12: {
+                    out = movePlatformFactory
+                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 5, obj.scaleX, obj.scaleY);
                     break;
                 }
                 default: {

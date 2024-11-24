@@ -18,6 +18,9 @@ public class EditorTileCache {
         spriteCache.put(7, "assets/princess.png");
         spriteCache.put(8, "assets/cloud.png");
         spriteCache.put(9, "assets/enemy_cloud.png");
+        spriteCache.put(10, "assets/enemy.png");
+        spriteCache.put(11, "assets/ice.png");
+        spriteCache.put(12, "assets/moveplatformR.png");
 
         disableTransformMutations.put(6, true); // hidden item block
         disableTransformMutations.put(5, true); // hidden spike
@@ -27,6 +30,8 @@ public class EditorTileCache {
         disableTransformMutations.put(7, true); // princess
         disableTransformMutations.put(8, true); // cloud
         disableTransformMutations.put(9, true); // cloud enemy
+        disableTransformMutations.put(10, true); // enemy
+        disableTransformMutations.put(12, true); // movePlatformR
 
     }
 }

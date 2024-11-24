@@ -19,7 +19,11 @@ import org.json.JSONObject;
 
 public class MovementController implements IScriptable {
 
-    private float moveSpeed = 6f;
+    private float baseMoveSpeed = 10;
+    private float moveSpeed = baseMoveSpeed;
+    public boolean speedupPlatform = false;
+    public boolean onIce = false;
+    private float baseMaxVelocityX = 300;
     private float jumpForce = 1.15f;
 
     private boolean canMove = true;
@@ -52,7 +56,17 @@ public class MovementController implements IScriptable {
         GameWindow win = Engine.getInstance().getPrimaryWindow();
         if (win == null)
             return;
+        if (rb != null) {
+            rb.attribs.maxVelocityX = (speedupPlatform) ? baseMaxVelocityX * 2 : baseMaxVelocityX;
+            moveSpeed = (onIce) ? baseMoveSpeed / 10 : baseMoveSpeed;
 
+            if (onIce){
+                rb.attribs.maxVelocityX = baseMaxVelocityX * 3;
+            }
+
+
+
+        }
         if (canMove) {
             double actualSpeed = moveSpeed * deltaTime * 300;
 
