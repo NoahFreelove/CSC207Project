@@ -23,6 +23,7 @@ public class MainMenuFactory {
 
         GameObject escapeDetector = new GameObject();
         escapeDetector.addBehavior(new SceneExit(MainMenuFactory::leaveGame));
+        scene.addSceneObject(escapeDetector, true);
 
         // Background
         scene.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND));

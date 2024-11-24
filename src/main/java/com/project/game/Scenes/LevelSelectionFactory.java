@@ -24,7 +24,6 @@ import java.util.HashMap;
 import static com.project.engine.UI.UIConstants.*;
 
 public class LevelSelectionFactory {
-
     private static HashMap<Integer, LevelGenerationInterface> levelMap = new HashMap<>();
 
     static {

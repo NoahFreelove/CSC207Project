@@ -49,6 +49,8 @@ public class AbstractObjectFactory {
                 return new VoidFactory();
             case BOUNDARY:
                 return new BoundaryFactory();
+            case ENEMY:
+                return new EnemyFactory();
             case PAUSE_BACKGROUND:
                 return new PauseBackgroundFactory();
             case PRINCESS:

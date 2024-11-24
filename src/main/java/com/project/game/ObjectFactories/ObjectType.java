@@ -13,6 +13,7 @@ public enum ObjectType {
     SPIKE,
     VOID,
     BOUNDARY,
+    ENEMY,
     PAUSE_BACKGROUND,
     PRINCESS,
 }

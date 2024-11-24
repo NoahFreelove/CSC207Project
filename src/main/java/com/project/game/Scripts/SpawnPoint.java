@@ -45,10 +45,12 @@ public class SpawnPoint implements IScriptable {
             parent.getTransform().setPosition(spawnPoint);
             parent.getTransform().update(parent, 0); // Apply spawn position immediately
 
-            RigidBody2D rb = parent.getScriptable(RigidBody2D.class);
+            RigidBody2D rb = parent.getScriptable(RigidBody2D.class, true);
+
             if (rb != null) {
                 rb.resetX();
                 rb.resetY();
+                parent.enableScript(rb);
             }
 
             MovementController mc = parent.getScriptable(MovementController.class);
@@ -65,6 +67,7 @@ public class SpawnPoint implements IScriptable {
 
     @Override
     public void reset(GameObject parent) {
+        respawnQueued = true;
         update(parent, 0.0);
     }
 

@@ -7,6 +7,7 @@ import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Physics.Collision.BoxTrigger;
 import com.project.engine.Physics.Collision.CollisionVolume;
 import com.project.engine.Physics.PhysicsBody.RigidBody2D;
+import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.json.JSONObject;
 
 import java.util.Iterator;

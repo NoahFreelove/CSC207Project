@@ -5,6 +5,8 @@ import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Physics.PhysicsBody.RigidBody2D;
 import org.json.JSONObject;
 
+import java.util.Iterator;
+
 public class PlayerDeath implements IScriptable {
     private boolean dead = false;
     private double respawnDelay = 1.42; // delay in seconds

@@ -12,7 +12,7 @@ public class GameQuickTest {
         Engine e = out.getFirst();
         GameWindow w = out.getSecond();
         e.closeHook = PlayTTS::shutdown;
-        EasyLevel.loadEasyLevel();
+        EasyLevel.createScene();
 
     }
 }
