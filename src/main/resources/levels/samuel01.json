@@ -655,6 +655,38 @@
             "rot": 0,
             "ID": 5,
             "xPos": 3520
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 256,
+            "rot": 0,
+            "ID": 10,
+            "xPos": 384
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 10,
+            "xPos": 1728
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 10,
+            "xPos": 1600
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 10,
+            "xPos": 1856
         }
     ],
     "meta": {}
