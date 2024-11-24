@@ -47,7 +47,6 @@ public class EnemyController extends BoxCollider implements IScriptable {
                 return;
             }
 
-            System.out.println("PLAYER");
             PlayerDeath pd = other.getScriptable(PlayerDeath.class);
 
             if (pd != null) {
