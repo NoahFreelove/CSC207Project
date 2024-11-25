@@ -46,7 +46,7 @@ public class LevelEditor extends Scene {
         setScaleY(2);
         addGuideLines();
 
-        loadFromFile(FileIO.GetAbsPathOfResource("/levels/level1.json"));
+        loadFromFile(FileIO.GetAbsPathOfResource("/levels/AndyLevel1.json"));
     }
 
     public void addTile(int ID, int x, int y) {
