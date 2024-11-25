@@ -5,6 +5,7 @@ public enum ObjectType {
     BACKGROUND,
     CLOUD,
     CLOUD_ENEMY,
+    CHECKPOINT,
     MOVEMENT_PLATFORM,
     ESCAPE_KEY,
     GROUND_BLOCK,

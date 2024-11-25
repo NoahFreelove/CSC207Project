@@ -953,5 +953,8 @@
             "xPos": 4672
         }
     ],
-    "meta": {}
+    "meta": {
+        "author": "Sam",
+        "description": "Sam level 2"
+    }
 }

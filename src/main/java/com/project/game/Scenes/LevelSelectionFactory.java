@@ -6,9 +6,7 @@ import com.project.engine.Core.Scene;
 import com.project.engine.Core.Tuple;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.IO.FileIO;
-import com.project.engine.UI.FontCreator;
 import com.project.engine.UI.GameUIButton;
-import com.project.engine.UI.IOnClick;
 import com.project.game.ObjectFactories.AbstractObjectFactory;
 import com.project.game.ObjectFactories.ObjectType;
 import com.project.game.Scenes.Levels.EasyLevel;
@@ -17,8 +15,6 @@ import com.project.game.UIFactories.UIFactory;
 import com.project.game.editor.LevelEditor;
 import com.project.game.editor.LevelGenerationInterface;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.HashMap;
 
 import static com.project.engine.UI.UIConstants.*;
@@ -28,7 +24,12 @@ public class LevelSelectionFactory {
 
     static {
         levelMap.put(0, EasyLevel::createScene);
-        levelMap.put(1, LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource("/levels/level1.json")));
+        levelMap.put(1, LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource("/levels/level2.json")));
+        levelMap.put(2, LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource("/levels/level3.json")));
+        levelMap.put(3, LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource("/levels/level4.json")));
+        levelMap.put(4, LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource("/levels/level5.json")));
+        levelMap.put(5, LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource("/levels/level6.json")));
+
     }
 
     private static Scene createScene() {
@@ -40,7 +41,7 @@ public class LevelSelectionFactory {
         GameUIButton back = UIFactory.ButtonFactory("Back to Main", 200, 450, 400, 80);
         back.onClickEvent = MainMenuFactory::loadMainMenu;
 
-        createLevel(2, scene);
+        createLevel(levelMap.size(), scene);
 
         // Adding everything
         scene.addSceneObject(escapeDetector, true);
