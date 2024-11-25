@@ -3,7 +3,8 @@ package com.project.game;
 import com.project.engine.Core.Engine;
 import com.project.engine.Core.Tuple;
 import com.project.engine.Core.Window.GameWindow;
-import com.project.game.Scenes.Levels.EasyLevel;
+import com.project.engine.IO.FileIO;
+import com.project.game.editor.LevelEditor;
 import com.project.game.tts.PlayTTS;
 
 public class GameQuickTest {
@@ -12,7 +13,8 @@ public class GameQuickTest {
         Engine e = out.getFirst();
         GameWindow w = out.getSecond();
         e.closeHook = PlayTTS::shutdown;
-        EasyLevel.createScene();
+        LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource("/levels/level1.json"));
+
 
     }
 }

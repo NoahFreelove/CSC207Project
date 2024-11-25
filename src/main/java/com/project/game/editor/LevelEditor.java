@@ -166,6 +166,7 @@ public class LevelEditor extends Scene {
             tiles.add(eos);
             addSceneObject(eos.linkedObject);
         });
+        update(0);
     }
 
     public void saveToFile() {
@@ -187,7 +188,19 @@ public class LevelEditor extends Scene {
 
     public Scene exportToScene(boolean testing) {
         Scene output = new Scene();
+        convertTilesToRealObjects(testing, output);
 
+        output.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BOUNDARY, 0, 0, 5, 800));
+        output.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND, 0, -128, 0));
+        GameObject voidObject = AbstractObjectFactory.generateOfType(ObjectType.VOID);
+        output.addSceneObject(voidObject);
+        output.setScaleX(1.25f);
+        output.setScaleY(1.25f);
+
+        return output;
+    }
+
+    private void convertTilesToRealObjects(boolean testing, Scene output) {
         GroundBlockFactory groundBlockFactory = (GroundBlockFactory) AbstractObjectFactory.makeFactory(ObjectType.GROUND_BLOCK);
         SpikeFactory spikeFactory = (SpikeFactory) AbstractObjectFactory.makeFactory(ObjectType.SPIKE);
         ItemBlockFactory itemBlockFactory = (ItemBlockFactory) AbstractObjectFactory.makeFactory(ObjectType.ITEM_BLOCK);
@@ -206,18 +219,23 @@ public class LevelEditor extends Scene {
                 case 0: {
                     out = PlayerFactory.makeFactory(ObjectType.PLAYER)
                             .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 10, obj.scaleX, obj.scaleY);
-                    if(testing) {
-                        out.addBehavior(new IScriptable() {
-                            @Override
-                            public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
-                                if (keyName.equals("ESC") && inputType == EInputType.RELEASE) {
+                    out.addBehavior(new IScriptable() {
+                        @Override
+                        public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
+                            if (keyName.equals("ESC") && inputType == EInputType.RELEASE) {
+                                if (testing) {
                                     GameWindow w = Engine.getInstance().getPrimaryWindow();
                                     w.setWindowSizeForce(levelEditorScreenSize.getFirst(),levelEditorScreenSize.getSecond());
                                     w.setActiveScene(LevelEditor.this);
                                 }
+                                else {
+                                    PauseOverlayFactory.pauseGame();
+                                }
+
                             }
-                        });
-                    }
+                        }
+                    });
+
                     output.getCamera().update(out, 0);
                     output.getCamera().setOffsetX(-100);
                     output.getCamera().setOffsetY(64);
@@ -306,25 +324,11 @@ public class LevelEditor extends Scene {
                 }
             }
 
-            if(!testing){
-                GameUIButton pause = UIFactory.ButtonFactory("Pause", 600, 10, 220, 50);
-
-                pause.onClickEvent = PauseOverlayFactory::pauseGame;
-                output.addUIElement(pause);
-            }
             out.getTransform().setRotation(obj.rot);
 
             output.addSceneObject(out);
 
         }
-        output.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BOUNDARY, 0, 0, 5, 800));
-        output.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND, 0, -128, 0));
-        GameObject voidObject = AbstractObjectFactory.generateOfType(ObjectType.VOID);
-        output.addSceneObject(voidObject);
-        output.setScaleX(1.25f);
-        output.setScaleY(1.25f);
-
-        return output;
     }
 
     public void exportToFile(String path) {
@@ -339,14 +343,15 @@ public class LevelEditor extends Scene {
         w.setActiveScene(MainMenuFactory.createScene());
     }
 
-    public static LevelGenerationInterface loadFromFileForMainGame(String abs) {
-        return () -> {
-            LevelEditor le = new LevelEditor();
-            le.loadFromFile(abs);
-            le.start();
-            le.update(0.001d);
-            return le.exportToScene(false);
-        };
+    public static void loadFromFileForMainGame(String abs) {
+        LevelEditor le = new LevelEditor();
+        le.loadFromFile(abs);
+        GameWindow w = Engine.getInstance().getPrimaryWindow();
+        //w.setWindowSizeForce(800, 800);
+        w.refocusInWindow();
+        //System.gc();
+        Scene out = le.exportToScene(false);
+        w.setActiveScene(out);
     }
 
 }
