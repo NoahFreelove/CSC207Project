@@ -21,6 +21,7 @@ public class EditorTileCache {
         spriteCache.put(10, "assets/enemy.png");
         spriteCache.put(11, "assets/ice.png");
         spriteCache.put(12, "assets/moveplatformR.png");
+        spriteCache.put(13, "assets/checkpoint.png");
 
         disableTransformMutations.put(6, true); // hidden item block
         disableTransformMutations.put(5, true); // hidden spike
@@ -32,6 +33,6 @@ public class EditorTileCache {
         disableTransformMutations.put(9, true); // cloud enemy
         disableTransformMutations.put(10, true); // enemy
         disableTransformMutations.put(12, true); // movePlatformR
-
+        disableTransformMutations.put(13, true); // checkpoint
     }
 }

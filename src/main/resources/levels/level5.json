@@ -1425,5 +1425,8 @@
             "xPos": 0
         }
     ],
-    "meta": {}
+    "meta": {
+        "author": "Paul",
+        "description": "Paul level 2"
+    }
 }
