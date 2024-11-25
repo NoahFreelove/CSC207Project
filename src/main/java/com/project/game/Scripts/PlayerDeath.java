@@ -3,6 +3,7 @@ package com.project.game.Scripts;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Physics.PhysicsBody.RigidBody2D;
+import com.project.game.UIFactories.UIFactory;
 import org.json.JSONObject;
 
 import java.util.Iterator;
@@ -13,6 +14,7 @@ public class PlayerDeath implements IScriptable {
     private double timeScinceDeath = 0;
     private final double COOLDOWN_TIME = 0.1; //Death cooldown in seconds
     private double deathCooldown = 0;
+    private static int deathCount = 0;
 
     public PlayerDeath() {}
 
@@ -57,7 +59,13 @@ public class PlayerDeath implements IScriptable {
     public void queueDeath() {
         if (!dead && deathCooldown >= COOLDOWN_TIME) {
             this.dead = true;
+            this.deathCount++;
+            UIFactory.updateDeathCount();
         }
+    }
+
+    public static int getDeathCount() {
+        return deathCount;
     }
 
     private void die(GameObject parent, float deathForce) {

@@ -13,7 +13,7 @@ import com.project.engine.Core.Scene;
 import com.project.engine.Core.Tuple;
 import com.project.engine.Rendering.GamePanel;
 
-import static com.project.engine.Core.Window.Input.*;
+import static com.project.engine.Input.Input.*;
 
 public final class GameWindow {
 

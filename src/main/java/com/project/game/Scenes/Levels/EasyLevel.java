@@ -6,6 +6,7 @@ import com.project.engine.Core.Scene;
 import com.project.engine.Core.Tuple;
 import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.UI.GameUIButton;
+import com.project.engine.UI.GameUILabel;
 import com.project.game.ObjectFactories.*;
 import com.project.game.Scenes.ISceneLoader;
 import com.project.game.Scenes.LevelSelectionFactory;
@@ -13,6 +14,8 @@ import com.project.game.Scenes.PauseOverlayFactory;
 import com.project.game.Scenes.WinOverlayFactory;
 import com.project.game.Scripts.SceneExit;
 import com.project.game.UIFactories.UIFactory;
+
+import static com.project.engine.UI.UIConstants.ORIGINAL_LIVES_TEXT;
 
 /**
  * A simple Level for Game PoC
@@ -76,9 +79,11 @@ public class EasyLevel implements ISceneLoader {
 
         // Testing
         GameUIButton pause = UIFactory.ButtonFactory("Pause", 600, 10, 220, 50);
+        GameUILabel deathCounter = UIFactory.DeathLabelFactory(0, 10, 220, 70);
+
 
         pause.onClickEvent = PauseOverlayFactory::pauseGame;
-        s.addUIElement(pause);
+        s.addUIElements(pause, deathCounter);
         s.setScaleX(1.25f);
         s.setScaleY(1.25f);
         return s;

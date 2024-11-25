@@ -1,8 +1,8 @@
-package com.project.engine.Core.Window;
+package com.project.engine.Input;
 
 import com.project.engine.Core.Engine;
-import com.project.engine.Input.EInputType;
-import com.project.engine.Input.InputMods;
+import com.project.engine.Core.Window.IGetActiveScene;
+import com.project.engine.Core.Window.ISimpleMouseMoveEvent;
 
 import javax.swing.*;
 import java.awt.event.*;

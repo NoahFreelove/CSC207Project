@@ -1,32 +1,37 @@
 package com.project.game.UIFactories;
 
 
-import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
-import com.project.engine.Rendering.GamePanel;
 import com.project.engine.UI.*;
+import com.project.game.Scripts.PlayerDeath;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.project.engine.UI.UIConstants.*;
 
 public class UIFactory {
     public static ArrayList<Object> PausedElements = new ArrayList<>();
-
-    public static GameUIPanel PanelFactory(int x, int y, int width, int height) {
-        GameUIPanel panel = new GameUIPanel(x, y, width, height);
-        panel.setBackground(BLACK);
-        return panel;
-    }
+    public static GameUILabel deathCounter;
 
     public static GameUILabel LabelFactory(String text, int x, int y, int width, int height) {
         GameUILabel label = new GameUILabel(text, x, y, width, height);
         label.setFont(FontCreator.createFont(TITLE_SIZE));
         label.setForeground(Color.decode(FOREST_GREEN));
         label.setHorizontalAlignment(SwingConstants.CENTER);
+
+        return label;
+    }
+
+    public static GameUILabel DeathLabelFactory(int x, int y, int width, int height) {
+        GameUILabel label = new GameUILabel(ORIGINAL_LIVES_TEXT, x, y, width, height);
+        label.setFont(FontCreator.createFont(COUNTER_SIZE));
+        label.setForeground(Color.decode(FOREST_GREEN));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        deathCounter = label;
 
         return label;
     }
@@ -88,5 +93,9 @@ public class UIFactory {
                 scene.removeSceneObject((GameObject) obj);
             }
         }
+    }
+
+    public static void updateDeathCount() {
+        deathCounter.setText("Lives: " + (LIVES - PlayerDeath.getDeathCount()));
     }
 }
