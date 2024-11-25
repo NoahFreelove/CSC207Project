@@ -441,5 +441,8 @@
             "xPos": 2496
         }
     ],
-    "meta": {}
+    "meta": {
+        "author": "Sam (Design), Noah (Optimized)",
+        "description": "Sam level 2"
+    }
 }
