@@ -4,7 +4,6 @@ import com.project.engine.Core.Engine;
 import com.project.engine.Core.Scene;
 import com.project.engine.UI.GameUIButton;
 import com.project.engine.UI.GameUILabel;
-import com.project.game.Scenes.Levels.EasyLevel;
 import com.project.game.UIFactories.UIFactory;
 
 import javax.swing.*;
@@ -26,14 +25,14 @@ public class WinOverlayFactory {
         GameUIButton restart = UIFactory.ButtonFactory("Restart Level", 150, 300, 500, 80, FOREST_GREEN);
         GameUIButton back = UIFactory.ButtonFactory("Back to Select", 150, 400, 500, 80, FOREST_GREEN);
 
-        restart.onClickEvent = EasyLevel::createScene;
+        //restart.onClickEvent = EasyLevel::createScene;
 
         back.onClickEvent = LevelSelectionFactory::loadLevelSelection;
 
         scene.addUIElements(restart, back, label);
 
         WinElements.add(label);
-        WinElements.add(restart);
+        //WinElements.add(restart);
         WinElements.add(back);
     }
 
