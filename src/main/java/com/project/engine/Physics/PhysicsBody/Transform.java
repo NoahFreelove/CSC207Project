@@ -142,6 +142,13 @@ public class Transform implements IScriptable, ISerializable {
         return new Tuple<>(position.getFirst(), position.getSecond());
     }
 
+    public Tuple<Double, Double> getPosition(boolean mutable) {
+        if (mutable) {
+            return staged_position;
+        }
+        return getPosition();
+    }
+
     public Double getScaleX() {
         return scale.getFirst();
     }

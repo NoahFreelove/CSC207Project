@@ -369,5 +369,8 @@
             "xPos": 960
         }
     ],
-    "meta": {}
+    "meta": {
+        "author": "Andy",
+        "description": "Andy level 1"
+    }
 }

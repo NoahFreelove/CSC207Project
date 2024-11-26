@@ -1,7 +1,9 @@
 package com.project.game.ObjectFactories;
 
+import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Rendering.SpriteRenderer;
+import com.project.engine.Scripting.IScriptable;
 import com.project.engine.Scripting.WindowStatsDebug;
 import com.project.game.Scripts.*;
 import com.project.engine.Physics.PhysicsBody.RigidBody2D;

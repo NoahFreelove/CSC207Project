@@ -2,43 +2,11 @@
     "tiles": [
         {
             "scaleX": 4,
-            "scaleY": 2,
-            "yPos": 320,
-            "rot": 0,
-            "ID": 1,
-            "xPos": 64
-        },
-        {
-            "scaleX": 4,
             "scaleY": 4,
             "yPos": 64,
             "rot": 0,
             "ID": 1,
             "xPos": 1728
-        },
-        {
-            "scaleX": 4,
-            "scaleY": 1,
-            "yPos": 576,
-            "rot": 0,
-            "ID": 1,
-            "xPos": 1728
-        },
-        {
-            "scaleX": 4,
-            "scaleY": 1,
-            "yPos": 576,
-            "rot": 0,
-            "ID": 1,
-            "xPos": 1472
-        },
-        {
-            "scaleX": 4,
-            "scaleY": 1,
-            "yPos": 576,
-            "rot": 0,
-            "ID": 1,
-            "xPos": 1216
         },
         {
             "scaleX": 4,
@@ -159,14 +127,6 @@
             "rot": 0,
             "ID": 11,
             "xPos": 960
-        },
-        {
-            "scaleX": 2,
-            "scaleY": 1,
-            "yPos": 576,
-            "rot": 0,
-            "ID": 1,
-            "xPos": 1088
         },
         {
             "scaleX": 2,
@@ -931,14 +891,6 @@
         {
             "scaleX": 1,
             "scaleY": 1,
-            "yPos": 256,
-            "rot": 0,
-            "ID": 0,
-            "xPos": 192
-        },
-        {
-            "scaleX": 1,
-            "scaleY": 1,
             "yPos": 128,
             "rot": 0,
             "ID": 3,
@@ -951,6 +903,62 @@
             "rot": 0,
             "ID": 9,
             "xPos": 6336
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 64,
+            "rot": 0,
+            "ID": 8,
+            "xPos": 896
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 128,
+            "rot": 0,
+            "ID": 0,
+            "xPos": 128
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 256
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 4,
+            "yPos": 576,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1728
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 4,
+            "yPos": 576,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1472
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 4,
+            "yPos": 576,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1216
+        },
+        {
+            "scaleX": 2,
+            "scaleY": 4,
+            "yPos": 576,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1088
         }
     ],
     "meta": {

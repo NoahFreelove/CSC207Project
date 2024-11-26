@@ -23,8 +23,8 @@ public final class GameWindow {
     private GamePanel gamePanel;
     private final Map<Component, Rectangle> originalBoundsMap = new HashMap<>();
     private final Map<Component, Float> originalFontSizeMap = new HashMap<>();
-    float scaleFactorX = 1.0f;
-    float scaleFactorY = 1.0f;
+    private float scaleFactorX = 1.0f;
+    private float scaleFactorY = 1.0f;
     // endregion
 
     // region Window
@@ -40,7 +40,7 @@ public final class GameWindow {
     private String name;
     private JFrame window;
     private volatile boolean shouldClose = false;
-    private AtomicBoolean ready = new AtomicBoolean(false);
+    private final AtomicBoolean ready = new AtomicBoolean(false);
     private volatile Scene activeScene;
 
     // endregion
@@ -48,7 +48,6 @@ public final class GameWindow {
     // region FPS and Delta Attributes
     public static final int BASE_FPS = 60; // Default FPS for all new windows
     private float desiredFPS = BASE_FPS;
-    private float desiredDelta = 1.0f / desiredFPS;
     private float delta = 0;
     private float actualFPS = 0;
     private boolean changingScene = true;
@@ -360,7 +359,6 @@ public final class GameWindow {
 
     public void setDesiredFPS(float desiredFPS) {
         this.desiredFPS = desiredFPS;
-        this.desiredDelta = 1.0f / desiredFPS;
         this.physicsUpdateInterval = 1.0f / (desiredFPS * physicsUpdateRatio);
     }
 

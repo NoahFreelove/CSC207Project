@@ -170,7 +170,8 @@ public class LevelEditor extends Scene {
             tiles.add(eos);
             addSceneObject(eos.linkedObject);
         });
-        update(0);
+        start();
+        update(0.1);
     }
 
     public void saveToFile() {
@@ -221,7 +222,7 @@ public class LevelEditor extends Scene {
             switch (obj.ID) {
                 case 0: {
                     out = PlayerFactory.makeFactory(ObjectType.PLAYER)
-                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY()-20, 10, obj.scaleX, obj.scaleY);
+                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY()-33, 10, obj.scaleX, obj.scaleY);
                     out.addBehavior(new IScriptable() {
                         @Override
                         public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
@@ -352,9 +353,10 @@ public class LevelEditor extends Scene {
         GameWindow w = Engine.getInstance().getPrimaryWindow();
         //w.setWindowSizeForce(800, 800);
         w.refocusInWindow();
-        //System.gc();
+        System.gc();
         Scene out = le.exportToScene(false);
         w.setActiveScene(out);
+        out.update(0);
     }
 
 }

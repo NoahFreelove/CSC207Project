@@ -1,5 +1,6 @@
 package com.project.engine.Core;
 
+import com.project.engine.Core.Window.GameWindow;
 import com.project.engine.Core.Window.WindowUICallback;
 import com.project.engine.Input.EInputType;
 import com.project.engine.Physics.Collision.CollisionManager;
@@ -453,6 +454,14 @@ public class Scene implements ISerializable {
             }
 
         }
+    }
+
+    public Tuple<Integer, Integer> getRealScreenSize(GameWindow w) {
+        // must take into account, scaling and current size
+        Tuple<Integer, Integer> windowSize = w.getActualWindowSize();
+        int tmpX = (int) (windowSize.getFirst() * (1/scaleX));
+        int tmpY = (int) (windowSize.getSecond() * (1/scaleY));
+        return new Tuple<>(tmpX, tmpY);
     }
 
     public void purgeScene() {

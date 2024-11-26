@@ -1,5 +1,6 @@
 package com.project.engine.Rendering;
 
+import com.project.engine.Core.Engine;
 import com.project.engine.Core.GameObject;
 import com.project.engine.Core.Scene;
 import com.project.engine.Core.Tuple;
@@ -17,6 +18,7 @@ public class SpriteRenderer extends RenderBase {
     private BufferedImage image = null;
     private final Map<String, BufferedImage> scaledImageCache = new HashMap<>();
     private String imagePath = "";
+    private Tuple<Integer, Integer> screenSize = new Tuple<>(1, 1);
 
     private boolean independentOfCamera = false;
     private boolean tile = false;
@@ -60,7 +62,7 @@ public class SpriteRenderer extends RenderBase {
         AffineTransform transform = new AffineTransform();
         transform.rotate(Math.toRadians(rotation), width / 2.0, height / 2.0);
 
-        AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
+        AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
         BufferedImage rotatedImage = op.filter(scaledImage, null);
 
         scaledImageCache.put(key, rotatedImage);
@@ -72,6 +74,13 @@ public class SpriteRenderer extends RenderBase {
         if (image == null || !enabled)
             return;
 
+        if (!inCameraView(attached, scene))
+            return;
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+
+
         Tuple<Double, Double> renderPosition = attached.getTransform().getPosition();
         Camera camera = scene.getCamera();
 
@@ -79,11 +88,6 @@ public class SpriteRenderer extends RenderBase {
         double scaleY = attached.getTransform().getScaleY();
         float rotation = attached.getTransform().getRotation();
 
-        /*
-            Why do this check?
-            When we tile we don't want to scale our image because that was the whole purpose of tiling the image.
-            getWidth() and getHeight() return getDimensions() * scale(). But we don't want scale if we're tiling.
-         */
         int imageWidth = 0;
         int imageHeight = 0;
         if (tile){
@@ -96,25 +100,33 @@ public class SpriteRenderer extends RenderBase {
             imageHeight = attached.getTransform().getHeight();
         }
 
-        int finalX = renderPosition.getFirst().intValue();
-        int finalY = renderPosition.getSecond().intValue();
+        double finalX = renderPosition.getFirst();
+        double finalY = renderPosition.getSecond();
 
         if (!independentOfCamera) {
-            finalX = (int) ((renderPosition.getFirst() - camera.getCameraX()));
-            finalY = (int) ((renderPosition.getSecond() - camera.getCameraY()));
+            finalX = renderPosition.getFirst() - camera.getCameraX();
+            finalY = renderPosition.getSecond() - camera.getCameraY();
         }
 
+        finalX = Math.round(finalX);
+        finalY = Math.round(finalY);
+
         if (tile) {
-            for (int i = 0; i < tileX; i++) {
-                for (int j = 0; j < tileY; j++) {
+            int maxI = (int) Math.ceil(tileX);
+            int maxJ = (int) Math.ceil(tileY);
+            for (int i = 0; i < maxI; i++) {
+                for (int j = 0; j < maxJ; j++) {
+                    double scaleXFactor = (i == maxI - 1) ? (tileX - (maxI - 1)) : 1.0;
+                    double scaleYFactor = (j == maxJ - 1) ? (tileY - (maxJ - 1)) : 1.0;
                     AffineTransform at = new AffineTransform();
                     at.translate(finalX + i * imageWidth, finalY + j * imageHeight);
-                    at.scale(Math.min(1, tileX - i), Math.min(1, tileY - j));
+                    at.scale(scaleXFactor, scaleYFactor);
                     at.rotate(Math.toRadians(rotation), imageWidth / 2.0, imageHeight / 2.0);
                     g2d.drawImage(image, at, null);
                 }
             }
-        } else {
+        }
+        else {
             BufferedImage transformedImage = getTransformedImage(Math.abs(imageWidth), Math.abs(imageHeight), rotation);
             AffineTransform at = new AffineTransform();
             at.scale(Math.signum(scaleX), Math.signum(scaleY));
@@ -122,6 +134,17 @@ public class SpriteRenderer extends RenderBase {
                     Math.signum(scaleY) * finalY + Boolean.compare(scaleY < 0, false) * imageHeight);
             g2d.drawImage(transformedImage, at, null);
         }
+
+    }
+
+    private boolean inCameraView(GameObject parent, Scene linked) {
+        screenSize = linked.getRealScreenSize(Engine.getInstance().getPrimaryWindow());
+
+        Camera c = linked.getCamera();
+        Tuple<Double, Double> pos = parent.getTransform().getPosition(true);
+        Tuple<Integer, Integer> dim = parent.getTransform().getDimensions();
+        return pos.getFirst() + (image.getWidth() * dim.getFirst()) > c.getCameraX() && pos.getFirst() < c.getCameraX() + screenSize.getFirst() &&
+                pos.getSecond() + (image.getHeight() * dim.getSecond()) > c.getCameraY() && pos.getSecond() < c.getCameraY() + screenSize.getSecond();
     }
 
     @Override

@@ -33,11 +33,15 @@ public class PauseOverlayFactory {
     }
 
     public static void pauseGame() {
+        if (isPaused)
+            return;
         loadPauseMenu();
         isPaused = true;
     }
 
     public static void unpauseGame() {
+        if(!isPaused)
+            return;
         unloadPauseMenu();
         isPaused = false;
     }
