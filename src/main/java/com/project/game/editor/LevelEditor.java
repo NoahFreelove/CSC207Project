@@ -34,6 +34,8 @@ public class LevelEditor extends Scene {
     private double proposedScaleY = 1;
     private int proposedRot = 0;
 
+    private JSONObject metadata = new JSONObject();
+
     public LevelEditor() {
         GameObject cameraController = new GameObject();
         cameraController.getTransform().translate(-190d, 25d);
@@ -146,6 +148,7 @@ public class LevelEditor extends Scene {
         for(EditorObjectStruct eos : tiles) {
             removeSceneObject(eos.linkedObject);
         }
+        metadata = new JSONObject();
         tiles.clear();
         addGuideLines();
     }
@@ -159,6 +162,7 @@ public class LevelEditor extends Scene {
         addGuideLines();
         String fileContents = FileIO.ReadTextAbs(path);
         JSONObject read = new JSONObject(fileContents);
+        metadata = read.getJSONObject("meta");
         JSONArray tileArray = read.getJSONArray("tiles");
         tileArray.forEach(o -> {
             JSONObject obj = (JSONObject) o;
@@ -174,7 +178,6 @@ public class LevelEditor extends Scene {
             return;
 
         JSONObject output = new JSONObject();
-        JSONObject metadata = new JSONObject();
         output.put("meta", metadata);
         JSONArray outTiles = new JSONArray();
         for (EditorObjectStruct obj : tiles) {
