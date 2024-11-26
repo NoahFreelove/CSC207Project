@@ -1,605 +1,1011 @@
 {
-  "tiles": [
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 256,
-      "rot": 0,
-      "ID": 0,
-      "xPos": 256
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 192
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 256
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 320
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 384
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 448
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 448
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 384
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 320
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 256
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 192
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 1216
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 1216
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 1152
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 1152
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 128
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 128
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 64
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 0
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 64
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 0
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": -64
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 256,
-      "rot": 0,
-      "ID": 1,
-      "xPos": -64
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 0,
-      "rot": 0,
-      "ID": 1,
-      "xPos": -64
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 64,
-      "rot": 0,
-      "ID": 1,
-      "xPos": -64
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 128,
-      "rot": 0,
-      "ID": 1,
-      "xPos": -64
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 192,
-      "rot": 0,
-      "ID": 1,
-      "xPos": -64
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": -64
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 128,
-      "rot": 0,
-      "ID": 3,
-      "xPos": 192
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 128,
-      "rot": 0,
-      "ID": 8,
-      "xPos": 768
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 512
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 512
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 1280
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 1280
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 1344
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 1344
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 1088
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 1024
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 960
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 896
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 832
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 768
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 704
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 640
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 576
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 576
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 640
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 704
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 768
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 832
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 896
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 960
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 1024
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 11,
-      "xPos": 1088
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 12,
-      "xPos": 1472
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 12,
-      "xPos": 1536
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 12,
-      "xPos": 1408
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 12,
-      "xPos": 1600
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 12,
-      "xPos": 1664
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 12,
-      "xPos": 1728
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 12,
-      "xPos": 1792
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 12,
-      "xPos": 1856
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 12,
-      "xPos": 1920
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 12,
-      "xPos": 1984
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 12,
-      "xPos": 2048
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 2112
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 2112
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 2176
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 2176
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 2240
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 2240
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 2304
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 384,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 2368
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 2304
-    },
-    {
-      "scaleX": 1,
-      "scaleY": 1,
-      "yPos": 320,
-      "rot": 0,
-      "ID": 1,
-      "xPos": 2368
-    }
-  ],
-  "meta": {}
+    "tiles": [
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+<<<<<<<< HEAD:src/main/resources/levels/AndyLevel1.json
+            "yPos": 256,
+            "rot": 0,
+            "ID": 0,
+            "xPos": 256
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 192
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 256
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 320
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 384
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 448
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+========
+>>>>>>>> 2325c7abe6465432fed8b355c3e7eba07d8d143c:src/main/resources/levels/level4.json
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 448
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 384
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 320
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 256
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 192
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+<<<<<<<< HEAD:src/main/resources/levels/AndyLevel1.json
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1216
+========
+            "yPos": 128,
+            "rot": 0,
+            "ID": 3,
+            "xPos": 896
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1088
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 128,
+            "rot": 0,
+            "ID": 6,
+            "xPos": 960
+>>>>>>>> 2325c7abe6465432fed8b355c3e7eba07d8d143c:src/main/resources/levels/level4.json
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1216
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+<<<<<<<< HEAD:src/main/resources/levels/AndyLevel1.json
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1152
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1152
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 128
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 128
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 64
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 0
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 64
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 0
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": -64
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 256,
+            "rot": 0,
+            "ID": 1,
+            "xPos": -64
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 0,
+            "rot": 0,
+            "ID": 1,
+            "xPos": -64
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 64,
+            "rot": 0,
+            "ID": 1,
+            "xPos": -64
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 128,
+            "rot": 0,
+            "ID": 1,
+            "xPos": -64
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 192,
+            "rot": 0,
+            "ID": 1,
+            "xPos": -64
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": -64
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 128,
+            "rot": 0,
+            "ID": 3,
+            "xPos": 192
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 128,
+            "rot": 0,
+            "ID": 8,
+            "xPos": 768
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 512
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 512
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1280
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+========
+>>>>>>>> 2325c7abe6465432fed8b355c3e7eba07d8d143c:src/main/resources/levels/level4.json
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1280
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+<<<<<<<< HEAD:src/main/resources/levels/AndyLevel1.json
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1344
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+========
+>>>>>>>> 2325c7abe6465432fed8b355c3e7eba07d8d143c:src/main/resources/levels/level4.json
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1344
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 1088
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 1024
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 960
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 896
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 832
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 768
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 704
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 640
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 576
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+<<<<<<<< HEAD:src/main/resources/levels/AndyLevel1.json
+            "ID": 11,
+            "xPos": 576
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 640
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 704
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 768
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 832
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 896
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 960
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 1024
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 1088
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 12,
+            "xPos": 1472
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 12,
+            "xPos": 1536
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 12,
+            "xPos": 1408
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 12,
+            "xPos": 1600
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 12,
+            "xPos": 1664
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 12,
+            "xPos": 1728
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 12,
+            "xPos": 1792
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 12,
+            "xPos": 1856
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 12,
+            "xPos": 1920
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 12,
+            "xPos": 1984
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 12,
+            "xPos": 2048
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 2112
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 2112
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 2176
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 2176
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 2240
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 2240
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 2304
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+========
+>>>>>>>> 2325c7abe6465432fed8b355c3e7eba07d8d143c:src/main/resources/levels/level4.json
+            "ID": 1,
+            "xPos": 2368
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+<<<<<<<< HEAD:src/main/resources/levels/AndyLevel1.json
+            "ID": 1,
+            "xPos": 2304
+========
+            "ID": 5,
+            "xPos": 1536
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 5,
+            "xPos": 1920
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 192,
+            "rot": 180,
+            "ID": 1,
+            "xPos": 512
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 128,
+            "rot": 0,
+            "ID": 4,
+            "xPos": 512
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 256,
+            "rot": 0,
+            "ID": 5,
+            "xPos": 3776
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 448,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 3840
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 7,
+            "xPos": 3840
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 192,
+            "rot": 0,
+            "ID": 6,
+            "xPos": 1216
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 256,
+            "rot": 0,
+            "ID": 10,
+            "xPos": 384
+>>>>>>>> 2325c7abe6465432fed8b355c3e7eba07d8d143c:src/main/resources/levels/level4.json
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+<<<<<<<< HEAD:src/main/resources/levels/AndyLevel1.json
+            "ID": 1,
+            "xPos": 2368
+========
+            "ID": 10,
+            "xPos": 1600
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 10,
+            "xPos": 1856
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 1,
+            "yPos": 576,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 3968
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 1,
+            "yPos": 576,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 3712
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 1,
+            "yPos": 576,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 3456
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1856
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1600
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 2112
+        },
+        {
+            "scaleX": 2,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1472
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 832
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 0
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 2,
+            "xPos": 256
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 128,
+            "rot": 0,
+            "ID": 9,
+            "xPos": 0
+        },
+        {
+            "scaleX": 2,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 2,
+            "xPos": 448
+        },
+        {
+            "scaleX": 3,
+            "scaleY": 1,
+            "yPos": 448,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1280
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 256,
+            "rot": 0,
+            "ID": 3,
+            "xPos": 1920
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 256,
+            "rot": 0,
+            "ID": 3,
+            "xPos": 1536
+        },
+        {
+            "scaleX": 3,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 3648
+        },
+        {
+            "scaleX": 3,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 11,
+            "xPos": 2688
+        },
+        {
+            "scaleX": 3,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 3200
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 256,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 3328
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 192,
+            "rot": 0,
+            "ID": 0,
+            "xPos": 192
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 5,
+            "xPos": 1344
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 4,
+            "xPos": 4160
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 4,
+            "xPos": 4096
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 4,
+            "xPos": 4032
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 4,
+            "xPos": 3968
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 4,
+            "xPos": 3904
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 4,
+            "xPos": 3840
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 4,
+            "xPos": 3776
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 4,
+            "xPos": 3712
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 4,
+            "xPos": 3648
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 4,
+            "xPos": 3584
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 4,
+            "xPos": 3520
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 4,
+            "xPos": 3456
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 4,
+            "xPos": 3392
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 576,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 3392
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 2,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 3776
+>>>>>>>> 2325c7abe6465432fed8b355c3e7eba07d8d143c:src/main/resources/levels/level4.json
+        }
+    ],
+    "author": "Sam (Design), Noah (Optimized)",
+    "description": "Sam level 1"
 }

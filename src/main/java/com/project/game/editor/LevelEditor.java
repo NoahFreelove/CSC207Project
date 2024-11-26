@@ -46,7 +46,7 @@ public class LevelEditor extends Scene {
         setScaleY(2);
         addGuideLines();
 
-        loadFromFile(FileIO.GetAbsPathOfResource("/levels/AndyLevel1.json"));
+        loadFromFile(FileIO.GetAbsPathOfResource("/levels/level2.json"));
     }
 
     public void addTile(int ID, int x, int y) {
@@ -211,6 +211,7 @@ public class LevelEditor extends Scene {
         EnemyFactory enemyFactory = (EnemyFactory) AbstractObjectFactory.makeFactory(ObjectType.ENEMY);
         IceBlockFactory iceBlockFactory = (IceBlockFactory) AbstractObjectFactory.makeFactory(ObjectType.ICE_BLOCK);
         MovePlatformFactory movePlatformFactory = (MovePlatformFactory) AbstractObjectFactory.makeFactory(ObjectType.MOVEMENT_PLATFORM);
+        CheckpointFactory checkpointFactory = (CheckpointFactory) AbstractObjectFactory.makeFactory(ObjectType.CHECKPOINT);
 
         for (EditorObjectStruct obj : tiles) {
             GameObject out = null;
@@ -309,6 +310,11 @@ public class LevelEditor extends Scene {
                 }
                 case 12: {
                     out = movePlatformFactory
+                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 5, obj.scaleX, obj.scaleY);
+                    break;
+                }
+                case 13: {
+                    out = checkpointFactory
                             .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 5, obj.scaleX, obj.scaleY);
                     break;
                 }
