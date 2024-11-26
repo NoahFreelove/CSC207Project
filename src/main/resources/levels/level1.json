@@ -193,5 +193,8 @@
             "xPos": 448
         }
     ],
-    "meta": {}
+    "meta": {
+        "author": "Noah",
+        "description": "Noah level 0"
+    }
 }
