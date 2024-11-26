@@ -29,9 +29,6 @@ public class EnemyFactory extends AbstractObjectFactory {
 
         obj.addBehavior(rb);
 
-
-        SimpleCollider sc = new SimpleCollider(0, 0, 1, 1);
-        obj.addBehavior(sc);
         return obj;
     }
 }

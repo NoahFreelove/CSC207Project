@@ -11,9 +11,14 @@ import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.json.JSONObject;
 
 import java.util.Iterator;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class GroundTrigger extends BoxTrigger implements IScriptable {
     private int groundInteractCount = 0;
+    private boolean triggerCoyoteTime = false;
+    private final double COYOTE_TIME = 0.05;
+    private double currCoyoteTime = 0;
+
     public GroundTrigger(double xOff, double yOff, double widthOff, double heightOff) {
         setOffset(xOff, yOff);
         setRelDimensions(widthOff, heightOff);
@@ -26,6 +31,17 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
         if (!rb.attribs.grounded) {
             groundInteractCount = 0;
         }
+
+        if (triggerCoyoteTime) {
+            currCoyoteTime += deltaTime;
+            if (currCoyoteTime > COYOTE_TIME) {
+                parent.getScriptable(RigidBody2D.class).attribs.grounded = false;
+                triggerCoyoteTime = false;
+            }
+        }
+        else{
+            currCoyoteTime = 0;
+        }
     }
 
     @Override
@@ -35,7 +51,7 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
 
         if (other.hasTag("ground") && rb.getVelocityY() >= 0 && thisCollider != null){
             groundInteractCount++;
-
+            triggerCoyoteTime = false;
             rb.resetY();
             rb.attribs.grounded = true;
             rb.attribs.groundFrictionCoefficient = other.getScriptable(GroundStats.class).getFriction();
@@ -73,7 +89,7 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
         if (other.hasTag("ground")){
             groundInteractCount--;
             if (groundInteractCount == 0){
-                parent.getScriptable(RigidBody2D.class).attribs.grounded = false;
+                triggerCoyoteTime = true;
             }
         }
 

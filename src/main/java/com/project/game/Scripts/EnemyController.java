@@ -11,11 +11,10 @@ import com.sun.speech.freetts.en.us.FeatureProcessors;
 public class EnemyController extends BoxCollider implements IScriptable {
     private int moveDirection = 1;
     private float moveSpeed = 1000;
-    private final float ENEMY_DIE_THRESHOLD = 71;
-    private double lastX = 0;
+    private final float ENEMY_DIE_THRESHOLD = 68;
     private boolean canSwitch = false;
     private double switchCooldown = 0.0;
-    private final double ENEMY_DIR_SWITCH_TIME = 0.3;
+    private final double ENEMY_DIR_SWITCH_TIME = 1;
 
     @Override
     public void update(GameObject parent, double deltaTime) {
@@ -36,7 +35,9 @@ public class EnemyController extends BoxCollider implements IScriptable {
 
     @Override
     public void onCollisionEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
-        super.onCollisionEnter(parent, other, interactor);
+        if (other.hasTag("ground")) {
+            super.onCollisionEnter(parent, other, interactor);
+        }
 
         RigidBody2D rb = parent.getScriptable(RigidBody2D.class);
         if (other.hasTag("player") && interactor.volumeType() == ECollisionVolume.COLLIDER) {
@@ -54,7 +55,7 @@ public class EnemyController extends BoxCollider implements IScriptable {
             }
         }
 
-        if (other.hasTag("ground") && Math.abs(lastX - parent.getTransform().getPositionX()) <= 0.1 &&
+        if (other.hasTag("ground") && Math.abs(rb.getVelocityX()) == 0 &&
             canSwitch) {
             moveDirection *= -1;
 
@@ -67,7 +68,12 @@ public class EnemyController extends BoxCollider implements IScriptable {
             canSwitch = false;
             switchCooldown = 0.0;
         }
+    }
 
-        lastX = parent.getTransform().getPositionX();
+    @Override
+    public void onCollisionContinue(GameObject parent, GameObject other, CollisionVolume interactor) {
+        if (other.hasTag("ground")) {
+            super.onCollisionContinue(parent, other, interactor);
+        }
     }
 }

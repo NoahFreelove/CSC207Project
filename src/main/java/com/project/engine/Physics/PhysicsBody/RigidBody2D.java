@@ -57,7 +57,7 @@ public class RigidBody2D implements IScriptable {
         if(attribs.gravityEnabled && !attribs.grounded) {
             currForceY += attribs.gravityForce;
 
-            if (Math.abs(velocityY) > 1) {
+            if (Math.abs(velocityY) > 0) {
                 currForceY *= attribs.fallMultiplier;
             }
 
@@ -68,11 +68,16 @@ public class RigidBody2D implements IScriptable {
         }
 
         if (attribs.grounded && attribs.groundFrictionEnabled) {
-            if (Math.abs(velocityX) > 0.5) {
+            if (Math.abs(velocityX) > 5) {
                 friction = attribs.groundFrictionCoefficient * attribs.mass * attribs.gravityForce;
+
                 if (velocityX < 0) {
                     friction = -friction;
                 }
+            }
+            else if (Math.abs(velocityX) > 0) {
+                friction = 0;
+                resetX();
             }
             else {
                 friction = 0;

@@ -29,9 +29,9 @@ public class PlayerFactory extends AbstractObjectFactory {
         obj.addBehavior(new MovementController());
         var rb = new RigidBody2D();
         obj.addBehavior(rb);
-        SimpleCollider sc = new SimpleCollider(tmp/8, tmp*0.15, 0.5, 0.7);
+        SimpleCollider sc = new SimpleCollider(tmp/5, tmp*0.15, 0.6, 0.7);
         obj.addBehavior(sc);
-        GroundTrigger gt = new GroundTrigger(tmp/8,tmp*0.8, 0.5, 0.05);
+        GroundTrigger gt = new GroundTrigger(tmp/4,tmp*0.8, 0.5, 0.05);
         gt.setTag("PlayerGround");
 
         obj.addBehavior(gt);

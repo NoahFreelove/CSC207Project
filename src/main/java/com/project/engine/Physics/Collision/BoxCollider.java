@@ -38,28 +38,29 @@ public class BoxCollider extends Collider {
         double w2 = Math.abs(to.getWidth()) * interactor.getRelWidth(), h2 = Math.abs(to.getHeight()) * interactor.getRelHeight();
 
         // Double check collision
-        if (x1 < x2 + w2 && x1 + w1 > x2 && y1 < y2 + h2 && y1 + h1 > y2) {
-            if (y1 + h1 <= y2 + bufferSpace && rb.getVelocityY() >= 0){
-                t.setPositionY(y2 - h1 - 0.01 - getYOffset());
-                rb.resetY();
-            }
-            else if (x1 + w1 <= x2 + bufferSpace) {
-                t.setPositionX(x2 - w1 - 0.01 - getXOffset());
-                rb.resetX();
-            }
-            else if (x1 >= x2 + w2 - bufferSpace) {
-                t.setPositionX(x2 + w2 + 0.01 - getXOffset());
-                rb.resetX();
-            }
-            else if (y1 >= h2 + y2 - bufferSpace && rb.getVelocityY() < 0) {
-                t.setPositionY(y2 + h2 + 0.01 - getYOffset());
-                rb.resetY();
-            }
+        if (y1 + h1 <= y2 + bufferSpace && rb.getVelocityY() >= 0
+            && x1 + w1 > x2 + 5 && x1 < x2 + w2 - 5) {
+            t.setPositionY(y2 - h1 - 0.01 - getYOffset());
+            rb.resetY();
+        }
+        if (x1 + w1 <= x2 + bufferSpace && rb.getVelocityX() > 0
+            && y1 + h1 > y2 + 8 && y1 < h2 + y2 - 8) {
+            t.setPositionX(x2 - w1 - 0.01 - getXOffset());
+            rb.resetX();
+        }
+        if (x1 >= x2 + w2 - bufferSpace && rb.getVelocityX() < 0
+            && y1 + h1 > y2 + 8 && y1 < h2 + y2 - 8) {
+            t.setPositionX(x2 + w2 + 0.01 - getXOffset());
+            rb.resetX();
+        }
+        if (y1 >= h2 + y2 - bufferSpace && rb.getVelocityY() < 0
+                && x1 + w1 > x2 + 1 && x1 < x2 + w2 - 1) {
+            t.setPositionY(y2 + h2 + 0.01 - getYOffset());
+            rb.resetY();
         }
     }
 
     public void onCollisionContinue(GameObject parent, GameObject other, CollisionVolume interactor) {
-        RigidBody2D rb = parent.getScriptable(RigidBody2D.class);
         onCollisionEnter(parent, other, interactor);
     }
 }
