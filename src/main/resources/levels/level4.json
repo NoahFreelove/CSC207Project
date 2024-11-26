@@ -694,17 +694,12 @@
             "rot": 0,
             "ID": 10,
             "xPos": 384
->>>>>>>> 2325c7abe6465432fed8b355c3e7eba07d8d143c:src/main/resources/levels/level4.json
         },
         {
             "scaleX": 1,
             "scaleY": 1,
             "yPos": 320,
             "rot": 0,
-<<<<<<<< HEAD:src/main/resources/levels/AndyLevel1.json
-            "ID": 1,
-            "xPos": 2368
-========
             "ID": 10,
             "xPos": 1600
         },

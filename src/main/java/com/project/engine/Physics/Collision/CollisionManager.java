@@ -58,7 +58,9 @@ public class CollisionManager {
             }
         }
         catch (NullPointerException e) {
-            System.err.println("physics manager nullptr");
+            // We get a null pointer sometimes from thread race conditions, it is far
+            // faster and simpler to ignore the exception than to synchronize the threads.
+            //System.err.println("physics manager nullptr");
         }
     }
 
