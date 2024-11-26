@@ -37,22 +37,24 @@ public class BoxCollider extends Collider {
         double w1 = Math.abs(t.getWidth()) *  getRelWidth(), h1 = Math.abs(t.getHeight()) * getRelHeight();
         double w2 = Math.abs(to.getWidth()) * interactor.getRelWidth(), h2 = Math.abs(to.getHeight()) * interactor.getRelHeight();
 
-
-        if (y1 + h1 <= y2 + bufferSpace && rb.getVelocityY() >= 0){
-            t.setPositionY(y2 - h1 - 0.01 - getYOffset());
-            rb.resetY();
-        }
-        else if (x1 + w1 <= x2 + bufferSpace) {
-            t.setPositionX(x2 - w1 - 0.01 - getXOffset());
-            rb.resetX();
-        }
-        else if (x1 >= x2 + w2 - bufferSpace) {
-            t.setPositionX(x2 + w2 + 0.01 - getXOffset());
-            rb.resetX();
-        }
-        else if (y1 >= h2 + y2 - bufferSpace && rb.getVelocityY() < 0) {
-            t.setPositionY(y2 + h2 + 0.01 - getYOffset());
-            rb.resetY();
+        // Double check collision
+        if (x1 < x2 + w2 && x1 + w1 > x2 && y1 < y2 + h2 && y1 + h1 > y2) {
+            if (y1 + h1 <= y2 + bufferSpace && rb.getVelocityY() >= 0){
+                t.setPositionY(y2 - h1 - 0.01 - getYOffset());
+                rb.resetY();
+            }
+            else if (x1 + w1 <= x2 + bufferSpace) {
+                t.setPositionX(x2 - w1 - 0.01 - getXOffset());
+                rb.resetX();
+            }
+            else if (x1 >= x2 + w2 - bufferSpace) {
+                t.setPositionX(x2 + w2 + 0.01 - getXOffset());
+                rb.resetX();
+            }
+            else if (y1 >= h2 + y2 - bufferSpace && rb.getVelocityY() < 0) {
+                t.setPositionY(y2 + h2 + 0.01 - getYOffset());
+                rb.resetY();
+            }
         }
     }
 
