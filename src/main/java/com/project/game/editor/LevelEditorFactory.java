@@ -103,13 +103,10 @@ public class LevelEditorFactory {
         testButton.setFontSize(32);
         testButton.setBackground(Color.decode("#324f8a"));
         testButton.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 5));
-        testButton.onClickEvent = new IOnClick() {
-            @Override
-            public void onClick() {
-                w.setWindowSizeForce(800, 800);
-                w.setActiveScene(scene.exportToScene(true));
-                Engine.getInstance().getPrimaryWindow().refocusInWindow();
-            }
+        testButton.onClickEvent = () -> {
+            w.setWindowSizeForce(800, 800);
+            w.setActiveScene(scene.exportToScene(true));
+            Engine.getInstance().getPrimaryWindow().refocusInWindow();
         };
 
         GameUIButton newButton = new GameUIButton("New", 40, 280, 300, 50);

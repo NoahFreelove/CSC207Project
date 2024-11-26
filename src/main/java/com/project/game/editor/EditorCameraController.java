@@ -13,6 +13,12 @@ public class EditorCameraController implements IScriptable {
     float moveSpeed = 400f;
 
     @Override
+    public void start(GameObject parent) {
+        parent.getLinkedScene().setScaleX(0.9);
+        parent.getLinkedScene().setScaleY(0.9);
+    }
+
+    @Override
     public void update(GameObject parent, double deltaTime) {
         GameWindow win = Engine.getInstance().getPrimaryWindow();
         if (win == null) {

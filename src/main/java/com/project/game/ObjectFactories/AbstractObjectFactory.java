@@ -59,6 +59,8 @@ public class AbstractObjectFactory {
                 return new PauseBackgroundFactory();
             case PRINCESS:
                 return new PrincessFactory();
+            case CHECKPOINT:
+                return new CheckpointFactory();
         }
 
         return new AbstractObjectFactory();

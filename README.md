@@ -13,3 +13,4 @@ Collaborating on the project we have:
 ### Setup guide
 To play a demo of Froggy Adventure, please clone this repository and run:<br> **src/main/java/com/project/game/GameMain.java**
 
+`java src/main/java/com/project/game/GameMain.java`
