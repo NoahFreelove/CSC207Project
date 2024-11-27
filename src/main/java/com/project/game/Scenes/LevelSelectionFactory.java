@@ -28,6 +28,7 @@ public class LevelSelectionFactory {
         levelMap.put(4, "/levels/level5.json");
         levelMap.put(5, "/levels/level6.json");
         levelMap.put(6, "/levels/level7.json");
+        levelMap.put(7, "/levels/level8.json");
     }
 
     private static Scene createScene() {
