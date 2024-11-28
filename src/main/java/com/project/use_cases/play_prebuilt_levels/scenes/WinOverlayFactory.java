@@ -25,7 +25,7 @@ public class WinOverlayFactory {
         GameUIButton restart = UIFactory.ButtonFactory("Restart Level", 150, 300, 500, 80, FOREST_GREEN);
         GameUIButton back = UIFactory.ButtonFactory("Back to Select", 150, 400, 500, 80, FOREST_GREEN);
 
-        //restart.onClickEvent = EasyLevel::createScene;
+        restart.onClickEvent = LevelSelectionFactory::reloadCurrentLevel;
 
         back.onClickEvent = LevelSelectionFactory::loadLevelSelection;
 

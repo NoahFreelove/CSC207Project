@@ -21,14 +21,15 @@ public class PauseOverlayFactory {
 
         //Buttons
         GameUIButton resume = UIFactory.ButtonFactory("Resume Game", 250, 300, 300, 80, LIGHT_GREEN);
-        GameUIButton exit = UIFactory.ButtonFactory("Exit Game", 265, 400, 270, 80, LIGHT_GREEN);
+        GameUIButton restart = UIFactory.ButtonFactory("Restart Game", 240, 400, 320, 80, LIGHT_GREEN);
+        GameUIButton exit = UIFactory.ButtonFactory("Exit Game", 265, 500, 270, 80, LIGHT_GREEN);
         //GameUIButton darken_bg = UIFactory.ButtonFactory("", 0, 0, 800, 800, LIGHT_GREEN);
         //darken_bg.setImage("ui/darken_bg.png");
         resume.onClickEvent = PauseOverlayFactory::unpauseGame;
-
+        restart.onClickEvent = PauseOverlayFactory::reloadCurrentLevel;
         exit.onClickEvent = LevelSelectionFactory::loadLevelSelection;
 
-        scene.addUIElements(resume, exit, label/*, darken_bg*/);
+        scene.addUIElements(resume, restart, exit, label/*darken_bg*/);
 
     }
 
@@ -44,6 +45,11 @@ public class PauseOverlayFactory {
             return;
         unloadPauseMenu();
         isPaused = false;
+    }
+
+    public static void reloadCurrentLevel() {
+        unpauseGame();
+        LevelSelectionFactory.reloadCurrentLevel();
     }
 
     public static void loadPauseMenu() {

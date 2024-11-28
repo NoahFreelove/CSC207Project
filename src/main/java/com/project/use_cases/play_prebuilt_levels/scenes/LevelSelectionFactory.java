@@ -19,7 +19,7 @@ import static com.project.entity.ui.UIConstants.*;
 
 public class LevelSelectionFactory {
     private static HashMap<Integer, String> levelMap = new HashMap<>();
-
+    private static String loadedLevel;
     static {
         levelMap.put(0, "/levels/level1.json");
         levelMap.put(1, "/levels/level2.json");
@@ -73,10 +73,17 @@ public class LevelSelectionFactory {
             GameUIButton temp = UIFactory.ButtonFactory("Level " + (i + 1), BUTTON_X_OFFSET + XReset * BUTTON_X_WIDTH, j * BUTTON_Y_OFFSET, BUTTON_X_WIDTH, 80);
             int finalI = i;
             temp.onClickEvent = () -> {
+                loadedLevel = levelMap.get(finalI);
                 LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource(levelMap.get(finalI)));
             };
+
             scene.addUIElements(temp);
             XReset++;
         }
+    }
+
+    public static void reloadCurrentLevel() {
+        LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource(loadedLevel));
+        GameInteractor.getInstance().unpauseGame();
     }
 }

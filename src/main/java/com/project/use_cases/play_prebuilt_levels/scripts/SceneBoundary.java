@@ -19,6 +19,7 @@ public class SceneBoundary extends BoxTrigger implements IScriptable {
         // Usw player head due to wider collision area
         if (other.hasTag("player")  && interactor.getTag().equals("playerHead")) {
             parent.getLinkedScene().getCamera().setFollowX(false);
+            parent.getLinkedScene().getCamera().setOffsetX(-100);
         }
     }
 
