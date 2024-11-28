@@ -344,15 +344,19 @@ public class LevelEditor extends Scene {
         w.setWindowSizeForce(800, 800);
         w.setActiveScene(MainMenuFactory.createScene());
     }
-
     public static void loadFromFileForMainGame(String abs) {
+        loadFromFileForMainGame(abs, 60);
+    }
+
+    public static void loadFromFileForMainGame(String abs, int pauseFrames) {
         LevelEditor le = new LevelEditor();
         le.loadFromFile(abs);
         GameOutputData w = GameInteractor.getInstance().getPrimaryWindow();
-        //w.setWindowSizeForce(800, 800);
+
         w.refocusInWindow();
         System.gc();
         Scene out = le.exportToScene(false);
+        out.setLoadFrames(pauseFrames);
         w.setActiveScene(out);
         out.update(0);
     }

@@ -13,6 +13,7 @@ import com.project.use_cases.play_prebuilt_levels.scripts.SceneExit;
 import com.project.use_cases.play_prebuilt_levels.ui.UIFactory;
 import com.project.use_cases.level_editing.LevelEditor;
 
+import javax.speech.Engine;
 import java.util.HashMap;
 
 import static com.project.entity.ui.UIConstants.*;
@@ -74,7 +75,7 @@ public class LevelSelectionFactory {
             int finalI = i;
             temp.onClickEvent = () -> {
                 loadedLevel = levelMap.get(finalI);
-                LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource(levelMap.get(finalI)));
+                LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource(levelMap.get(finalI)), (finalI == 1)? 90 : 30);
             };
 
             scene.addUIElements(temp);
@@ -83,7 +84,7 @@ public class LevelSelectionFactory {
     }
 
     public static void reloadCurrentLevel() {
-        LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource(loadedLevel));
+        LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource(loadedLevel), GameInteractor.getInstance().getPrimaryWindow().getActiveScene().LOAD_FRAMES);
         GameInteractor.getInstance().unpauseGame();
     }
 }
