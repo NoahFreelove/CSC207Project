@@ -84,11 +84,18 @@ public class RigidBody2D implements IScriptable {
             }
         }
 
-        velocityX += (currForceX - friction) / attribs.mass * deltaTime;
-        velocityY += currForceY / attribs.mass * deltaTime;
-
-        velocityX = Math.min(attribs.maxVelocityX, Math.abs(velocityX)) * Math.signum(velocityX);
-        velocityY = Math.min(attribs.maxVelocityY, Math.abs(velocityY)) * Math.signum(velocityY);
+        if (Math.abs(velocityX) > attribs.maxVelocityX && Math.signum(currForceX) == Math.signum(velocityX)) {
+            velocityX -= friction / attribs.mass * deltaTime;
+        }
+        else {
+            velocityX += (currForceX - friction) / attribs.mass * deltaTime;
+        }
+        if (Math.abs(velocityY) > attribs.maxVelocityY) {
+            velocityY = attribs.maxVelocityY * Math.signum(velocityY);
+        }
+        else {
+            velocityY += currForceY / attribs.mass * deltaTime;
+        }
 
         parent.getTransform().translate(velocityX * deltaTime, velocityY * deltaTime);
 

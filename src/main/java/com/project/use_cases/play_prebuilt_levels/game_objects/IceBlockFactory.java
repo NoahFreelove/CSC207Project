@@ -14,7 +14,7 @@ public class IceBlockFactory extends AbstractObjectFactory {
 
     @Override
     protected GameObject produceGameObject(double x, double y, int z, double width, double height) {
-        return produceGameObject(x, y, z, width, height, 0.0, DEFAULT_ICE_ASSET);
+        return produceGameObject(x, y, z, width, height, 0.01, DEFAULT_ICE_ASSET);
     }
 
     protected GameObject produceGameObject(double x, double y, int z, double width, double height, double friction, String asset) {

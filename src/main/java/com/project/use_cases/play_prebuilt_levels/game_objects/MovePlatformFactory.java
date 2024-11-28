@@ -12,7 +12,7 @@ public class MovePlatformFactory extends AbstractObjectFactory {
 
     @Override
     protected GameObject produceGameObject(double x, double y, int z, double width, double height) {
-        return produceGameObject(x, y, z, width, height, -20, "assets/moveplatformR.png");
+        return produceGameObject(x, y, z, width, height, -1, "assets/moveplatformR.png");
     }
 
     protected GameObject produceGameObject(double x, double y, int z, double width, double height, double friction, String asset) {

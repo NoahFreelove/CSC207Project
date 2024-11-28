@@ -49,7 +49,7 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
         RigidBody2D rb = parent.getScriptable(RigidBody2D.class);
         SimpleCollider thisCollider = parent.getScriptable(SimpleCollider.class);
 
-        if (other.hasTag("ground") && rb.getVelocityY() >= 0 && thisCollider != null){
+        if (other.hasTag("ground") && thisCollider != null){
             groundInteractCount++;
             triggerCoyoteTime = false;
             rb.resetY();
@@ -73,14 +73,8 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
         if(other.hasTag("speedupPlatform")){
             mc.speedupPlatform = true;
         }
-        else{
-            mc.speedupPlatform = false;
-        }
         if(other.hasTag("ice")){
             mc.onIce = true;
-        }
-        else{
-            mc.onIce = false;
         }
     }
 
@@ -93,7 +87,7 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
             }
         }
 
-     /*   MovementController mc = parent.getScriptable(MovementController.class);
+        PlayerMoveInteractor mc = parent.getScriptable(PlayerMoveInteractor.class);
         if (mc == null)
             return;
 
@@ -102,7 +96,7 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
         }
         if(other.hasTag("ice")){
             mc.onIce = false;
-        }*/
+        }
     }
 
     @Override
