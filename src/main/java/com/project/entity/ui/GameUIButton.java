@@ -1,0 +1,59 @@
+package com.project.entity.ui;
+
+import com.project.external_interfaces.ImageLoader;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
+public class GameUIButton extends JButton implements GameUI {
+    private String imagePath = "";
+    public IOnClick onClickEvent = () -> {};
+
+    public GameUIButton(){
+        super();
+        setOpaque(true);
+        addActionListener(e -> onClick());
+    }
+
+    public GameUIButton(String text, int x, int y, int width, int height){
+        super(text);
+        this.setBounds(x, y, width, height);
+        setOpaque(true);
+        // set on click listener
+        addActionListener(e -> onClick());
+    }
+
+    public void setTransparent(boolean transparent){
+        setOpaque(!transparent);
+        setContentAreaFilled(!transparent);
+        setBorderPainted(!transparent);
+    }
+
+    public void setFontSize(int size) {
+        Font f = getFont();
+        setFont(new Font(f.getFontName(), f.getStyle(), size));
+    }
+
+    public void setImage(String path) {
+        BufferedImage i = ImageLoader.loadImage(path);
+        if (i != null) {
+            setIcon(new ImageIcon(i));
+        }
+        imagePath = path;
+    }
+
+    public void setImage(String path, int width, int height) {
+        BufferedImage i = ImageLoader.loadImage(path);
+        if (i != null) {
+            setIcon(new ImageIcon(i.getScaledInstance(width, height, BufferedImage.TYPE_INT_ARGB)));
+        }
+        imagePath = path;
+    }
+
+    public void onClick() {
+        onClickEvent.onClick();
+    }
+
+
+}
