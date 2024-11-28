@@ -51,6 +51,7 @@ public class WinOverlayFactory {
 
     public static void removeWinOverlay() {
         Scene s = GameInteractor.getInstance().getPrimaryWindow().getActiveScene();
+
         for (JComponent c : WinElements) {
             s.removeUIElement(c);
         }

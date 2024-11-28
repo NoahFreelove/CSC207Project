@@ -54,10 +54,13 @@ public class LevelSelectionFactory {
     public static void loadLevelSelection() {
         Tuple<GameInteractor, GameOutputData> out = GameInteractor.createAndWait();
         GameOutputData w = out.getSecond();
+
         if (PauseOverlayFactory.isPaused) {
             PauseOverlayFactory.unpauseGame();
         }
+
         WinOverlayFactory.removeWinOverlay();
+
         Scene s = LevelSelectionFactory.createScene();
         GameInteractor.getInstance().unpauseGame();
         w.setActiveScene(s);

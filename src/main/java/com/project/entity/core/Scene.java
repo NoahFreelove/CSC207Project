@@ -50,6 +50,9 @@ public class Scene implements ISerializable {
     public void setLoadFrames(int LOAD_FRAMES) {
         this.LOAD_FRAMES = LOAD_FRAMES;
         loadFramesRemaining = LOAD_FRAMES;
+        if (this.LOAD_FRAMES > 0) {
+            this.addSceneObject(loadingScreen = createLoadingScreen());
+        }
     }
 
     public Scene() {
@@ -59,8 +62,6 @@ public class Scene implements ISerializable {
     public Scene(String name) {
         this.name = name;
         this.camera = new Camera();
-
-        addSceneObject(loadingScreen = createLoadingScreen());
     }
 
     private GameObject createLoadingScreen() {
@@ -277,6 +278,7 @@ public class Scene implements ISerializable {
 
         if(!sceneObjects.add(object))
             return false;
+
         object.linkTo(this);
         addAllRenderables(object);
         return true;
