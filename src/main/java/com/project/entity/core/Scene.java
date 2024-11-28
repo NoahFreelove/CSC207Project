@@ -3,6 +3,7 @@ package com.project.entity.core;
 import com.project.entity.physics.collision.CollisionManager;
 import com.project.entity.rendering.Camera;
 import com.project.entity.rendering.IRenderable;
+import com.project.entity.rendering.SpriteRenderer;
 import com.project.entity.scripting.IScriptable;
 import com.project.entity.serialization.ISerializable;
 import com.project.entity.ui.GameUIButton;
@@ -38,18 +39,37 @@ public class Scene implements ISerializable {
 
     private Camera camera;
 
+    private GameObject loadingScreen = null;
+
     private double scaleX = 1.0;
     private double scaleY = 1.0;
 
+    public int LOAD_FRAMES = 0;
+    private int loadFramesRemaining = LOAD_FRAMES;
+
+    public void setLoadFrames(int LOAD_FRAMES) {
+        this.LOAD_FRAMES = LOAD_FRAMES;
+        loadFramesRemaining = LOAD_FRAMES;
+    }
 
     public Scene() {
-        this.name = "Empty Scene";
-        this.camera = new Camera();
+        this("Empty Scene");
     }
 
     public Scene(String name) {
         this.name = name;
         this.camera = new Camera();
+
+        addSceneObject(loadingScreen = createLoadingScreen());
+    }
+
+    private GameObject createLoadingScreen() {
+        GameObject output = new GameObject();
+        SpriteRenderer sr = new SpriteRenderer("assets/loading.png", 800, 800);
+        sr.setIndependentOfCamera(true);
+        output.getTransform().setZIndex(1000);
+        output.addRenderable(sr);
+        return output;
     }
 
     /**
@@ -334,6 +354,18 @@ public class Scene implements ISerializable {
     }
 
     public void update(double deltaTime){
+        if(loadFramesRemaining > 0) {
+            deltaTime = 0;
+            if(loadingScreen != null) {
+                loadingScreen.getTransform().setScale(1/scaleX, 1/scaleY);
+            }
+        }
+        else {
+            if (loadingScreen != null) {
+                removeSceneObject(loadingScreen);
+                loadingScreen = null;
+            }
+        }
         for (GameObject object : sceneObjects){
             Iterator<IScriptable> scripts = object.getScriptables();
             while (scripts.hasNext()){
@@ -345,6 +377,9 @@ public class Scene implements ISerializable {
     }
 
     public void physicsUpdate() {
+        if(loadFramesRemaining > 0) {
+            return;
+        }
         collisionManager.update(sceneObjects);
     }
 
@@ -381,6 +416,9 @@ public class Scene implements ISerializable {
 
         // Reset the transform after rendering
         g2d.scale(1.0 / scaleX, 1.0 / scaleY);
+        if(loadFramesRemaining >= 0) {
+            loadFramesRemaining--;
+        }
     }
 
     public double getScaleX() {
