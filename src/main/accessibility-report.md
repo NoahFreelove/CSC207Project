@@ -14,7 +14,7 @@ Pareto Principle states that:
 > -- Quoted from Investopedia.
 > https://www.investopedia.com/terms/p/paretoprinciple.asp
 
-For a 2D platformer game, it is not necessary to have too much functionality that won't be used, so we focused on detailing and refining the 20% of the functionality the game mainly requires and omitted the 80% of the extra implementations we don't necessarily need.
+For a 2D platformer game, it is not necessary to have too much extra functionality that won't be used in the game since the main idea is the gameplay. In a UX context, 80% of the user would use 20% of the main feature so we made sure to enhanced and detailed our basic functionality.
 
 ### 2. Fitts' Law
 
