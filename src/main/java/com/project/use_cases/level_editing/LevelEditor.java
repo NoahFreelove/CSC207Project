@@ -14,6 +14,7 @@ import com.project.use_cases.play_prebuilt_levels.scenes.MainMenuFactory;
 import com.project.use_cases.play_prebuilt_levels.scenes.PauseOverlayFactory;
 import com.project.use_cases.play_prebuilt_levels.game_objects.*;
 import com.project.use_cases.play_prebuilt_levels.scripts.WinScript;
+import com.project.use_cases.play_prebuilt_levels.ui.UIFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -355,6 +356,8 @@ public class LevelEditor extends Scene {
         System.gc();
         Scene out = le.exportToScene(false);
         LoadingScreen.addLoadingScreen(out);
+        out.addUIElement(UIFactory.DeathLabelFactory(0, 10, 220, 70));
+
 
         w.setActiveScene(out);
     }

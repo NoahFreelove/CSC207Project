@@ -94,7 +94,4 @@ public class UIFactory {
         }
     }
 
-    public static void updateDeathCount() {
-        deathCounter.setText("Lives: " + (LIVES - PlayerDeath.getDeathCount()));
-    }
 }
