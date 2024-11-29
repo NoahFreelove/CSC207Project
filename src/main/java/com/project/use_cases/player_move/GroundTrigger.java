@@ -28,6 +28,10 @@ public class GroundTrigger extends BoxTrigger implements IScriptable {
     public void update(GameObject parent, double deltaTime) {
         RigidBody2D rb = parent.getScriptable(RigidBody2D.class);
 
+        if (rb == null) {
+            return;
+        }
+
         if (!rb.attribs.grounded) {
             groundInteractCount = 0;
         }
