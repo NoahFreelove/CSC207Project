@@ -8,6 +8,7 @@ import com.project.external_interfaces.ImageLoader;
 import com.project.entity.ui.GameUIButton;
 import com.project.entity.ui.GameUILabel;
 import com.project.entity.ui.GameUIPanel;
+import com.project.use_cases.general.LoadingScreen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -104,6 +105,7 @@ public class LevelEditorFactory {
         testButton.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 5));
         testButton.onClickEvent = () -> {
             w.setWindowSizeForce(800, 800);
+            LoadingScreen.addLoadingScreen(scene.exportToScene(true));
             w.setActiveScene(scene.exportToScene(true));
             GameInteractor.getInstance().getPrimaryWindow().refocusInWindow();
         };

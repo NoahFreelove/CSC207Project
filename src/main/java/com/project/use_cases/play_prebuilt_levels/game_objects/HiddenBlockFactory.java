@@ -20,7 +20,7 @@ public class HiddenBlockFactory extends AbstractObjectFactory {
     }
 
     public GameObject generate(double x, double y, int z, double width, double height, String asset) {
-        return produceGameObject(x, y, z, width, height, 0.8, asset);
+        return produceGameObject(x, y, z, width, height, 1.5, asset);
     }
 
     public GameObject generate(double x, double y, int z, double width, double height, double friction, String asset) {
@@ -29,7 +29,7 @@ public class HiddenBlockFactory extends AbstractObjectFactory {
 
     @Override
     protected GameObject produceGameObject(double x, double y, int z, double width, double height) {
-        return produceGameObject(x, y, z, width, height, 0.5, DEFAULT_GROUND_ASSET);
+        return produceGameObject(x, y, z, width, height, 1.5, DEFAULT_GROUND_ASSET);
     }
 
     protected GameObject produceGameObject(double x, double y, int z, double width, double height, double friction, String asset) {
@@ -72,7 +72,7 @@ public class HiddenBlockFactory extends AbstractObjectFactory {
             }
         });
 
-        st.setRelDimensions(0.1d, 0.01);
+        st.setRelDimensions(0.1, 0.01);
         st.setOffset(32,50);
         obj.addBehavior(st);
 

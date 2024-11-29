@@ -419,14 +419,6 @@
         {
             "scaleX": 1,
             "scaleY": 1,
-            "yPos": 384,
-            "rot": 0,
-            "ID": 0,
-            "xPos": 256
-        },
-        {
-            "scaleX": 1,
-            "scaleY": 1,
             "yPos": 576,
             "rot": 0,
             "ID": 12,
@@ -543,6 +535,22 @@
             "rot": 0,
             "ID": 5,
             "xPos": 6720
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 13,
+            "xPos": 2432
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 0,
+            "xPos": 256
         }
     ],
     "meta": {}

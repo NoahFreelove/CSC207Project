@@ -17,7 +17,7 @@ public class GroundBlockFactory extends AbstractObjectFactory {
     }
 
     public GameObject generate(double x, double y, int z, double width, double height, String asset) {
-        return produceGameObject(x, y, z, width, height, 0.95, asset);
+        return produceGameObject(x, y, z, width, height, 1.5, asset);
     }
 
     public GameObject generate(double x, double y, int z, double width, double height, double friction, String asset) {

@@ -23,7 +23,7 @@ public class LevelSelectionFactory {
     private static String loadedLevel;
     static {
         levelMap.put(0, "/levels/level1.json");
-        levelMap.put(1, "/levels/level2.json");
+        levelMap.put(1, "/levels/level2ARCHIVE.json");
         levelMap.put(2, "/levels/level3.json");
         levelMap.put(3, "/levels/level4.json");
         levelMap.put(4, "/levels/level5.json");
@@ -78,7 +78,7 @@ public class LevelSelectionFactory {
             int finalI = i;
             temp.onClickEvent = () -> {
                 loadedLevel = levelMap.get(finalI);
-                LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource(levelMap.get(finalI)), (finalI == 1)? 90 : 30);
+                LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource(levelMap.get(finalI)));
             };
 
             scene.addUIElements(temp);
@@ -87,7 +87,7 @@ public class LevelSelectionFactory {
     }
 
     public static void reloadCurrentLevel() {
-        LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource(loadedLevel), GameInteractor.getInstance().getPrimaryWindow().getActiveScene().LOAD_FRAMES);
+        LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource(loadedLevel));
         GameInteractor.getInstance().unpauseGame();
     }
 }

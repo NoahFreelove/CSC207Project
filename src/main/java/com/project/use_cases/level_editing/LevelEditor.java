@@ -9,6 +9,7 @@ import com.project.external_interfaces.FileIO;
 import com.project.entity.input.EInputType;
 import com.project.entity.rendering.SpriteRenderer;
 import com.project.entity.scripting.IScriptable;
+import com.project.use_cases.general.LoadingScreen;
 import com.project.use_cases.play_prebuilt_levels.scenes.MainMenuFactory;
 import com.project.use_cases.play_prebuilt_levels.scenes.PauseOverlayFactory;
 import com.project.use_cases.play_prebuilt_levels.game_objects.*;
@@ -344,11 +345,8 @@ public class LevelEditor extends Scene {
         w.setWindowSizeForce(800, 800);
         w.setActiveScene(MainMenuFactory.createScene());
     }
-    public static void loadFromFileForMainGame(String abs) {
-        loadFromFileForMainGame(abs, 60);
-    }
 
-    public static void loadFromFileForMainGame(String abs, int pauseFrames) {
+    public static void loadFromFileForMainGame(String abs) {
         LevelEditor le = new LevelEditor();
         le.loadFromFile(abs);
         GameOutputData w = GameInteractor.getInstance().getPrimaryWindow();
@@ -356,9 +354,9 @@ public class LevelEditor extends Scene {
         w.refocusInWindow();
         System.gc();
         Scene out = le.exportToScene(false);
-        out.setLoadFrames(pauseFrames);
+        LoadingScreen.addLoadingScreen(out);
+
         w.setActiveScene(out);
-        out.update(0);
     }
 
 }
