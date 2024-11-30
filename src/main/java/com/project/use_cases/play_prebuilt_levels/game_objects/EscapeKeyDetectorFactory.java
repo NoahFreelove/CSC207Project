@@ -12,6 +12,7 @@ public class EscapeKeyDetectorFactory extends AbstractObjectFactory {
     protected GameObject produceGameObject(double x, double y, int z, double width, double height) {
         GameObject obj = super.produceGameObject(x, y, z, width, height);
         obj.addBehavior(new SceneExit());
+        obj.addTag("Escape");
         return obj;
     }
 }
