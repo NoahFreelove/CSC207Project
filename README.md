@@ -11,7 +11,7 @@ Tired of playing the offered levels, in Froggy's Adventure, you can create your 
 
 -[Installation](#installation)
 
--[usage Guide](#usage-guide)
+-[Usage Guide](#usage-guide)
 
 -[License](#license)
 
