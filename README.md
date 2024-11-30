@@ -45,6 +45,37 @@ Enjoy the game! 😊
 
 ### Usage Guide
 
+The Level Editor in Froggy's Adventure allows you to unleash your creativity by designing custom levels. Follow the steps below to navigate the editor:
+
+Accessing the Level Editor
+1. From the main menu, click the **Level Editor** button.
+2. The Level Editor interface will open, where you can start creating or editing levels.
+
+Editor Interface Overview
+- **Left-Hand Side (LHS) Menu**:
+    - **Save**: Save your current map to revisit or share later.
+    - **Load**: Load previously saved maps for further editing or playing.
+    - **Test**: Instantly test-play your map to ensure functionality.
+    - **New**: Open a blank canvas for creating a new map.
+    - **Back to Game**: Return to the main menu.
+
+- **Right-Hand Side (RHS) Panel**:
+    - **Tile Selection**: Use the sliders to select different tiles for building.
+    - **Scale X and Scale Y**: Adjust the size of selected tiles horizontally and vertically.
+    - **Rotation**: Rotate tiles to fit your desired map design.
+
+Key Bindings for Efficient Editing
+- **Placing and Removing Tiles**:
+    - **Hold Shift + Move Mouse**: Place consecutive tiles.
+    - **Hold Ctrl + Move Mouse**: Remove consecutive tiles.
+- **Camera Controls**:
+    - **WASD** or **Arrow Keys**: Move the camera up, down, left, and right.
+    - **Num 1**: Increase the camera movement speed.
+    - **Num 2**: Slow down the camera movement speed.
+- **Zoom Controls**:
+    - **+ Key**: Zoom in.
+    - **- Key**: Zoom out.
+
 ### License
 Froggy's Adventure is licensed under the GNU General Public License v3.0 (GPL-3.0). 
 This ensures the game remains free and open-source, allowing you to:
