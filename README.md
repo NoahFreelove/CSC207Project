@@ -36,7 +36,7 @@ To get started with Froggy's Adventure, follow these simple steps:
 Froggy's Adventure requires Java 11 to run. If you don’t have Java 11 installed,
 you can download it from the Official Java Website.
 To verify your Java version, open a terminal or command prompt and type:
-'''bash
+```bash
 java -version  
 If Java 11 is installed, you should see a version starting with 11.
 
