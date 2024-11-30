@@ -56,9 +56,10 @@ For full license details, visit the official GPL-3.0 documentation.
 * Noah Freelove - Rendering and Level Editor
 * Theran Dowdall - Physics and Movement
 * Andy (Chen Hsuan) Huang - Art and UI
-* Sam (Tsei En) Chan - Level Dessign
+* Sam (Tsei En) Chan - Level Design
 * Paul Yan - Animation
 
 ### Feedback
-
+We value your feedback to improve Froggy's Adventure! Please take a moment to share your thoughts and report any issues or bugs you encountered.
+[Provide Feedback or Report Issues Here](https://forms.gle/DKSfEvhDMCrVcMA88)
 ### Contribution
