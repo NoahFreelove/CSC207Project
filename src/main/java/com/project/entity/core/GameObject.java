@@ -199,6 +199,17 @@ public final class GameObject implements ISerializable {
 
         return null;
     }
+
+    public void linkTo(Scene scene) {
+        if (linkedScene != null) {
+            linkedScene.removeSceneObject(this);
+        }
+        linkedScene = scene;
+    }
+
+    public Scene getLinkedScene() {
+        return linkedScene;
+    }
     // endregion
 
     // region Adders & Removers
@@ -409,15 +420,4 @@ public final class GameObject implements ISerializable {
 
     }
     // endregion
-
-    public void linkTo(Scene scene) {
-        if (linkedScene != null) {
-            linkedScene.removeSceneObject(this);
-        }
-        linkedScene = scene;
-    }
-
-    public Scene getLinkedScene() {
-        return linkedScene;
-    }
 }
