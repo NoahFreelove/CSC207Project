@@ -22,6 +22,11 @@ Tired of playing the offered levels, in Froggy's Adventure, you can create your 
 -[Contribution Guide](#contribution)
 
 ### Features
+- **Challenging Gameplay**: Navigate through 9 prebuilt levels filled with hidden surprises, traps, and unpredictable elements. Every move matters!
+- **Death Tracker**: Keep track of your death count on each level and challenge your friends to see who can complete levels with the fewest attempts.
+- **Humor-Filled Deaths**: Every time you die, a joke is displayed to keep the experience fun.
+- **Level Editor**: Create custom levels using an intuitive editor. Place tiles, scale and rotate objects, and test your levels instantly.
+- **Replayability**: Test your skills and replay levels to improve your performance or create endlessly creative levels.
 
 ### Installation
 To get started with Froggy's Adventure, follow these simple steps:
@@ -96,4 +101,15 @@ For full license details, [visit the official GPL-3.0 documentation.](https://ww
 ### Feedback
 We value your feedback to improve Froggy's Adventure! Please take a moment to share your thoughts and report any issues or bugs you encountered.
 [Provide Feedback or Report Issues Here](https://forms.gle/DKSfEvhDMCrVcMA88)
+
 ### Contribution
+We welcome contributions to **Froggy's Adventure**! Follow these simple steps to get started:
+
+1. **Fork the Repository**: Click the "Fork" button on the GitHub repository to create your own copy.
+2. **Clone the Repository**: Download the code to your local machine:
+   ```bash
+   git clone https://github.com/your-username/FroggysAdventure.git
+3. **Create a Branch**: Make a new branch for your changes:
+4. **Make Changes**: Add your contributions to the project.
+5. **Test Your Work**: Ensure your changes work properly and don’t introduce new bugs.
+6. **Commit & Push then submit a Pull Request**: Push your changes to your forked repo and submit a pull request to the main repository. Make sure to describe your changes clearly
