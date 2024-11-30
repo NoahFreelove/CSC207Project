@@ -39,9 +39,17 @@ Open the GameMain.java file in your favorite Java IDE (e.g., IntelliJ IDEA, Ecli
 Run the GameMain class to start playing Froggy's Adventure.
 
 Enjoy the game! 😊
+
 ### Usage Guide
 
 ### License
+Froggy's Adventure is licensed under the GNU General Public License v3.0 (GPL-3.0). 
+This ensures the game remains free and open-source, allowing you to:
+- Use the software for any purpose.
+- Modify the source code to suit your needs.
+- Distribute original or modified versions under the same terms.
+By adopting the GPL-3.0 license, we promote user freedom, transparency, and openness in Froggy's development. 
+For full license details, visit the official GPL-3.0 documentation.
 
 ### Authors and Contributors
 * Noah Freelove - Rendering and Level Editor
