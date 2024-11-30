@@ -232,6 +232,9 @@ public class LevelEditor extends Scene {
                                     w.setWindowSizeForce(levelEditorScreenSize.getFirst(),levelEditorScreenSize.getSecond());
                                     w.setActiveScene(LevelEditor.this);
                                 }
+                                else if (WinScript.getGameStatus()) {
+
+                                }
                                 else {
                                     PauseOverlayFactory.pauseGame();
                                 }

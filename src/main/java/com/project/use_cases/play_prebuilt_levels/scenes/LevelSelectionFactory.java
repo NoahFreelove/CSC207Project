@@ -10,6 +10,7 @@ import com.project.use_cases.general.GameOutputData;
 import com.project.external_interfaces.FileIO;
 import com.project.entity.ui.GameUIButton;
 import com.project.use_cases.play_prebuilt_levels.scripts.SceneExit;
+import com.project.use_cases.play_prebuilt_levels.scripts.WinScript;
 import com.project.use_cases.play_prebuilt_levels.ui.UIFactory;
 import com.project.use_cases.level_editing.LevelEditor;
 import com.project.use_cases.player_death_count.PlayerDeath;
@@ -92,5 +93,6 @@ public class LevelSelectionFactory {
         LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource(loadedLevel));
         GameInteractor.getInstance().unpauseGame();
         PlayerDeath.resetDeathCount();
+        WinScript.restartGameStatus();
     }
 }
