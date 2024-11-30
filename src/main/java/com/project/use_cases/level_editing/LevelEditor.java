@@ -358,7 +358,6 @@ public class LevelEditor extends Scene {
         LoadingScreen.addLoadingScreen(out);
         out.addUIElement(UIFactory.DeathLabelFactory(0, 10, 220, 70));
 
-
         w.setActiveScene(out);
     }
 

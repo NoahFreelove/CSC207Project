@@ -9,7 +9,6 @@ import com.project.use_cases.play_prebuilt_levels.scripts.SpawnPoint;
 import com.project.use_cases.play_prebuilt_levels.ui.UIFactory;
 import org.json.JSONObject;
 
-import static com.project.entity.ui.UIConstants.LIVES;
 import static com.project.use_cases.play_prebuilt_levels.ui.UIFactory.deathCounter;
 
 public class PlayerDeath implements IScriptable {
@@ -61,7 +60,7 @@ public class PlayerDeath implements IScriptable {
     }
 
     public static void updateDeathCount() {
-        deathCounter.setText("Lives: " + (LIVES - PlayerDeath.getDeathCount()));
+        deathCounter.setText("Deaths: " + (PlayerDeath.getDeathCount()));
     }
 
     public static void resetDeathCount() {
