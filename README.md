@@ -26,17 +26,20 @@ Tired of playing the offered levels, in Froggy's Adventure, you can create your 
 ### Installation
 To get started with Froggy's Adventure, follow these simple steps:
 
-1. Download the Code
-Clone or download the source code from our GitHub repository (replace # with the repository link if applicable).
-Alternatively, you can download the ZIP file directly and extract it to your desired location.
+1. **Ensure Java 11 is Installed**
+Froggy's Adventure requires Java 11 to run. If you don’t have Java 11 installed,
+you can download it from the Official Java Website.
+To verify your Java version, open a terminal or command prompt and type:
+java -version  
+If Java 11 is installed, you should see a version starting with 11.
 
-2. Locate the Main Game File
-Navigate to the following directory in the downloaded source code:
-src/main/java/com/project/app/
+2. **Download and Extract the Code**
+Clone the repository or download the ZIP file from our GitHub page. 
+Once downloaded, extract the ZIP to your desired location.
 
-3. Run the Game
-Open the GameMain.java file in your favorite Java IDE (e.g., IntelliJ IDEA, Eclipse, or VS Code).
-Run the GameMain class to start playing Froggy's Adventure.
+3. **Locate the Game File and run the Game**
+Navigate to the following path in the extracted folder -> out/artifacts/CSC207Project_jar
+Double-click the .jar file to launch it.
 
 Enjoy the game! 😊
 
