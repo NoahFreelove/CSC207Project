@@ -36,14 +36,15 @@ To get started with Froggy's Adventure, follow these simple steps:
 Froggy's Adventure requires Java 11 to run. If you don’t have Java 11 installed,
 you can download it from the Official Java Website.
 To verify your Java version, open a terminal or command prompt and type:
+'''bash
 java -version  
 If Java 11 is installed, you should see a version starting with 11.
 
-2. **Download and Extract the Code**
+3. **Download and Extract the Code**
 Clone the repository or download the ZIP file from our GitHub page. 
 Once downloaded, extract the ZIP to your desired location.
 
-3. **Locate the Game File and run the Game**
+4. **Locate the Game File and run the Game**
 Navigate to the following path in the extracted folder -> out/artifacts/CSC207Project_jar
 Double-click the .jar file to launch it.
 
