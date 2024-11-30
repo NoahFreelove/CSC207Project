@@ -112,6 +112,21 @@ We welcome contributions to **Froggy's Adventure**! Follow these simple steps to
    ```bash
    git clone https://github.com/your-username/FroggysAdventure.git
 3. **Create a Branch**: Make a new branch for your changes:
-4. **Make Changes**: Add your contributions to the project.
-5. **Test Your Work**: Ensure your changes work properly and don’t introduce new bugs.
-6. **Commit & Push then submit a Pull Request**: Push your changes to your forked repo and submit a pull request to the main repository. Make sure to describe your changes clearly
+4. **Set Up the Project in Your IDE**
+    Open the Project Structure:
+
+    Use the shortcut Ctrl + Alt + Shift + S (on Windows/Linux) or navigate to File -> Project Structure.
+    Check Libraries:
+
+    In the Libraries section of the project structure, you should see two Maven entries.
+    If there's any non-Maven entry, select it and remove it using the - (minus) button.
+    Add Libraries:
+
+    Press the + (plus) button near the Maven entries.
+    Select Java from the options. A file picker dialog will open.
+    Navigate to the Project's Library Directory:
+    In the file picker, go to <project root>/lib.
+    Select the entire folder and press OK.
+6. **Make Changes**: Add your contributions to the project.
+7. **Test Your Work**: Ensure your changes work properly and don’t introduce new bugs.
+8. **Commit & Push then submit a Pull Request**: Push your changes to your forked repo and submit a pull request to the main repository. Make sure to describe your changes clearly
