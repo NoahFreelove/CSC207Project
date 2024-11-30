@@ -49,6 +49,7 @@ This ensures the game remains free and open-source, allowing you to:
 - Modify the source code to suit your needs.
 - Distribute original or modified versions under the same terms.
 By adopting the GPL-3.0 license, we promote user freedom, transparency, and openness in Froggy's development. 
+
 For full license details, visit the official GPL-3.0 documentation.
 
 ### Authors and Contributors
