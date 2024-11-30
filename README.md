@@ -106,7 +106,7 @@ We value your feedback to improve Froggy's Adventure! Please take a moment to sh
 We welcome contributions to **Froggy's Adventure**! Follow these simple steps to get started:
 
 1. **Fork the Repository**: Click the "Fork" button on the GitHub repository to create your own copy.
-2. **Clone the Repository**: Download the code to your local machine:
+2. **Clone the Repository**: clone to your local machine:
    ```bash
    git clone https://github.com/your-username/FroggysAdventure.git
 3. **Create a Branch**: Make a new branch for your changes:
