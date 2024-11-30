@@ -12,6 +12,7 @@ import com.project.entity.ui.GameUIButton;
 import com.project.use_cases.play_prebuilt_levels.scripts.SceneExit;
 import com.project.use_cases.play_prebuilt_levels.ui.UIFactory;
 import com.project.use_cases.level_editing.LevelEditor;
+import com.project.use_cases.player_death_count.PlayerDeath;
 
 import javax.speech.Engine;
 import java.util.HashMap;
@@ -60,6 +61,7 @@ public class LevelSelectionFactory {
         }
 
         WinOverlayFactory.removeWinOverlay();
+        PlayerDeath.resetDeathCount();
 
         Scene s = LevelSelectionFactory.createScene();
         GameInteractor.getInstance().unpauseGame();
@@ -89,5 +91,6 @@ public class LevelSelectionFactory {
     public static void reloadCurrentLevel() {
         LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource(loadedLevel));
         GameInteractor.getInstance().unpauseGame();
+        PlayerDeath.resetDeathCount();
     }
 }
