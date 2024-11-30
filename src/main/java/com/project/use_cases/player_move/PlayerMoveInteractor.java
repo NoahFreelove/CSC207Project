@@ -139,6 +139,10 @@ public class PlayerMoveInteractor implements IScriptable {
     }
 
     private void move(GameObject ref, double xDelta, double yDelta) {
+        if (ref.getScriptable(RigidBody2D.class) == null){
+            return;
+        }
+
         ref.getScriptable(RigidBody2D.class).addForce(xDelta*500, yDelta*200);
     }
 

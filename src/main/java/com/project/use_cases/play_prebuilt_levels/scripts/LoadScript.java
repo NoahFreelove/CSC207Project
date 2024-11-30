@@ -3,6 +3,7 @@ package com.project.use_cases.play_prebuilt_levels.scripts;
 import com.project.entity.core.GameObject;
 import com.project.entity.physics.physics_body.RigidBody2D;
 import com.project.entity.scripting.IScriptable;
+import com.project.use_cases.player_move.PlayerMoveInteractor;
 
 import java.util.Iterator;
 
@@ -19,10 +20,12 @@ public class LoadScript implements IScriptable {
         while (objs.hasNext()) {
             GameObject obj = objs.next();
 
-            RigidBody2D rb = obj.getScriptable(RigidBody2D.class);
+            RigidBody2D rb = obj.getScriptable(RigidBody2D.class, true);
+            PlayerMoveInteractor mc = obj.getScriptable(PlayerMoveInteractor.class, true);
 
             if (rb != null) {
                 obj.disableScript(rb);
+                obj.disableScript(mc);
             }
         }
     }
@@ -39,15 +42,17 @@ public class LoadScript implements IScriptable {
 
                 if (currConsistantFrames >= consistantFrameThreshold) {
                     Iterator<GameObject> objs = parent.getLinkedScene().getSceneObjects();
+
                     while (objs.hasNext()) {
                         GameObject obj = objs.next();
 
                         RigidBody2D rb = obj.getScriptable(RigidBody2D.class, true);
+                        PlayerMoveInteractor mc = obj.getScriptable(PlayerMoveInteractor.class, true);
 
-                        if (rb != null) {
-                            obj.enableScript(rb);
-                        }
+                        obj.enableScript(rb);
+                        obj.enableScript(mc);
                     }
+
                     parent.getLinkedScene().reset();
                     parent.getLinkedScene().removeSceneObject(parent);
                 }
