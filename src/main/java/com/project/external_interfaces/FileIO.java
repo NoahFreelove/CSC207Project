@@ -1,52 +1,117 @@
 package com.project.external_interfaces;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Unlike image loader, text loader does not buffer the text in memory for
- * fast access next time. This is because text files are usually small and
- * not read frequently. They may be loaded for levels, but that's about it.
+ * A utility class for handling file input and output, compatible with both
+ * JAR and normal filesystem environments.
  */
 public class FileIO {
 
+    /**
+     * Reads text lines from a resource file relative to the classpath.
+     *
+     * @param relativePath the path to the resource file
+     * @return an array of lines from the file
+     */
     public static String[] ReadTextLines(String relativePath) {
         return ReadText(relativePath).split("\n");
     }
 
+    /**
+     * Reads the entire text content of a resource file.
+     *
+     * @param relativePath the path to the resource file
+     * @return the text content of the file, or an empty string if not found
+     */
     public static String ReadText(String relativePath) {
         return ReadText(relativePath, "");
     }
 
+    /**
+     * Reads the entire text content of a resource file with a default fallback.
+     *
+     * @param relativePath the path to the resource file
+     * @param defaultText  the fallback text if the resource is not found
+     * @return the text content of the file, or the default text
+     */
     public static String ReadText(String relativePath, String defaultText) {
-        try(InputStream stream = FileIO.class.getClassLoader().getResourceAsStream(relativePath)) {
+        try (InputStream stream = FileIO.class.getResourceAsStream("/" + relativePath)) {
             if (stream == null) {
-                System.err.println("IO Exception: Resource not found: " + relativePath + "\nResolution: Using default text");
+                System.err.println("Resource not found: " + relativePath + ". Using default text.");
                 return defaultText;
             }
-            return new String(stream.readAllBytes());
+            return new String(getBytesFromStream(stream));
         } catch (IOException e) {
-            System.err.println("IO Exception (" + e.getClass().getSimpleName() + "): Failed to load text: " + relativePath + "\nResolution: Using default text");
+            System.err.println("Failed to load text: " + relativePath + ". Using default text. Error: " + e.getMessage());
             return defaultText;
         }
     }
 
+    /**
+     * Gets the bytes of a resource file relative to the classpath.
+     *
+     * @param relativePath the path to the resource file
+     * @return a byte array of the file content
+     */
+    public static byte[] ReadBytes(String relativePath) {
+        try (InputStream stream = FileIO.class.getResourceAsStream("/" + relativePath)) {
+            if (stream == null) {
+                System.err.println("Resource not found: " + relativePath);
+                return new byte[0];
+            }
+            return getBytesFromStream(stream);
+        } catch (IOException e) {
+            System.err.println("Failed to read bytes from resource: " + relativePath + ". Error: " + e.getMessage());
+            return new byte[0];
+        }
+    }
+
+    /**
+     * Writes text to a relative path in the filesystem.
+     *
+     * @param relativePath the relative path to the file
+     * @param text         the text to write
+     * @return true if successful, false otherwise
+     */
     public static boolean WriteText(String relativePath, String text) {
         try {
-            Path path = Paths.get(FileIO.class.getResource("/").getPath());
-            path = Paths.get(path.toString(), relativePath);
+            Path path = Paths.get(System.getProperty("user.dir")).resolve(relativePath);
             Files.createDirectories(path.getParent());
             Files.writeString(path, text);
             return true;
         } catch (Exception e) {
-            System.err.println("Exception (" + e.getClass().getSimpleName() + "): Failed to write text: " + relativePath + "\n" + e.getMessage());
+            System.err.println("Failed to write text: " + relativePath + ". Error: " + e.getMessage());
             return false;
         }
     }
 
+    /**
+     * Reads text from an absolute path in the filesystem.
+     *
+     * @param absolutePath the absolute path to the file
+     * @return the text content of the file, or an empty string if not found
+     */
+    public static String ReadTextAbs(String absolutePath) {
+        try {
+            return Files.readString(Paths.get(absolutePath));
+        } catch (IOException e) {
+            System.err.println("Failed to load text (absolute): " + absolutePath + ". Returning empty text. Error: " + e.getMessage());
+            return "";
+        }
+    }
+
+    /**
+     * Writes text to an absolute path in the filesystem.
+     *
+     * @param absolutePath the absolute path to the file
+     * @param text         the text to write
+     * @return true if successful, false otherwise
+     */
     public static boolean WriteTextAbs(String absolutePath, String text) {
         try {
             Path path = Paths.get(absolutePath);
@@ -54,26 +119,27 @@ public class FileIO {
             Files.writeString(path, text);
             return true;
         } catch (Exception e) {
-            System.err.println("Exception (" + e.getClass().getSimpleName() + "): Failed to write text (absolute): " + absolutePath + "\n" + e.getMessage());
+            System.err.println("Failed to write text (absolute): " + absolutePath + ". Error: " + e.getMessage());
             return false;
         }
     }
 
-    public static String ReadTextAbs(String path) {
-        try {
-            return Files.readString(Paths.get(path));
+    /**
+     * Reads bytes from an input stream.
+     *
+     * @param stream the input stream to read
+     * @return a byte array of the stream content
+     */
+    private static byte[] getBytesFromStream(InputStream stream) {
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[8192]; // Read in chunks
+            int length;
+            while ((length = stream.read(buffer)) != -1) {
+                byteArrayOutputStream.write(buffer, 0, length);
+            }
+            return byteArrayOutputStream.toByteArray();
         } catch (IOException e) {
-            System.err.println("IO Exception (" + e.getClass().getSimpleName() + "): Failed to load text (absolute): " + path + "\nResolution: Using default text");
-            return "";
-        }
-    }
-
-    public static String GetAbsPathOfResource(String relResourcePath) {
-        try {
-            return Paths.get(FileIO.class.getResource(relResourcePath).toURI()).toString();
-        } catch (Exception e) {
-            System.err.println("Exception (" + e.getClass().getSimpleName() + "): Failed to get absolute path of resource: " + relResourcePath + "\n" + e.getMessage());
-            return "";
+            return new byte[0];
         }
     }
 }

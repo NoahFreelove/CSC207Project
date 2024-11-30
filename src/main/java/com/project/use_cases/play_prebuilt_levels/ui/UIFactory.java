@@ -4,7 +4,6 @@ package com.project.use_cases.play_prebuilt_levels.ui;
 import com.project.entity.core.GameObject;
 import com.project.entity.core.Scene;
 import com.project.entity.ui.*;
-import com.project.use_cases.player_death_count.PlayerDeath;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +25,7 @@ public class UIFactory {
     }
 
     public static GameUILabel DeathLabelFactory(int x, int y, int width, int height) {
-        GameUILabel label = new GameUILabel(ORIGINAL_LIVES_TEXT, x, y, width, height);
+        GameUILabel label = new GameUILabel(DEATH_COUNT, x, y, width, height);
         label.setFont(FontCreator.createFont(COUNTER_SIZE));
         label.setForeground(Color.decode(FOREST_GREEN));
         label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -94,7 +93,4 @@ public class UIFactory {
         }
     }
 
-    public static void updateDeathCount() {
-        deathCounter.setText("Lives: " + (LIVES - PlayerDeath.getDeathCount()));
-    }
 }

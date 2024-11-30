@@ -13,7 +13,7 @@ public class GameQuickTest {
         GameInteractor e = out.getFirst();
         GameOutputData w = out.getSecond();
         e.closeHook = PlayTTS::shutdown;
-        LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource("/levels/level1.json"));
+        LevelEditor.loadFromFileForMainGame("levels/level1.json");
 
 
     }

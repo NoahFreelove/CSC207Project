@@ -12,8 +12,7 @@ public final class UIConstants {
 
     public static String LIGHT_GREEN = "0x00b01c";
     public static String BLACK = "0x000000";
-    public static int LIVES = 3;
-    public static String ORIGINAL_LIVES_TEXT = "Lives: 3";
+    public static String DEATH_COUNT = "Deaths: 0";
 
     private UIConstants() {}
 }

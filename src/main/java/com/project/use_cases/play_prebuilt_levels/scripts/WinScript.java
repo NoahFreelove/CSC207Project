@@ -8,15 +8,26 @@ import com.project.use_cases.play_prebuilt_levels.scenes.WinOverlayFactory;
 public class WinScript extends SimpleTrigger implements IScriptable {
     public boolean overrideWinEvent = false;
     public Runnable r = null;
+    public static boolean winGame = false;
     @Override
     public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
         if (other.hasTag("player")) {
-            if(!overrideWinEvent)
+            if (!overrideWinEvent) {
+                winGame = true;
                 WinOverlayFactory.winGame();
+            }
             else {
                 if (r != null)
                     r.run();
             }
         }
+    }
+
+    public static boolean getGameStatus() {
+        return winGame;
+    }
+
+    public static void restartGameStatus() {
+        winGame = false;
     }
 }

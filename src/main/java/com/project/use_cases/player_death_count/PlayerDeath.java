@@ -9,6 +9,8 @@ import com.project.use_cases.play_prebuilt_levels.scripts.SpawnPoint;
 import com.project.use_cases.play_prebuilt_levels.ui.UIFactory;
 import org.json.JSONObject;
 
+import static com.project.use_cases.play_prebuilt_levels.ui.UIFactory.deathCounter;
+
 public class PlayerDeath implements IScriptable {
     private boolean dead = false;
     private double respawnDelay = 1.42; // delay in seconds
@@ -57,11 +59,19 @@ public class PlayerDeath implements IScriptable {
 
     }
 
+    public static void updateDeathCount() {
+        deathCounter.setText("Deaths: " + (PlayerDeath.getDeathCount()));
+    }
+
+    public static void resetDeathCount() {
+        deathCount = 0;
+    }
+
     public void queueDeath() {
         if (!dead && deathCooldown >= COOLDOWN_TIME) {
             this.dead = true;
             this.deathCount++;
-            UIFactory.updateDeathCount();
+            updateDeathCount();
         }
     }
 
