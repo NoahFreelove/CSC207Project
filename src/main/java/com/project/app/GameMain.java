@@ -17,4 +17,4 @@ public class GameMain {
         Scene main = MainMenuFactory.createScene();
         w.setActiveScene(main);
     }
-}   
+}

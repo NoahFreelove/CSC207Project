@@ -23,16 +23,18 @@ import static com.project.entity.ui.UIConstants.*;
 public class LevelSelectionFactory {
     private static HashMap<Integer, String> levelMap = new HashMap<>();
     private static String loadedLevel;
+    public static boolean isInEditor = false;
+
     static {
-        levelMap.put(0, "/levels/level1.json");
-        levelMap.put(1, "/levels/level2ARCHIVE.json");
-        levelMap.put(2, "/levels/level3.json");
-        levelMap.put(3, "/levels/level4.json");
-        levelMap.put(4, "/levels/level5.json");
-        levelMap.put(5, "/levels/level6.json");
-        levelMap.put(6, "/levels/level7.json");
-        levelMap.put(7, "/levels/level8.json");
-        levelMap.put(8, "/levels/level9.json");
+        levelMap.put(0, "levels/level1.json");
+        levelMap.put(1, "levels/level2ARCHIVE.json");
+        levelMap.put(2, "levels/level3.json");
+        levelMap.put(3, "levels/level4.json");
+        levelMap.put(4, "levels/level5.json");
+        levelMap.put(5, "levels/level6.json");
+        levelMap.put(6, "levels/level7.json");
+        levelMap.put(7, "levels/level8.json");
+        levelMap.put(8, "levels/level9.json");
     }
 
     private static Scene createScene() {
@@ -81,7 +83,8 @@ public class LevelSelectionFactory {
             int finalI = i;
             temp.onClickEvent = () -> {
                 loadedLevel = levelMap.get(finalI);
-                LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource(levelMap.get(finalI)));
+                isInEditor = false;
+                LevelEditor.loadFromFileForMainGame(loadedLevel);
             };
 
             scene.addUIElements(temp);
@@ -90,7 +93,7 @@ public class LevelSelectionFactory {
     }
 
     public static void reloadCurrentLevel() {
-        LevelEditor.loadFromFileForMainGame(FileIO.GetAbsPathOfResource(loadedLevel));
+        LevelEditor.loadFromFileForMainGame(loadedLevel);
         GameInteractor.getInstance().unpauseGame();
         PlayerDeath.resetDeathCount();
         WinScript.restartGameStatus();

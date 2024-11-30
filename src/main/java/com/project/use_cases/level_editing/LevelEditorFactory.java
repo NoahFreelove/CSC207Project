@@ -9,6 +9,7 @@ import com.project.entity.ui.GameUIButton;
 import com.project.entity.ui.GameUILabel;
 import com.project.entity.ui.GameUIPanel;
 import com.project.use_cases.general.LoadingScreen;
+import com.project.use_cases.play_prebuilt_levels.scenes.LevelSelectionFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -93,7 +94,7 @@ public class LevelEditorFactory {
             fileChooser.setDialogTitle("Specify a file to load");
             int userSelection = fileChooser.showOpenDialog(w.getRootPane());
             if (userSelection == JFileChooser.APPROVE_OPTION) {
-                scene.loadFromFile(fileChooser.getSelectedFile().getAbsolutePath());
+                scene.loadFromFile(fileChooser.getSelectedFile().getAbsolutePath(), false);
             }
             GameInteractor.getInstance().getPrimaryWindow().refocusInWindow();
         };
@@ -107,6 +108,7 @@ public class LevelEditorFactory {
             w.setWindowSizeForce(800, 800);
             LoadingScreen.addLoadingScreen(scene.exportToScene(true));
             w.setActiveScene(scene.exportToScene(true));
+            LevelSelectionFactory.isInEditor = true;
             GameInteractor.getInstance().getPrimaryWindow().refocusInWindow();
         };
 

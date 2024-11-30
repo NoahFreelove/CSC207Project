@@ -10,11 +10,13 @@ import com.project.entity.input.EInputType;
 import com.project.entity.rendering.SpriteRenderer;
 import com.project.entity.scripting.IScriptable;
 import com.project.use_cases.general.LoadingScreen;
+import com.project.use_cases.play_prebuilt_levels.scenes.LevelSelectionFactory;
 import com.project.use_cases.play_prebuilt_levels.scenes.MainMenuFactory;
 import com.project.use_cases.play_prebuilt_levels.scenes.PauseOverlayFactory;
 import com.project.use_cases.play_prebuilt_levels.game_objects.*;
 import com.project.use_cases.play_prebuilt_levels.scripts.WinScript;
 import com.project.use_cases.play_prebuilt_levels.ui.UIFactory;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -47,8 +49,7 @@ public class LevelEditor extends Scene {
         setScaleX(2);
         setScaleY(2);
         addGuideLines();
-
-        loadFromFile(FileIO.GetAbsPathOfResource("/levels/level1.json"));
+        newFile();
     }
 
     public void addTile(int ID, int x, int y) {
@@ -153,14 +154,14 @@ public class LevelEditor extends Scene {
         addGuideLines();
     }
 
-    public void loadFromFile(String path) {
+    public void loadFromFile(String path, boolean relative) {
         activeFile = path;
         for(EditorObjectStruct eos : tiles) {
             removeSceneObject(eos.linkedObject);
         }
         tiles.clear();
         addGuideLines();
-        String fileContents = FileIO.ReadTextAbs(path);
+        String fileContents = (relative)? FileIO.ReadText(path) : FileIO.ReadTextAbs(path);
         JSONObject read = new JSONObject(fileContents);
         metadata = read.getJSONObject("meta");
         JSONArray tileArray = read.getJSONArray("tiles");
@@ -223,25 +224,6 @@ public class LevelEditor extends Scene {
                 case 0: {
                     out = PlayerFactory.makeFactory(ObjectType.PLAYER)
                             .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY()-33, 10, obj.scaleX, obj.scaleY);
-                    out.addBehavior(new IScriptable() {
-                        @Override
-                        public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
-                            if (keyName.equals("ESC") && inputType == EInputType.RELEASE) {
-                                if (testing) {
-                                    GameOutputData w = GameInteractor.getInstance().getPrimaryWindow();
-                                    w.setWindowSizeForce(levelEditorScreenSize.getFirst(),levelEditorScreenSize.getSecond());
-                                    w.setActiveScene(LevelEditor.this);
-                                }
-                                else if (WinScript.getGameStatus()) {
-
-                                }
-                                else {
-                                    PauseOverlayFactory.pauseGame();
-                                }
-
-                            }
-                        }
-                    });
 
                     output.getCamera().update(out, 0);
                     output.getCamera().setOffsetX(-100);
@@ -334,8 +316,31 @@ public class LevelEditor extends Scene {
             out.getTransform().setRotation(obj.rot);
 
             output.addSceneObject(out);
-
         }
+
+        GameObject controller = getPauseController(testing);
+        output.addSceneObject(controller, true);
+    }
+
+    private @NotNull GameObject getPauseController(boolean testing) {
+        GameObject controller = new GameObject();
+        controller.addBehavior(new IScriptable() {
+            @Override
+            public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
+                if (keyName.equals("ESC") && inputType == EInputType.RELEASE) {
+                    if (testing) {
+                        GameOutputData w = GameInteractor.getInstance().getPrimaryWindow();
+                        w.setWindowSizeForce(levelEditorScreenSize.getFirst(),levelEditorScreenSize.getSecond());
+                        w.setActiveScene(LevelEditor.this);
+                    }
+                    else if (!WinScript.getGameStatus()) {
+                        PauseOverlayFactory.pauseGame();
+                    }
+
+                }
+            }
+        });
+        return controller;
     }
 
     public void exportToFile(String path) {
@@ -352,12 +357,12 @@ public class LevelEditor extends Scene {
 
     public static void loadFromFileForMainGame(String abs) {
         LevelEditor le = new LevelEditor();
-        le.loadFromFile(abs);
+        le.loadFromFile(abs, !LevelSelectionFactory.isInEditor);
         GameOutputData w = GameInteractor.getInstance().getPrimaryWindow();
 
         w.refocusInWindow();
         System.gc();
-        Scene out = le.exportToScene(false);
+        Scene out = le.exportToScene(LevelSelectionFactory.isInEditor);
         LoadingScreen.addLoadingScreen(out);
         out.addUIElement(UIFactory.DeathLabelFactory(0, 10, 220, 70));
 

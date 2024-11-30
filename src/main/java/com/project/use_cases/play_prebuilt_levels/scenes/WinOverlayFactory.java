@@ -45,7 +45,6 @@ public class WinOverlayFactory {
         Iterator objects = s.getSceneObjects();
         while (objects.hasNext()) {
             GameObject object = (GameObject) objects.next();
-            System.out.println(object);
         }
         removeEscPause(s);
 
