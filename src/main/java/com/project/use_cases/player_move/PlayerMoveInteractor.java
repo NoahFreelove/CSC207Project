@@ -1,14 +1,12 @@
 package com.project.use_cases.player_move;
 
-import com.project.use_cases.general.GameInteractor;
+import com.project.use_cases.core.game.GameInteractor;
 import com.project.entity.core.GameObject;
-import com.project.use_cases.general.GameOutputData;
+import com.project.use_cases.core.game.GameOutputData;
 import com.project.entity.physics.physics_body.RigidBody2D;
 import com.project.entity.rendering.SpriteRenderer;
 import com.project.entity.scripting.IScriptable;
 import com.project.entity.animation.AnimationManager;
-import com.project.use_cases.player_animate.JumpAnimation;
-import com.project.use_cases.player_animate.WalkAnimation;
 import org.json.JSONObject;
 
 public class PlayerMoveInteractor implements IScriptable {

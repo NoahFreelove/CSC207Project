@@ -1,10 +1,10 @@
 package com.project.use_cases.player_death_count;
 
-import com.project.data_access.IAPIResponse;
-import com.project.database.JokeAPIRequest;
-import com.project.data_access.JokeType;
+import com.project.data_access.player_death_count.IAPIResponse;
+import com.project.database.player_death_count.JokeAPIRequest;
+import com.project.data_access.player_death_count.JokeType;
 import com.project.entity.scripting.IScriptable;
-import com.project.external_interfaces.PlayTTS;
+import com.project.external_interfaces.player_death_count.PlayTTS;
 import org.json.JSONObject;
 
 public class DeathJoke implements IScriptable {

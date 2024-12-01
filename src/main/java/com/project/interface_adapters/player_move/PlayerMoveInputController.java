@@ -1,7 +1,7 @@
 package com.project.interface_adapters.player_move;
 
 import com.project.entity.input.EInputType;
-import com.project.use_cases.general.GameInteractor;
+import com.project.use_cases.core.game.GameInteractor;
 import com.project.use_cases.player_move.ActiveSceneGetter;
 import com.project.use_cases.player_move.PlayerMoveInputBoundary;
 

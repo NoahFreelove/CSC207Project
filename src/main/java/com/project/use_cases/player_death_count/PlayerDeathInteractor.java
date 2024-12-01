@@ -4,11 +4,11 @@ import com.project.entity.core.GameObject;
 import com.project.entity.scripting.IScriptable;
 import com.project.entity.physics.physics_body.RigidBody2D;
 import com.project.use_cases.player_move.PlayerMoveInteractor;
-import com.project.use_cases.play_prebuilt_levels.scripts.SimpleCollider;
-import com.project.use_cases.play_prebuilt_levels.scripts.SpawnPoint;
+import com.project.use_cases.core.prebuilts.scripts.SimpleCollider;
+import com.project.use_cases.core.prebuilts.scripts.SpawnPoint;
 import org.json.JSONObject;
 
-import static com.project.use_cases.prebuilts.game_ui.UIFactory.deathCounter;
+import static com.project.use_cases.core.prebuilts.ui.UIFactory.deathCounter;
 
 public class PlayerDeathInteractor implements IScriptable {
     private boolean dead = false;

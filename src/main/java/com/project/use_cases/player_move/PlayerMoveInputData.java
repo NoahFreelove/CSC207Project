@@ -1,6 +1,6 @@
 package com.project.use_cases.player_move;
 
-import com.project.use_cases.general.GameInteractor;
+import com.project.use_cases.core.game.GameInteractor;
 
 import java.util.HashMap;
 

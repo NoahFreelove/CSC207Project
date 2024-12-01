@@ -1,11 +1,10 @@
 package com.project.app;
 
-import com.project.use_cases.general.GameInteractor;
+import com.project.use_cases.core.game.GameInteractor;
 import com.project.entity.core.Tuple;
-import com.project.use_cases.general.GameOutputData;
-import com.project.external_interfaces.FileIO;
-import com.project.use_cases.level_editing.LevelEditor;
-import com.project.external_interfaces.PlayTTS;
+import com.project.use_cases.core.game.GameOutputData;
+import com.project.use_cases.core.editor.LevelEditor;
+import com.project.external_interfaces.player_death_count.PlayTTS;
 
 public class GameQuickTest {
     public static void main(String[] args) {
