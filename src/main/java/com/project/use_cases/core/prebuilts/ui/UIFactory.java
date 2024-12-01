@@ -189,8 +189,7 @@ public class UIFactory {
     }
 
     public static LabelOutputData DeathLabelFactory(int x, int y, int width, int height) {
-        LabelOutputData label = new LabelOutputData(DEATH_COUNT, x, y, width, height);
-        label.getComponent().setForeground(Color.decode(FOREST_GREEN));
+        LabelOutputData label = LabelFactory(DEATH_COUNT, x, y, width, height);
         label.setFancyFontSize(45);
         deathCounter = label;
 

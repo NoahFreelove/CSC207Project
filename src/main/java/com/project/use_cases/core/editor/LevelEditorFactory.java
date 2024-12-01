@@ -12,6 +12,7 @@ public class LevelEditorFactory {
     public static Scene generateLevelEditor() {
         LevelEditor scene = new LevelEditor();
         GameOutputData w = GameInteractor.getInstance().getPrimaryWindow();
+
         if (w == null) {
             System.err.println("No window found");
             return Scene.NullScene();

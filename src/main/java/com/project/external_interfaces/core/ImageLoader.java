@@ -1,7 +1,7 @@
 package com.project.external_interfaces.core;
 
 import com.project.entity.core.Tuple;
-import com.project.interface_adapters.core.display.ResourceManager;
+import com.project.interface_adapters.core.ResourceManager;
 
 import java.awt.image.BufferedImage;
 import java.net.URL;

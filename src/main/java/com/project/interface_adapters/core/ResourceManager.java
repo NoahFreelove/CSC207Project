@@ -1,4 +1,4 @@
-package com.project.interface_adapters.core.display;
+package com.project.interface_adapters.core;
 
 import com.project.entity.core.Tuple;
 

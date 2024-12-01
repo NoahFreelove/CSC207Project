@@ -11,7 +11,7 @@ import com.project.use_cases.core.game.GameOutputData;
 import com.project.use_cases.core.prebuilts.scripts.SceneExit;
 import com.project.use_cases.core.prebuilts.scripts.WinScript;
 import com.project.use_cases.core.prebuilts.ui.UIFactory;
-import com.project.use_cases.core.editor.LevelEditor;
+import com.project.use_cases.load_level.LoadLevelInteractor;
 import com.project.use_cases.player_death_count.PlayerDeathInteractor;
 import com.project.use_cases.core.prebuilts.ui.types.button.ButtonOutputData;
 
@@ -83,7 +83,7 @@ public class LevelSelectionFactory {
             temp.setButtonCallback(() -> {
                 loadedLevel = levelMap.get(finalI);
                 isInEditor = false;
-                LevelEditor.loadFromFileForMainGame(loadedLevel);
+                LoadLevelInteractor.execute(loadedLevel);
             });
 
             scene.addUIElements(new GameUI(temp));
@@ -92,7 +92,7 @@ public class LevelSelectionFactory {
     }
 
     public static void reloadCurrentLevel() {
-        LevelEditor.loadFromFileForMainGame(loadedLevel);
+        LoadLevelInteractor.execute(loadedLevel);
         GameInteractor.getInstance().unpauseGame();
         PlayerDeathInteractor.resetDeathCount();
         WinScript.restartGameStatus();

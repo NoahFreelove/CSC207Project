@@ -1,23 +1,11 @@
 package com.project.use_cases.core.editor;
 
-import com.project.entity.ui.GameUI;
-import com.project.use_cases.core.game.GameInteractor;
 import com.project.entity.core.Scene;
 import com.project.entity.core.Tuple;
-import com.project.use_cases.core.game.GameOutputData;
 import com.project.entity.core.GameObject;
 import com.project.external_interfaces.core.FileIO;
-import com.project.entity.input.EInputType;
 import com.project.entity.rendering.SpriteRenderer;
-import com.project.entity.scripting.IScriptable;
-import com.project.use_cases.core.prebuilts.scenes.LevelSelectionFactory;
-import com.project.use_cases.core.prebuilts.scenes.PauseOverlayFactory;
-import com.project.use_cases.core.prebuilts.game_objects.*;
-import com.project.use_cases.core.prebuilts.scripts.WinScript;
-import com.project.use_cases.core.prebuilts.ui.UIFactory;
-import com.project.use_cases.core.prebuilts.game_objects.game_object_types.ObjectType;
 import com.project.use_cases.editor.EditorTileAddInteractor;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -128,6 +116,7 @@ public class LevelEditor extends Scene {
 
     public void loadFromFile(String path, boolean relative) {
         activeFile = path;
+
         for(EditorObjectStruct eos : tiles) {
             removeSceneObject(eos.linkedObject);
         }
@@ -148,12 +137,6 @@ public class LevelEditor extends Scene {
         update(0.1);
     }
 
-    public void loadEditor() {
-        GameOutputData w1 = GameInteractor.getInstance().getPrimaryWindow();
-        w1.setWindowSizeForce(levelEditorScreenSize.getFirst(),levelEditorScreenSize.getSecond());
-        w1.setActiveScene(LevelEditor.this);
-    }
-
     public void saveToFile() {
         if(activeFile.isEmpty())
             return;
@@ -169,174 +152,4 @@ public class LevelEditor extends Scene {
 
         FileIO.WriteTextAbs(activeFile, output.toString(4));
     }
-
-    public Scene exportToScene(boolean testing) {
-        Scene output = new Scene();
-        convertTilesToRealObjects(testing, output);
-
-        output.setScaleX(1.25f);
-        output.setScaleY(1.25f);
-
-        output.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BOUNDARY, 0, 0, 5, 800));
-        output.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND, 0, -128, 0));
-        output.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.VOID));
-        output.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.LOADING, 0, 0, 1000, 1/ output.getScaleX(), 1/ output.getScaleY()));
-
-        return output;
-    }
-
-    private void convertTilesToRealObjects(boolean testing, Scene output) {
-        GroundBlockFactory groundBlockFactory = (GroundBlockFactory) AbstractObjectFactory.makeFactory(ObjectType.GROUND_BLOCK);
-        SpikeFactory spikeFactory = (SpikeFactory) AbstractObjectFactory.makeFactory(ObjectType.SPIKE);
-        ItemBlockFactory itemBlockFactory = (ItemBlockFactory) AbstractObjectFactory.makeFactory(ObjectType.ITEM_BLOCK);
-        HiddenSpikeFactory hiddenSpikeFactory = (HiddenSpikeFactory) AbstractObjectFactory.makeFactory(ObjectType.HIDDEN_SPIKE);
-        HiddenBlockFactory hiddenBlockFactory = (HiddenBlockFactory) AbstractObjectFactory.makeFactory(ObjectType.HIDDEN_BLOCK);
-        CloudFactory cloudFactory = (CloudFactory) AbstractObjectFactory.makeFactory(ObjectType.CLOUD);
-        EnemyCloudFactory enemyCloudFactory = (EnemyCloudFactory) AbstractObjectFactory.makeFactory(ObjectType.CLOUD_ENEMY);
-        EnemyFactory enemyFactory = (EnemyFactory) AbstractObjectFactory.makeFactory(ObjectType.ENEMY);
-        IceBlockFactory iceBlockFactory = (IceBlockFactory) AbstractObjectFactory.makeFactory(ObjectType.ICE_BLOCK);
-        MovePlatformFactory movePlatformFactory = (MovePlatformFactory) AbstractObjectFactory.makeFactory(ObjectType.MOVEMENT_PLATFORM);
-        CheckpointFactory checkpointFactory = (CheckpointFactory) AbstractObjectFactory.makeFactory(ObjectType.CHECKPOINT);
-
-        for (EditorObjectStruct obj : tiles) {
-            GameObject out = null;
-            switch (obj.ID) {
-                case 0: {
-                    out = PlayerFactory.makeFactory(ObjectType.PLAYER)
-                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY()-33, 10, obj.scaleX, obj.scaleY);
-
-                    output.getCamera().update(out, 0);
-                    output.getCamera().setOffsetX(-100);
-                    output.getCamera().setOffsetY(64);
-
-                    output.getCamera().setFollowY(false);
-                    output.addSceneObject(out, true);
-                    continue;
-                }
-                case 1: {
-                    out = groundBlockFactory
-                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 3, obj.scaleX, obj.scaleY);
-                    break;
-                }
-                case 2: {
-                    out = groundBlockFactory
-                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 4, obj.scaleX, obj.scaleY, "assets/brick.png");
-                    break;
-                }
-                case 3: {
-                    out = itemBlockFactory
-                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 5, obj.scaleX, obj.scaleY);
-                    break;
-                }
-                case 4: {
-                    out = spikeFactory
-                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 6, obj.scaleX, obj.scaleY);
-                    break;
-                }
-                case 5: {
-                    out = hiddenSpikeFactory
-                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY()+64, 2, obj.scaleX, obj.scaleY);
-                    break;
-                }
-                case 6: {
-                    out = hiddenBlockFactory
-                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 5, obj.scaleX, obj.scaleY);
-                    break;
-                }
-                case 7: {
-                    out = PrincessFactory.makeFactory(ObjectType.PRINCESS)
-                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY()-16, 12, obj.scaleX, obj.scaleY);
-                    if(testing) {
-                        WinScript w = out.getScriptable(WinScript.class);
-                        w.overrideWinEvent = true;
-                        w.r = () -> {
-                            GameOutputData w1 = GameInteractor.getInstance().getPrimaryWindow();
-                            w1.setWindowSizeForce(levelEditorScreenSize.getFirst(),levelEditorScreenSize.getSecond());
-                            w1.setActiveScene(LevelEditor.this);
-                        };
-                    }
-                    break;
-                }
-                case 8: {
-                    out = cloudFactory
-                            .generate(obj.linkedObject.getTransform().getPositionX() - /*center cloud*/ (128*3/2f - 32), obj.linkedObject.getTransform().getPositionY() - (128*1.5/2 -32), 3,3, 1.5);
-                    break;
-                }
-                case 9: {
-                    out = enemyCloudFactory
-                            .generate(obj.linkedObject.getTransform().getPositionX()- (128*3/2f - 32), obj.linkedObject.getTransform().getPositionY() - (128*1.5/2 -32), 3,3, 1.5);
-                    break;
-                }
-                case 10: {
-                    out = enemyFactory
-                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 10, obj.scaleX, obj.scaleY);
-                    break;
-                }
-                case 11: {
-                    out = iceBlockFactory
-                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 5, obj.scaleX, obj.scaleY);
-                    break;
-                }
-                case 12: {
-                    out = movePlatformFactory
-                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 5, obj.scaleX, obj.scaleY);
-                    break;
-                }
-                case 13: {
-                    out = checkpointFactory
-                            .generate(obj.linkedObject.getTransform().getPositionX(), obj.linkedObject.getTransform().getPositionY(), 5, obj.scaleX, obj.scaleY);
-                    break;
-                }
-                default: {
-                    System.err.println("Unknown level editor export ID: " + obj.ID);
-                    continue;
-                }
-            }
-
-            out.getTransform().setRotation(obj.rot);
-
-            output.addSceneObject(out);
-        }
-
-        GameObject controller = getPauseController(testing);
-        output.addSceneObject(controller, true);
-    }
-
-    private @NotNull GameObject getPauseController(boolean testing) {
-        GameObject controller = new GameObject();
-        controller.addBehavior(new IScriptable() {
-            @Override
-            public void onInput(GameObject parent, String keyName, EInputType inputType, int inputMods) {
-                if (keyName.equals("ESC") && inputType == EInputType.RELEASE) {
-                    if (testing) {
-                        GameOutputData w = GameInteractor.getInstance().getPrimaryWindow();
-                        w.setWindowSizeForce(levelEditorScreenSize.getFirst(),levelEditorScreenSize.getSecond());
-                        w.setActiveScene(LevelEditor.this);
-                    }
-                    else if (!WinScript.getGameStatus()) {
-                        PauseOverlayFactory.pauseGame();
-                    }
-
-                }
-            }
-        });
-        return controller;
-    }
-
-    public void exportToFile(String path) {
-        FileIO.WriteTextAbs(path, exportToScene(false).serialize().toString(4));
-    }
-
-    public static void loadFromFileForMainGame(String abs) {
-        LevelEditor le = new LevelEditor();
-        le.loadFromFile(abs, !LevelSelectionFactory.isInEditor);
-        GameOutputData w = GameInteractor.getInstance().getPrimaryWindow();
-
-        w.refocusInWindow();
-        System.gc();
-        Scene out = le.exportToScene(LevelSelectionFactory.isInEditor);
-
-        w.setActiveScene(out);
-    }
-
 }
