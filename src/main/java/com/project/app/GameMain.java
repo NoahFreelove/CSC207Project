@@ -9,6 +9,7 @@ import com.project.external_interfaces.PlayTTS;
 
 public class GameMain {
     public static void main(String[] args) {
+        GameInteractor.DEFAULT_NEW_WINDOW_NAME = "Froggy's Adventure";
         Tuple<GameInteractor, GameOutputData> out = GameInteractor.createAndWait();
         GameInteractor e = out.getFirst();
         GameOutputData w = out.getSecond();
