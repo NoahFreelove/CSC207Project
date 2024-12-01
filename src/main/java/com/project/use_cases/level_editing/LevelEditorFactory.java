@@ -6,7 +6,7 @@ import com.project.entity.core.Scene;
 import com.project.entity.core.Tuple;
 import com.project.use_cases.general.GameOutputData;
 import com.project.external_interfaces.ImageLoader;
-import com.project.entity.ui.GameUILabel;
+import com.project.view.ui.GameLabelView;
 import com.project.entity.ui.GameUIPanel;
 import com.project.use_cases.general.LoadingScreen;
 import com.project.use_cases.play_prebuilt_levels.scenes.LevelSelectionFactory;
@@ -48,7 +48,7 @@ public class LevelEditorFactory {
         centerPanel.setOpaque(false);
         background.add(centerPanel);
 
-        GameUILabel title = new GameUILabel("Editor", 40, 40, 300, 50);
+        GameLabelView title = new GameLabelView("Editor", 40, 40, 300, 50);
         title.setForeground(Color.WHITE);
         title.setFontSize(40);
         title.setOpaque(false);
@@ -151,7 +151,7 @@ public class LevelEditorFactory {
 
         leftSidebar.add(backToGameButton.getComponent());
 
-        GameUILabel selectedTileLabel = new GameUILabel("Selected Tile");
+        GameLabelView selectedTileLabel = new GameLabelView("Selected Tile");
         selectedTileLabel.setForeground(Color.WHITE);
         selectedTileLabel.setFontSize(32);
         // center
@@ -229,17 +229,17 @@ public class LevelEditorFactory {
         rotationSlider.setForeground(Color.WHITE);
 
         // labels
-        GameUILabel scaleXLabel = new GameUILabel("Scale X");
+        GameLabelView scaleXLabel = new GameLabelView("Scale X");
         scaleXLabel.setForeground(Color.WHITE);
         scaleXLabel.setFontSize(20);
         scaleXLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        GameUILabel scaleYLabel = new GameUILabel("Scale Y");
+        GameLabelView scaleYLabel = new GameLabelView("Scale Y");
         scaleYLabel.setForeground(Color.WHITE);
         scaleYLabel.setFontSize(20);
         scaleYLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        GameUILabel rotationLabel = new GameUILabel("Rotation");
+        GameLabelView rotationLabel = new GameLabelView("Rotation");
         rotationLabel.setForeground(Color.WHITE);
         rotationLabel.setFontSize(20);
         rotationLabel.setHorizontalAlignment(SwingConstants.CENTER);

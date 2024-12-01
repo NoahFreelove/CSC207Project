@@ -4,45 +4,39 @@ package com.project.use_cases.prebuilts.game_ui;
 import com.project.entity.core.GameObject;
 import com.project.entity.core.Scene;
 import com.project.entity.ui.*;
-import com.project.external_interfaces.FontCreator;
 import com.project.use_cases.ui.button.ButtonOutputData;
+import com.project.use_cases.ui.label.LabelOutputData;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static com.project.entity.ui.UIConstants.*;
+import static com.project.use_cases.prebuilts.game_ui.UIConstants.*;
 
 public class UIFactory {
     public static ArrayList<Object> PausedElements = new ArrayList<>();
-    public static GameUILabel deathCounter;
+    public static LabelOutputData deathCounter;
 
-    public static GameUILabel LabelFactory(String text, int x, int y, int width, int height) {
-        GameUILabel label = new GameUILabel(text, x, y, width, height);
-        label.setFont(FontCreator.createFont(TITLE_SIZE));
-        label.setForeground(Color.decode(FOREST_GREEN));
-        label.setHorizontalAlignment(SwingConstants.CENTER);
+    public static LabelOutputData LabelFactory(String text, int x, int y, int width, int height) {
+        LabelOutputData label = new LabelOutputData(text, x, y, width, height);
+        label.getComponent().setForeground(Color.decode(FOREST_GREEN));
 
         return label;
     }
 
-    public static GameUILabel DeathLabelFactory(int x, int y, int width, int height) {
-        GameUILabel label = new GameUILabel(DEATH_COUNT, x, y, width, height);
-        label.setFont(FontCreator.createFont(COUNTER_SIZE));
-        label.setForeground(Color.decode(FOREST_GREEN));
-        label.setHorizontalAlignment(SwingConstants.CENTER);
+    public static LabelOutputData DeathLabelFactory(int x, int y, int width, int height) {
+        LabelOutputData label = new LabelOutputData(DEATH_COUNT, x, y, width, height);
+        label.getComponent().setForeground(Color.decode(FOREST_GREEN));
         deathCounter = label;
 
         return label;
     }
 
-    public static GameUILabel LabelFactory(String text, int x, int y, int width, int height, String color) {
-        GameUILabel label = new GameUILabel(text, x, y, width, height);
-        label.setFont(FontCreator.createFont(TITLE_SIZE));
-        label.setForeground(Color.decode(color));
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        if (color == LIGHT_GREEN) {
-            PausedElements.add(label);
+    public static LabelOutputData LabelFactory(String text, int x, int y, int width, int height, String color) {
+        LabelOutputData label = new LabelOutputData(text, x, y, width, height);
+        label.getComponent().setForeground(Color.decode(color));
+
+        if (color.equals(LIGHT_GREEN)) {
+            PausedElements.add(new GameUI(label));
         }
 
         return label;
@@ -61,8 +55,8 @@ public class UIFactory {
         button.getComponent().setForeground(Color.decode(color));
         button.setTransparent(true);
 
-        if (color == LIGHT_GREEN) {
-            PausedElements.add(button);
+        if (color.equals(LIGHT_GREEN)) {
+            PausedElements.add(new GameUI(button));
         }
 
         return button;
@@ -71,7 +65,7 @@ public class UIFactory {
     public static void removePause(Scene scene) {
         for (int i = 0; i < PausedElements.size(); i++) {
             Object obj = PausedElements.get(i);
-            if (obj instanceof JComponent) {
+            if (obj instanceof GameUI) {
                 scene.removeUIElement((GameUI) obj);
             } else {
                 scene.removeSceneObject((GameObject) obj);

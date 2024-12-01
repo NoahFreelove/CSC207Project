@@ -17,7 +17,7 @@ import com.project.use_cases.ui.button.ButtonOutputData;
 
 import java.util.HashMap;
 
-import static com.project.entity.ui.UIConstants.*;
+import static com.project.use_cases.prebuilts.game_ui.UIConstants.*;
 
 public class LevelSelectionFactory {
     private static HashMap<Integer, String> levelMap = new HashMap<>();

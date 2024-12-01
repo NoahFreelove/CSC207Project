@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static com.project.entity.ui.UIConstants.BUTTON_SIZE;
+import static com.project.use_cases.prebuilts.game_ui.UIConstants.BUTTON_SIZE;
 
 public class GameButtonView extends JButton implements ButtonViewManager {
     ButtonController controller;

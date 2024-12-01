@@ -2,10 +2,10 @@ package com.project.use_cases.play_prebuilt_levels.scenes;
 
 import com.project.entity.core.GameObject;
 import com.project.entity.ui.GameUI;
-import com.project.entity.ui.GameUIObject;
 import com.project.use_cases.general.GameInteractor;
 import com.project.entity.core.Scene;
-import com.project.entity.ui.GameUILabel;
+import com.project.use_cases.ui.label.LabelOutputData;
+import com.project.view.ui.GameLabelView;
 import com.project.use_cases.prebuilts.game_ui.UIFactory;
 import com.project.use_cases.ui.button.ButtonOutputData;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.project.entity.ui.UIConstants.FOREST_GREEN;
+import static com.project.use_cases.prebuilts.game_ui.UIConstants.FOREST_GREEN;
 
 public class WinOverlayFactory {
     public static ArrayList<GameUI> WinElements = new ArrayList<>();
@@ -21,7 +21,7 @@ public class WinOverlayFactory {
     public static void createWinOverlay(Scene scene) {
 
         // Label
-        GameUILabel label = UIFactory.LabelFactory("Level Completed", 50, 40, 700, 200, FOREST_GREEN);
+        LabelOutputData label = UIFactory.LabelFactory("Level Completed", 50, 40, 700, 200, FOREST_GREEN);
 
         //Buttons
         ButtonOutputData restart = UIFactory.ButtonFactory("Restart Level", 150, 300, 500, 80, FOREST_GREEN);

@@ -6,7 +6,8 @@ import com.project.entity.core.GameObject;
 import com.project.entity.core.Scene;
 import com.project.entity.core.Tuple;
 import com.project.use_cases.general.GameOutputData;
-import com.project.entity.ui.GameUILabel;
+import com.project.use_cases.ui.label.LabelOutputData;
+import com.project.view.ui.GameLabelView;
 import com.project.use_cases.prebuilts.game_objects.*;
 import com.project.use_cases.play_prebuilt_levels.scripts.SceneExit;
 import com.project.use_cases.prebuilts.game_ui.UIFactory;
@@ -29,8 +30,8 @@ public class MainMenuFactory {
         CloudFactory cloud = (CloudFactory) AbstractObjectFactory.makeFactory(ObjectType.CLOUD);
         scene.addSceneObject(cloud.generate(300, 30, 3, 1.5));
         // Game Label
-        GameUILabel title1 = UIFactory.LabelFactory("Froggy's", 212, 20, 375, 200);
-        GameUILabel title2 = UIFactory.LabelFactory("Adventure", 175, 120, 450, 200);
+        LabelOutputData title1 = UIFactory.LabelFactory("Froggy's", 212, 20, 375, 200);
+        LabelOutputData title2 = UIFactory.LabelFactory("Adventure", 175, 120, 450, 200);
         // Play Button
         ButtonOutputData play = UIFactory.ButtonFactory("Play Game", 265, 280, 270, 80);
         play.setButtonCallback(LevelSelectionFactory::loadLevelSelection);

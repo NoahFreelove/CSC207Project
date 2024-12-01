@@ -4,13 +4,14 @@ import com.project.entity.core.GameObject;
 import com.project.entity.ui.GameUI;
 import com.project.use_cases.general.GameInteractor;
 import com.project.entity.core.Scene;
-import com.project.entity.ui.GameUILabel;
+import com.project.use_cases.ui.label.LabelOutputData;
+import com.project.view.ui.GameLabelView;
 import com.project.use_cases.prebuilts.game_objects.AbstractObjectFactory;
 import com.project.use_cases.prebuilts.game_objects.game_object_types.ObjectType;
 import com.project.use_cases.prebuilts.game_ui.UIFactory;
 import com.project.use_cases.ui.button.ButtonOutputData;
 
-import static com.project.entity.ui.UIConstants.LIGHT_GREEN;
+import static com.project.use_cases.prebuilts.game_ui.UIConstants.LIGHT_GREEN;
 
 public class PauseOverlayFactory {
      public static GameObject pauseBackground = AbstractObjectFactory.generateOfType(ObjectType.PAUSE_BACKGROUND);
@@ -21,7 +22,7 @@ public class PauseOverlayFactory {
         // Background
 
         // Label
-        GameUILabel label = UIFactory.LabelFactory("Game Paused", 125, 40, 550, 200, LIGHT_GREEN);
+        LabelOutputData label = UIFactory.LabelFactory("Game Paused", 125, 40, 550, 200, LIGHT_GREEN);
 
         //Buttons
         ButtonOutputData resume = UIFactory.ButtonFactory("Resume Game", 250, 300, 300, 80, LIGHT_GREEN);
