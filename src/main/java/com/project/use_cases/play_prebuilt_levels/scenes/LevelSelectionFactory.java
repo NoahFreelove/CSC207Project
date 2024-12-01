@@ -7,7 +7,6 @@ import com.project.entity.core.Tuple;
 import com.project.use_cases.play_prebuilt_levels.game_objects.AbstractObjectFactory;
 import com.project.use_cases.play_prebuilt_levels.game_objects.ObjectType;
 import com.project.use_cases.general.GameOutputData;
-import com.project.external_interfaces.FileIO;
 import com.project.entity.ui.GameUIButton;
 import com.project.use_cases.play_prebuilt_levels.scripts.SceneExit;
 import com.project.use_cases.play_prebuilt_levels.scripts.WinScript;
@@ -15,7 +14,6 @@ import com.project.use_cases.play_prebuilt_levels.ui.UIFactory;
 import com.project.use_cases.level_editing.LevelEditor;
 import com.project.use_cases.player_death_count.PlayerDeath;
 
-import javax.speech.Engine;
 import java.util.HashMap;
 
 import static com.project.entity.ui.UIConstants.*;
@@ -27,7 +25,7 @@ public class LevelSelectionFactory {
 
     static {
         levelMap.put(0, "levels/level1.json");
-        levelMap.put(1, "levels/level2ARCHIVE.json");
+        levelMap.put(1, "levels/level2.json");
         levelMap.put(2, "levels/level3.json");
         levelMap.put(3, "levels/level4.json");
         levelMap.put(4, "levels/level5.json");
