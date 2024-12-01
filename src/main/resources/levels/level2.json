@@ -259,14 +259,6 @@
         {
             "scaleX": 1,
             "scaleY": 1,
-            "yPos": 512,
-            "rot": 0,
-            "ID": 13,
-            "xPos": 5696
-        },
-        {
-            "scaleX": 1,
-            "scaleY": 1,
             "yPos": 384,
             "rot": 0,
             "ID": 4,
@@ -623,6 +615,14 @@
             "rot": 0,
             "ID": 11,
             "xPos": 3968
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 13,
+            "xPos": 5632
         }
     ],
     "meta": {
