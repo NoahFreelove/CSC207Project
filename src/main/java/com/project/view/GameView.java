@@ -14,9 +14,9 @@ public class GameView extends JPanel {
     private View viewWindow;
     private final ViewController viewController = new ViewController();
 
-    public GameView(View window) {
+    public GameView(View window, int width, int height) {
         this.viewWindow = window;
-        this.setBounds(0, 0, window.getModel().getWidth(), window.getModel().getHeight());
+        this.setBounds(0, 0, width, height);
         this.setOpaque(true);
         this.setDoubleBuffered(false);
     }

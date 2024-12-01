@@ -1,21 +1,22 @@
 package com.project.use_cases.play_prebuilt_levels.scenes;
 
 import com.project.entity.core.GameObject;
+import com.project.entity.ui.GameUI;
+import com.project.entity.ui.GameUIObject;
 import com.project.use_cases.general.GameInteractor;
 import com.project.entity.core.Scene;
-import com.project.entity.ui.GameUIButton;
 import com.project.entity.ui.GameUILabel;
-import com.project.use_cases.play_prebuilt_levels.scripts.SceneExit;
-import com.project.use_cases.play_prebuilt_levels.ui.UIFactory;
+import com.project.use_cases.prebuilts.game_ui.UIFactory;
+import com.project.use_cases.ui.button.ButtonOutputData;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import static com.project.entity.ui.UIConstants.FOREST_GREEN;
 
 public class WinOverlayFactory {
-    public static ArrayList<JComponent> WinElements = new ArrayList<>();
+    public static ArrayList<GameUI> WinElements = new ArrayList<>();
 
     public static void createWinOverlay(Scene scene) {
 
@@ -23,18 +24,20 @@ public class WinOverlayFactory {
         GameUILabel label = UIFactory.LabelFactory("Level Completed", 50, 40, 700, 200, FOREST_GREEN);
 
         //Buttons
-        GameUIButton restart = UIFactory.ButtonFactory("Restart Level", 150, 300, 500, 80, FOREST_GREEN);
-        GameUIButton back = UIFactory.ButtonFactory("Back to Select", 150, 400, 500, 80, FOREST_GREEN);
+        ButtonOutputData restart = UIFactory.ButtonFactory("Restart Level", 150, 300, 500, 80, FOREST_GREEN);
+        ButtonOutputData back = UIFactory.ButtonFactory("Back to Select", 150, 400, 500, 80, FOREST_GREEN);
 
-        restart.onClickEvent = LevelSelectionFactory::reloadCurrentLevel;
+        restart.setButtonCallback(LevelSelectionFactory::reloadCurrentLevel);
 
-        back.onClickEvent = LevelSelectionFactory::loadLevelSelection;
+        back.setButtonCallback(LevelSelectionFactory::loadLevelSelection);
 
-        scene.addUIElements(restart, back, label);
+        GameUI l = new GameUI(label);
+        GameUI b = new GameUI(back);
+        scene.addUIElements(new GameUI(restart), b, l);
 
-        WinElements.add(label);
+        WinElements.add(l);
         //WinElements.add(restart);
-        WinElements.add(back);
+        WinElements.add(b);
     }
 
     public static void winGame() {
@@ -62,14 +65,19 @@ public class WinOverlayFactory {
 
     public static void removePauseButton() {
         Scene s = GameInteractor.getInstance().getPrimaryWindow().getActiveScene();
-        GameUIButton pause = s.getButton("Pause");
-        s.removeUIElement(pause);
+        List<GameUI>  ui = s.getUIElements();
+
+        for (GameUI uiElement : ui) {
+            if(uiElement.getUnderlyingUI() instanceof ButtonOutputData && ((ButtonOutputData) uiElement.getUnderlyingUI()).getText().equals("Pause")) {
+                s.removeUIElement(uiElement);
+            }
+        }
     }
 
     public static void removeWinOverlay() {
         Scene s = GameInteractor.getInstance().getPrimaryWindow().getActiveScene();
 
-        for (JComponent c : WinElements) {
+        for (GameUI c : WinElements) {
             s.removeUIElement(c);
         }
     }

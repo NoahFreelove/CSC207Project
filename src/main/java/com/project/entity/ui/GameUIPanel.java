@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameUIPanel extends JPanel implements GameUI {
+public class GameUIPanel extends JPanel implements GameUIObject {
 
     public GameUIPanel() {
         super();
@@ -56,7 +56,7 @@ public class GameUIPanel extends JPanel implements GameUI {
             // instantiate the class default constructor with reflection
             try {
                 Component childUI = (Component) classInst.getDeclaredConstructor().newInstance();
-                ((GameUI)childUI).deserialize(obj);
+                ((GameUIObject)childUI).deserialize(obj);
                 add(childUI);
             } catch (Exception f) {
                 System.err.println("Error deserializing scriptable: (" + f.getClass().getCanonicalName() + ")" + f.getMessage());
@@ -95,9 +95,9 @@ public class GameUIPanel extends JPanel implements GameUI {
         JSONArray childrenArray = new JSONArray();
         ArrayList<Component> children = new ArrayList<>(List.of(getComponents()));
         children.forEach(component -> {
-            if (component instanceof GameUI) {
-                JSONObject outputChild = ((GameUI)component).serialize();
-                outputChild.put("class", ((GameUI)component).attachedClass().getName());
+            if (component instanceof GameUIObject) {
+                JSONObject outputChild = ((GameUIObject)component).serialize();
+                outputChild.put("class", ((GameUIObject)component).attachedClass().getName());
                 childrenArray.put(outputChild);
             }
         });
@@ -105,5 +105,10 @@ public class GameUIPanel extends JPanel implements GameUI {
         output.put("children", childrenArray);
 
         return output;
+    }
+
+    @Override
+    public JComponent getComponent() {
+        return null;
     }
 }

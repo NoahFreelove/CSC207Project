@@ -12,7 +12,7 @@ import java.util.Map;
 public class View implements ViewManager {
     private JLayeredPane layeredPane; // This ensures UI is drawn on top of game
     private GameView gameView;
-    private JPanel uiView;
+    private UIView uiView;
     private final ViewModel model;
 
     private final Map<Component, Rectangle> originalBoundsMap = new HashMap<>();
@@ -56,19 +56,15 @@ public class View implements ViewManager {
         model.getWindow().setContentPane(layeredPane);
 
         // Create and add the GamePanel
-        gameView = new GameView(this);
-        gameView.setBounds(0, 0, width, height);
+        gameView = new GameView(this, width, height);
         layeredPane.add(gameView, JLayeredPane.DEFAULT_LAYER); // Game layer
 
         // UI Root Panel
-        uiView = new JPanel();
-        uiView.setBounds(0, 0, width, height);
-        uiView.setOpaque(false);
-        uiView.setLayout(null); // Set layout to null, so we can just absolute position everything
+        uiView = new UIView(width, height); // Set layout to null, so we can just absolute position everything
         layeredPane.add(uiView, JLayeredPane.PALETTE_LAYER); // UI layer
     }
 
-    public void addUIComponent(Component component) {
+    public void addUIComponent(JComponent component) {
             SwingUtilities.invokeLater(() -> {
                 // Store original bounds for components
                 Rectangle originalBounds = component.getBounds();
@@ -83,9 +79,7 @@ public class View implements ViewManager {
                 // Scale the component positions, sizes, and fonts based on new scaling factors
                 scaleComponentAndFont(component);
 
-                uiView.add(component);
-                uiView.revalidate();
-                uiView.repaint();
+                uiView.addComponent(component);
             });
     }
 
@@ -108,8 +102,7 @@ public class View implements ViewManager {
             }
 
             // Refresh the UI by invoking an update
-            uiView.revalidate();
-            uiView.repaint();
+            uiView.refresh();
         });
     }
 
@@ -118,9 +111,7 @@ public class View implements ViewManager {
             if(component == null)
                 return;
 
-            uiView.remove(component);
-            uiView.revalidate();
-            uiView.repaint();
+            uiView.removeComponent(component);
         });
     }
 

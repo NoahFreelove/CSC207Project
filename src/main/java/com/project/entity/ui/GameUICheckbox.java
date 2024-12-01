@@ -5,7 +5,7 @@ import com.project.external_interfaces.ImageLoader;
 import javax.swing.*;
 import java.awt.*;
 
-public class GameUICheckbox extends JCheckBox implements GameUI {
+public class GameUICheckbox extends JCheckBox implements GameUIObject {
     public IOnCheck onClickEvent = (checked) -> {};
 
     public GameUICheckbox() {
@@ -35,12 +35,12 @@ public class GameUICheckbox extends JCheckBox implements GameUI {
         setIcons();
     }
 
-    public void setFontSize(int size) {
-        Font f = getFont();
-        setFont(new Font(f.getFontName(), f.getStyle(), size));
-    }
-
     public void onChecked() {
         onClickEvent.onCheck(isSelected());
+    }
+
+    @Override
+    public JComponent getComponent() {
+        return null;
     }
 }

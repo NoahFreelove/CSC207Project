@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class GameUILabel extends JLabel implements GameUI{
+public class GameUILabel extends JLabel implements GameUIObject {
     private String imagePath = "";
 
     public GameUILabel() {
@@ -97,5 +97,10 @@ public class GameUILabel extends JLabel implements GameUI{
 
 
         return obj;
+    }
+
+    @Override
+    public JComponent getComponent() {
+        return null;
     }
 }

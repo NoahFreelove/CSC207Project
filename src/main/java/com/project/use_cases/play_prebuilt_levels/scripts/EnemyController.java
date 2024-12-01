@@ -6,7 +6,7 @@ import com.project.entity.physics.collision.CollisionVolume;
 import com.project.entity.physics.collision.types.ECollisionVolume;
 import com.project.entity.physics.physics_body.RigidBody2D;
 import com.project.entity.scripting.IScriptable;
-import com.project.use_cases.player_death_count.PlayerDeath;
+import com.project.use_cases.player_death_count.PlayerDeathInteractor;
 
 public class EnemyController extends BoxCollider implements IScriptable {
     private int moveDirection = 1;
@@ -48,10 +48,10 @@ public class EnemyController extends BoxCollider implements IScriptable {
                 return;
             }
 
-            PlayerDeath pd = other.getScriptable(PlayerDeath.class);
+            PlayerDeathInteractor pd = other.getScriptable(PlayerDeathInteractor.class);
 
             if (pd != null) {
-                pd.queueDeath();
+                pd.execute();
             }
         }
 

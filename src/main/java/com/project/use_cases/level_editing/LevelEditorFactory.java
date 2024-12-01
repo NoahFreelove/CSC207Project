@@ -1,15 +1,16 @@
 package com.project.use_cases.level_editing;
 
+import com.project.entity.ui.GameUI;
 import com.project.use_cases.general.GameInteractor;
 import com.project.entity.core.Scene;
 import com.project.entity.core.Tuple;
 import com.project.use_cases.general.GameOutputData;
 import com.project.external_interfaces.ImageLoader;
-import com.project.entity.ui.GameUIButton;
 import com.project.entity.ui.GameUILabel;
 import com.project.entity.ui.GameUIPanel;
 import com.project.use_cases.general.LoadingScreen;
 import com.project.use_cases.play_prebuilt_levels.scenes.LevelSelectionFactory;
+import com.project.use_cases.ui.button.ButtonOutputData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,13 +55,13 @@ public class LevelEditorFactory {
         // center
         title.setHorizontalAlignment(SwingConstants.CENTER);
 
-        GameUIButton saveButton = new GameUIButton("Save", 40, 100, 300, 50);
-        saveButton.setForeground(Color.WHITE);
+        ButtonOutputData saveButton = new ButtonOutputData("Save", 40, 100, 300, 50);
+        saveButton.getComponent().setForeground(Color.WHITE);
         saveButton.setFontSize(32);
-        saveButton.setBackground(Color.decode("#398a32"));
+        saveButton.getComponent().setBackground(Color.decode("#398a32"));
         // add border to button
-        saveButton.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 5));
-        saveButton.onClickEvent = () -> {
+        saveButton.getComponent().setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 5));
+        saveButton.setButtonCallback(() -> {
             // scene.activeFile == "", we need to ask user for folder to store with a file picker
             // then in a message box ask for file name, append .json to the end of it and set scene.activeFile to that
             // now that scene.activeFile != "", call scene.saveToFile()
@@ -80,16 +81,16 @@ public class LevelEditorFactory {
             }
             GameInteractor.getInstance().getPrimaryWindow().refocusInWindow();
 
-        };
+        });
 
 
-        GameUIButton loadButton = new GameUIButton("Load", 40, 160, 300, 50);
-        loadButton.setForeground(Color.WHITE);
+        ButtonOutputData loadButton = new ButtonOutputData("Load", 40, 160, 300, 50);
+        loadButton.getComponent().setForeground(Color.WHITE);
         loadButton.setFontSize(32);
-        loadButton.setBackground(Color.decode("#32748a"));
-        loadButton.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 5));
+        loadButton.getComponent().setBackground(Color.decode("#32748a"));
+        loadButton.getComponent().setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 5));
 
-        loadButton.onClickEvent = () -> {
+        loadButton.setButtonCallback(() -> {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Specify a file to load");
             int userSelection = fileChooser.showOpenDialog(w.getRootPane());
@@ -97,38 +98,38 @@ public class LevelEditorFactory {
                 scene.loadFromFile(fileChooser.getSelectedFile().getAbsolutePath(), false);
             }
             GameInteractor.getInstance().getPrimaryWindow().refocusInWindow();
-        };
+        });
 
-        GameUIButton testButton = new GameUIButton("Test", 40, 220, 300, 50);
-        testButton.setForeground(Color.WHITE);
+        ButtonOutputData testButton = new ButtonOutputData("Test", 40, 220, 300, 50);
+        testButton.getComponent().setForeground(Color.WHITE);
         testButton.setFontSize(32);
-        testButton.setBackground(Color.decode("#324f8a"));
-        testButton.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 5));
-        testButton.onClickEvent = () -> {
+        testButton.getComponent().setBackground(Color.decode("#324f8a"));
+        testButton.getComponent().setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 5));
+        testButton.setButtonCallback(() -> {
             w.setWindowSizeForce(800, 800);
             LoadingScreen.addLoadingScreen(scene.exportToScene(true));
             w.setActiveScene(scene.exportToScene(true));
             LevelSelectionFactory.isInEditor = true;
             GameInteractor.getInstance().getPrimaryWindow().refocusInWindow();
-        };
+        });
 
-        GameUIButton newButton = new GameUIButton("New", 40, 280, 300, 50);
-        newButton.setForeground(Color.WHITE);
+        ButtonOutputData newButton = new ButtonOutputData("New", 40, 280, 300, 50);
+        newButton.getComponent().setForeground(Color.WHITE);
         newButton.setFontSize(32);
-        newButton.setBackground(Color.decode("#66328a"));
-        newButton.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 5));
-        newButton.onClickEvent = () -> {
+        newButton.getComponent().setBackground(Color.decode("#66328a"));
+        newButton.getComponent().setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 5));
+        newButton.setButtonCallback(() -> {
             scene.newFile();
             GameInteractor.getInstance().getPrimaryWindow().refocusInWindow();
-        };
+        });
 
-        GameUIButton backToGameButton = new GameUIButton("Back to Game", 40, 340, 300, 50);
-        backToGameButton.setForeground(Color.WHITE);
+        ButtonOutputData backToGameButton = new ButtonOutputData("Back to Game", 40, 340, 300, 50);
+        backToGameButton.getComponent().setForeground(Color.WHITE);
         backToGameButton.setFontSize(20);
-        backToGameButton.setBackground(Color.decode("#8a3a32"));
-        backToGameButton.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 5));
+        backToGameButton.getComponent().setBackground(Color.decode("#8a3a32"));
+        backToGameButton.getComponent().setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 5));
 
-        backToGameButton.onClickEvent = scene::exitLevelEditor;
+        backToGameButton.setButtonCallback(scene::exitLevelEditor);
 
         // GameUICheckbox box = new GameUICheckbox("Text");
         // box.setForeground(Color.WHITE);
@@ -139,16 +140,16 @@ public class LevelEditorFactory {
         // add spacer
         leftSidebar.add(new GameUIPanel().setBackground("#404040"));
 
-        leftSidebar.add(saveButton);
+        leftSidebar.add(saveButton.getComponent());
 
-        leftSidebar.add(loadButton);
-        leftSidebar.add(testButton);
+        leftSidebar.add(loadButton.getComponent());
+        leftSidebar.add(testButton.getComponent());
 
         // add spacer
         leftSidebar.add(new GameUIPanel().setBackground("#404040"));
-        leftSidebar.add(newButton);
+        leftSidebar.add(newButton.getComponent());
 
-        leftSidebar.add(backToGameButton);
+        leftSidebar.add(backToGameButton.getComponent());
 
         GameUILabel selectedTileLabel = new GameUILabel("Selected Tile");
         selectedTileLabel.setForeground(Color.WHITE);
@@ -257,7 +258,7 @@ public class LevelEditorFactory {
         rightSidebar.add(rotationLabel);
         rightSidebar.add(rotationSlider);
 
-        scene.addUIElement(background);
+        scene.addUIElement(new GameUI(background));
 
         return scene;
     }

@@ -4,7 +4,7 @@ import com.project.use_cases.general.GameInteractor;
 import com.project.entity.core.GameObject;
 import com.project.entity.scripting.IScriptable;
 import com.project.entity.physics.collision.CollisionVolume;
-import com.project.use_cases.player_death_count.PlayerDeath;
+import com.project.use_cases.player_death_count.PlayerDeathInteractor;
 
 import java.util.Iterator;
 
@@ -42,9 +42,9 @@ public class VoidScript extends SimpleTrigger implements IScriptable {
     @Override
     public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
         if(other.hasTag("player")) {
-            PlayerDeath pd = other.getScriptable(PlayerDeath.class);
+            PlayerDeathInteractor pd = other.getScriptable(PlayerDeathInteractor.class);
             if (pd != null) {
-                pd.queueDeath();
+                pd.execute();
             }
             else {
                 System.err.println("No spawn point found");

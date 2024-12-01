@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.project.entity.core.Scene;
 import com.project.entity.core.Tuple;
+import com.project.entity.ui.GameUI;
 import com.project.entity.windowing.WindowUICallback;
 
 public final class GameOutputData {
@@ -59,8 +60,8 @@ public final class GameOutputData {
         return getUnderlyingWindow().isFocused();
     }
 
-    public void addUIElement(JComponent component) {
-        outputBoundary.getViewPresenter().addUIComponent(component);
+    public void addUIElement(GameUI component) {
+        outputBoundary.getViewPresenter().addUIComponent(component.getUnderlyingUI().getComponent());
     }
 
     public void setWindowSizeForce(int width, int height) {
@@ -116,16 +117,16 @@ public final class GameOutputData {
         return activeScene;
     }
 
-    public void removeUIElement(JComponent jComponent) {
-        outputBoundary.getViewPresenter().removeUIElement(jComponent);
+    public void removeUIElement(GameUI ui) {
+        outputBoundary.getViewPresenter().removeUIElement(ui.getUnderlyingUI().getComponent());
     }
 
     private void unloadActiveScene() {
         if (this.activeScene != null) {
             GameInteractor.getInstance().stopScene(this.activeScene);
 
-            CopyOnWriteArrayList<JComponent> sceneUI = this.activeScene.getUIElements();
-            for (JComponent jComponent : sceneUI) {
+            CopyOnWriteArrayList<GameUI> sceneUI = this.activeScene.getUIElements();
+            for (GameUI jComponent : sceneUI) {
                 removeUIElement(jComponent);
             }
         }
@@ -144,12 +145,12 @@ public final class GameOutputData {
 
         this.activeScene.addUICallback(new WindowUICallback() {
             @Override
-            public void addUIComponent(JComponent component) {
+            public void addUIComponent(GameUI component) {
                 addUIElement(component);
             }
 
             @Override
-            public void removeUIComponent(JComponent component) {
+            public void removeUIComponent(GameUI component) {
                 removeUIElement(component);
             }
         });

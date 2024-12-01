@@ -1,16 +1,18 @@
 package com.project.use_cases.play_prebuilt_levels.scenes;
 
+import com.project.entity.ui.GameUI;
 import com.project.use_cases.general.GameInteractor;
 import com.project.entity.core.GameObject;
 import com.project.entity.core.Scene;
 import com.project.entity.core.Tuple;
 import com.project.use_cases.general.GameOutputData;
-import com.project.entity.ui.GameUIButton;
 import com.project.entity.ui.GameUILabel;
-import com.project.use_cases.play_prebuilt_levels.game_objects.*;
+import com.project.use_cases.prebuilts.game_objects.*;
 import com.project.use_cases.play_prebuilt_levels.scripts.SceneExit;
-import com.project.use_cases.play_prebuilt_levels.ui.UIFactory;
+import com.project.use_cases.prebuilts.game_ui.UIFactory;
 import com.project.use_cases.level_editing.LevelEditorFactory;
+import com.project.use_cases.prebuilts.game_objects.game_object_types.ObjectType;
+import com.project.use_cases.ui.button.ButtonOutputData;
 
 public class MainMenuFactory {
 
@@ -30,20 +32,20 @@ public class MainMenuFactory {
         GameUILabel title1 = UIFactory.LabelFactory("Froggy's", 212, 20, 375, 200);
         GameUILabel title2 = UIFactory.LabelFactory("Adventure", 175, 120, 450, 200);
         // Play Button
-        GameUIButton play = UIFactory.ButtonFactory("Play Game", 265, 280, 270, 80);
-        play.onClickEvent = LevelSelectionFactory::loadLevelSelection;
+        ButtonOutputData play = UIFactory.ButtonFactory("Play Game", 265, 280, 270, 80);
+        play.setButtonCallback(LevelSelectionFactory::loadLevelSelection);
 
         // Leave Button
-        GameUIButton leave = UIFactory.ButtonFactory("Leave Game", 265, 380, 270, 80);
-        leave.onClickEvent = MainMenuFactory::leaveGame;
+        ButtonOutputData leave = UIFactory.ButtonFactory("Leave Game", 265, 380, 270, 80);
+        leave.setButtonCallback(MainMenuFactory::leaveGame);
 
         // Editor Button
-        GameUIButton editor = UIFactory.ButtonFactory("Level Editor", 200, 480, 400, 80);
-        editor.onClickEvent = () -> LevelEditorFactory.loadLevelEditor(GameInteractor.getInstance().getPrimaryWindow());
+        ButtonOutputData editor = UIFactory.ButtonFactory("Level Editor", 200, 480, 400, 80);
+        editor.setButtonCallback(() -> LevelEditorFactory.loadLevelEditor(GameInteractor.getInstance().getPrimaryWindow()));
 
 
         // Adding everything to the scene
-        scene.addUIElements(play, leave, title1, title2, editor);
+        scene.addUIElements(new GameUI(play), new GameUI(leave), new GameUI(title1), new GameUI(title2), new GameUI(editor));
         return scene;
     }
 

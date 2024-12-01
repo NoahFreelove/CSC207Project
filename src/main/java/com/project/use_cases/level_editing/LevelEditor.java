@@ -1,5 +1,6 @@
 package com.project.use_cases.level_editing;
 
+import com.project.entity.ui.GameUI;
 import com.project.use_cases.general.GameInteractor;
 import com.project.entity.core.Scene;
 import com.project.entity.core.Tuple;
@@ -13,9 +14,10 @@ import com.project.use_cases.general.LoadingScreen;
 import com.project.use_cases.play_prebuilt_levels.scenes.LevelSelectionFactory;
 import com.project.use_cases.play_prebuilt_levels.scenes.MainMenuFactory;
 import com.project.use_cases.play_prebuilt_levels.scenes.PauseOverlayFactory;
-import com.project.use_cases.play_prebuilt_levels.game_objects.*;
+import com.project.use_cases.prebuilts.game_objects.*;
 import com.project.use_cases.play_prebuilt_levels.scripts.WinScript;
-import com.project.use_cases.play_prebuilt_levels.ui.UIFactory;
+import com.project.use_cases.prebuilts.game_ui.UIFactory;
+import com.project.use_cases.prebuilts.game_objects.game_object_types.ObjectType;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -364,7 +366,7 @@ public class LevelEditor extends Scene {
         System.gc();
         Scene out = le.exportToScene(LevelSelectionFactory.isInEditor);
         LoadingScreen.addLoadingScreen(out);
-        out.addUIElement(UIFactory.DeathLabelFactory(0, 10, 220, 70));
+        out.addUIElement(new GameUI(UIFactory.DeathLabelFactory(0, 10, 220, 70)));
 
         w.setActiveScene(out);
     }
