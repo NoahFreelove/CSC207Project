@@ -1,7 +1,7 @@
 package com.project.use_cases.player_death_count;
 
 import com.project.data_access.player_death_count.IAPIResponse;
-import com.project.database.player_death_count.JokeAPIRequest;
+import com.project.database.player_death_count.endpoints.JokeAPIRequest;
 import com.project.data_access.player_death_count.JokeType;
 import com.project.entity.scripting.IScriptable;
 import com.project.external_interfaces.player_death_count.PlayTTS;

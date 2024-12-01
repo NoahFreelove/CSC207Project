@@ -1,9 +1,10 @@
-package com.project.database.player_death_count;
+package com.project.database.player_death_count.endpoints;
 
 import com.project.data_access.player_death_count.APIMethod;
 import com.project.data_access.player_death_count.IAPIResponse;
 import com.project.data_access.player_death_count.JokeType;
-
+import com.project.database.player_death_count.APIRequest;
+import com.project.database.player_death_count.endpoints.JokeAPIAboutRequest;
 import java.util.HashMap;
 
 public class JokeAPIRequest extends APIRequest {
