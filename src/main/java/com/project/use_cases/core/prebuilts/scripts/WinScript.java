@@ -8,12 +8,11 @@ import com.project.use_cases.game_win.GameWinInteractor;
 public class WinScript extends SimpleTrigger implements IScriptable {
     public boolean overrideWinEvent = false;
     public Runnable r = null;
-    public static boolean winGame = false;
+
     @Override
     public void onTriggerEnter(GameObject parent, GameObject other, CollisionVolume interactor) {
         if (other.hasTag("player")) {
             if (!overrideWinEvent) {
-                winGame = true;
                 GameWinInteractor.execute(parent.getLinkedScene());
             }
             else {

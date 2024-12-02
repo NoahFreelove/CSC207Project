@@ -19,7 +19,7 @@ public class SceneExit implements IScriptable {
                 GameOutputData w = GameInteractor.getInstance().getPrimaryWindow();
                 w.setWindowSizeForce(LevelEditor.levelEditorScreenSize.getFirst(), LevelEditor.levelEditorScreenSize.getSecond());
                 w.setActiveScene(LoadLevelInteractor.getLevelEditor());
-            } else if (!WinScript.winGame){
+            } else {
                 GamePauseInteractor.execute();
             }
         }

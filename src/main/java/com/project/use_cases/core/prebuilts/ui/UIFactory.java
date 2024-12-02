@@ -11,12 +11,10 @@ import com.project.use_cases.core.editor.LevelEditor;
 import com.project.use_cases.core.editor.LevelEditorFactory;
 import com.project.use_cases.core.game.GameInteractor;
 import com.project.use_cases.core.game.GameOutputData;
-import com.project.use_cases.core.prebuilts.scenes.LevelSelectionFactory;
 
 import com.project.use_cases.core.prebuilts.game_objects.AbstractObjectFactory;
 import com.project.use_cases.core.prebuilts.game_objects.CloudFactory;
 import com.project.use_cases.core.prebuilts.game_objects.game_object_types.ObjectType;
-import com.project.use_cases.core.prebuilts.scenes.LevelSelectionFactory;
 import com.project.use_cases.core.prebuilts.scenes.MainMenuFactory;
 import com.project.use_cases.core.prebuilts.ui.types.button.ButtonOutputData;
 import com.project.use_cases.core.prebuilts.ui.types.label.LabelOutputData;
@@ -25,7 +23,7 @@ import com.project.use_cases.core.prebuilts.ui.types.slider.SliderOutputData;
 import com.project.use_cases.editor.*;
 import com.project.use_cases.game_pause.GameUnpauseInteractor;
 import com.project.use_cases.game_reset.LevelResetInteractor;
-import com.project.use_cases.game_reset.LoadLevelSelectInteractor;
+import com.project.use_cases.load_level.LoadLevelSelectInteractor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

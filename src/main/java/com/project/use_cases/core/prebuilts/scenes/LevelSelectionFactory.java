@@ -77,6 +77,10 @@ public class LevelSelectionFactory {
         }
     }
 
+    public static boolean isInEditor() {
+        return isInEditor;
+    }
+
     public static void reloadCurrentLevel() {
         LoadLevelInteractor.execute(loadedLevel);
     }
