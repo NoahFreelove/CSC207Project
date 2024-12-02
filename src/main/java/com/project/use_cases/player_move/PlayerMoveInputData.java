@@ -1,6 +1,6 @@
 package com.project.use_cases.player_move;
 
-import com.project.use_cases.general.GameInteractor;
+import com.project.use_cases.core.game.GameInteractor;
 
 import java.util.HashMap;
 
@@ -8,11 +8,12 @@ public class PlayerMoveInputData {
     private int mouseX;
     private int mouseY;
     private HashMap<String, Boolean> keys = new HashMap<>();
+    PlayerMoveInputBoundary inputController;
 
     public PlayerMoveInputData() {}
 
     public void init() {
-        PlayerMoveInputBoundary inputController = new PlayerMoveInputBoundary() {};
+        inputController = new PlayerMoveInputBoundary() {};
 
         GameInteractor e = GameInteractor.getInstance();
         inputController.getInputController().addKeyboardListeners(e.getPrimaryWindow().getUnderlyingWindow(), () -> e.getPrimaryWindow().getActiveScene(), keys);

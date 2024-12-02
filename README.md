@@ -1,10 +1,16 @@
 # Froggy's Adventure
 ### Summary
-Froggy's Adventure is a challenging 2D platformer designed for fans of tough gameplay offered from games such as Getting Over It with Bennett Foddy and Cat Mario. The game tasks you with navigating Froggy through many difficult challenges to reunite him with his beloved Princess.
+Froggy's Adventure is a challenging 2D platformer designed for fans of tough gameplay offered from games such as 
+Getting Over It with Bennett Foddy and Cat Mario. The game tasks you with navigating Froggy through many difficult 
+challenges to reunite him with the Princess.
 
-Through 9 prebuilt levels, players can expecct to encounter many hidden suprises, where everything you encounter may not be as frriendly as it seems, every move should be taken with caution. Upon death, the player can expect to be read a joke to aliviate the stress of a devastating loss. Every death matters! In every level, your number of death's is always viewable, challenge your friends to see who can beat each level in the fewest attempts.
+Through 9 prebuilt levels, players can expect to encounter many hidden surprises, where everything you encounter may 
+not be as friendly as it seems, every move should be taken with caution. Upon death, the player can expect to be read
+a joke to alleviate the stress of a devastating loss. Every death matters! In every level, your number of death's is 
+always viewable, challenge your friends to see who can beat each level in the fewest attempts.
 
-Tired of playing the offered levels, in Froggy's Adventure, you can create your own. For precise information on how to use our level editor, please onsult our [Usage Guide](#Usage-guide).
+Tired of playing the offered levels, in Froggy's Adventure? You can create your own! For precise information on how 
+to use our level editor, please consult our [Usage Guide](#Usage-guide).
 
 ### Table of Contents
 -[Features](#features)
@@ -56,7 +62,8 @@ Enjoy the game! 😊
 
 ### Usage Guide
 
-The Level Editor in Froggy's Adventure allows you to unleash your creativity by designing custom levels. Follow the steps below to navigate the editor:
+The Level Editor in Froggy's Adventure allows you to unleash your creativity by designing custom levels. 
+Follow the steps below to navigate the editor:
 
 Accessing the Level Editor
 1. From the main menu, click the **Level Editor** button.
@@ -77,8 +84,8 @@ Editor Interface Overview
 
 Key Bindings for Efficient Editing
 - **Placing and Removing Tiles**:
-    - **Hold Shift + Move Mouse**: Place consecutive tiles.
-    - **Hold Ctrl + Move Mouse**: Remove consecutive tiles.
+    - **Hold Shift + Move Mouse**: Place multiple tiles.
+    - **Hold Ctrl + Move Mouse**: Remove multiple tiles.
 - **Camera Controls**:
     - **WASD** or **Arrow Keys**: Move the camera up, down, left, and right.
     - **Num 1**: Increase the camera movement speed.
@@ -116,21 +123,6 @@ We welcome contributions to **Froggy's Adventure**! Follow these simple steps to
    ```bash
    git clone https://github.com/your-username/FroggysAdventure.git
 3. **Create a Branch**: Make a new branch for your changes:
-4. **Set Up the Project in Your IDE**
-    Open the Project Structure:
-
-    Use the shortcut Ctrl + Alt + Shift + S (on Windows/Linux) or navigate to File -> Project Structure.
-    Check Libraries:
-
-    In the Libraries section of the project structure, you should see two Maven entries.
-    If there's any non-Maven entry, select it and remove it using the - (minus) button.
-    Add Libraries:
-
-    Press the + (plus) button near the Maven entries.
-    Select Java from the options. A file picker dialog will open.
-    Navigate to the Project's Library Directory:
-    In the file picker, go to <project root>/lib.
-    Select the entire folder and press OK.
-6. **Make Changes**: Add your contributions to the project.
-7. **Test Your Work**: Ensure your changes work properly and don’t introduce new bugs.
-8. **Commit & Push then submit a Pull Request**: Push your changes to your forked repo and submit a pull request to the main repository. Make sure to describe your changes clearly
+4. **Make Changes**: Add your contributions to the project.
+5. **Test Your Work**: Ensure your changes work properly and don’t introduce new bugs.
+6. **Commit & Push then submit a Pull Request**: Push your changes to your forked repo and submit a pull request to the main repository. Make sure to describe your changes clearly

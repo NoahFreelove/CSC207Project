@@ -7,8 +7,8 @@ import com.project.entity.scripting.IScriptable;
 import com.project.entity.physics.collision.BoxTrigger;
 import com.project.entity.physics.collision.CollisionVolume;
 import com.project.entity.physics.physics_body.RigidBody2D;
-import com.project.use_cases.play_prebuilt_levels.scripts.GroundStats;
-import com.project.use_cases.play_prebuilt_levels.scripts.SimpleCollider;
+import com.project.use_cases.core.prebuilts.scripts.GroundStats;
+import com.project.use_cases.core.prebuilts.scripts.SimpleCollider;
 import org.json.JSONObject;
 
 import java.util.Iterator;
