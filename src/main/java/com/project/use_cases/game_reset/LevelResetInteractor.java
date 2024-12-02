@@ -6,6 +6,7 @@ import com.project.use_cases.player_death_count.PlayerDeathInteractor;
 
 public class LevelResetInteractor extends GamePauseState {
     public static void execute() {
+        GamePauseState.setIsPaused(false);
         LevelSelectionFactory.reloadCurrentLevel();
         GamePauseState.setIsPaused(false);
         PlayerDeathInteractor.resetDeathCount();

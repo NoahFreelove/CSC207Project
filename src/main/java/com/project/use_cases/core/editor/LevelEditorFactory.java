@@ -3,7 +3,7 @@ package com.project.use_cases.core.editor;
 import com.project.use_cases.core.game.GameInteractor;
 import com.project.entity.core.Scene;
 import com.project.use_cases.core.game.GameOutputData;
-import com.project.use_cases.core.prebuilts.ui.UIFactory;
+import com.project.use_cases.core.prebuilts.ui.UIBuilder;
 
 
 import static com.project.use_cases.core.editor.LevelEditor.levelEditorScreenSize;
@@ -18,7 +18,7 @@ public class LevelEditorFactory {
             return Scene.NullScene();
         }
 
-        scene.addUIElement(UIFactory.generateEditorUI(w, scene));
+        scene.addUIElement(UIBuilder.generateEditorUI(w, scene));
         return scene;
     }
 
