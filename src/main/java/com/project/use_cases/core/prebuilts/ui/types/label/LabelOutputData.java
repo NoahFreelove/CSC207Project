@@ -3,6 +3,7 @@ package com.project.use_cases.core.prebuilts.ui.types.label;
 import com.project.entity.ui.GameUIObject;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class LabelOutputData implements GameUIObject {
     private String imagePath = "";
@@ -51,5 +52,10 @@ public class LabelOutputData implements GameUIObject {
     @Override
     public JComponent getComponent() {
         return out.getPresenter().getModel().getViewManager().getView();
+    }
+
+    public void setColor(Color c) {
+        out.getPresenter().getModel().getViewManager().getView().setColor(c);
+
     }
 }
