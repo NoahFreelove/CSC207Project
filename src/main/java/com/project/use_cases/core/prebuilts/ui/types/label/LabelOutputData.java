@@ -49,13 +49,18 @@ public class LabelOutputData implements GameUIObject {
         out.getPresenter().getModel().getViewManager().getView().setText(text);
     }
 
-    @Override
-    public JComponent getComponent() {
-        return out.getPresenter().getModel().getViewManager().getView();
-    }
-
     public void setColor(Color c) {
         out.getPresenter().getModel().getViewManager().getView().setColor(c);
 
+    }
+
+    public void setFont(Font f) {
+        out.getPresenter().getModel().getViewManager().getView().setFont(f);
+
+    }
+
+    @Override
+    public JComponent getComponent() {
+        return out.getPresenter().getModel().getViewManager().getView();
     }
 }

@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 public class PlayGame {
     public static void main(String[] args) {
+        GameInteractor.DEFAULT_NEW_WINDOW_NAME = "Froggy's Adventure";
         Tuple<GameInteractor, GameOutputData> game = GameInteractor.createAndWait();
         GameInteractor e = game.getFirst();
         GameOutputData w = game.getSecond();
