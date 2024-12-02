@@ -1,18 +1,28 @@
 package com.project.use_cases.core.prebuilts.ui;
 
 
+import com.project.data_access.player_death_count.JokeAPIRequest;
+import com.project.database.player_death_count.endpoints.JokeAPIAboutRequest;
 import com.project.entity.core.GameObject;
 import com.project.entity.core.Scene;
 import com.project.entity.core.Tuple;
 import com.project.entity.ui.*;
 import com.project.use_cases.core.editor.LevelEditor;
+import com.project.use_cases.core.editor.LevelEditorFactory;
 import com.project.use_cases.core.game.GameInteractor;
 import com.project.use_cases.core.game.GameOutputData;
+import com.project.use_cases.core.prebuilts.game_objects.AbstractObjectFactory;
+import com.project.use_cases.core.prebuilts.game_objects.CloudFactory;
+import com.project.use_cases.core.prebuilts.game_objects.game_object_types.ObjectType;
+import com.project.use_cases.core.prebuilts.scenes.LevelSelectionFactory;
+import com.project.use_cases.core.prebuilts.scenes.MainMenuFactory;
 import com.project.use_cases.core.prebuilts.ui.types.button.ButtonOutputData;
 import com.project.use_cases.core.prebuilts.ui.types.label.LabelOutputData;
 import com.project.use_cases.core.prebuilts.ui.types.panel.PanelOutputData;
 import com.project.use_cases.core.prebuilts.ui.types.slider.SliderOutputData;
 import com.project.use_cases.editor.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -177,8 +187,44 @@ public class UIFactory {
         return new GameUI(background);
     }
 
-    public static void generateMinMenuUI() {
+    public static void generateMainMenuUI(Scene scene) {
+        // Background
+        scene.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND));
+        // Cloud
+        CloudFactory cloud = (CloudFactory) AbstractObjectFactory.makeFactory(ObjectType.CLOUD);
+        scene.addSceneObject(cloud.generate(300, 30, 3, 1.5));
+        // Game Label
+        LabelOutputData title1 = UIFactory.LabelFactory("Froggy's", 212, 20, 375, 200);
+        LabelOutputData title2 = UIFactory.LabelFactory("Adventure", 175, 120, 450, 200);
+        // Play Button
+        ButtonOutputData play = UIFactory.ButtonFactory("Play Game", 265, 280, 270, 80);
+        play.setButtonCallback(LevelSelectionFactory::loadLevelSelection);
 
+        // Leave Button
+        ButtonOutputData leave = UIFactory.ButtonFactory("Leave Game", 265, 380, 270, 80);
+        leave.setButtonCallback(MainMenuFactory::leaveGame);
+
+        // Editor Button
+        ButtonOutputData editor = UIFactory.ButtonFactory("Level Editor", 200, 480, 400, 80);
+        editor.setButtonCallback(() -> LevelEditorFactory.loadLevelEditor(GameInteractor.getInstance().getPrimaryWindow()));
+
+        // JokeAPI Version Text
+        LabelOutputData jokeAPIVersionText = UIFactory.LabelFactory("Loading Joke API Version...", -230, 650, 1000, 100);
+        jokeAPIVersionText.setFontSize(20);
+        jokeAPIVersionText.setColor(Color.WHITE);
+        new JokeAPIAboutRequest(new JokeAPIRequest() {
+            @Override
+            public void onResponse(JSONObject res) {
+                JSONObject jokes = (JSONObject) res.get("jokes");
+                String out = "Joke API version " + res.get("version") + ". Has " + jokes.get("totalCount") +
+                        " jokes and " + ((JSONArray)jokes.get("categories")).length() + " categories.";
+                jokeAPIVersionText.setText(out);
+            }
+        });
+
+        // Adding everything to the scene
+        scene.addUIElements(new GameUI(play), new GameUI(leave), new GameUI(title1), new GameUI(title2),
+                new GameUI(jokeAPIVersionText), new GameUI(editor));
     }
 
     public static LabelOutputData LabelFactory(String text, int x, int y, int width, int height) {

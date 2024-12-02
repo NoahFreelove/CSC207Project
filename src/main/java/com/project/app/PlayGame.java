@@ -20,15 +20,5 @@ public class PlayGame {
 
         Scene main = MainMenuFactory.createScene();
         w.setActiveScene(main);
-
-        new JokeAPIAboutRequest(new JokeAPIRequest() {
-            @Override
-            public void onResponse(JSONObject res) {
-                JSONObject jokes = (JSONObject) res.get("jokes");
-                String out = "Joke API version " + res.get("version") + " : Has " + jokes.get("totalCount") +
-                        " jokes and " + ((JSONArray)jokes.get("categories")).length() + " categories.";
-                System.out.println(out);
-            }
-        });
     }
 }

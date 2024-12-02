@@ -57,4 +57,8 @@ public class UILabelView extends JLabel implements LabelViewManager {
         Font f = getFont();
         setFont(new Font(f.getFontName(), f.getStyle(), size));
     }
+
+    public void setColor(Color c) {
+        setForeground(c);
+    }
 }

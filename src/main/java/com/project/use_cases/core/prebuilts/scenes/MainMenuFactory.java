@@ -23,29 +23,7 @@ public class MainMenuFactory {
         escapeDetector.addBehavior(new SceneExit(MainMenuFactory::leaveGame));
         scene.addSceneObject(escapeDetector, true);
 
-        // Background
-        scene.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND));
-        // Cloud
-        CloudFactory cloud = (CloudFactory) AbstractObjectFactory.makeFactory(ObjectType.CLOUD);
-        scene.addSceneObject(cloud.generate(300, 30, 3, 1.5));
-        // Game Label
-        LabelOutputData title1 = UIFactory.LabelFactory("Froggy's", 212, 20, 375, 200);
-        LabelOutputData title2 = UIFactory.LabelFactory("Adventure", 175, 120, 450, 200);
-        // Play Button
-        ButtonOutputData play = UIFactory.ButtonFactory("Play Game", 265, 280, 270, 80);
-        play.setButtonCallback(LevelSelectionFactory::loadLevelSelection);
-
-        // Leave Button
-        ButtonOutputData leave = UIFactory.ButtonFactory("Leave Game", 265, 380, 270, 80);
-        leave.setButtonCallback(MainMenuFactory::leaveGame);
-
-        // Editor Button
-        ButtonOutputData editor = UIFactory.ButtonFactory("Level Editor", 200, 480, 400, 80);
-        editor.setButtonCallback(() -> LevelEditorFactory.loadLevelEditor(GameInteractor.getInstance().getPrimaryWindow()));
-
-
-        // Adding everything to the scene
-        scene.addUIElements(new GameUI(play), new GameUI(leave), new GameUI(title1), new GameUI(title2), new GameUI(editor));
+        UIFactory.generateMainMenuUI(scene);
         return scene;
     }
 
