@@ -1,6 +1,6 @@
 package com.project.app;
 
-import com.project.data_access.player_death_count.IAPIResponse;
+import com.project.data_access.player_death_count.JokeAPIRequest;
 import com.project.database.player_death_count.endpoints.JokeAPIAboutRequest;
 import com.project.use_cases.core.game.GameInteractor;
 import com.project.entity.core.Scene;
@@ -21,7 +21,7 @@ public class PlayGame {
         Scene main = MainMenuFactory.createScene();
         w.setActiveScene(main);
 
-        new JokeAPIAboutRequest(new IAPIResponse() {
+        new JokeAPIAboutRequest(new JokeAPIRequest() {
             @Override
             public void onResponse(JSONObject res) {
                 JSONObject jokes = (JSONObject) res.get("jokes");

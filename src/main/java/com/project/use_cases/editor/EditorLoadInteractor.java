@@ -3,10 +3,7 @@ package com.project.use_cases.editor;
 import com.project.use_cases.core.editor.LevelEditor;
 import com.project.use_cases.core.game.GameInteractor;
 import com.project.use_cases.core.game.GameOutputData;
-import com.project.use_cases.core.prebuilts.ui.types.file_chooser.FileChooserOutputBoundary;
 import com.project.use_cases.core.prebuilts.ui.types.file_chooser.FileChooserOutputData;
-
-import javax.swing.*;
 
 public class EditorLoadInteractor {
     public static void execute(GameOutputData w, LevelEditor scene) {
