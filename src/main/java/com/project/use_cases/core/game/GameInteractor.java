@@ -17,8 +17,6 @@ public class GameInteractor {
     private final ArrayList<GameOutputData> gameWindows = new ArrayList<>();
     private PlayerMoveInputData inputCache = new PlayerMoveInputData();
 
-    public static String DEFAULT_NEW_WINDOW_NAME = "Game Window";
-
     public Runnable closeHook = () -> {};
 
     private GameInteractor(){
@@ -70,7 +68,7 @@ public class GameInteractor {
     }
 
     private void init(){
-        this.gameWindows.add(GameOutputData.createGameWindow(800, 800, DEFAULT_NEW_WINDOW_NAME, new GameLoop()));
+        this.gameWindows.add(GameOutputData.createGameWindow(800, 800, "Game Window", new GameLoop()));
     }
 
     /**
