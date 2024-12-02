@@ -48,7 +48,7 @@ public class UIBuilder {
         background.add(leftSidebar);
 
         // Right sidebar
-        PanelOutputData rightSidebar = new PanelOutputData(windowSize.getFirst() - 400, 0, 400, windowSize.getSecond());
+        PanelOutputData rightSidebar = new PanelOutputData(windowSize.getFirst() - 415, 0, 400, windowSize.getSecond());
         rightSidebar.getComponent().setBackground(Color.decode("#404040"));
         rightSidebar.getComponent().setLayout(new GridLayout(12, 1)); // Set GridLayout with one column
         background.add(rightSidebar);
@@ -160,6 +160,7 @@ public class UIBuilder {
             w.refocusInWindow();
         });
         rotationSlider.setSpacing(90);
+        rotationSlider.setFont(new Font("Arial", Font.PLAIN, 20));
 
         // labels
         LabelOutputData scaleXLabel = new LabelOutputData("Scale X");
@@ -172,7 +173,7 @@ public class UIBuilder {
 
         LabelOutputData rotationLabel = new LabelOutputData("Rotation");
         rotationLabel.getComponent().setForeground(Color.WHITE);
-        rotationLabel.setFontSize(20);
+        rotationLabel.setFont(new Font("Arial", Font.PLAIN, 20));
 
 
         // Add components to right sidebar

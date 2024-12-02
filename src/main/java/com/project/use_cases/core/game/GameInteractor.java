@@ -13,6 +13,7 @@ public class GameInteractor {
     // Singleton design pattern 😎
     private volatile static GameInteractor instance = null;
     private boolean paused = false;
+    public static String DEFAULT_NEW_WINDOW_NAME = "Game Window";
 
     private final ArrayList<GameOutputData> gameWindows = new ArrayList<>();
     private PlayerMoveInputData inputCache = new PlayerMoveInputData();
@@ -68,7 +69,7 @@ public class GameInteractor {
     }
 
     private void init(){
-        this.gameWindows.add(GameOutputData.createGameWindow(800, 800, "Game Window", new GameLoop()));
+        this.gameWindows.add(GameOutputData.createGameWindow(800, 800, DEFAULT_NEW_WINDOW_NAME, new GameLoop()));
     }
 
     /**

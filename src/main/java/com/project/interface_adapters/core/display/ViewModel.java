@@ -19,7 +19,7 @@ public class ViewModel {
     public ViewModel(JFrame window) {
         manager = new ViewManager() {};
         this.window = window;
-        manager.createView(this, 0, 0, "Gamw Window");
+        manager.createView(this, 0, 0, "Game Window");
     }
 
     public ViewModel(int width, int height, String title) {
