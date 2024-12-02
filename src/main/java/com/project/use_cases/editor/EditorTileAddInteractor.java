@@ -5,6 +5,7 @@ import com.project.use_cases.core.editor.EditorObjectStruct;
 import com.project.use_cases.core.editor.LevelEditor;
 
 public class EditorTileAddInteractor {
+    private EditorInputBoundary boundary;
     public static void execute(LevelEditor instance, int ID, int x, int y, double px, double py, int pr) {
         if (x < 0 || x >= 500 * 64)
             return;

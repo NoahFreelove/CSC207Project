@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 
 public class SpawnPoint implements IScriptable {
-    private Tuple<Double, Double> spawnPoint;
+    private final Tuple<Double, Double> spawnPoint;
 
     private boolean respawnQueued = false;
 

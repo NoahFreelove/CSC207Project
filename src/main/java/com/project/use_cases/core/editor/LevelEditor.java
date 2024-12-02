@@ -6,6 +6,7 @@ import com.project.entity.core.GameObject;
 import com.project.external_interfaces.core.FileIO;
 import com.project.entity.rendering.SpriteRenderer;
 import com.project.use_cases.editor.EditorTileAddInteractor;
+import com.project.use_cases.editor.EditorTileRemoveInteractor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -50,13 +51,7 @@ public class LevelEditor extends Scene {
     }
 
     public void removeTile(int xPos, int yPos) {
-        GameObject foundRef = tiles.stream().filter(eos -> eos.xPos == xPos && eos.yPos == yPos).findFirst().map(eos -> eos.linkedObject).orElse(null);
-        if (foundRef == null)
-            return;
-
-        removeSceneObject(foundRef);
-
-        tiles.removeIf(editorObjectStruct -> editorObjectStruct.linkedObject.equals(foundRef));
+        EditorTileRemoveInteractor.execute(this, xPos, yPos);
     }
 
 

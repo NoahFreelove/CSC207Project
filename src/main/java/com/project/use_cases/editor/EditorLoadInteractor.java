@@ -6,6 +6,7 @@ import com.project.use_cases.core.game.GameOutputData;
 import com.project.use_cases.core.prebuilts.ui.types.file_chooser.FileChooserOutputData;
 
 public class EditorLoadInteractor {
+    private FileChooserOutputData fileChooser;
     public static void execute(GameOutputData w, LevelEditor scene) {
         FileChooserOutputData fileChooser = new FileChooserOutputData();
         fileChooser.openFileChooser();

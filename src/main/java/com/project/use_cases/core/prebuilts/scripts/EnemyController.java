@@ -10,22 +10,21 @@ import com.project.use_cases.player_death_count.PlayerDeathInteractor;
 
 public class EnemyController extends BoxCollider implements IScriptable {
     private int moveDirection = 1;
-    private float moveSpeed = 1000;
-    private final float ENEMY_DIE_THRESHOLD = 65;
     private boolean canSwitch = false;
     private double switchCooldown = 0.0;
-    private final double ENEMY_DIR_SWITCH_TIME = 1;
 
     @Override
     public void update(GameObject parent, double deltaTime) {
         RigidBody2D rb = parent.getScriptable(RigidBody2D.class);
 
         if (rb != null) {
+            float moveSpeed = 1000;
             rb.addForce(moveSpeed * moveDirection, 0);
         }
 
         if (!canSwitch) {
             switchCooldown += deltaTime;
+            double ENEMY_DIR_SWITCH_TIME = 1;
             if (switchCooldown>= ENEMY_DIR_SWITCH_TIME) {
                 canSwitch = true;
             }
@@ -41,6 +40,7 @@ public class EnemyController extends BoxCollider implements IScriptable {
 
         RigidBody2D rb = parent.getScriptable(RigidBody2D.class);
         if (other.hasTag("player") && interactor.volumeType() == ECollisionVolume.COLLIDER) {
+            float ENEMY_DIE_THRESHOLD = 65;
             if(parent.getTransform().getPositionY() - other.getTransform().getPositionY() >= ENEMY_DIE_THRESHOLD){
                 parent.disableScript(rb);
                 moveDirection = 1;
