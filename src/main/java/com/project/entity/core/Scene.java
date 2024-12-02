@@ -1,12 +1,11 @@
 package com.project.entity.core;
 
-import com.project.entity.physics.collision.CollisionManager;
+import com.project.entity.physics.collision.CollisionChecker;
 import com.project.entity.rendering.Camera;
 import com.project.entity.rendering.IRenderable;
-import com.project.entity.rendering.SpriteRenderer;
 import com.project.entity.scripting.IScriptable;
 import com.project.entity.serialization.ISerializable;
-import com.project.entity.ui.GameUIButton;
+import com.project.entity.ui.GameUI;
 import com.project.entity.windowing.WindowInformationGetter;
 import com.project.entity.windowing.WindowUICallback;
 import com.project.entity.input.EInputType;
@@ -14,7 +13,6 @@ import com.project.entity.input.EInputType;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,13 +20,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Scene implements ISerializable {
     private final String name;
-    private final CollisionManager collisionManager = new CollisionManager();
+    private final CollisionChecker collisionManager = new CollisionChecker();
     protected final CopyOnWriteArrayList<GameObject> sceneObjects = new CopyOnWriteArrayList<>();
-    private final CopyOnWriteArrayList<JComponent> uiElements = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<GameUI> uiElements = new CopyOnWriteArrayList<>();
 
     private final CopyOnWriteArrayList<Tuple<GameObject, IScriptable>> inputListeners = new CopyOnWriteArrayList<>();
 
     private final ArrayList<WindowUICallback> uiCallbacks = new ArrayList<>();
+
     /**
      * Why not just loop through every game object and get the renderables?
      * Because in our specific game - we plan to have many invisible triggers and other objects that don't render.
@@ -63,22 +62,6 @@ public class Scene implements ISerializable {
             return;
         inputListeners.add(listener);
     }
-
-    public synchronized void addInputListener(GameObject ref, IScriptable listenerScript){
-        if(!sceneObjects.contains(ref)) {
-            System.err.println("Object <" + ref.toString() + "> not in scene - cannot add listener");
-            return;
-        }
-
-        if (!ref.hasScript(listenerScript)){
-            System.err.println("Object <" + ref + "> does not have script <" + listenerScript.toString()
-                    + "> - cannot add listener");
-            return;
-        }
-
-        addInputListenerCheckless(ref, listenerScript);
-    }
-
 
     private synchronized void addRenderableCheckless(GameObject ref, IRenderable renderable){
         Tuple<GameObject, IRenderable> renderableTuple = new Tuple<>(ref, renderable);
@@ -118,20 +101,21 @@ public class Scene implements ISerializable {
         }
     }
 
-    public synchronized void addUIElement(JComponent element) {
+    public synchronized void addUIElement(GameUI element) {
         addUIElement(element, false);
     }
 
-    public synchronized void addUIElement(JComponent element, boolean persistent) {
+    public synchronized void addUIElement(GameUI element, boolean persistent) {
         if (uiElements.contains(element))
             return;
         if(!persistent)
             uiElements.add(element);
+
         uiCallbacks.forEach(windowUICallback -> windowUICallback.addUIComponent(element));
     }
 
-    public synchronized void addUIElements(JComponent... element) {
-        for(JComponent o : element) {
+    public synchronized void addUIElements(GameUI... element) {
+        for(GameUI o : element) {
             addUIElement(o);
         }
     }
@@ -143,18 +127,9 @@ public class Scene implements ISerializable {
         uiElements.forEach(callback::addUIComponent);
     }
 
-    public synchronized void removeUIElement(JComponent element) {
+    public synchronized void removeUIElement(GameUI element) {
         uiElements.remove(element);
         uiCallbacks.forEach(windowUICallback -> windowUICallback.removeUIComponent(element));
-    }
-
-    public synchronized GameUIButton getButton(String name) {
-        for (JComponent o: uiElements) {
-            if (o instanceof GameUIButton && ((GameUIButton) o).getText().equals(name)) {
-                return ((GameUIButton) o);
-            }
-        }
-        return null;
     }
 
     public synchronized void removeUICallback(WindowUICallback callback) {
@@ -162,7 +137,7 @@ public class Scene implements ISerializable {
         uiElements.forEach(callback::removeUIComponent);
     }
 
-    public synchronized CopyOnWriteArrayList<JComponent> getUIElements() {
+    public synchronized CopyOnWriteArrayList<GameUI> getUIElements() {
         return uiElements;
     }
 

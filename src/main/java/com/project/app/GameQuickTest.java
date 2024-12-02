@@ -1,11 +1,11 @@
 package com.project.app;
 
-import com.project.use_cases.general.GameInteractor;
+import com.project.use_cases.core.game.GameInteractor;
 import com.project.entity.core.Tuple;
-import com.project.use_cases.general.GameOutputData;
-import com.project.external_interfaces.FileIO;
-import com.project.use_cases.level_editing.LevelEditor;
-import com.project.external_interfaces.PlayTTS;
+import com.project.use_cases.core.game.GameOutputData;
+import com.project.use_cases.core.editor.LevelEditor;
+import com.project.external_interfaces.player_death_count.PlayTTS;
+import com.project.use_cases.load_level.LoadLevelInteractor;
 
 public class GameQuickTest {
     public static void main(String[] args) {
@@ -13,7 +13,7 @@ public class GameQuickTest {
         GameInteractor e = out.getFirst();
         GameOutputData w = out.getSecond();
         e.closeHook = PlayTTS::shutdown;
-        LevelEditor.loadFromFileForMainGame("levels/level1.json");
+        LoadLevelInteractor.execute("levels/level1.json");
 
 
     }
