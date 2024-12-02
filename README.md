@@ -28,10 +28,10 @@ to use our level editor, please consult our [Usage Guide](#Usage-guide).
 -[Contribution Guide](#contribution)
 
 ### Features
-- **Challenging Gameplay**: Navigate through 9 prebuilt levels filled with hidden surprises, traps, and unpredictable elements. Every move matters!
+- **Challenging Gameplay**: Navigate through 9 prebuilt levels filled with hidden surprises, traps, and unpredictable elements. Every move matters! \
 ![img.png](src/main/resources/assets/img.png)
 - **Replayability**: Test your skills and replay levels to improve your performance or create endlessly creative levels.
-- **Death Tracker**: Keep track of your death count on each level and challenge your friends to see who can complete levels with the fewest attempts.
+- **Death Tracker**: Keep track of your death count on each level and challenge your friends to see who can complete levels with the fewest attempts. \
 ![img_2.png](src/main/resources/assets/img_2.png)
 - **Humor-Filled Deaths**: Every time you die, a joke is displayed to keep the experience fun.
 ![img_3.png](src/main/resources/assets/img_3.png)
