@@ -33,7 +33,7 @@ to use our level editor, please consult our [Usage Guide](#Usage-guide).
 - **Replayability**: Test your skills and replay levels to improve your performance or create endlessly creative levels.
 - **Death Tracker**: Keep track of your death count on each level and challenge your friends to see who can complete levels with the fewest attempts. \
 ![img_2.png](src/main/resources/assets/img_2.png)
-- **Humor-Filled Deaths**: Every time you die, a joke is displayed to keep the experience fun.
+- **Humorous Gameplay**: Every time you die, a joke is displayed to keep the experience fun.
 ![img_3.png](src/main/resources/assets/img_3.png)
 - **Level Editor**: Create custom levels using an intuitive editor. Place tiles, scale and rotate objects, and test your levels instantly.
 ![img_4.png](src/main/resources/assets/img_4.png)
@@ -72,14 +72,14 @@ Accessing the Level Editor
 2. The Level Editor interface will open, where you can start creating or editing levels.
 
 Editor Interface Overview
-- **Left-Hand Side (LHS) Menu**:
+- **Left-Hand Side Menu**:
     - **Save**: Save your current map to revisit or share later.
     - **Load**: Load previously saved maps for further editing or playing.
     - **Test**: Instantly test-play your map to ensure functionality.
     - **New**: Open a blank canvas for creating a new map.
     - **Back to Game**: Return to the main menu.
 
-- **Right-Hand Side (RHS) Panel**:
+- **Right-Hand Side Panel**:
     - **Tile Selection**: Use the sliders to select different tiles for building.
     - **Scale X and Scale Y**: Adjust the size of selected tiles horizontally and vertically.
     - **Rotation**: Rotate tiles to fit your desired map design.
