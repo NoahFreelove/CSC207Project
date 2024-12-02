@@ -13,9 +13,9 @@ import com.project.use_cases.core.prebuilts.ui.UIFactory;
 import com.project.use_cases.core.editor.LevelEditorFactory;
 import com.project.use_cases.core.prebuilts.game_objects.game_object_types.ObjectType;
 import com.project.use_cases.core.prebuilts.ui.types.button.ButtonOutputData;
+import com.project.use_cases.game_reset.LoadLevelSelectInteractor;
 
 public class MainMenuFactory {
-
     public static Scene createScene() {
         Scene scene = new Scene();
 
@@ -33,7 +33,7 @@ public class MainMenuFactory {
         LabelOutputData title2 = UIFactory.LabelFactory("Adventure", 175, 120, 450, 200);
         // Play Button
         ButtonOutputData play = UIFactory.ButtonFactory("Play Game", 265, 280, 270, 80);
-        play.setButtonCallback(LevelSelectionFactory::loadLevelSelection);
+        play.setButtonCallback(LoadLevelSelectInteractor::execute);
 
         // Leave Button
         ButtonOutputData leave = UIFactory.ButtonFactory("Leave Game", 265, 380, 270, 80);

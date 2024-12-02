@@ -9,10 +9,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static com.project.interface_adapters.core.display.ui.UIConstants.BUTTON_SIZE;
-
 public class UIButtonView extends JButton implements ButtonViewManager {
     ButtonController controller;
+
+    private static float BUTTON_SIZE = 40f;
 
     public UIButtonView(ButtonController controller) {
         super();

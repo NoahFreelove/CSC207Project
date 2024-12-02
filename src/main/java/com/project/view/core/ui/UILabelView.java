@@ -9,9 +9,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static com.project.interface_adapters.core.display.ui.UIConstants.TITLE_SIZE;
 
 public class UILabelView extends JLabel implements LabelViewManager {
+    private static float TITLE_SIZE = 80f;
+
     public UILabelView() {
         super();
         setOpaque(false);

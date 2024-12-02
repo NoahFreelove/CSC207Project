@@ -11,13 +11,15 @@ import com.project.use_cases.core.game.GameOutputData;
 import com.project.use_cases.core.prebuilts.scripts.SceneExit;
 import com.project.use_cases.core.prebuilts.scripts.WinScript;
 import com.project.use_cases.core.prebuilts.ui.UIFactory;
+import com.project.use_cases.game_pause.GamePauseInteractor;
+import com.project.use_cases.game_pause.GameUnpauseInteractor;
 import com.project.use_cases.load_level.LoadLevelInteractor;
 import com.project.use_cases.player_death_count.PlayerDeathInteractor;
 import com.project.use_cases.core.prebuilts.ui.types.button.ButtonOutputData;
 
 import java.util.HashMap;
 
-import static com.project.interface_adapters.core.display.ui.UIConstants.*;
+import static com.project.use_cases.core.prebuilts.ui.UIConstants.*;
 
 public class LevelSelectionFactory {
     private static HashMap<Integer, String> levelMap = new HashMap<>();
@@ -36,7 +38,7 @@ public class LevelSelectionFactory {
         levelMap.put(8, "levels/level9.json");
     }
 
-    private static Scene createScene() {
+    public static Scene createScene() {
         Scene scene = new Scene();
 
         GameObject escapeDetector = new GameObject();
@@ -52,22 +54,6 @@ public class LevelSelectionFactory {
         scene.addSceneObject(AbstractObjectFactory.generateOfType(ObjectType.BACKGROUND));
         scene.addUIElements(new GameUI(back));
         return scene;
-    }
-
-    public static void loadLevelSelection() {
-        Tuple<GameInteractor, GameOutputData> out = GameInteractor.createAndWait();
-        GameOutputData w = out.getSecond();
-
-        if (PauseOverlayFactory.isPaused) {
-            PauseOverlayFactory.unpauseGame();
-        }
-
-        WinOverlayFactory.removeWinOverlay();
-        PlayerDeathInteractor.resetDeathCount();
-
-        Scene s = LevelSelectionFactory.createScene();
-        GameInteractor.getInstance().unpauseGame();
-        w.setActiveScene(s);
     }
 
     private static void createLevel(int levels, Scene scene) {
@@ -93,8 +79,5 @@ public class LevelSelectionFactory {
 
     public static void reloadCurrentLevel() {
         LoadLevelInteractor.execute(loadedLevel);
-        GameInteractor.getInstance().unpauseGame();
-        PlayerDeathInteractor.resetDeathCount();
-        WinScript.restartGameStatus();
     }
 }

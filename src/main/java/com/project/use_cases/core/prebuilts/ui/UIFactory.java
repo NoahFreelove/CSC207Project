@@ -8,17 +8,21 @@ import com.project.entity.ui.*;
 import com.project.use_cases.core.editor.LevelEditor;
 import com.project.use_cases.core.game.GameInteractor;
 import com.project.use_cases.core.game.GameOutputData;
+import com.project.use_cases.core.prebuilts.scenes.LevelSelectionFactory;
 import com.project.use_cases.core.prebuilts.ui.types.button.ButtonOutputData;
 import com.project.use_cases.core.prebuilts.ui.types.label.LabelOutputData;
 import com.project.use_cases.core.prebuilts.ui.types.panel.PanelOutputData;
 import com.project.use_cases.core.prebuilts.ui.types.slider.SliderOutputData;
 import com.project.use_cases.editor.*;
+import com.project.use_cases.game_pause.GameUnpauseInteractor;
+import com.project.use_cases.game_reset.LevelResetInteractor;
+import com.project.use_cases.game_reset.LoadLevelSelectInteractor;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static com.project.interface_adapters.core.display.ui.UIConstants.*;
+import static com.project.use_cases.core.prebuilts.ui.UIConstants.*;
 
 public class UIFactory {
     public static ArrayList<Object> PausedElements = new ArrayList<>();
@@ -177,9 +181,43 @@ public class UIFactory {
         return new GameUI(background);
     }
 
-    public static void generateMinMenuUI() {
+    public static void createWinOverlay(Scene scene) {
+        // Label
+        LabelOutputData label = UIFactory.LabelFactory("Level Completed", 50, 40, 700, 200, FOREST_GREEN);
+
+        //Buttons
+        ButtonOutputData restart = UIFactory.ButtonFactory("Restart Level", 150, 300, 500, 80, FOREST_GREEN);
+        ButtonOutputData back = UIFactory.ButtonFactory("Back to Select", 150, 400, 500, 80, FOREST_GREEN);
+
+        restart.setButtonCallback(LevelResetInteractor::execute);
+        back.setButtonCallback(LoadLevelSelectInteractor::execute);
+
+        scene.addUIElements(new GameUI(restart), new GameUI(back), new GameUI(label));
+    }
+
+    public static void createPauseOverlay(Scene scene) {
+        // Label
+        LabelOutputData label = UIFactory.LabelFactory("Game Paused", 125, 40, 550, 200, LIGHT_GREEN);
+
+        //Buttons
+        ButtonOutputData resume = UIFactory.ButtonFactory("Resume Game", 250, 300, 300, 80, LIGHT_GREEN);
+        ButtonOutputData restart = UIFactory.ButtonFactory("Restart Game", 240, 400, 320, 80, LIGHT_GREEN);
+        ButtonOutputData exit = UIFactory.ButtonFactory("Exit Game", 265, 500, 270, 80, LIGHT_GREEN);
+        ButtonOutputData darken_bg = UIFactory.ButtonFactory("", 0, 0, 800, 800, LIGHT_GREEN);
+        darken_bg.setImage("ui/darken_bg.png");
+
+        resume.setButtonCallback(GameUnpauseInteractor::execute);
+        restart.setButtonCallback(LevelResetInteractor::execute);
+        exit.setButtonCallback(LoadLevelSelectInteractor::execute);
+
+        scene.addUIElements(new GameUI(resume),
+                new GameUI(restart),
+                new GameUI(exit),
+                new GameUI(label),
+                new GameUI(darken_bg));
 
     }
+
 
     public static LabelOutputData LabelFactory(String text, int x, int y, int width, int height) {
         LabelOutputData label = new LabelOutputData(text, x, y, width, height);
