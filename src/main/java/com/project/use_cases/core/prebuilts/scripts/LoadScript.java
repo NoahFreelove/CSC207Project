@@ -57,7 +57,8 @@ public class LoadScript implements IScriptable {
 
                     parent.getLinkedScene().reset();
                     parent.getLinkedScene().removeSceneObject(parent);
-                    parent.getLinkedScene().addUIElement(new GameUI(UIBuilder.DeathLabelFactory(0, 10, 220, 70)));
+
+                    parent.getLinkedScene().addUIElement(new GameUI(UIBuilder.DeathLabelFactory(0, 10, 400, 70)));
                 }
             }
         }

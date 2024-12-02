@@ -34,7 +34,11 @@ import java.util.ArrayList;
 import static com.project.use_cases.core.prebuilts.ui.UIConstants.*;
 
 public class UIBuilder {
+<<<<<<< HEAD
     private final static ArrayList<Object> PausedElements = new ArrayList<>();
+=======
+    public static ArrayList<Object> PausedElements = new ArrayList<>();
+>>>>>>> 4fed7dda73e44239718252fbb5a92814801b381f
     public static LabelOutputData deathCounter;
 
     public static GameUI generateEditorUI(GameOutputData w, LevelEditor scene) {
