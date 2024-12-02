@@ -1,0 +1,200 @@
+{
+    "tiles": [
+        {
+            "scaleX": 4,
+            "scaleY": 2,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 0
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 2,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 256
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 2,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 512
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 6,
+            "xPos": 832
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 6,
+            "xPos": 768
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 6,
+            "xPos": 896
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 2,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1088
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 2,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1344
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 2,
+            "yPos": 512,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1600
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 4,
+            "yPos": 256,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1600
+        },
+        {
+            "scaleX": 4,
+            "scaleY": 3,
+            "yPos": 64,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 1600
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 448,
+            "rot": 0,
+            "ID": 7,
+            "xPos": 1408
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 256,
+            "rot": 0,
+            "ID": 8,
+            "xPos": 1344
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 128,
+            "rot": 0,
+            "ID": 8,
+            "xPos": 1152
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 192,
+            "rot": 0,
+            "ID": 8,
+            "xPos": 640
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 128,
+            "rot": 0,
+            "ID": 8,
+            "xPos": 192
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 400,
+            "rot": 0,
+            "ID": 0,
+            "xPos": 128
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 448,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 192
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 448,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 256
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 384,
+            "rot": 0,
+            "ID": 1,
+            "xPos": 256
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 3,
+            "xPos": 448
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 2,
+            "xPos": 384
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 320,
+            "rot": 0,
+            "ID": 2,
+            "xPos": 512
+        },
+        {
+            "scaleX": 1,
+            "scaleY": 1,
+            "yPos": 448,
+            "rot": 0,
+            "ID": 5,
+            "xPos": 448
+        }
+    ],
+    "meta": {
+        "author": "Noah",
+        "description": "Noah level 0"
+    }
+}
