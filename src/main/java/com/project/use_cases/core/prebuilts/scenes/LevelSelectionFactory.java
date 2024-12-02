@@ -1,20 +1,13 @@
 package com.project.use_cases.core.prebuilts.scenes;
 
 import com.project.entity.ui.GameUI;
-import com.project.use_cases.core.game.GameInteractor;
 import com.project.entity.core.GameObject;
 import com.project.entity.core.Scene;
-import com.project.entity.core.Tuple;
 import com.project.use_cases.core.prebuilts.game_objects.AbstractObjectFactory;
 import com.project.use_cases.core.prebuilts.game_objects.game_object_types.ObjectType;
-import com.project.use_cases.core.game.GameOutputData;
 import com.project.use_cases.core.prebuilts.scripts.SceneExit;
-import com.project.use_cases.core.prebuilts.scripts.WinScript;
-import com.project.use_cases.core.prebuilts.ui.UIFactory;
-import com.project.use_cases.game_pause.GamePauseInteractor;
-import com.project.use_cases.game_pause.GameUnpauseInteractor;
+import com.project.use_cases.core.prebuilts.ui.UIBuilder;
 import com.project.use_cases.load_level.LoadLevelInteractor;
-import com.project.use_cases.player_death_count.PlayerDeathInteractor;
 import com.project.use_cases.core.prebuilts.ui.types.button.ButtonOutputData;
 
 import java.util.HashMap;
@@ -44,7 +37,7 @@ public class LevelSelectionFactory {
         GameObject escapeDetector = new GameObject();
         escapeDetector.addBehavior(new SceneExit(MainMenuFactory::loadMainMenu));
 
-        ButtonOutputData back = UIFactory.ButtonFactory("Back to Main", 200, 450, 400, 80);
+        ButtonOutputData back = UIBuilder.ButtonFactory("Back to Main", 200, 450, 400, 80);
         back.setButtonCallback(MainMenuFactory::loadMainMenu);
 
         createLevel(levelMap.size(), scene);
@@ -64,7 +57,7 @@ public class LevelSelectionFactory {
                 j += 1;
                 XReset = 0;
             }
-            ButtonOutputData temp = UIFactory.ButtonFactory("Level " + (i + 1), BUTTON_X_OFFSET + XReset * BUTTON_X_WIDTH, j * BUTTON_Y_OFFSET, BUTTON_X_WIDTH, 80);
+            ButtonOutputData temp = UIBuilder.ButtonFactory("Level " + (i + 1), BUTTON_X_OFFSET + XReset * BUTTON_X_WIDTH, j * BUTTON_Y_OFFSET, BUTTON_X_WIDTH, 80);
             int finalI = i;
             temp.setButtonCallback(() -> {
                 loadedLevel = levelMap.get(finalI);

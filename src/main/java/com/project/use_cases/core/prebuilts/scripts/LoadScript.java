@@ -4,7 +4,7 @@ import com.project.entity.core.GameObject;
 import com.project.entity.physics.physics_body.RigidBody2D;
 import com.project.entity.scripting.IScriptable;
 import com.project.entity.ui.GameUI;
-import com.project.use_cases.core.prebuilts.ui.UIFactory;
+import com.project.use_cases.core.prebuilts.ui.UIBuilder;
 import com.project.use_cases.player_move.PlayerMoveInteractor;
 
 import java.util.Iterator;
@@ -57,7 +57,7 @@ public class LoadScript implements IScriptable {
 
                     parent.getLinkedScene().reset();
                     parent.getLinkedScene().removeSceneObject(parent);
-                    parent.getLinkedScene().addUIElement(new GameUI(UIFactory.DeathLabelFactory(0, 10, 220, 70)));
+                    parent.getLinkedScene().addUIElement(new GameUI(UIBuilder.DeathLabelFactory(0, 10, 400, 70)));
                 }
             }
         }

@@ -4,13 +4,13 @@ import com.project.use_cases.core.game.GameInteractor;
 import com.project.entity.core.Scene;
 import com.project.entity.core.Tuple;
 import com.project.use_cases.core.game.GameOutputData;
-import com.project.use_cases.core.prebuilts.ui.UIFactory;
+import com.project.use_cases.core.prebuilts.ui.UIBuilder;
 
 public class MainMenuFactory {
     public static Scene createScene() {
         Scene scene = new Scene();
 
-        UIFactory.generateMainMenuUI(scene);
+        UIBuilder.generateMainMenuUI(scene);
 
         return scene;
     }
