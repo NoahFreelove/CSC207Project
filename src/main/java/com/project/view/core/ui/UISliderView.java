@@ -8,8 +8,6 @@ import com.project.interface_adapters.core.editor.EditorTileManager;
 import javax.swing.*;
 import java.awt.*;
 
-import static com.project.interface_adapters.core.display.ui.UIConstants.BUTTON_SIZE;
-
 public class UISliderView extends JSlider implements SliderViewManager {
     SliderController controller;
 
@@ -26,7 +24,7 @@ public class UISliderView extends JSlider implements SliderViewManager {
         setFont(new Font("Arial", Font.PLAIN, 20));
 
         this.controller = controller;
-        setFont(FontCreator.createFont(BUTTON_SIZE));
+        setFont(FontCreator.createFont(20));
 
         // set on click listener
         addChangeListener(e -> onSlide());
