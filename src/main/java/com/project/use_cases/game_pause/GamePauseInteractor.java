@@ -7,7 +7,6 @@ import com.project.use_cases.core.prebuilts.ui.UIFactory;
 public class GamePauseInteractor extends GamePauseState {
 
     public static void execute() {
-        System.out.println("Call");
         if (GamePauseState.isPaused())
             return;
         loadPauseMenu();
