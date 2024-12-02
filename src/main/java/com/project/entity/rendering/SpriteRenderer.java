@@ -3,7 +3,7 @@ package com.project.entity.rendering;
 import com.project.entity.core.GameObject;
 import com.project.entity.core.Scene;
 import com.project.entity.core.Tuple;
-import com.project.external_interfaces.ImageLoader;
+import com.project.external_interfaces.core.ImageLoader;
 import org.json.JSONObject;
 
 import java.awt.*;
