@@ -52,10 +52,12 @@ If Java 11 is installed, you should see a version starting with 11.
 
 2. **Download and Extract the Code**
 Clone the repository or download the ZIP file from our GitHub page. 
-Once downloaded, extract the ZIP to your desired location.
-
+Once downloaded, extract the ZIP to your desired location. \
+![img_5.png](src/main/resources/assets/img_5.png)
 3. **Locate the Game File and run the Game**
 Navigate to the following path in the extracted folder -> out/artifacts/CSC207Project_jar
+![img_6.png](src/main/resources/assets/img_6.png) \
+![img_7.png](src/main/resources/assets/img_7.png) \
 Double-click the .jar file to launch it.
 
 Enjoy the game! 😊
