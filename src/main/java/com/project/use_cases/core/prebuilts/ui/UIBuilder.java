@@ -33,8 +33,8 @@ import java.util.ArrayList;
 
 import static com.project.use_cases.core.prebuilts.ui.UIConstants.*;
 
-public class UIFactory {
-    public static ArrayList<Object> PausedElements = new ArrayList<>();
+public class UIBuilder {
+    private final static ArrayList<Object> PausedElements = new ArrayList<>();
     public static LabelOutputData deathCounter;
 
     public static GameUI generateEditorUI(GameOutputData w, LevelEditor scene) {
@@ -192,11 +192,11 @@ public class UIFactory {
 
     public static void createWinOverlay(Scene scene) {
         // Label
-        LabelOutputData label = UIFactory.LabelFactory("Level Completed", 50, 40, 700, 200, FOREST_GREEN);
+        LabelOutputData label = UIBuilder.LabelFactory("Level Completed", 50, 40, 700, 200, FOREST_GREEN);
 
         //Buttons
-        ButtonOutputData restart = UIFactory.ButtonFactory("Restart Level", 150, 300, 500, 80, FOREST_GREEN);
-        ButtonOutputData back = UIFactory.ButtonFactory("Back to Select", 150, 400, 500, 80, FOREST_GREEN);
+        ButtonOutputData restart = UIBuilder.ButtonFactory("Restart Level", 150, 300, 500, 80, FOREST_GREEN);
+        ButtonOutputData back = UIBuilder.ButtonFactory("Back to Select", 150, 400, 500, 80, FOREST_GREEN);
 
         restart.setButtonCallback(LevelResetInteractor::execute);
         back.setButtonCallback(LoadLevelSelectInteractor::execute);
@@ -206,13 +206,13 @@ public class UIFactory {
 
     public static void createPauseOverlay(Scene scene) {
         // Label
-        LabelOutputData label = UIFactory.LabelFactory("Game Paused", 125, 40, 550, 200, LIGHT_GREEN);
+        LabelOutputData label = UIBuilder.LabelFactory("Game Paused", 125, 40, 550, 200, LIGHT_GREEN);
 
         //Buttons
-        ButtonOutputData resume = UIFactory.ButtonFactory("Resume Game", 250, 300, 300, 80, LIGHT_GREEN);
-        ButtonOutputData restart = UIFactory.ButtonFactory("Restart Game", 240, 400, 320, 80, LIGHT_GREEN);
-        ButtonOutputData exit = UIFactory.ButtonFactory("Exit Game", 265, 500, 270, 80, LIGHT_GREEN);
-        ButtonOutputData darken_bg = UIFactory.ButtonFactory("", 0, 0, 800, 800, LIGHT_GREEN);
+        ButtonOutputData resume = UIBuilder.ButtonFactory("Resume Game", 250, 300, 300, 80, LIGHT_GREEN);
+        ButtonOutputData restart = UIBuilder.ButtonFactory("Restart Game", 240, 400, 320, 80, LIGHT_GREEN);
+        ButtonOutputData exit = UIBuilder.ButtonFactory("Exit Game", 265, 500, 270, 80, LIGHT_GREEN);
+        ButtonOutputData darken_bg = UIBuilder.ButtonFactory("", 0, 0, 800, 800, LIGHT_GREEN);
         darken_bg.setImage("ui/darken_bg.png");
 
         resume.setButtonCallback(GameUnpauseInteractor::execute);
@@ -233,22 +233,22 @@ public class UIFactory {
         CloudFactory cloud = (CloudFactory) AbstractObjectFactory.makeFactory(ObjectType.CLOUD);
         scene.addSceneObject(cloud.generate(300, 30, 3, 1.5));
         // Game Label
-        LabelOutputData title1 = UIFactory.LabelFactory("Froggy's", 212, 20, 375, 200);
-        LabelOutputData title2 = UIFactory.LabelFactory("Adventure", 175, 120, 450, 200);
+        LabelOutputData title1 = UIBuilder.LabelFactory("Froggy's", 212, 20, 375, 200);
+        LabelOutputData title2 = UIBuilder.LabelFactory("Adventure", 175, 120, 450, 200);
         // Play Button
-        ButtonOutputData play = UIFactory.ButtonFactory("Play Game", 265, 280, 270, 80);
+        ButtonOutputData play = UIBuilder.ButtonFactory("Play Game", 265, 280, 270, 80);
         play.setButtonCallback(LoadLevelSelectInteractor::execute);
 
         // Leave Button
-        ButtonOutputData leave = UIFactory.ButtonFactory("Leave Game", 265, 380, 270, 80);
+        ButtonOutputData leave = UIBuilder.ButtonFactory("Leave Game", 265, 380, 270, 80);
         leave.setButtonCallback(MainMenuFactory::leaveGame);
 
         // Editor Button
-        ButtonOutputData editor = UIFactory.ButtonFactory("Level Editor", 200, 480, 400, 80);
+        ButtonOutputData editor = UIBuilder.ButtonFactory("Level Editor", 200, 480, 400, 80);
         editor.setButtonCallback(() -> LevelEditorFactory.loadLevelEditor(GameInteractor.getInstance().getPrimaryWindow()));
 
         // JokeAPI Version Text
-        LabelOutputData jokeAPIVersionText = UIFactory.LabelFactory("Loading Joke API Version...", -230, 650, 1000, 100);
+        LabelOutputData jokeAPIVersionText = UIBuilder.LabelFactory("Loading Joke API Version...", -230, 650, 1000, 100);
         jokeAPIVersionText.setFontSize(20);
         jokeAPIVersionText.setColor(Color.WHITE);
         new JokeAPIAboutRequest(new JokeAPIRequest() {

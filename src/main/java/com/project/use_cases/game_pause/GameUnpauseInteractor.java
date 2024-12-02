@@ -2,7 +2,7 @@ package com.project.use_cases.game_pause;
 
 import com.project.entity.core.Scene;
 import com.project.use_cases.core.game.GameInteractor;
-import com.project.use_cases.core.prebuilts.ui.UIFactory;
+import com.project.use_cases.core.prebuilts.ui.UIBuilder;
 
 public class GameUnpauseInteractor extends GamePauseState {
     public static void execute() {
@@ -14,7 +14,7 @@ public class GameUnpauseInteractor extends GamePauseState {
 
     private static void unloadPauseMenu() {
         Scene s = GameInteractor.getInstance().getPrimaryWindow().getActiveScene();
-        UIFactory.removePause(s);
+        UIBuilder.removePause(s);
         GameInteractor.getInstance().getPrimaryWindow().refocusInWindow();
     }
 }

@@ -2,6 +2,7 @@ package com.project.use_cases.load_level;
 
 import com.project.entity.core.GameObject;
 import com.project.entity.core.Scene;
+import com.project.entity.ui.GameUI;
 import com.project.use_cases.core.editor.EditorObjectStruct;
 import com.project.use_cases.core.editor.LevelEditor;
 import com.project.use_cases.core.game.GameInteractor;
@@ -10,6 +11,8 @@ import com.project.use_cases.core.prebuilts.game_objects.*;
 import com.project.use_cases.core.prebuilts.game_objects.game_object_types.ObjectType;
 import com.project.use_cases.core.prebuilts.scenes.LevelSelectionFactory;
 import com.project.use_cases.core.prebuilts.scripts.WinScript;
+
+import java.util.List;
 
 public class LoadLevelInteractor {
     private static LevelEditor instance;
@@ -151,7 +154,14 @@ public class LoadLevelInteractor {
 
     public static void execute(String abs) {
         LevelEditor le = new LevelEditor();
+        List<GameUI> uis = le.getUIElements();
+
+        for(GameUI ui : uis) {
+            le.removeUIElement(ui);
+        }
+
         le.loadFromFile(abs, !LevelSelectionFactory.isInEditor);
+
         GameOutputData w = GameInteractor.getInstance().getPrimaryWindow();
 
         w.refocusInWindow();

@@ -8,7 +8,7 @@ import com.project.use_cases.core.prebuilts.scripts.SimpleCollider;
 import com.project.use_cases.core.prebuilts.scripts.SpawnPoint;
 import org.json.JSONObject;
 
-import static com.project.use_cases.core.prebuilts.ui.UIFactory.deathCounter;
+import static com.project.use_cases.core.prebuilts.ui.UIBuilder.deathCounter;
 
 public class PlayerDeathInteractor implements IScriptable {
     private boolean dead = false;
