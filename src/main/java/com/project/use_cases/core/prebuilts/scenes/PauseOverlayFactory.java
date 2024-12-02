@@ -1,19 +1,15 @@
 package com.project.use_cases.core.prebuilts.scenes;
 
-import com.project.entity.core.GameObject;
 import com.project.entity.ui.GameUI;
 import com.project.use_cases.core.game.GameInteractor;
 import com.project.entity.core.Scene;
 import com.project.use_cases.core.prebuilts.ui.types.label.LabelOutputData;
-import com.project.use_cases.core.prebuilts.game_objects.AbstractObjectFactory;
-import com.project.use_cases.core.prebuilts.game_objects.game_object_types.ObjectType;
 import com.project.use_cases.core.prebuilts.ui.UIFactory;
 import com.project.use_cases.core.prebuilts.ui.types.button.ButtonOutputData;
 
 import static com.project.interface_adapters.core.display.ui.UIConstants.LIGHT_GREEN;
 
 public class PauseOverlayFactory {
-     public static GameObject pauseBackground = AbstractObjectFactory.generateOfType(ObjectType.PAUSE_BACKGROUND);
     public static Boolean isPaused = false;
 
     public static void createPauseOverlay(Scene scene) {

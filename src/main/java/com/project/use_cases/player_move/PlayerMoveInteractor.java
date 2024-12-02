@@ -30,6 +30,7 @@ public class PlayerMoveInteractor implements IScriptable {
     private boolean isJumping = false;
 
     public boolean enableAnimation = true;
+    private PlayerMoveInputData ic;
 
     public PlayerMoveInteractor() {
 
@@ -38,6 +39,8 @@ public class PlayerMoveInteractor implements IScriptable {
     @Override
     public void start(GameObject parent) {
         rb = parent.getScriptable(RigidBody2D.class);
+        ic = GameInteractor.getInstance().getInputCache();
+
         animationManager = new AnimationManager((SpriteRenderer) parent.getRenderables().next(), 128, 128);
         animationManager.addAnimation("walk", new WalkAnimation());
         animationManager.addAnimation("jump", new JumpAnimation());
@@ -46,7 +49,8 @@ public class PlayerMoveInteractor implements IScriptable {
     @Override
     public void update(GameObject parent, double deltaTime) {
         GameOutputData win = GameInteractor.getInstance().getPrimaryWindow();
-        PlayerMoveInputData ic = GameInteractor.getInstance().getInputCache();
+        ic = GameInteractor.getInstance().getInputCache();
+
         if (win == null)
             return;
         if (rb != null) {
@@ -151,32 +155,8 @@ public class PlayerMoveInteractor implements IScriptable {
         }
     }
 
-    public float getMoveSpeed() {
-        return moveSpeed;
-    }
-
-    public void setMoveSpeed(float moveSpeed) {
-        this.moveSpeed = moveSpeed;
-    }
-
-    public float getJumpForce() {
-        return jumpForce;
-    }
-
-    public void setJumpForce(float jumpForce) {
-        this.jumpForce = jumpForce;
-    }
-
-    public boolean canMove() {
-        return canMove;
-    }
-
     public void setCanMove(boolean canMove) {
         this.canMove = canMove;
-    }
-
-    public boolean canJump() {
-        return canJump;
     }
 
     public void setCanJump(boolean canJump) {

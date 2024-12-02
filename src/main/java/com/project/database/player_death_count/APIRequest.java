@@ -7,13 +7,13 @@ import java.net.http.HttpResponse;
 import java.util.HashMap;
 
 import com.project.data_access.player_death_count.APIMethod;
-import com.project.data_access.player_death_count.IAPIResponse;
+import com.project.use_cases.player_death_count.APIDataAccess;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 public class APIRequest {
 
-    private final IAPIResponse responseCallback;
+    private final APIDataAccess responseCallback;
 
     private final JSONObject response;
 
@@ -27,7 +27,7 @@ public class APIRequest {
      * @param method The HTTP method to use for the request. Only supports GET, POST, and DELETE
      * @param queries A hashmap of query parameters to include in the request: ?query=value&query2=value2 etc.
      */
-    public APIRequest(IAPIResponse responseCallback, String URL, APIMethod method, HashMap<String, String> queries) {
+    public APIRequest(APIDataAccess responseCallback, String URL, APIMethod method, HashMap<String, String> queries) {
         this.responseCallback = responseCallback;
         this.response = null;
 

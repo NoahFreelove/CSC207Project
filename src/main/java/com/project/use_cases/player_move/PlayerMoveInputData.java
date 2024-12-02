@@ -8,11 +8,12 @@ public class PlayerMoveInputData {
     private int mouseX;
     private int mouseY;
     private HashMap<String, Boolean> keys = new HashMap<>();
+    PlayerMoveInputBoundary inputController;
 
     public PlayerMoveInputData() {}
 
     public void init() {
-        PlayerMoveInputBoundary inputController = new PlayerMoveInputBoundary() {};
+        inputController = new PlayerMoveInputBoundary() {};
 
         GameInteractor e = GameInteractor.getInstance();
         inputController.getInputController().addKeyboardListeners(e.getPrimaryWindow().getUnderlyingWindow(), () -> e.getPrimaryWindow().getActiveScene(), keys);
