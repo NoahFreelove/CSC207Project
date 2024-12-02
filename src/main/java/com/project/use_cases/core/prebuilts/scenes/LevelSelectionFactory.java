@@ -26,7 +26,7 @@ public class LevelSelectionFactory {
 
     static {
         levelMap.put(0, "levels/level1.json");
-        levelMap.put(1, "levels/level2ARCHIVE.json");
+        levelMap.put(1, "levels/level2.json");
         levelMap.put(2, "levels/level3.json");
         levelMap.put(3, "levels/level4.json");
         levelMap.put(4, "levels/level5.json");
