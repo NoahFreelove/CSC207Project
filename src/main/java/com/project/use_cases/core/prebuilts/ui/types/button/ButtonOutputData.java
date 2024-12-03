@@ -8,10 +8,6 @@ public class ButtonOutputData implements GameUIObject {
     private String imagePath = "";
     private ButtonOutputBoundary out;
 
-    public ButtonOutputData() {
-        out = new ButtonOutputBoundary() {};
-        out = out.createPresenter();
-    }
 
     public ButtonOutputData(String text, int x, int y, int width, int height){
         out = new ButtonOutputBoundary() {};
