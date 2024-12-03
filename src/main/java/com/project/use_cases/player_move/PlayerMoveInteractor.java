@@ -112,8 +112,7 @@ public class PlayerMoveInteractor implements IScriptable {
 
         if (!ic.isKeyPressed("A") && !ic.isKeyPressed("D") && !ic.isKeyPressed("LEFT") && !ic.isKeyPressed("RIGHT") && !isJumping) {
             animationManager.stopMoving();  // Stop the walking animation, reverting to idle
-            //Part that Paul is not clear on, detecting error
-            // 😂😂😂
+
             isMoving = false;
             if(isJumping)
                 animationManager.startMoving("jump");
