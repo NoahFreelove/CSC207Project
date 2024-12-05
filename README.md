@@ -60,7 +60,7 @@ Navigate to the following path in the extracted folder -> out/artifacts/CSC207Pr
 ![img_7.png](src/main/resources/assets/img_7.png) \
 Double-click the .jar file to launch it.
 
-Enjoy the game! 
+Enjoy the game! 😊😊
 
 ### Usage Guide
 
